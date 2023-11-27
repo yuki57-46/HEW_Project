@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 # add other
 .vscode/
+
+.vcxproj
