@@ -366,4 +366,4 @@ FodyWeavers.xsd
 .vscode/
 
 # not ignore
-!DirectXTex/*
+!DirectXTex/
