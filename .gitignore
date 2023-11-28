@@ -366,6 +366,7 @@ FodyWeavers.xsd
 .vscode/
 
 # not ignore
+*
 !DirectXTex/x64/Debug/DirectXTex.lib
 !DirectXTex/x64/Release/DirectXTex.lib
 !DirectXTex/Win32/Debug/DirectXTex.lib
