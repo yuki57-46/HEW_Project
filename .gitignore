@@ -22,7 +22,6 @@ mono_crash.*
 [Rr]elease/
 [Rr]eleases/
 x64/**
-!HEW_Project/DirectXTex/x64/
 x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
@@ -367,5 +366,4 @@ FodyWeavers.xsd
 .vscode/
 
 # not ignore
-
-!**/HEW_Project/DirectXTex/*.lib
+!*.lib
