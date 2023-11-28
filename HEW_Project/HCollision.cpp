@@ -1,6 +1,6 @@
 #include "HCollision.h"
 
-//オブジェクト同士の衝突判定
+//オブジェクト同士の衝突判定(憑依専用)
 bool HAABB::HIsAABBIntersecting(const DirectX::XMFLOAT3 & minA, const DirectX::XMFLOAT3 & maxA, const DirectX::XMFLOAT3 & minB, const DirectX::XMFLOAT3 & maxB)
 {
 	return (minA.x <= maxB.x && maxA.x >= minB.x) &&
