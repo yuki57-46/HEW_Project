@@ -21,7 +21,7 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
+x64/**
 x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
@@ -366,8 +366,4 @@ FodyWeavers.xsd
 .vscode/
 
 # not ignore
-
-!*DirectXTex/x64/Debug/DirectXTex.lib
-!*DirectXTex/x64/Release/DirectXTex.lib
-!*DirectXTex/Win32/Debug/DirectXTex.lib
-!*DirectXTex/Win32/Release/DirectXTex.lib
+!*.lib
