@@ -9,6 +9,7 @@ class GameObject
 public:
 	GameObject();
 	virtual ~GameObject();
+	// œßˆË‚Å‚«‚éƒuƒƒbƒN
 	bool IsCollidingWith(GameObject& other);
 	bool HIsCollidingWith(GameObject& other);
 	bool col(GameObject & other);
