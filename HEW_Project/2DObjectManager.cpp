@@ -9,8 +9,8 @@
 
 
 
-const int width = 200;
-const int height = 50;
+const int width = 1;
+const int height = 1;
 Object2D::Object2D()
 	: m_pSObjects(nullptr)
 	, m_pPlayer(nullptr)
