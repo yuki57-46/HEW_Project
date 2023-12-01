@@ -14,7 +14,10 @@ public:
 	bool HIsCollidingWith(GameObject& other);
 	bool col(GameObject & other);
 
-	
+	// œßˆË‚Å‚«‚È‚¢ƒuƒƒbƒN
+	bool IsNotCollidingWith(GameObject& other_1);
+	bool HIsNotCollidingWith(GameObject& other_1);
+	bool colNot(GameObject& other_1);
 
 protected:
 	
