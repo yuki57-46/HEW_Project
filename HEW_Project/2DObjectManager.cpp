@@ -7,10 +7,16 @@
 
 //InputManager imanagerSP = InputManager();
 
+#define _shadow_ (0)
 
-
+#if _shadow_ >= 1
 const int width = 200;
 const int height = 50;
+#else
+const int width = 1;
+const int height = 1;
+#endif
+
 Object2D::Object2D()
 	: m_pSObjects(nullptr)
 	, m_pPlayer(nullptr)
@@ -29,10 +35,10 @@ Object2D::Object2D()
 	//	{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f},
 	//	{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f},
 	//};
-	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
-	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
+	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
 	//m_num = width * height;
-	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
 	/*for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Create(
@@ -65,7 +71,7 @@ Object2D::Object2D()
 	int data[height][width];
 	for (int i = 0; i < height; ++i) {
 		for (int j = 0; j < width; ++j) {
-			// 1024‚Æ600‚Ì”{”‚ğ2ŸŒ³”z—ñ‚É”z’u
+			// 1024ã¨600ã®å€æ•°ã‚’2æ¬¡å…ƒé…åˆ—ã«é…ç½®
 			data[i][j] = 0;
 		}
 	}
@@ -95,17 +101,17 @@ Object2D::Object2D()
 	}
 
 
-	//ƒXƒe[ƒWƒf[ƒ^‚Ì“Ç‚İæ‚è
+	//ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿å–ã‚Š
 	for (int j = 0; j < height; j++)
 	{
 		for (int i = 0; i < width; i++)
 		{
-			//ƒZƒ‹‚Ìƒf[ƒ^‚ÉŠî‚Ã‚¢‚ÄƒuƒƒbƒN¶¬
+			//ã‚»ãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã«åŸºã¥ã„ã¦ãƒ–ãƒ­ãƒƒã‚¯ç”Ÿæˆ
 			switch (data[j][i])
 			{
 			default:
 			case 0:
-				//ƒuƒƒbƒN‚Ì¶¬‚ğs‚í‚È‚¢
+				//ãƒ–ãƒ­ãƒƒã‚¯ã®ç”Ÿæˆã‚’è¡Œã‚ãªã„
 				break;
 			case 1:
 				//m_pSObjects = new SObject[j * width + i];
@@ -164,8 +170,8 @@ void Object2D::Update()
 		DirectX::XMFLOAT3 OPos = m_pSObjects[i].Pos();
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 			if (m_pShadowP->IsCollidingWith(*gameObject)) {
-				// Õ“Ë‚Ìˆ—
-				//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+				// è¡çªæ™‚ã®å‡¦ç†
+				//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 				m_pShadowP->ShadowPPosY();
 			}
 		}
@@ -173,11 +179,11 @@ void Object2D::Update()
 		{
 			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 				if (m_pShadowP->IsCollidingWith(*gameObject)) {
-					// Õ“Ë‚Ìˆ—
+					// è¡çªæ™‚ã®å‡¦ç†
 					//m_pShadowP->Jump();
 					m_pShadowP->SetPos(PPos.x, OPos.y + 0.05, PPos.z);
 					break;
-					//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+					//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 					//m_pShadowP->ShadowPPosY();
 				}
 			}
@@ -189,8 +195,8 @@ void Object2D::Update()
 			{
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 					if (m_pShadowP->IsCollidingWith(*gameObject)) {
-						// Õ“Ë‚Ìˆ—
-						//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+						// è¡çªæ™‚ã®å‡¦ç†
+						//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 						/*m_pShadowP->NotUse();*/
 						m_pShadowP->oldX();
 						m_pShadowP->ShadowPPosY();
@@ -206,8 +212,8 @@ void Object2D::Update()
 			{
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 					if (m_pShadowP->IsCollidingWith(*gameObject)) {
-						// Õ“Ë‚Ìˆ—
-						//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+						// è¡çªæ™‚ã®å‡¦ç†
+						//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 						//m_pShadowP->Use();
 						m_pShadowP->oldX();
 						m_pShadowP->ShadowPPosY();
