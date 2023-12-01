@@ -25,6 +25,7 @@ ObjectMng::ObjectMng()
 		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f},
 		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f},
 		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f},
+		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f},	// 12/01 追加プログラム
 	};
 	
 	//配列の要素の数から必要なブロック数を計算
@@ -118,7 +119,7 @@ void ObjectMng::Update()
 			//憑依のため・ブロックとプレイヤーが当たった場合
 			if (m_pPlayer->HIsCollidingWith(*gameObject))
 			{
-
+				
 				if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 				{
 					m_pPlayer->SetOk();
