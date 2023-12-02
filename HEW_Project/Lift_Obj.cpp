@@ -1,4 +1,4 @@
-﻿#include "Lift_Obj.hpp"
+#include "Lift_Obj.hpp"
 #include "Geometory.h"
 #include "Safe_Delete.hpp"
 #include "GameObject.h"
@@ -50,7 +50,7 @@ Lift_Obj::~Lift_Obj()
 
 void Lift_Obj::Update()
 {
-	m_oldPos = m_pos; // 前の位置を保存
+	//m_oldPos = m_pos; // 前の位置を保存
 
 	// 上昇フラグが`true`の場合
 	if (m_RiseFlag)
@@ -168,7 +168,7 @@ void Lift_Obj::Create(float posX, float posY, float posZ, float scaleX, float sc
 // ブロックとリフトが当たった時に返す
 void Lift_Obj::LiftObj_SetPos()
 {
-	m_pos = m_oldPos;
+	//m_pos = m_oldPos;
 }
 
 /**
