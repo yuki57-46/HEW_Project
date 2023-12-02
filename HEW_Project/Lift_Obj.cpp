@@ -36,8 +36,11 @@ Lift_Obj::Lift_Obj()
 	}
 	m_pModel->SetVertexShader(m_pVS);
 
+	minBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
+	maxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
 	// それぞれの当たり判定の大きさを設定
-	SetBounds(liftobj_MinBound, liftobj_MaxBound);
+	//SetBounds(liftobj_MinBound, liftobj_MaxBound);
+	SetBounds(minBound, maxBound);
 	CSetBounds(c_liftobj_MinBound, c_liftobj_MaxBound);
 
 }

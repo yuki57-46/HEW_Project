@@ -24,12 +24,12 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting data[] = {
-		{-5.0f, 1.0f, 5.0f, 10.0f, 10.0f, 10.0f, 1, 10.0f, 0.0f, 1.0f}, // 12/02 追加
 		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
 		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
 		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, 0},
 		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, 0},
 		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f, 0},	// 12/02 追加プログラム
+		{-5.0f, 1.0f, 5.0f, 10.0f, 10.0f, 10.0f, 1, 10.0f, 0.0f, 1.0f}, // 12/02 追加
 	};
 	
 	//配列の要素の数から必要なブロック数を計算
@@ -126,23 +126,23 @@ void ObjectMng::Update()
 		m_pLift[i].Update();
 
 
-		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
-		{
-			//ブロックとプレイヤー衝突
-			if (m_pPlayer->IsCollidingWith(*gameObject)) {
-				// 衝突時の処理
-				m_pPlayer->PlayerPos();
-			}
-		}
-		if (GameObject* gameObject_ = dynamic_cast<GameObject*>(&m_pLift[i]))
-		{
-			// リフトとプレイヤー衝突
-			if (m_pPlayer->IsCollidingWith(*gameObject_)) {
-				// 衝突時の処理
-				m_pPlayer->PlayerPos();
-			}
-			
-		}
+		//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+		//{
+		//	//ブロックとプレイヤー衝突
+		//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
+		//		// 衝突時の処理
+		//		m_pPlayer->PlayerPos();
+		//	}
+		//}
+		//if (GameObject* gameObject_ = dynamic_cast<GameObject*>(&m_pLift[i]))
+		//{
+		//	// リフトとプレイヤー衝突
+		//	if (m_pPlayer->IsCollidingWith(*gameObject_)) {
+		//		// 衝突時の処理
+		//		m_pPlayer->PlayerPos();
+		//	}
+		//	
+		//}
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
 			//憑依のため・ブロックとプレイヤーが当たった場合

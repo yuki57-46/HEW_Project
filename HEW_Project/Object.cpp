@@ -110,26 +110,39 @@ void Object::Update()
 		if (IsKeyPress(VK_UP))
 		{
 			m_pos.z += moveSpeed;
+			SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
+
+			HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
+			CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 		}
 		if (IsKeyPress(VK_DOWN))
 		{
 			m_pos.z -= moveSpeed;
+			SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
+
+			HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
+			CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 		}
 		if (IsKeyPress(VK_RIGHT))
 		{
 			m_pos.x += moveSpeed;
+			SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
+
+			HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
+			CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 		}
 		if (IsKeyPress(VK_LEFT))
 		{
 			m_pos.x -= moveSpeed;
+			SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
+
+			HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
+			CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 		}
 	}
 
 
-	SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
-
-	HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
-	CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
+	
 
 
 }
@@ -243,6 +256,11 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	m_scale.x = scaleX;
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
+
+	//SetBounds(minBound, maxBound);
+	SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
+	HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
+	CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 }
 //
 
