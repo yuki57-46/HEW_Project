@@ -189,6 +189,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowP.cpp" />
     <ClCompile Include="SObjects.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowP.h" />
     <ClInclude Include="SObjects.h" />
+    <ClInclude Include="Sound.hpp" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
