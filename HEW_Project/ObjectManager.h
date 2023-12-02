@@ -1,11 +1,12 @@
 #pragma once
 #include "Object.h"
+#include "ObjectNot.h"
 #include "CameraBase.h"
 #include "CameraDebug.h"
 #include "Player.h"
 #include "Collision.h"
-#include"HCollision.h"
-#include"col.h"
+#include "HCollision.h"
+#include "col.h"
 
 class ObjectMng
 {
@@ -19,6 +20,7 @@ public:
 	
 private:
 	Object* m_pObjects;
+	ObjectNot* m_pObjectsNot;
 	
 	CameraDebug* m_pObjectCamera;
 	Player* m_pPlayer;

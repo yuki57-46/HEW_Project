@@ -9,28 +9,32 @@ class GameObject
 public:
 	GameObject();
 	virtual ~GameObject();
-	// 憑依できるブロック
 	bool IsCollidingWith(GameObject& other);
 	bool HIsCollidingWith(GameObject& other);
 	bool col(GameObject & other);
 
-	// 憑依できないブロック
-	bool IsNotCollidingWith(GameObject& other_1);
-	bool HIsNotCollidingWith(GameObject& other_1);
-	bool colNot(GameObject& other_1);
-
 protected:
 	
+	// 憑依できる用
 	DirectX::XMFLOAT3 minBound;
 	DirectX::XMFLOAT3 maxBound;
 
 	DirectX::XMFLOAT3 hminBound;
 	DirectX::XMFLOAT3 hmaxBound;
 
-
 	DirectX::XMFLOAT3 cminBound;
 	DirectX::XMFLOAT3 cmaxBound;
 	
+	// 憑依できない用
+	DirectX::XMFLOAT3 minBoundNot;
+	DirectX::XMFLOAT3 maxBoundNot;
+
+	DirectX::XMFLOAT3 hminBoundNot;
+	DirectX::XMFLOAT3 hmaxBoundNot;
+
+	DirectX::XMFLOAT3 cminBoundNot;
+	DirectX::XMFLOAT3 cmaxBoundNot;
+
 private:
 	AABB m_aabb;
 	HAABB m_haabb;

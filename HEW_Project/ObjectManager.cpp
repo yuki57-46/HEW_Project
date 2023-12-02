@@ -1,10 +1,14 @@
 #include "ObjectManager.h"
 #include"Input.h"
 
+#define HBLOCK	1	// 憑依可能ブロック
+#define DHBLOCK 2	// 憑依不可ブロック
+
 //InputManager imanagerO = InputManager();
 
 ObjectMng::ObjectMng()
 	: m_pObjects(nullptr)
+	, m_pObjectsNot(nullptr)
 	, m_pPlayer(nullptr)
 	, m_num(0)
 	
@@ -17,32 +21,50 @@ ObjectMng::ObjectMng()
 	m_pPlayer = new Player();
 	struct Setting
 	{
-		float x, y, z, scaleX, scaleY, scaleZ;
+		float x, y, z, scaleX, scaleY, scaleZ, kind;
 	};
 	//ブロック配置.スケール指定
 	Setting data[] = {
-		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f},
-		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f},
-		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f},
-		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f},
-		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f},	// 12/01 追加プログラム
+		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
+		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
+		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
+		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
+		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f, HBLOCK},	// 12/01 追加プログラム
 	};
 	
 	//配列の要素の数から必要なブロック数を計算
 	m_num = sizeof(data) / sizeof(data[0]);
 
 	//必要な数だけブロックを確保
-	m_pObjects = new Object[m_num];
+	m_pObjects		= new Object[m_num];
+	m_pObjectsNot	= new ObjectNot[m_num];
+
 	//確保したブロックに初期データを設定
 	for (int i = 0; i < m_num; i++)
-	{
-		m_pObjects[i].Create(
-			data[i].x, data[i].y, data[i].z,
-			data[i].scaleX, data[i].scaleY, data[i].scaleZ
-		);
-	}
-	
+	{		
+		int kindInt = static_cast<int>(data[i].kind);  // floatからintへの変換
 
+		switch (kindInt)
+		{
+		// 憑依可能ブロック
+		case 1:
+			m_pObjects[i].Create(
+				data[i].x, data[i].y, data[i].z,
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+				break;
+		// 憑依不可ブロック
+		case 2:
+			m_pObjectsNot[i].CreateNot(
+				data[i].x, data[i].y, data[i].z,
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+			break;
+		}
+
+		//if (data[i].kind)
+		//	m_pObjects[i].Create(
+		//		data[i].x, data[i].y, data[i].z,
+		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+	}
 }
 
 
@@ -50,6 +72,7 @@ ObjectMng::~ObjectMng()
 {
 
 	delete[] m_pObjects;
+	delete[] m_pObjectsNot;
 	
 
 	if (m_pObjectCamera)
@@ -103,8 +126,7 @@ void ObjectMng::Update()
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Update();
-
-
+		m_pObjectsNot[i].Update();
 
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
@@ -114,13 +136,23 @@ void ObjectMng::Update()
 				m_pPlayer->PlayerPos();
 			}
 		}
+		// 12/01 追加プログラム
+		//else if (GameObject* gameObject3 = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+		//{
+		//	//ブロックとプレイヤー衝突
+		//	if (m_pPlayer->IsCollidingWith(*gameObject3)) {
+		//		// 衝突時の処理
+		//		m_pPlayer->PlayerPos();
+		//	}
+		//}
+
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
 			//憑依のため・ブロックとプレイヤーが当たった場合
 			if (m_pPlayer->HIsCollidingWith(*gameObject))
 			{
-				
-				if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
+				if (IsKeyPress('Q'))
+//				if (IsKeyPress('Q') && m_pPlayer->HIsCollidingWith(*gameObject))	//(imanagerO.getKey(0) & 0b011)
 				{
 					m_pPlayer->SetOk();
 					m_pPlayer->HPlayerPos();
@@ -128,11 +160,15 @@ void ObjectMng::Update()
 
 					m_pObjects[i].Modelchg();
 				}
+				//else
+				//{
+				//	m_pObjectsNot[i].SetF();
+				//}
 			}
 			//憑依解除
 			if (!m_pPlayer->HIsCollidingWith(*gameObject))
 			{
-				if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
+				if (IsKeyPress('E'))	//(imanagerO.getKey(1) & 0b011)
 				{
 					m_pPlayer->SetNOk();
 					m_pPlayer->PlayerPos();
@@ -164,8 +200,7 @@ void ObjectMng::Update()
 							//MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 							//m_pObjects[i].GetF();
 
-							m_pObjects[i].OBJPos();
-						
+							m_pObjects[i].OBJPos();						
 
 						}
 					}
