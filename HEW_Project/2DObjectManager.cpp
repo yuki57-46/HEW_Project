@@ -9,6 +9,7 @@
 
 #define _shadow_ (0)
 
+<<<<<<< HEAD
 #if _shadow_ >= 1
 const int width = 200;
 const int height = 50;

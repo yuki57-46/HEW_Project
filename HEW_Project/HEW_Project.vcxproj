@@ -172,13 +172,18 @@
     <ClCompile Include="2DObjectManager.cpp" />
     <ClCompile Include="CameraBase.cpp" />
     <ClCompile Include="CameraDebug.cpp" />
+    <ClCompile Include="CoinCntUI.cpp" />
     <ClCompile Include="col.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Lift_Obj.cpp" />
+=======
+    <ClCompile Include="Lever.cpp" />
+>>>>>>> master
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -201,6 +206,7 @@
     <ClInclude Include="2DObjectManager.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CameraDebug.h" />
+    <ClInclude Include="CoinCntUI.h" />
     <ClInclude Include="col.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Defines.h" />
@@ -208,7 +214,11 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HCollision.h" />
     <ClInclude Include="Input.h" />
+<<<<<<< HEAD
     <ClInclude Include="Lift_Obj.hpp" />
+=======
+    <ClInclude Include="Lever.h" />
+>>>>>>> master
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="Main.h" />
