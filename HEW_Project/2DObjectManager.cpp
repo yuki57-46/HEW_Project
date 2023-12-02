@@ -120,12 +120,12 @@ Object2D::Object2D()
 					-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f,
 					0.0098f, 0.008f, 0.005f
 				);*/
-				m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
+				m_pSObjects[j * width + i].Create(-5.0f + i * 0.00975f, -j * 0.008f + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
 				//break;
 				//break;
 				break;
 			case 2:
-				m_pSObjects[j * width + i].CreateBounds(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
+				m_pSObjects[j * width + i].CreateBounds(-5.0f + i * 0.00975f, -j * 0.008f + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
 
 				break;
 			}
