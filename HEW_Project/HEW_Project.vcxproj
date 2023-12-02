@@ -211,11 +211,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HCollision.h" />
     <ClInclude Include="Input.h" />
-<<<<<<< HEAD
     <ClInclude Include="Lift_Obj.hpp" />
-=======
     <ClInclude Include="Lever.h" />
->>>>>>> master
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="Main.h" />
