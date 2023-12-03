@@ -13,9 +13,11 @@ public:
 	Lever();
 	~Lever();
 	void Update();
-	void Draw();
+	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
 
 	bool GetLeverFlag();
+
+	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool isFlag = false);
 
 	void ModelChange();
 	void ModelChange2();

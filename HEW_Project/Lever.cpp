@@ -84,14 +84,43 @@ void Lever::Update()
 	}
 }
 
-void Lever::Draw()
+void Lever::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
+	// レバーの描画処理
+	DirectX::XMFLOAT4X4 mat[3];
+
+	// ワールド行列の作成
+	DirectX::XMMATRIX world = DirectX::XMMatrixTranspose(
+		DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z) *
+		DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z)
+	);
+
+	DirectX::XMStoreFloat4x4(&mat[0], world);
+
+	mat[1] = viewMatrix; // 引数の `viewMatrix` を利用
+	mat[2] = projectionMatrix; // 引数の `projectionMatrix` を利用
+
+	m_pVS->WriteBuffer(0, mat);
+	m_pModel->Draw();
 
 }
 
 bool Lever::GetLeverFlag()
 {
 	return m_isUse;
+}
+
+void Lever::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool isFlag)
+{
+	m_pos.x = posX;
+	m_pos.y = posY;
+	m_pos.z = posZ;
+
+	m_scale.x = scaleX;
+	m_scale.y = scaleY;
+	m_scale.z = scaleZ;
+
+	m_isUse = isFlag;
 }
 
 void Lever::ModelChange()

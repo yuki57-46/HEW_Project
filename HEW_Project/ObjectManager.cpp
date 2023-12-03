@@ -1,10 +1,12 @@
-#include "ObjectManager.h"
+﻿#include "ObjectManager.h"
 #include"Input.h"
 
 //InputManager imanagerO = InputManager();
 
 ObjectMng::ObjectMng()
-	: m_pObjects(nullptr), m_pLift(nullptr)
+	: m_pObjects(nullptr)	// オブジェクト(ブロック用)
+	, m_pLift(nullptr)		// オブジェクト（リフト用）
+	, m_pLever(nullptr)		// オブジェクト（レバー用）
 	, m_pPlayer(nullptr)
 	, m_num(0)
 	
@@ -19,15 +21,16 @@ ObjectMng::ObjectMng()
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
 		int blockID;
-		float highPosY, lowPosY; // リフトの高さの上限と下限 12/02 追加プログラム
-		float moveSpeed; // リフトの移動速度 12/02 追加プログラム
+		float highPosY, lowPosY;	 // リフトの高さの上限と下限 12/02 追加プログラム
+		float moveSpeed;			// リフトの移動速度 12/02 追加プログラム
+		bool isUse;					// レバーのオン・オフ(デフォルトはオフ)
 	};
 	//ブロック配置.スケール指定
 	Setting data[] = {
 		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
 		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
-		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, 0},
-		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, 0},
+		{ 0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, 0},
+		{ 0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, 0},
 		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f, 0},	// 12/02 追加プログラム
 		{-5.0f, 1.0f, 5.0f, 10.0f, 10.0f, 10.0f, 1, 10.0f, 0.0f, 1.0f}, // 12/02 追加
 	};
@@ -38,18 +41,19 @@ ObjectMng::ObjectMng()
 	//必要な数だけブロックを確保
 	m_pObjects = new Object[m_num];
 	m_pLift = new Lift_Obj[m_num];
+	m_pLever = new Lever[m_num];
 	//確保したブロックに初期データを設定
 	for (int i = 0; i < m_num; i++)
 	{
 		switch (data[i].blockID)
 		{
-		case 0:
+		case 0:	// 通常のオブジェクト生成
 			m_pObjects[i].Create(
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ
 			);
 			break;
-		case 1:
+		case 1:	// リフト用のオブジェクト生成
 			m_pLift[i].Create(
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ
@@ -57,6 +61,14 @@ ObjectMng::ObjectMng()
 			m_pLift[i].SetHeightPosY(data[i].highPosY);
 			m_pLift[i].SetLowPosY(data[i].lowPosY);
 			m_pLift[i].SetSpeed(data[i].moveSpeed);
+			break;
+		case 2:	// レバー生成
+			m_pLever[i].Create(
+				data[i].x, data[i].y, data[i].z,
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ,
+				data[i].isUse
+			);
+			m_pLift[i].SetLever(&m_pLever[i]);
 			break;
 		}
 	}
@@ -70,6 +82,7 @@ ObjectMng::~ObjectMng()
 
 	delete[] m_pObjects;
 	delete[] m_pLift;
+	delete[] m_pLever;
 	
 
 	if (m_pObjectCamera)
@@ -124,6 +137,7 @@ void ObjectMng::Update()
 	{
 		m_pObjects[i].Update();
 		m_pLift[i].Update();
+		m_pLever[i].Update();
 
 
 		//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
@@ -214,6 +228,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pObjects[i].Draw(viewMatrix, projectionMatrix);
 		m_pLift[i].Draw(viewMatrix, projectionMatrix);
+		m_pLever[i].Draw(viewMatrix, projectionMatrix);
 	}
 	
 	DirectX::XMFLOAT4X4 mat[3];

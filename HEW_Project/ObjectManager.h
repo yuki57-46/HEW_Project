@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Object.h"
 #include "CameraBase.h"
 #include "CameraDebug.h"
@@ -7,6 +7,7 @@
 #include"HCollision.h"
 #include"col.h"
 #include "Lift_Obj.hpp"
+#include "Lever.h"
 
 class ObjectMng
 {
@@ -21,6 +22,7 @@ public:
 private:
 	Object* m_pObjects;
 	Lift_Obj* m_pLift;
+	Lever* m_pLever;
 	
 	CameraDebug* m_pObjectCamera;
 	Player* m_pPlayer;
