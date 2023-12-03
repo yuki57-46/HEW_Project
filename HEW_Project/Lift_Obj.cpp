@@ -2,6 +2,7 @@
 #include "Geometory.h"
 #include "Safe_Delete.hpp"
 #include "GameObject.h"
+#include "Lever.h"
 
 
 // プレイヤーとの当たり判定用
@@ -11,6 +12,9 @@ DirectX::XMFLOAT3 liftobj_MaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 // ブロック同士の当たり判定用
 DirectX::XMFLOAT3 c_liftobj_MinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);
 DirectX::XMFLOAT3 c_liftobj_MaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+
+
+Lever* g_pLever;
 
 Lift_Obj::Lift_Obj()
 	: m_pos(0.0f, 0.0f, 0.0f), m_oldPos(0.0f, 0.0f, 0.0f)
@@ -51,35 +55,85 @@ Lift_Obj::~Lift_Obj()
 	SafeDelete(m_pVS);
 }
 
-void Lift_Obj::Update()
+void Lift_Obj::Update(bool LeverFlg)
 {
 	//m_oldPos = m_pos; // 前の位置を保存
 
-	// 上昇フラグが`true`の場合
-	if (m_RiseFlag)
+	// レバーが使用されている場合
+	if (LeverFlg == true)
 	{
-		// 最高点に到達した場合
-		if (m_pos.y >= m_heightPosY)
+		// レバーがオンの状態
+		if (moveOk == true)
 		{
-			m_pos.y = m_heightPosY; // 最高点に設定
-			m_RiseFlag = false; // 上昇フラグを`false`に設定
+			if (m_RiseFlag == false) // `false`になってたら
+			{
+				m_RiseFlag = true; // 上昇フラグを`true`に設定
+			}
+			// 上昇フラグが`true`の場合
+			if (m_RiseFlag)
+			{
+				// 最高点に到達した場合
+				if (m_pos.y >= m_heightPosY)
+				{
+					m_pos.y = m_heightPosY; // 最高点に設定
+					m_RiseFlag = false; // 上昇フラグを`false`に設定
+				}
+				else // 最高点に到達していない場合
+				{
+					m_pos.y += m_moveSpeed * 0.01f; // 上昇させる
+				}
+			}
 		}
-		else // 最高点に到達していない場合
+		else // レバーがオフの状態
 		{
-			m_pos.y += m_moveSpeed * 0.01f; // 上昇させる
+			if (m_RiseFlag == true) // `true`になってたら
+			{
+				m_RiseFlag = false; // 上昇フラグを`false`に設定
+			}
+			// 上昇フラグが`false`の場合
+			if (m_RiseFlag == false)
+			{
+				// 最低点に到達したら
+				if (m_pos.y <= m_lowPosY)
+				{
+					m_pos.y = m_lowPosY; // 最低点に設定
+				}
+				else
+				{
+					m_pos.y -= m_moveSpeed * 0.01f; // 下降させる
+				}
+			}
 		}
+
 	}
-	else // 上昇フラグが`false`の場合
+	else
 	{
-		// 最低点に到達した場合
-		if (m_pos.y <= m_lowPosY)
+		// 上昇フラグが`true`の場合
+		if (m_RiseFlag)
 		{
-			m_pos.y = m_lowPosY; // 最低点に設定
-			m_RiseFlag = true; // 上昇フラグを`true`に設定
+			// 最高点に到達した場合
+			if (m_pos.y >= m_heightPosY)
+			{
+				m_pos.y = m_heightPosY; // 最高点に設定
+				m_RiseFlag = false; // 上昇フラグを`false`に設定
+			}
+			else // 最高点に到達していない場合
+			{
+				m_pos.y += m_moveSpeed * 0.01f; // 上昇させる
+			}
 		}
-		else // 最低点に到達していない場合
+		else // 上昇フラグが`false`の場合
 		{
-			m_pos.y -= m_moveSpeed * 0.01f; // 下降させる
+			// 最低点に到達した場合
+			if (m_pos.y <= m_lowPosY)
+			{
+				m_pos.y = m_lowPosY; // 最低点に設定
+				m_RiseFlag = true; // 上昇フラグを`true`に設定
+			}
+			else // 最低点に到達していない場合
+			{
+				m_pos.y -= m_moveSpeed * 0.01f; // 下降させる
+			}
 		}
 	}
 
@@ -199,4 +253,14 @@ void Lift_Obj::SetLowPosY(float low)
 void Lift_Obj::SetSpeed(float speed)
 {
 	m_moveSpeed = speed;
+}
+
+void Lift_Obj::SetLever(Lever* pLever)
+{
+	g_pLever = pLever;
+}
+
+void Lift_Obj::SetMoveFlg(bool flg)
+{
+	moveOk = flg;
 }

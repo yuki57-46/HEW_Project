@@ -1,9 +1,10 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject.h"
-#include "Object.h"
 #include "Model.h"
 #include "Collision.h"
+
+class Lever;
 
 class Lift_Obj : public GameObject
 {
@@ -11,7 +12,7 @@ public:
 	Lift_Obj();
 	~Lift_Obj();
 
-	void Update();
+	void Update(bool LeverFlg = false);
 	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
 
 	void SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max);
@@ -30,6 +31,10 @@ public:
 	void SetHeightPosY(float height);
 	void SetLowPosY(float low);
 	void SetSpeed(float speed);
+
+	void SetLever(Lever* pLever);
+
+	void SetMoveFlg(bool flg);
 
 private:
 	Model* m_pModel;	// モデル
@@ -52,6 +57,6 @@ private:
 
 	bool m_RiseFlag;	// 上昇フラグ
 
-
+	
 };
 
