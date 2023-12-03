@@ -367,5 +367,3 @@ FodyWeavers.xsd
 
 # not ignore
 !*.lib
-!HEW_Project\DirectXTex\x64\Debug\DirectXTex.lib
-!HEW_Project\DirectXTex\x64\Release\DirectXTex.lib
