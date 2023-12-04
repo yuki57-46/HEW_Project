@@ -10,6 +10,14 @@
 class Lever : public GameObject
 {
 public:
+	enum E_LeverState
+	{
+		LEVER_NONE,
+		LEVER_UP,
+		LEVER_DOWN,
+		LEVER_MAX
+	};
+public:
 	Lever();
 	~Lever();
 	void Update();

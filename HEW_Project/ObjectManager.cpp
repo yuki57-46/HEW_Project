@@ -68,7 +68,7 @@ ObjectMng::ObjectMng()
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ,
 				data[i].isUse
 			);
-			m_pLift[i].SetLever(&m_pLever[i]);
+			m_pLift[i - 1].SetLever(&m_pLever[i]);
 			break;
 		}
 	}

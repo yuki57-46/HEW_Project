@@ -3,11 +3,20 @@
 #include "GameObject.h"
 #include "Model.h"
 #include "Collision.h"
+#include "Lever.h"
 
-class Lever;
+//class Lever;
 
 class Lift_Obj : public GameObject
 {
+public:
+	enum E_LiftState
+	{
+		Lift_STOP = 0,
+		Lift_UP,
+		Lift_DOWN,
+		Lift_MAX
+	};
 public:
 	Lift_Obj();
 	~Lift_Obj();
@@ -34,7 +43,7 @@ public:
 
 	void SetLever(Lever* pLever);
 
-	void SetMoveFlg(bool flg);
+	void SetMoveFlg(Lever::E_LeverState);
 
 private:
 	Model* m_pModel;	// モデル
@@ -57,6 +66,7 @@ private:
 
 	bool m_RiseFlag;	// 上昇フラグ
 
+	int m_LiftState;	// リフトとレバーの連携
 	
 };
 
