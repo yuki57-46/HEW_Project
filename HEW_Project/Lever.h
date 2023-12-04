@@ -12,10 +12,10 @@ class Lever : public GameObject
 public:
 	enum E_LeverState
 	{
-		LEVER_NONE,
-		LEVER_UP,
-		LEVER_DOWN,
-		LEVER_MAX
+		LEVER_NONE = 0,	// リフトが動いていない
+		LEVER_UP,		// リフト上昇
+		LEVER_DOWN,		// リフト下降
+		LEVER_MAX		// リフトの上下の限界地点
 	};
 public:
 	Lever();
@@ -26,6 +26,10 @@ public:
 	bool GetLeverFlag();
 
 	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool isFlag = false);
+
+	void Set();
+	void SetF();
+	bool SetR();
 
 	void ModelChange();
 	void ModelChange2();
@@ -42,6 +46,8 @@ private:
 	DirectX::XMFLOAT3 m_direction;	// 向き
 	float m_rotSpeed = 10.0f;	// 回転速度の設定
 
+	// 憑依しているかのフラグ
+	bool m_isPossession;
 
 	class Lift_Obj* m_pLift_Obj;
 };

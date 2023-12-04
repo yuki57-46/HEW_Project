@@ -1,4 +1,4 @@
-#include "Lift_Obj.hpp"
+﻿#include "Lift_Obj.hpp"
 #include "Geometory.h"
 #include "Safe_Delete.hpp"
 #include "GameObject.h"
@@ -57,13 +57,13 @@ Lift_Obj::~Lift_Obj()
 
 void Lift_Obj::Update(bool LeverFlg)
 {
-	//m_oldPos = m_pos; // 前の位置を保存
+	m_oldPos = m_pos; // 前の位置を保存
 
 	// レバーが使用されている場合
 	if (LeverFlg == true)
 	{
 		// レバーがオンの状態
-		if (moveOk == true)
+		if (E_LiftState::Lift_UP)	// リフトが上に上がる処理
 		{
 			if (m_RiseFlag == false) // `false`になってたら
 			{
@@ -84,7 +84,7 @@ void Lift_Obj::Update(bool LeverFlg)
 				}
 			}
 		}
-		else // レバーがオフの状態
+		else if (E_LiftState::Lift_DOWN)	// レバーが下に下がる処理
 		{
 			if (m_RiseFlag == true) // `true`になってたら
 			{
@@ -104,7 +104,10 @@ void Lift_Obj::Update(bool LeverFlg)
 				}
 			}
 		}
-
+		else if (E_LiftState::Lift_STOP)	// リフトの途中停止
+		{
+			m_pos = m_oldPos;	// 今の位置に前の位置の情報を持たせておく
+		}
 	}
 	else
 	{
@@ -260,7 +263,8 @@ void Lift_Obj::SetLever(Lever* pLever)
 	g_pLever = pLever;
 }
 
-void Lift_Obj::SetMoveFlg(bool flg)
+void Lift_Obj::SetMoveFlg(Lever::E_LeverState state)
 {
-	moveOk = flg;
+	// レバーの状態とリフトの状態の連携
+	m_LiftState = static_cast<E_LiftState>(state);
 }

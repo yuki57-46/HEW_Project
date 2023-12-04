@@ -47,40 +47,47 @@ void Lever::Update()
 
 	int LeverNum = 1;
 
-	if (IsKeyTrigger(VK_SHIFT))
-	{
-		switch (LeverNum)
-		{
-		case 0:
-			LeverNum = 1;
-			break;
-		case 1:
-			LeverNum = 0;
-			break;
-		}
-		
-	}
 
+	// 憑依しているかの判定
 	while (m_isUse)
 	{
-		switch (LeverNum)
+		if (m_isPossession)	// 憑依中
 		{
-		// レバーを押して釣り床を上に上げる処理
-		case 0:
-			// オブジェクトのY軸にプラスを加える
-			m_pLift_Obj->SetMoveFlg(true);
-
-			break;
-		// レバーを押して釣り床を下に下げる処理
-		case 1:
-			// オブジェクトのY軸にマイナスを加える
-			m_pLift_Obj->SetMoveFlg(false);
-
-			break;
-
-		default:
-			break;
+			// 憑依しているときのキーでの操作
+			if (IsKeyPress(VK_UP))
+			{	// 上昇
+				m_pLift_Obj->SetMoveFlg(E_LeverState::LEVER_UP);
+			}
+			else if (IsKeyPress(VK_DOWN))
+			{	// 下降
+				m_pLift_Obj->SetMoveFlg(E_LeverState::LEVER_DOWN);
+			}
+			else // 何もしていない時
+			{
+				m_pLift_Obj->SetMoveFlg(E_LeverState::LEVER_NONE);
+			}
 		}
+		else // 憑依してないよ
+		{
+			m_pLift_Obj->SetMoveFlg(E_LeverState::LEVER_NONE);
+		}
+		//switch (m_isPossession)
+		//{
+		//// レバーを押して釣り床を上に上げる処理
+		//case 1:
+		//	// オブジェクトのY軸にプラスを加える
+		//	m_pLift_Obj->SetMoveFlg(E_LeverState::LEVER_UP);
+		//	break;
+		//// レバーを押して釣り床を下に下げる処理
+		//case 2:
+		//	// オブジェクトのY軸にマイナスを加える
+		//	m_pLift_Obj->SetMoveFlg(E_LeverState::LEVER_DOWN);
+		//	break;
+		//default:
+		//	// レバーを押していない状態
+		//	m_pLift_Obj->SetMoveFlg(E_LeverState::LEVER_NONE);
+		//	break;
+		//}
 	}
 }
 
@@ -121,6 +128,24 @@ void Lever::Create(float posX, float posY, float posZ, float scaleX, float scale
 	m_scale.z = scaleZ;
 
 	m_isUse = isFlag;
+}
+
+/**
+ * @brief 憑依処理?
+ */
+void Lever::Set()
+{
+	m_isPossession = true;
+}
+
+void Lever::SetF()
+{
+	m_isPossession = false;
+}
+
+bool Lever::SetR()
+{
+	return m_isPossession;
 }
 
 void Lever::ModelChange()
