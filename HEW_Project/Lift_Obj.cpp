@@ -266,5 +266,5 @@ void Lift_Obj::SetLever(Lever* pLever)
 void Lift_Obj::SetMoveFlg(Lever::E_LeverState state)
 {
 	// レバーの状態とリフトの状態の連携
-	m_LiftState = static_cast<E_LiftState>(state);
+	m_LiftState = static_cast<E_LiftState>(state);	// 12/04 エラー箇所
 }

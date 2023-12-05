@@ -8,8 +8,7 @@ ObjectMng::ObjectMng()
 	, m_pLift(nullptr)		// オブジェクト（リフト用）
 	, m_pLever(nullptr)		// オブジェクト（レバー用）
 	, m_pPlayer(nullptr)
-	, m_num(0)
-	
+	, m_num(0)	
 {
 	m_pObjectCamera = new CameraDebug();
 	aabb = new AABB();

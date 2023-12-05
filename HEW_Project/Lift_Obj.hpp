@@ -43,7 +43,7 @@ public:
 
 	void SetLever(Lever* pLever);
 
-	void SetMoveFlg(Lever::E_LeverState);
+	void SetMoveFlg(Lever::E_LeverState state = Lever::E_LeverState::LEVER_NONE);
 
 private:
 	Model* m_pModel;	// モデル
