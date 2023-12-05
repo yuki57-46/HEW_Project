@@ -365,5 +365,8 @@ FodyWeavers.xsd
 # add other
 .vscode/
 
+# Shader build output
+*.cso
+
 # not ignore
 !*.lib
