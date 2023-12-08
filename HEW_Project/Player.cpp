@@ -9,8 +9,8 @@
 DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //境界の最小値
 DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //最大値
 
-DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //境界の最小値
-DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //最大値
+DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.45f, -0.5f, -0.3f);  //境界の最小値
+DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.4f, 0.5f, 0.5f);     //最大値
 
 
 Player::Player()
@@ -129,24 +129,24 @@ void Player::Update()
 	    if (IsKeyPress(VK_UP))
 		{
 			m_pos.z += moveSpeed;
+			SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		}
 		if (IsKeyPress(VK_DOWN))
 		{
 			m_pos.z -= moveSpeed;
+			SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		}
 		if (IsKeyPress(VK_RIGHT))
 		{
 			m_pos.x += moveSpeed;
+			SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		}
 		if (IsKeyPress(VK_LEFT))
 		{
 			m_pos.x -= moveSpeed;
+			SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		}
-
-
-	SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
-	HSetBounds(HMinBound, HMaxBound);
-	
+		HSetBounds(HMinBound, HMaxBound);
 }
 
 void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)

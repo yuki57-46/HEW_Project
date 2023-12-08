@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d90e9305-071e-4685-a79b-5d1e03d69dd9}</ProjectGuid>
+    <ProjectGuid>{71F577BF-3A8E-4D29-89E0-ED7A1DA17788}</ProjectGuid>
     <RootNamespace>My09ShaderBase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -172,12 +172,14 @@
     <ClCompile Include="2DObjectManager.cpp" />
     <ClCompile Include="CameraBase.cpp" />
     <ClCompile Include="CameraDebug.cpp" />
+    <ClCompile Include="CoinCntUI.cpp" />
     <ClCompile Include="col.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Lift_Obj.cpp" />
     <ClCompile Include="Lever.cpp" />
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="Geometory.cpp" />
@@ -189,6 +191,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowP.cpp" />
     <ClCompile Include="SObjects.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -200,6 +203,7 @@
     <ClInclude Include="2DObjectManager.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CameraDebug.h" />
+    <ClInclude Include="CoinCntUI.h" />
     <ClInclude Include="col.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Defines.h" />
@@ -207,6 +211,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HCollision.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Lift_Obj.hpp" />
     <ClInclude Include="Lever.h" />
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Geometory.h" />
@@ -215,10 +220,12 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Safe_Delete.hpp" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowP.h" />
     <ClInclude Include="SObjects.h" />
+    <ClInclude Include="Sound.hpp" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
