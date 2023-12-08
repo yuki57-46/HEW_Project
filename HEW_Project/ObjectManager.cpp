@@ -2,13 +2,15 @@
 #include"Input.h"
 
 #define HBLOCK	1	// 憑依可能ブロック
-#define DHBLOCK 2	// 憑依不可ブロック
+#define DBLOCK  2	// 憑依不可ブロック
+#define MBLOCK	3	// 左右移動ブロック
 
 //InputManager imanagerO = InputManager();
 
 ObjectMng::ObjectMng()
 	: m_pObjects(nullptr)
 	, m_pObjectsNot(nullptr)
+	, m_pObjectsAuto(nullptr)
 	, m_pPlayer(nullptr)
 	, m_num(0)
 	
@@ -28,8 +30,8 @@ ObjectMng::ObjectMng()
 		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
 		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
 		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
-		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
-		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f, HBLOCK},	// 12/01 追加プログラム
+		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, DBLOCK},
+		{-2.0f, 0.0f, 3.0f, 20.0f, 30.0f, 10.0f, MBLOCK},	// 12/01 追加プログラム
 	};
 	
 	//配列の要素の数から必要なブロック数を計算
@@ -38,6 +40,7 @@ ObjectMng::ObjectMng()
 	//必要な数だけブロックを確保
 	m_pObjects		= new Object[m_num];
 	m_pObjectsNot	= new ObjectNot[m_num];
+	m_pObjectsAuto	= new ObjectAutoMove[m_num];
 
 	//確保したブロックに初期データを設定
 	for (int i = 0; i < m_num; i++)
@@ -58,10 +61,21 @@ ObjectMng::ObjectMng()
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 			break;
+		// 左右移動ブロック
+		case 3:
+			m_pObjectsAuto[i].CreateAuto(
+				data[i].x, data[i].y, data[i].z,
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+			break;
 		}
 
+		// 12/08 追加プログラム
 		//if (data[i].kind)
 		//	m_pObjects[i].Create(
+		//		data[i].x, data[i].y, data[i].z,
+		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+		//if (data[i].kind)
+		//	m_pObjectsAuto[i].CreateAuto(
 		//		data[i].x, data[i].y, data[i].z,
 		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 	}
@@ -73,6 +87,7 @@ ObjectMng::~ObjectMng()
 
 	delete[] m_pObjects;
 	delete[] m_pObjectsNot;
+	delete[] m_pObjectsAuto;
 	
 
 	if (m_pObjectCamera)
@@ -117,34 +132,89 @@ void ObjectMng::Update()
 	float YB = static_cast<float>(imanagerO.getKey(2));
 	float XB = static_cast<float>(imanagerO.getKey(3));
 */
-	//__
-
-	//__
 	m_pPlayer->Update();
 
-	
 	for (int i = 0; i < m_num; i++)
 	{
+		int BlockType = 0;  // floatからintへの変換
+
 		m_pObjects[i].Update();
 		m_pObjectsNot[i].Update();
+		m_pObjectsAuto[i].Update();
 
-		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
-		{
-			//ブロックとプレイヤー衝突
-			if (m_pPlayer->IsCollidingWith(*gameObject)) {
-				// 衝突時の処理
-				m_pPlayer->PlayerPos();
-			}
-		}
-		// 12/01 追加プログラム
-		//else if (GameObject* gameObject3 = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+		//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		//{
 		//	//ブロックとプレイヤー衝突
-		//	if (m_pPlayer->IsCollidingWith(*gameObject3)) {
+		//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
 		//		// 衝突時の処理
 		//		m_pPlayer->PlayerPos();
 		//	}
-		//}
+			switch (BlockType)
+			{
+			case HBLOCK:
+				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+				{
+					//ブロックとプレイヤー衝突
+					if (m_pPlayer->IsCollidingWith(*gameObject)) {
+						// 衝突時の処理
+						m_pPlayer->PlayerPos();
+					}
+					//憑依のため・ブロックとプレイヤーが当たった場合
+					if (m_pPlayer->HIsCollidingWith(*gameObject))
+					{
+						if (IsKeyPress('Q'))
+						{
+							m_pPlayer->SetOk();
+							m_pPlayer->HPlayerPos();
+							m_pObjects[i].Set();
+
+							m_pObjects[i].Modelchg();
+						}
+					}
+				}
+				break;
+
+			case DBLOCK:
+				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+				{
+					//ブロックとプレイヤー衝突
+					if (m_pPlayer->IsCollidingWith(*gameObject)) {
+						// 衝突時の処理
+						m_pPlayer->PlayerPos();
+					}
+					//憑依のため・ブロックとプレイヤーが当たった場合(憑依しないver)
+					if (m_pPlayer->HIsCollidingWith(*gameObject))
+					{
+						m_pPlayer->SetNOk();
+						m_pPlayer->HPlayerPos();
+						m_pObjectsNot[i].SetF();
+
+						m_pObjectsNot[i].Modelchg();	
+					}
+
+				}
+				break;
+
+			case MBLOCK:
+				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsAuto[i]))
+				{
+					//ブロックとプレイヤー衝突
+					if (m_pPlayer->IsCollidingWith(*gameObject)) {
+						// 衝突時の処理
+						m_pPlayer->PlayerPos();
+					}
+					//憑依のため・ブロックとプレイヤーが当たった場合(憑依しないver)
+					if (m_pPlayer->HIsCollidingWith(*gameObject))
+					{
+						m_pPlayer->SetNOk();
+						m_pPlayer->HPlayerPos();
+						m_pObjectsAuto[i].SetF();
+
+						m_pObjectsAuto[i].Modelchg();
+					}
+				}
+				break;
+		}
 
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
@@ -160,10 +230,6 @@ void ObjectMng::Update()
 
 					m_pObjects[i].Modelchg();
 				}
-				//else
-				//{
-				//	m_pObjectsNot[i].SetF();
-				//}
 			}
 			//憑依解除
 			if (!m_pPlayer->HIsCollidingWith(*gameObject))
@@ -200,7 +266,7 @@ void ObjectMng::Update()
 							//MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 							//m_pObjects[i].GetF();
 
-							m_pObjects[i].OBJPos();						
+							m_pObjects[i].OBJPos();
 
 						}
 					}
@@ -219,7 +285,8 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Draw(viewMatrix, projectionMatrix);
-		
+		m_pObjectsNot[i].Draw(viewMatrix, projectionMatrix);
+		m_pObjectsAuto[i].Draw(viewMatrix, projectionMatrix);
 	}
 	
 	DirectX::XMFLOAT4X4 mat[3];

@@ -1,21 +1,21 @@
-#include "Object.h"
+#include "ObjectAutoMove.h"
 #include "Geometory.h"
 #include "Input.h"
 
 //InputManager imanagerOB = InputManager();
 
-DirectX::XMFLOAT3 objectMinBound = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//プレイヤーとの当たり判定用
-DirectX::XMFLOAT3 objectMaxBound = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
+DirectX::XMFLOAT3 objectMinBoundAuto = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//プレイヤーとの当たり判定用
+DirectX::XMFLOAT3 objectMaxBoundAuto = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
 
-DirectX::XMFLOAT3 hobjectMinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//憑依用
-DirectX::XMFLOAT3 hobjectMaxBound = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
+DirectX::XMFLOAT3 hobjectMinBoundAuto = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//憑依用
+DirectX::XMFLOAT3 hobjectMaxBoundAuto = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
 
-DirectX::XMFLOAT3 cobjectMinBound = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ブロック同士用
-DirectX::XMFLOAT3 cobjectMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
+DirectX::XMFLOAT3 cobjectMinBoundAuto = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ブロック同士用
+DirectX::XMFLOAT3 cobjectMaxBoundAuto = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
 
 
-Object::Object()
+ObjectAutoMove::ObjectAutoMove()
 	: m_pos(0.0f, 0.0f, 0.0f)
 	, m_scale(0.0f, 0.0f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
@@ -23,8 +23,9 @@ Object::Object()
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
 	, moveok(false)
 
-	,m_isPossessed(true)
+	, m_isPossessed(true)
 {
+
 	m_pObjectModel = new Model;
 
 	if (!m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
@@ -37,17 +38,13 @@ Object::Object()
 	}
 	m_pObjectModel->SetVertexShader(m_pObjectVS);
 
-
-
-
-
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
 	CSetBounds(cminBound, cmaxBound);
-	
+
 }
 
-Object::~Object()
+ObjectAutoMove::~ObjectAutoMove()
 {
 	if (m_pObjectModel)
 	{
@@ -61,10 +58,32 @@ Object::~Object()
 	}
 }
 
-void Object::Update()
+void ObjectAutoMove::Update()
 {
-	
-		m_oldPos = m_pos;
+	float objSpeed = 0.1f;	// オブジェクトが移動する早さ
+	float objpos = 0.0f;	// オブジェクトの現在位置
+	int time = 0;			// 経過時間
+
+	bool objmove = false;
+
+	if (time <= 10)	// 10秒経過した時、オブジェクトが動く
+	{
+		objmove = true;
+	}
+	if (time >= 0)
+	{
+		objmove = false;
+	}
+	if (objmove = true)	// オブジェクトが左に動く
+	{
+		objpos--;
+	}
+	if (objmove = false)	// オブジェクトが右に動く
+	{
+		objpos++;
+	}
+
+	m_oldPos = m_pos;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -83,8 +102,6 @@ void Object::Update()
 	//float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
 	//float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
 	//float leftStickZ2 = static_cast<float>(imanagerOB.getKey(3));
-
-
 
 	// 移動方向ベクトルを計算
 	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
@@ -125,16 +142,15 @@ void Object::Update()
 		}
 	}
 
+	SetBounds(objectMinBoundAuto, objectMaxBoundAuto);  //最小値と最大値をセット
 
-	SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
+	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//憑依用の当たり判定
+	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ブロック同士の当たり判定
 
-	HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
-	CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
-
-
+	time++;
 }
 
-void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
+void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
@@ -147,30 +163,30 @@ void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 
 	mat[1] = viewMatrix; // 与えられた viewMatrix を使う
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
-	
+
 	m_pObjectVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
 	m_pObjectModel->Draw();
 
 }
 
 //
-void Object::SetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
+void ObjectAutoMove::SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 {
 	minBound = Add(m_pos, min);
 	maxBound = Add(m_pos, max);
 }
 
-DirectX::XMFLOAT3 Object::GetminBounds() 
+DirectX::XMFLOAT3 ObjectAutoMove::GetminBounds()
 {
 	return minBound;
 }
 
-DirectX::XMFLOAT3 Object::GetmaxBounds() 
+DirectX::XMFLOAT3 ObjectAutoMove::GetmaxBounds()
 {
 	return maxBound;
 }
 
-DirectX::XMFLOAT3 Object::Add(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOAT3 & b)
+DirectX::XMFLOAT3 ObjectAutoMove::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
 	DirectX::XMFLOAT3 result;
 	result.x = a.x + b.x;
@@ -182,23 +198,23 @@ DirectX::XMFLOAT3 Object::Add(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOA
 
 
 //憑依当たり判定
-void Object::HSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
+void ObjectAutoMove::HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 {
 	hminBound = HAdd(m_pos, min);
 	hmaxBound = HAdd(m_pos, max);
 }
 
-DirectX::XMFLOAT3 Object::HGetminBounds()
+DirectX::XMFLOAT3 ObjectAutoMove::HGetminBounds()
 {
 	return hminBound;
 }
 
-DirectX::XMFLOAT3 Object::HGetmaxBounds()
+DirectX::XMFLOAT3 ObjectAutoMove::HGetmaxBounds()
 {
 	return hmaxBound;
 }
 
-DirectX::XMFLOAT3 Object::HAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOAT3 & b)
+DirectX::XMFLOAT3 ObjectAutoMove::HAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
 	DirectX::XMFLOAT3 result;
 	result.x = a.x + b.x;
@@ -206,27 +222,26 @@ DirectX::XMFLOAT3 Object::HAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLO
 	result.z = a.z + b.z;
 	return result;
 }
-//_
 
 
 //ブロック同士
-void Object::CSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
+void ObjectAutoMove::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 {
 	cminBound = CAdd(m_pos, min);
 	cmaxBound = CAdd(m_pos, max);
 }
 
-DirectX::XMFLOAT3 Object::CGetminBounds()
+DirectX::XMFLOAT3 ObjectAutoMove::CGetminBounds()
 {
 	return cminBound;
 }
 
-DirectX::XMFLOAT3 Object::CGetmaxBounds()
+DirectX::XMFLOAT3 ObjectAutoMove::CGetmaxBounds()
 {
 	return cmaxBound;
 }
 
-DirectX::XMFLOAT3 Object::CAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOAT3 & b)
+DirectX::XMFLOAT3 ObjectAutoMove::CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
 	DirectX::XMFLOAT3 result;
 	result.x = a.x + b.x;
@@ -235,7 +250,7 @@ DirectX::XMFLOAT3 Object::CAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLO
 	return result;
 }
 
-void Object::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
+void ObjectAutoMove::CreateAuto(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
@@ -244,43 +259,36 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
 }
-//
-
-
 
 //憑依判定用
-void Object::Set()
+void ObjectAutoMove::Set()
 {
 	moveok = true;
 }
 
-void Object::SetF()
+void ObjectAutoMove::SetF()
 {
 	moveok = false;
 }
 
-bool Object::SetR()
+bool ObjectAutoMove::SetR()
 {
 	return moveok;
 }
 
-
-
 //ブロック同士がぶつかった時に返す
 
-void Object::OBJPos()
+void ObjectAutoMove::OBJPos()
 {
 	m_pos = m_oldPos;
 }
 
-
-
-void Object::Modelchg()
+void ObjectAutoMove::Modelchg()
 {
 	if (m_pObjectModel->Load("Assets/Model/test_model/test_block.fbx", 0.05f, Model::Flip::XFlip));
 }
 
-void Object::Modelchg2()
+void ObjectAutoMove::Modelchg2()
 {
 	if (m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip));
 }

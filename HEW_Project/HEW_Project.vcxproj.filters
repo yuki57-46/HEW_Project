@@ -102,9 +102,6 @@
     <ClCompile Include="ShadowP.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="Lever.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
@@ -136,6 +133,9 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="ObjectNot.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectAutoMove.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,9 +179,6 @@
     <ClInclude Include="ShadowP.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="Lever.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="CameraDebug.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
@@ -213,6 +210,9 @@
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="ObjectNot.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectAutoMove.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
