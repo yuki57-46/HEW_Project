@@ -1,4 +1,4 @@
-#include "SceneGame.h"
+ï»¿#include "SceneGame.h"
 #include "Geometory.h"
 #include "CameraDebug.h"
 #include "CameraPlayer.h"
@@ -11,43 +11,43 @@ SceneGame::SceneGame()
 	, m_pPlayer(nullptr)
 	, m_pUI(nullptr)
 {	
-	// ƒJƒƒ‰‚Ì“Ç‚Ýž‚Ý
+	// ã‚«ãƒ¡ãƒ©ã®èª­ã¿è¾¼ã¿
 //	m_pCamera = new CameraDebug;
 	m_pPlayer = new Player();
 	m_pCamera = new CameraPlayer(m_pPlayer);
 	m_pPlayer->SetCamera(m_pCamera);
 	m_pUI = new ItemUI();
 
-	// ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý
+	// ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿
 	m_pModel = new Model();
-	// ‚±‚±‚ÅƒAƒjƒ[ƒVƒ‡ƒ“‚³‚¹‚½‚¢‚à‚Ì‚Ìƒ‚ƒfƒ‹‚ðŽw’è‚·‚é
-	// Šî–{“I‚Éƒtƒ@ƒCƒ‹ƒpƒX‚ÍmixamoƒtƒHƒ‹ƒ_‚ÉŽg‚¤ƒ‚ƒfƒ‹‚ð“ü‚ê‚Ä‚¨‚­
-	if(!m_pModel->Load(MODEL_PATH, MODEL_SCALE, MODEL_FLIP))	// ƒtƒ@ƒCƒ‹Žw’èA”{—¦Žw’èA”½“]Žw’è
+	// ã“ã“ã§ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã•ã›ãŸã„ã‚‚ã®ã®ãƒ¢ãƒ‡ãƒ«ã‚’æŒ‡å®šã™ã‚‹
+	// åŸºæœ¬çš„ã«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã¯mixamoãƒ•ã‚©ãƒ«ãƒ€ã«ä½¿ã†ãƒ¢ãƒ‡ãƒ«ã‚’å…¥ã‚Œã¦ãŠã
+	if(!m_pModel->Load(MODEL_PATH, MODEL_SCALE, MODEL_FLIP))	// ãƒ•ã‚¡ã‚¤ãƒ«æŒ‡å®šã€å€çŽ‡æŒ‡å®šã€åè»¢æŒ‡å®š
 	{
-		MessageBox(NULL, "ƒAƒjƒ[ƒVƒ‡ƒ“ƒ‚ƒfƒ‹", "Error", MB_OK);	// ƒGƒ‰[ƒƒbƒZ[ƒW‚Ì•\Ž¦
+		MessageBox(NULL, "ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ¢ãƒ‡ãƒ«", "Error", MB_OK);	// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è¡¨ç¤º
 	}
 	m_pModel->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));
-	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_LAMBERT));	// 12/05 ’Ç‰Á
+	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_LAMBERT));	// 12/05 è¿½åŠ 
 
-	// ‚±‚±‚ÍƒAƒjƒ[ƒVƒ‡ƒ“‚³‚¹‚é‚à‚Ì‚ðƒpƒX‚ÉŽw’è‚³‚¹‚é
-	// ƒ‚ƒfƒ‹‚ÆƒAƒjƒ[ƒVƒ‡ƒ“‚Å•ª‚©‚ê‚Ä‚¢‚éê‡AƒpƒX‚ÌŽw’è‚ð"Assets/Model/Animation/ƒAƒjƒ[ƒVƒ‡ƒ“—p‚Ìfbx
-	// ‚Æ‚¢‚¤•—‚ÉØ‚è‘Ö‚¦‚Ä‚¨‚­‚Æ•ª‚©‚è‚â‚·‚¢B@‚»‚ÌÛAAnimationƒtƒHƒ‹ƒ_‚É“®‚­ƒ‚ƒfƒ‹‚ð“ü‚ê‚Ä‚¨‚­
+	// ã“ã“ã¯ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã•ã›ã‚‹ã‚‚ã®ã‚’ãƒ‘ã‚¹ã«æŒ‡å®šã•ã›ã‚‹
+	// ãƒ¢ãƒ‡ãƒ«ã¨ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã§åˆ†ã‹ã‚Œã¦ã„ã‚‹å ´åˆã€ãƒ‘ã‚¹ã®æŒ‡å®šã‚’"Assets/Model/Animation/ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®fbx
+	// ã¨ã„ã†é¢¨ã«åˆ‡ã‚Šæ›¿ãˆã¦ãŠãã¨åˆ†ã‹ã‚Šã‚„ã™ã„ã€‚ã€€ãã®éš›ã€Animationãƒ•ã‚©ãƒ«ãƒ€ã«å‹•ããƒ¢ãƒ‡ãƒ«ã‚’å…¥ã‚Œã¦ãŠã
 	Model::AnimeNo anime = m_pModel->AddAnimation(ANIME_PATH);
 	m_pModel->Play(anime, true);
 
-	// ’¸“_ƒVƒF[ƒ_[‚Ì“Ç‚Ýž‚Ý
+	// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®èª­ã¿è¾¼ã¿
 	m_pVS = new VertexShader();
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
 	{
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
-	// 12/05 ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÛ‚Í•s—v‚È‚Ì‚Åíœ
-	//m_pModel->SetVertexShader(m_pVS);	// ƒ‚ƒfƒ‹‚Ö“Ç‚Ýž‚ñ‚¾’¸“_ƒVƒF[ƒ_[‚ðÝ’è
+	// 12/05 ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®éš›ã¯ä¸è¦ãªã®ã§å‰Šé™¤
+	//m_pModel->SetVertexShader(m_pVS);	// ãƒ¢ãƒ‡ãƒ«ã¸èª­ã¿è¾¼ã‚“ã é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’è¨­å®š
 
-	// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgA[“xƒoƒbƒtƒ@‚ÌÝ’è
-	RenderTarget* pRTV = GetDefaultRTV();	// ƒfƒtƒHƒ‹ƒg‚ÅŽg—p‚µ‚Ä‚¢‚éRenderTargetView‚ÌŽæ“¾
-	DepthStencil* pDSV = GetDefaultDSV();	// ƒfƒtƒHƒ‹ƒg‚ÅŽg—p‚µ‚Ä‚¢‚éDepthStencilView‚ÌŽæ“¾
-	SetRenderTargets(1, &pRTV, pDSV);		// DSV‚ªnull‚¾‚Æ2D•\Ž¦‚É‚È‚é
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã€æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
+	RenderTarget* pRTV = GetDefaultRTV();	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹RenderTargetViewã®å–å¾—
+	DepthStencil* pDSV = GetDefaultDSV();	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹DepthStencilViewã®å–å¾—
+	SetRenderTargets(1, &pRTV, pDSV);		// DSVãŒnullã ã¨2Dè¡¨ç¤ºã«ãªã‚‹
 
 }
 
@@ -87,21 +87,21 @@ SceneGame::~SceneGame()
 
 void SceneGame::Update(float tick) 
 {
-	//’n–Ê‚Æ‚µ‚Ä•ÏŒ`‚³‚¹‚é
+	//åœ°é¢ã¨ã—ã¦å¤‰å½¢ã•ã›ã‚‹
 
-	//ƒOƒŠƒbƒh‚æ‚è‚à‰º‚É—ˆ‚é‚æ‚¤‚ÉˆÚ“®
+	//ã‚°ãƒªãƒƒãƒ‰ã‚ˆã‚Šã‚‚ä¸‹ã«æ¥ã‚‹ã‚ˆã†ã«ç§»å‹•
 	DirectX::XMMATRIX T = 
 		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
 
-	//’n–Ê‚Æ‚È‚é‚æ‚¤‚ÉA‘OŒã¶‰E‚ÉL‚­Aã‰º‚É‹·‚­‚·‚é
+	//åœ°é¢ã¨ãªã‚‹ã‚ˆã†ã«ã€å‰å¾Œå·¦å³ã«åºƒãã€ä¸Šä¸‹ã«ç‹­ãã™ã‚‹
 	DirectX::XMMATRIX S = 
 		DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
 
-	DirectX::XMMATRIX mat = S * T;	//‚·‚×‚Ä‚Ìs—ñ‚ðˆê‚Â‚É‚Ü‚Æ‚ß‚éŒvŽZ
+	DirectX::XMMATRIX mat = S * T;	//ã™ã¹ã¦ã®è¡Œåˆ—ã‚’ä¸€ã¤ã«ã¾ã¨ã‚ã‚‹è¨ˆç®—
 
 	mat = DirectX::XMMatrixTranspose(mat);
-	DirectX::XMFLOAT4X4 fMat;				//s—ñ‚ÌŠi”[æ
-	DirectX::XMStoreFloat4x4(&fMat, mat);	//mat‚ðfMat‚ÉŠi”[‚·‚éˆ—
+	DirectX::XMFLOAT4X4 fMat;				//è¡Œåˆ—ã®æ ¼ç´å…ˆ
+	DirectX::XMStoreFloat4x4(&fMat, mat);	//matã‚’fMatã«æ ¼ç´ã™ã‚‹å‡¦ç†
 	Geometory::SetWorld(fMat);
 
 	m_pModel->Step(tick);
@@ -115,13 +115,13 @@ void SceneGame::Draw()
 
 	DirectX::XMFLOAT4X4 mat[3];
 
-	// ƒ[ƒ‹ƒhs—ñ‚ÌŒvŽZ
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
 	DirectX::XMMATRIX world = 
-		DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *		// Šg‘åk¬
-		DirectX::XMMatrixRotationX(rad) *					// ‰ñ“]X
-		DirectX::XMMatrixRotationY(rad) *					// ‰ñ“]Y
-		DirectX::XMMatrixRotationZ(rad) *					// ‰ñ“]Z
-		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);	// ˆÚ“®
+		DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *		// æ‹¡å¤§ç¸®å°
+		DirectX::XMMatrixRotationX(rad) *					// å›žè»¢X
+		DirectX::XMMatrixRotationY(rad) *					// å›žè»¢Y
+		DirectX::XMMatrixRotationZ(rad) *					// å›žè»¢Z
+		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);	// ç§»å‹•
 
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
@@ -129,41 +129,41 @@ void SceneGame::Draw()
 	mat[1] = m_pCamera->GetViewMatrix();
 	mat[2] = m_pCamera->GetProjectionMatrix();
 
-	// s—ñ‚ðƒVƒF[ƒ_[‚ÖÝ’è
-	m_pVS->WriteBuffer(0, mat);		// ”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ðŽw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ð“n‚·
+	// è¡Œåˆ—ã‚’ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸è¨­å®š
+	m_pVS->WriteBuffer(0, mat);		// é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
 
 	RenderTarget* pRTV = GetDefaultRTV();
 	DepthStencil* pDSV = GetDefaultDSV();
 	SetRenderTargets(1, &pRTV, pDSV);
 
-	// Geometory—p‚Ì•ÏŠ·s—ñ‚ðŒvŽZ
-	// 12/05 0‚©‚ç•Ï‚¦‚½
-	world = DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *	// Šg‘åk¬
-		// Geometry‚ÌÝ’è‚ð•Ï‚¦‚Ä‚ ‚°‚é
-		DirectX::XMMatrixRotationX(rad) *					// ‰ñ“]X
-		DirectX::XMMatrixRotationY(rad) *					// ‰ñ“]Y
-		DirectX::XMMatrixRotationZ(rad) *					// ‰ñ“]Z
-		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);	// ˆÚ“®
+	// Geometoryç”¨ã®å¤‰æ›è¡Œåˆ—ã‚’è¨ˆç®—
+	// 12/05 0ã‹ã‚‰å¤‰ãˆãŸ
+	world = DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *	// æ‹¡å¤§ç¸®å°
+		// Geometryã®è¨­å®šã‚’å¤‰ãˆã¦ã‚ã’ã‚‹
+		DirectX::XMMatrixRotationX(rad) *					// å›žè»¢X
+		DirectX::XMMatrixRotationY(rad) *					// å›žè»¢Y
+		DirectX::XMMatrixRotationZ(rad) *					// å›žè»¢Z
+		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);	// ç§»å‹•
 
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	// Geometory—p‚Ì•ÏŠ·s—ñ‚ðÝ’è
+	// Geometoryç”¨ã®å¤‰æ›è¡Œåˆ—ã‚’è¨­å®š
 	Geometory::SetWorld(mat[0]);
 	Geometory::SetView(mat[1]);
 	Geometory::SetProjection(mat[2]);
-	Geometory::DrawBox();	//ƒ{ƒbƒNƒX‚ð•`‰æ
+	Geometory::DrawBox();	//ãƒœãƒƒã‚¯ã‚¹ã‚’æç”»
 
-	// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌÄ’è‹`¨2D•\Ž¦‚ÉØ‚è‘Ö‚¦‚é
-	// •Ï”‚Í3D‚Ì•¨‚Æˆá‚¤•Ï”‚Å’è‹`‚·‚é
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®å†å®šç¾©â†’2Dè¡¨ç¤ºã«åˆ‡ã‚Šæ›¿ãˆã‚‹
+	// å¤‰æ•°ã¯3Dã®ç‰©ã¨é•ã†å¤‰æ•°ã§å®šç¾©ã™ã‚‹
 	RenderTarget* pRTV2D = GetDefaultRTV();
 	DepthStencil* pDSV2D = GetDefaultDSV();
-	SetRenderTargets(1, &pRTV2D, pDSV2D);		// 3D•\Ž¦
-	SetRenderTargets(1, &pRTV2D, nullptr);		// 2D•\Ž¦
+	SetRenderTargets(1, &pRTV2D, pDSV2D);		// 3Dè¡¨ç¤º
+	SetRenderTargets(1, &pRTV2D, nullptr);		// 2Dè¡¨ç¤º
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì•`‰æ
-	ShaderList::SetWVP(mat);	// “]’uÏ‚Ý‚Ì•ÏŠ·s—ñ
-	m_pModel->Draw(nullptr, [this](int index)	// ƒ‰ƒ€ƒ_Ž®
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®æç”»
+	ShaderList::SetWVP(mat);	// è»¢ç½®æ¸ˆã¿ã®å¤‰æ›è¡Œåˆ—
+	m_pModel->Draw(nullptr, [this](int index)	// ãƒ©ãƒ ãƒ€å¼
 		{
 			const Model::Mesh* pMesh = m_pModel->GetMesh(index);
 			const Model::Material* pMaterial = m_pModel->GetMaterial(pMesh->materialID);
@@ -172,7 +172,7 @@ void SceneGame::Draw()
 			DirectX::XMFLOAT4X4 bones[200];
 			for (int i = 0; i < pMesh->bones.size() && i < 200; ++i)
 			{
-				// ‚±‚ÌŒvŽZ‚ÍƒQ[ƒ€‚Â‚­‚ë[uƒXƒLƒ“ƒƒbƒVƒ…‚ÌŽd‘g‚Ýv‚ªŽQl‚É‚È‚é
+				// ã“ã®è¨ˆç®—ã¯ã‚²ãƒ¼ãƒ ã¤ãã‚ãƒ¼ã€Œã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ã®ä»•çµ„ã¿ã€ãŒå‚è€ƒã«ãªã‚‹
 				DirectX::XMStoreFloat4x4(&bones[i], DirectX::XMMatrixTranspose(
 					pMesh->bones[i].invOffset *
 					m_pModel->GetBone(pMesh->bones[i].index)
@@ -182,7 +182,10 @@ void SceneGame::Draw()
 		});
 
 #ifdef _DEBUG
-//	m_pModel->DrawBone();
+	if (BONE_VIER)
+	{
+		m_pModel->DrawBone();
+	}
 
 #endif // DEBUG
 }
