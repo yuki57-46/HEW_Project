@@ -52,5 +52,10 @@ private:
 	float m_lastRotationY;
 	bool moveok;
 
+	float m_MaxPosX;	// X軸の限界範囲(右)
+	float m_MinPosX;	// X軸の限界範囲(左)
+
+	bool m_MoveX;	// オブジェクトの自動判定
+
 	bool m_isPossessed;
 };
