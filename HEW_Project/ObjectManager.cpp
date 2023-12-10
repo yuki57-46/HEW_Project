@@ -1,67 +1,87 @@
 #include "ObjectManager.h"
 #include"Input.h"
 
+#define HBLOCK	1	// œßˆË‰Â”\ƒuƒƒbƒN
+#define DBLOCK  2	// œßˆË•s‰ÂƒuƒƒbƒN
+#define MBLOCK	3	// ¶‰EˆÚ“®ƒuƒƒbƒN
+
 //InputManager imanagerO = InputManager();
 
 ObjectMng::ObjectMng()
-	: m_pObjects(nullptr), m_pLift(nullptr)
+	: m_pObjects(nullptr)
+	, m_pObjectsNot(nullptr)
+	, m_pObjectsAuto(nullptr)
 	, m_pPlayer(nullptr)
 	, m_num(0)
-	
+
 {
 	m_pObjectCamera = new CameraDebug();
 	aabb = new AABB();
 	haabb = new HAABB();
 	caabb = new CAABB();
-	
+
 	m_pPlayer = new Player();
 	struct Setting
 	{
-		float x, y, z, scaleX, scaleY, scaleZ;
+		float x, y, z, scaleX, scaleY, scaleZ, kind;
 		int blockID;
-		float highPosY, lowPosY; // ãƒªãƒ•ãƒˆã®é«˜ã•ã®ä¸Šé™ã¨ä¸‹é™ 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
-		float moveSpeed; // ãƒªãƒ•ãƒˆã®ç§»å‹•é€Ÿåº¦ 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
+		float highPosY, lowPosY; // ƒŠƒtƒg‚Ì‚‚³‚ÌãŒÀ‚Æ‰ºŒÀ 12/02 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
+		float moveSpeed; // ƒŠƒtƒg‚ÌˆÚ“®‘¬“x 12/02 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
 	};
-	//ãƒ–ãƒ­ãƒƒã‚¯é…ç½®.ã‚¹ã‚±ãƒ¼ãƒ«æŒ‡å®š
+	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
 	Setting data[] = {
-		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
-		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
-		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, 0},
-		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, 0},
-		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f, 0},	// 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
-		{-5.0f, 1.0f, 5.0f, 10.0f, 10.0f, 10.0f, 1, 10.0f, 0.0f, 1.0f}, // 12/02 è¿½åŠ 
+		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
+		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
+		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
+		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, DBLOCK},
+		{-2.0f, 0.0f, 3.0f, 20.0f, 30.0f, 10.0f, MBLOCK},	// 12/01 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
 	};
-	
-	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
+
+	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
 	m_num = sizeof(data) / sizeof(data[0]);
 
-	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
-	m_pObjects = new Object[m_num];
-	m_pLift = new Lift_Obj[m_num];
-	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
+	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	m_pObjects		= new Object[m_num];
+	m_pObjectsNot	= new ObjectNot[m_num];
+	m_pObjectsAuto	= new ObjectAutoMove[m_num];
+
+	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
 	for (int i = 0; i < m_num; i++)
 	{
-		switch (data[i].blockID)
+		int kindInt = static_cast<int>(data[i].kind);  // float‚©‚çint‚Ö‚Ì•ÏŠ·
+
+		switch (kindInt)
 		{
-		case 0:
+		// œßˆË‰Â”\ƒuƒƒbƒN
+		case 1:
 			m_pObjects[i].Create(
 				data[i].x, data[i].y, data[i].z,
-				data[i].scaleX, data[i].scaleY, data[i].scaleZ
-			);
-			break;
-		case 1:
-			m_pLift[i].Create(
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+				break;
+		// œßˆË•s‰ÂƒuƒƒbƒN
+		case 2:
+			m_pObjectsNot[i].CreateNot(
 				data[i].x, data[i].y, data[i].z,
-				data[i].scaleX, data[i].scaleY, data[i].scaleZ
-				);
-			m_pLift[i].SetHeightPosY(data[i].highPosY);
-			m_pLift[i].SetLowPosY(data[i].lowPosY);
-			m_pLift[i].SetSpeed(data[i].moveSpeed);
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+			break;
+		// ¶‰EˆÚ“®ƒuƒƒbƒN
+		case 3:
+			m_pObjectsAuto[i].CreateAuto(
+				data[i].x, data[i].y, data[i].z,
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 			break;
 		}
-	}
-	
 
+		// 12/08 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
+		//if (data[i].kind)
+		//	m_pObjects[i].Create(
+		//		data[i].x, data[i].y, data[i].z,
+		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+		//if (data[i].kind)
+		//	m_pObjectsAuto[i].CreateAuto(
+		//		data[i].x, data[i].y, data[i].z,
+		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+	}
 }
 
 
@@ -69,8 +89,9 @@ ObjectMng::~ObjectMng()
 {
 
 	delete[] m_pObjects;
-	delete[] m_pLift;
-	
+	delete[] m_pObjectsNot;
+	delete[] m_pObjectsAuto;
+
 
 	if (m_pObjectCamera)
 	{
@@ -114,42 +135,97 @@ void ObjectMng::Update()
 	float YB = static_cast<float>(imanagerO.getKey(2));
 	float XB = static_cast<float>(imanagerO.getKey(3));
 */
-	//__
-
-	//__
 	m_pPlayer->Update();
 
-	
 	for (int i = 0; i < m_num; i++)
 	{
-		m_pObjects[i].Update();
-		m_pLift[i].Update();
+		int BlockType = 0;  // float‚©‚çint‚Ö‚Ì•ÏŠ·
 
+		m_pObjects[i].Update();
+		m_pObjectsNot[i].Update();
+		m_pObjectsAuto[i].Update();
 
 		//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		//{
-		//	//ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
+		//	//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
 		//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
-		//		// è¡çªæ™‚ã®å‡¦ç†
+		//		// Õ“Ë‚Ìˆ—
 		//		m_pPlayer->PlayerPos();
 		//	}
-		//}
-		//if (GameObject* gameObject_ = dynamic_cast<GameObject*>(&m_pLift[i]))
-		//{
-		//	// ãƒªãƒ•ãƒˆã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
-		//	if (m_pPlayer->IsCollidingWith(*gameObject_)) {
-		//		// è¡çªæ™‚ã®å‡¦ç†
-		//		m_pPlayer->PlayerPos();
-		//	}
-		//	
-		//}
+			switch (BlockType)
+			{
+			case HBLOCK:
+				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+				{
+					//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+					if (m_pPlayer->IsCollidingWith(*gameObject)) {
+						// Õ“Ë‚Ìˆ—
+						m_pPlayer->PlayerPos();
+					}
+					//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡
+					if (m_pPlayer->HIsCollidingWith(*gameObject))
+					{
+						if (IsKeyPress('Q'))
+						{
+							m_pPlayer->SetOk();
+							m_pPlayer->HPlayerPos();
+							m_pObjects[i].Set();
+
+							m_pObjects[i].Modelchg();
+						}
+					}
+				}
+				break;
+
+			case DBLOCK:
+				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+				{
+					//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+					if (m_pPlayer->IsCollidingWith(*gameObject)) {
+						// Õ“Ë‚Ìˆ—
+						m_pPlayer->PlayerPos();
+					}
+					//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡(œßˆË‚µ‚È‚¢ver)
+					if (m_pPlayer->HIsCollidingWith(*gameObject))
+					{
+						m_pPlayer->SetNOk();
+						m_pPlayer->HPlayerPos();
+						m_pObjectsNot[i].SetF();
+
+						m_pObjectsNot[i].Modelchg();
+					}
+
+				}
+				break;
+
+			case MBLOCK:
+				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsAuto[i]))
+				{
+					//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+					if (m_pPlayer->IsCollidingWith(*gameObject)) {
+						// Õ“Ë‚Ìˆ—
+						m_pPlayer->PlayerPos();
+					}
+					//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡(œßˆË‚µ‚È‚¢ver)
+					if (m_pPlayer->HIsCollidingWith(*gameObject))
+					{
+						m_pPlayer->SetNOk();
+						m_pPlayer->HPlayerPos();
+						m_pObjectsAuto[i].SetF();
+
+						m_pObjectsAuto[i].Modelchg();
+					}
+				}
+				break;
+		}
+
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
-			//æ†‘ä¾ã®ãŸã‚ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå½“ãŸã£ãŸå ´åˆ
+			//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡
 			if (m_pPlayer->HIsCollidingWith(*gameObject))
 			{
-				
-				if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
+				if (IsKeyPress('Q'))
+//				if (IsKeyPress('Q') && m_pPlayer->HIsCollidingWith(*gameObject))	//(imanagerO.getKey(0) & 0b011)
 				{
 					m_pPlayer->SetOk();
 					m_pPlayer->HPlayerPos();
@@ -158,10 +234,10 @@ void ObjectMng::Update()
 					m_pObjects[i].Modelchg();
 				}
 			}
-			//æ†‘ä¾è§£é™¤
+			//œßˆË‰ğœ
 			if (!m_pPlayer->HIsCollidingWith(*gameObject))
 			{
-				if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
+				if (IsKeyPress('E'))	//(imanagerO.getKey(1) & 0b011)
 				{
 					m_pPlayer->SetNOk();
 					m_pPlayer->PlayerPos();
@@ -186,15 +262,14 @@ void ObjectMng::Update()
 				{
 					if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
 					{
-						// ãƒ–ãƒ­ãƒƒã‚¯iã¨ãƒ–ãƒ­ãƒƒã‚¯jã®å½“ãŸã‚Šåˆ¤å®š
+						// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
 						if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
 						{
-							// è¡çªã—ãŸå ´åˆã®å‡¦ç†
-							//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
+							// Õ“Ë‚µ‚½ê‡‚Ìˆ—
+							//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
 							//m_pObjects[i].GetF();
 
 							m_pObjects[i].OBJPos();
-						
 
 						}
 					}
@@ -209,18 +284,19 @@ void ObjectMng::Update()
 
 void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
-	
+
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Draw(viewMatrix, projectionMatrix);
-		m_pLift[i].Draw(viewMatrix, projectionMatrix);
+		m_pObjectsNot[i].Draw(viewMatrix, projectionMatrix);
+		m_pObjectsAuto[i].Draw(viewMatrix, projectionMatrix);
 	}
-	
+
 	DirectX::XMFLOAT4X4 mat[3];
 
 	mat[1] = m_pObjectCamera->GetViewMatrix();
 	mat[2] = m_pObjectCamera->GetProjectionMatrix();
-	
+
 
 	m_pPlayer->Draw(viewMatrix, projectionMatrix);
 }

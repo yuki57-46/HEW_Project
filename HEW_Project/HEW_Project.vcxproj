@@ -179,14 +179,19 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Lift_Obj.cpp" />
     <ClCompile Include="Lever.cpp" />
+=======
+>>>>>>> object_a
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectAutoMove.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="ObjectNot.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowP.cpp" />
@@ -211,14 +216,19 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HCollision.h" />
     <ClInclude Include="Input.h" />
+<<<<<<< HEAD
     <ClInclude Include="Lift_Obj.hpp" />
     <ClInclude Include="Lever.h" />
+=======
+>>>>>>> object_a
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectAutoMove.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="ObjectNot.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Safe_Delete.hpp" />
     <ClInclude Include="SceneGame.h" />
