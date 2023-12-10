@@ -3,7 +3,6 @@
 #include "GameObject.h"
 #include "Model.h"
 #include "Shader.h"
-#include"Soundtest.h"
 
 class Object : public GameObject
 {
@@ -36,17 +35,18 @@ public:
 	bool SetR();
 	
 
+
 	void OBJPos();
+
+	bool OBJRPos();
+
 	void Modelchg();
+
 	void Modelchg2();
 
-	void Set1();
-
-	void SetF1();
-
-	bool SetR1();
-
-
+	
+	
+	
 private:
 	Model* m_pObjectModel;
 	VertexShader* m_pObjectVS;
@@ -60,25 +60,8 @@ private:
 	float m_lastRotationY;
 	bool moveok;
 	
-
-	bool ok;
-	float a = 0.0f;
-	
-	
-
-	IXAudio2SourceVoice* m_pSVSEBlk; // サウンドソース
-	XAUDIO2_BUFFER* m_pSDSEBlk; // サウンドバッファ
-
-	DirectX::XMFLOAT3 objectMinBound;
-	DirectX::XMFLOAT3 objectMaxBound;
-
-	DirectX::XMFLOAT3 hobjectMinBound;
-	DirectX::XMFLOAT3 hobjectMaxBound;
-
-	DirectX::XMFLOAT3 cobjectMinBound;
-	DirectX::XMFLOAT3 cobjectMaxBound;
-
-
-
+	bool m_isPossessed;
 };
+
+
 

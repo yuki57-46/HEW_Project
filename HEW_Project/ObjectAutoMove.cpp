@@ -22,8 +22,8 @@ ObjectAutoMove::ObjectAutoMove()
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
 	, moveok(false)
-	, m_MaxPosX(10.0f)
-	, m_MinPosX(-10.0f)
+	, m_MaxPosX(1.5f)
+	, m_MinPosX(-1.5f)
 	, m_MoveX(false)
 	, m_isPossessed(true)
 {
@@ -62,43 +62,38 @@ ObjectAutoMove::~ObjectAutoMove()
 
 void ObjectAutoMove::Update()
 {
-	//if (m_MoveX == true)	// オブジェクトの移動がtrueなら
-	//{
-	//	m_pos.x += 0.01f;
+	m_oldPos = m_pos;
 
-	//	if (m_pos.x <= m_MaxPosX)
-	//	{
-	//		m_pos.x = m_MaxPosX;	// 指定した範囲(右)まで移動
-	//		m_MoveX == false;
-	//	}
-	//}
-	//else
-	//{
-	//	m_pos.x -= 0.01f;
-
-	//	if (m_pos.x >= m_MinPosX)
-	//	{
-	//		m_pos.x = m_MinPosX;
-	//		m_MoveX == true;
-	//	}
-	//}
-
-	 bool objmove = true;
-	if (objmove = true)		// オブジェクトが右に動く
+	if (m_MoveX == true)	// オブジェクトの移動がtrueなら
 	{
 		m_pos.x += 0.01f;
+		if (m_pos.x >= m_MaxPosX)	// 指定した範囲(右)まで移動
+		{
+			m_pos.x = m_MaxPosX;
+			m_MoveX = false;
+		}
 	}
-	if (objmove = false)	// オブジェクトが左に動く
+	if (m_MoveX == false)
 	{
 		m_pos.x -= 0.01f;
+		if (m_pos.x <= m_MinPosX)	// 指定した範囲(左)まで移動
+		{
+			m_pos.x = m_MinPosX;
+			m_MoveX = true;
+		}
 	}
 
+	// bool objmove = true;
+	//if (objmove = true)		// オブジェクトが右に動く
+	//{
+	//	m_pos.x += 0.01f;
+	//}
 	//if (objmove = false)	// オブジェクトが左に動く
 	//{
 	//	m_pos.x -= 0.01f;
 	//}
-//	time++;
-	m_oldPos = m_pos;
+
+	//m_oldPos = m_pos;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);

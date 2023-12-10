@@ -13,7 +13,6 @@ SceneGame::SceneGame()
 	m_pObjectMng = new ObjectMng();
 	m_pCamera = new CameraDebug();
 	m_pObject2D = new Object2D();
-	m_pCoinCntUI = new CoinCntUI();		//コイン集めたよUI
 }
 
 SceneGame::~SceneGame()
@@ -24,12 +23,6 @@ SceneGame::~SceneGame()
 		delete m_pPlayer;
 		m_pPlayer = nullptr;
 	}*/
-
-	if (m_pCoinCntUI)
-	{
-		delete m_pCoinCntUI;
-		m_pCoinCntUI = nullptr;
-	}
 	if (m_pCamera)
 	{
 		delete m_pCamera;
@@ -55,7 +48,6 @@ void SceneGame::Update(float tick)
 	m_pCamera->Update();
 	
 	m_pObject2D->Update();
-	m_pCoinCntUI->Update();
 }
 
 void SceneGame::Draw()
@@ -87,5 +79,4 @@ void SceneGame::Draw()
 	//Geometory::DrawBox();
 	Geometory::DrawTriangle();
 
-	m_pCoinCntUI->Draw();		//コイン集めたUIを描画
 }
