@@ -3,7 +3,7 @@
 #include "Input.h"
 
 DirectX::XMFLOAT3 SobjectMinBound = DirectX::XMFLOAT3(-0.005f, -0.4f, -0.05f/*-0.5f, -0.5f, -0.1f*/);
-DirectX::XMFLOAT3 SobjectMaxBound = DirectX::XMFLOAT3(0.005/*0.155f*/, 0.0f, 0.15f);
+DirectX::XMFLOAT3 SobjectMaxBound = DirectX::XMFLOAT3(0.005f/*0.155f*/, 0.0f, 0.15f);
 
 Model* SObject::m_pObjectModel = nullptr;
 VertexShader* SObject::m_pObjectVS = nullptr;
@@ -17,12 +17,12 @@ SObject::SObject()
 	m_pObjectModel = new Model;
 	////if (!m_pModel->Load("Assets/Model/Golem//Golem.FBX"))
 	////{
-	////	MessageBox(NULL, "“Ç‚İ‚ñ‚¾ƒtƒ@ƒCƒ‹–¼", "Error", MB_OK);
+	////	MessageBox(NULL, "èª­ã¿è¾¼ã‚“ã ãƒ•ã‚¡ã‚¤ãƒ«å", "Error", MB_OK);
 	////}
 
-	//// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İˆ—
+	//// ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿å‡¦ç†
 	//if (!m_pObjectModel->Load("Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip)) {
-	//	MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+	//	MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	//}
 	m_pObjectVS = new VertexShader();
 	if (FAILED(m_pObjectVS->Load("Assets/Shader/VS_Model.cso")))
@@ -81,7 +81,7 @@ void SObject::Update()
 	{
 		SetBounds(SobjectMinBound, SobjectMaxBound);
 	}
-	SetBounds(SobjectMinBound, SobjectMaxBound);  //Å¬’l‚ÆÅ‘å’l‚ğƒZƒbƒg
+	SetBounds(SobjectMinBound, SobjectMaxBound);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
 }
 
 void SObject::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -91,14 +91,14 @@ void SObject::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectio
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚Ìİ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	mat[1] = viewMatrix; // —^‚¦‚ç‚ê‚½ viewMatrix ‚ğg‚¤
-	mat[2] = projectionMatrix; // —^‚¦‚ç‚ê‚½ projectionMatrix ‚ğg‚¤
+	mat[1] = viewMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ viewMatrix ã‚’ä½¿ã†
+	mat[2] = projectionMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ projectionMatrix ã‚’ä½¿ã†
 
-	m_pObjectVS->WriteBuffer(0, mat);    //”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ğw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ğ“n‚·
+	m_pObjectVS->WriteBuffer(0, mat);    //é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
 	m_pObjectModel->Draw();
 	/*Geometory::SetWorld(mat[0]);
 	Geometory::SetView(mat[1]);
@@ -157,7 +157,7 @@ void SObject::Create(float posX, float posY, float posZ, float scaleX, float sca
 	m_scale.z = scaleZ;
 
 	if (!m_pObjectModel->Load(modelFilePath, modelScale, modelFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 		// You might want to handle the error in some way, e.g., log it or throw an exception
 	}
 }
@@ -172,7 +172,7 @@ void SObject::CreateBounds(float posX, float posY, float posZ, float scaleX, flo
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
 	if (!m_pObjectModel->Load(modelFilePath, modelScale, modelFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 		// You might want to handle the error in some way, e.g., log it or throw an exception
 	}
 }
@@ -188,7 +188,7 @@ void SObject::CreateJump(float posX, float posY, float posZ, float scaleX, float
 	m_scale.z = scaleZ;
 
 	if (!m_pObjectModel->Load(modelFilePath, modelScale, modelFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 		// You might want to handle the error in some way, e.g., log it or throw an exception
 	}
 	SobjectMaxBound.x = posX + scaleX * 0.5f;
@@ -221,23 +221,23 @@ bool SObject::Jump()
 }
 std::shared_ptr<Model> SObject::LoadModel(const std::string & filePath, float scale, Model::Flip flip)
 {
-	// Šù‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚éê‡‚ÍA‚»‚Ìƒ‚ƒfƒ‹‚ğÄ—˜—p
+	// æ—¢ã«èª­ã¿è¾¼ã¾ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ãã®ãƒ¢ãƒ‡ãƒ«ã‚’å†åˆ©ç”¨
 	if (m_loadedModels.find(filePath) != m_loadedModels.end())
 	{
 		return m_loadedModels[filePath];
 	}
 
-	// “Ç‚İ‚Ü‚ê‚Ä‚¢‚È‚¢ê‡‚ÍAV‚µ‚¢ƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
+	// èª­ã¿è¾¼ã¾ã‚Œã¦ã„ãªã„å ´åˆã¯ã€æ–°ã—ã„ãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 	std::shared_ptr<Model> model = std::make_shared<Model>();
 	if (model->Load(filePath.c_str(), scale, flip))
 	{
-		// “Ç‚İ‚İ¬Œ÷‚Éƒ‚ƒfƒ‹‚ğ•Û‘¶
+		// èª­ã¿è¾¼ã¿æˆåŠŸæ™‚ã«ãƒ¢ãƒ‡ãƒ«ã‚’ä¿å­˜
 		m_loadedModels[filePath] = model;
 		return model;
 	}
 	else
 	{
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 		return nullptr;
 	}
 }

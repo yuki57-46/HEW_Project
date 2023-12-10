@@ -7,10 +7,17 @@
 
 //InputManager imanagerSP = InputManager();
 
+#define _shadow_ (0)
 
 
+#if _shadow_ >= 1
+const int width = 200;
+const int height = 50;
+#else
 const int width = 1;
 const int height = 1;
+#endif
+
 Object2D::Object2D()
 	: m_pSObjects(nullptr)
 	, m_pPlayer(nullptr)
@@ -29,10 +36,10 @@ Object2D::Object2D()
 	//	{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f},
 	//	{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f},
 	//};
-	//配列の要素の数から必要なブロック数を計算
-	//必要な数だけブロックを確保
+	//????????????????????
+	//?????????????
 	//m_num = width * height;
-	//確保したブロックに初期データを設定
+	//?????????????????
 	/*for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Create(
@@ -65,7 +72,7 @@ Object2D::Object2D()
 	int data[height][width];
 	for (int i = 0; i < height; ++i) {
 		for (int j = 0; j < width; ++j) {
-			// 1024と600の倍数を2次元配列に配置
+			// 1024?600????2???????
 			data[i][j] = 0;
 		}
 	}
@@ -94,17 +101,17 @@ Object2D::Object2D()
 		nCnt++;
 	}
 
-	//ステージデータの読み取り
+	//????????????
 	for (int j = 0; j < height; j++)
 	{
 		for (int i = 0; i < width; i++)
 		{
-			//セルのデータに基づいてブロック生成
+			//?????????????????
 			switch (data[j][i])
 			{
 			default:
 			case 0:
-				//ブロックの生成を行わない
+				//????????????
 				break;
 			case 1:
 				//m_pSObjects = new SObject[j * width + i];
@@ -112,12 +119,12 @@ Object2D::Object2D()
 					-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f,
 					0.0098f, 0.008f, 0.005f
 				);*/
-				m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
+				m_pSObjects[j * width + i].Create(-5.0f + i * 0.00975f, -j * 0.008f + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
 				//break;
 				//break;
 				break;
 			case 2:
-				m_pSObjects[j * width + i].CreateBounds(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
+				m_pSObjects[j * width + i].CreateBounds(-5.0f + i * 0.00975f, -j * 0.008f + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
 
 				break;
 			}
@@ -163,8 +170,8 @@ void Object2D::Update()
 		DirectX::XMFLOAT3 OPos = m_pSObjects[i].Pos();
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 			if (m_pShadowP->IsCollidingWith(*gameObject)) {
-				// 衝突時の処理
-				//MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+				// ??????
+				//MessageBox(NULL, "???????????", "Error", MB_OK);
 				m_pShadowP->ShadowPPosY();
 			}
 		}
@@ -172,30 +179,30 @@ void Object2D::Update()
 		{
 			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 				if (m_pShadowP->IsCollidingWith(*gameObject)) {
-					// 衝突時の処理
+					// ??????
 					//m_pShadowP->Jump();
 					m_pShadowP->SetPos(PPos.x, OPos.y + 0.05, PPos.z);
 					break;
-					//MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+					//MessageBox(NULL, "???????????", "Error", MB_OK);
 					//m_pShadowP->ShadowPPosY();
 				}
 			}
 		}
-		
+
 		if (m_pSObjects[i].IBound() == true)
 		{
 			if (m_pSObjects[i].IBound() == true && m_pShadowP->isUse() == false)
 			{
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 					if (m_pShadowP->IsCollidingWith(*gameObject)) {
-						// 衝突時の処理
-						//MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+						// ??????
+						//MessageBox(NULL, "???????????", "Error", MB_OK);
 						/*m_pShadowP->NotUse();*/
 						m_pShadowP->oldX();
 						m_pShadowP->ShadowPPosY();
 						m_pShadowP->Use();
 						break;
-						//m_pShadowP->ShadowPPos();						
+						//m_pShadowP->ShadowPPos();
 						//m_pShadowP->Use();
 					}
 				}
@@ -205,8 +212,8 @@ void Object2D::Update()
 			{
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pSObjects[i])) {
 					if (m_pShadowP->IsCollidingWith(*gameObject)) {
-						// 衝突時の処理
-						//MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+						// ??????
+						//MessageBox(NULL, "???????????", "Error", MB_OK);
 						//m_pShadowP->Use();
 						m_pShadowP->oldX();
 						m_pShadowP->ShadowPPosY();
@@ -218,7 +225,7 @@ void Object2D::Update()
 				}
 			}
 		}
-		
+
 
 	}
 
@@ -240,7 +247,7 @@ void Object2D::Update()
 		{
 			m_IsUse = true;
 		}
-		
+
 	}
 
 	if (IsKeyPress('P'))//imanagerSP.getKey(1) & 0b011)
