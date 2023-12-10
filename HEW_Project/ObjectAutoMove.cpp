@@ -60,29 +60,33 @@ ObjectAutoMove::~ObjectAutoMove()
 
 void ObjectAutoMove::Update()
 {
-	float objSpeed = 0.1f;	// オブジェクトが移動する早さ
-	float objpos = 0.0f;	// オブジェクトの現在位置
-	int time = 0;			// 経過時間
+//	float objSpeed = 0.0001f;	// オブジェクトが移動する早さ
+//	static int time = 0;		// 経過時間
+	bool objmove = true;
 
-	bool objmove = false;
-
-	if (time <= 10)	// 10秒経過した時、オブジェクトが動く
+	//if (time <= 100)	// 10秒経過した時、オブジェクトが動く
+	//{
+	//	objmove = true;
+	//}
+	//if (time >= 0)
+	//{
+	//	objmove = false;
+	//}
+	if (objmove = true)		// オブジェクトが右に動く
 	{
-		objmove = true;
+		m_pos.x += 0.01f;
 	}
-	if (time >= 0)
+	if (objmove = false)	// オブジェクトが左に動く
 	{
-		objmove = false;
-	}
-	if (objmove = true)	// オブジェクトが左に動く
-	{
-		objpos--;
-	}
-	if (objmove = false)	// オブジェクトが右に動く
-	{
-		objpos++;
+		m_pos.x -= 0.01f;
 	}
 
+
+	//if (objmove = false)	// オブジェクトが左に動く
+	//{
+	//	m_pos.x -= 0.01f;
+	//}
+//	time++;
 	m_oldPos = m_pos;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -146,8 +150,6 @@ void ObjectAutoMove::Update()
 
 	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//憑依用の当たり判定
 	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ブロック同士の当たり判定
-
-	time++;
 }
 
 void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)

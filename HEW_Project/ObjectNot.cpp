@@ -244,9 +244,6 @@ void ObjectNot::CreateNot(float posX, float posY, float posZ, float scaleX, floa
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
 }
-//
-
-
 
 //憑依判定用
 void ObjectNot::Set()
@@ -264,14 +261,10 @@ bool ObjectNot::SetR()
 	return moveok;
 }
 
-
-
 //ブロック同士がぶつかった時に返す
 
 void ObjectNot::OBJPos()
 {
-
-
 	m_pos = m_oldPos;
 }
 

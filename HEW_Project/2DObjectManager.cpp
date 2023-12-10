@@ -94,7 +94,6 @@ Object2D::Object2D()
 		nCnt++;
 	}
 
-
 	//ステージデータの読み取り
 	for (int j = 0; j < height; j++)
 	{
@@ -250,10 +249,6 @@ void Object2D::Update()
 		m_IsUse = false;
 	}
 }
-
-
-
-
 
 void Object2D::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
