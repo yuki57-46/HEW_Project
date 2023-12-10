@@ -22,7 +22,9 @@ ObjectAutoMove::ObjectAutoMove()
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
 	, moveok(false)
-
+	, m_MaxPosX(10.0f)
+	, m_MinPosX(-10.0f)
+	, m_MoveX(false)
 	, m_isPossessed(true)
 {
 
@@ -60,18 +62,28 @@ ObjectAutoMove::~ObjectAutoMove()
 
 void ObjectAutoMove::Update()
 {
-//	float objSpeed = 0.0001f;	// オブジェクトが移動する早さ
-//	static int time = 0;		// 経過時間
-	bool objmove = true;
+	//if (m_MoveX == true)	// オブジェクトの移動がtrueなら
+	//{
+	//	m_pos.x += 0.01f;
 
-	//if (time <= 100)	// 10秒経過した時、オブジェクトが動く
-	//{
-	//	objmove = true;
+	//	if (m_pos.x <= m_MaxPosX)
+	//	{
+	//		m_pos.x = m_MaxPosX;	// 指定した範囲(右)まで移動
+	//		m_MoveX == false;
+	//	}
 	//}
-	//if (time >= 0)
+	//else
 	//{
-	//	objmove = false;
+	//	m_pos.x -= 0.01f;
+
+	//	if (m_pos.x >= m_MinPosX)
+	//	{
+	//		m_pos.x = m_MinPosX;
+	//		m_MoveX == true;
+	//	}
 	//}
+
+	 bool objmove = true;
 	if (objmove = true)		// オブジェクトが右に動く
 	{
 		m_pos.x += 0.01f;
@@ -80,7 +92,6 @@ void ObjectAutoMove::Update()
 	{
 		m_pos.x -= 0.01f;
 	}
-
 
 	//if (objmove = false)	// オブジェクトが左に動く
 	//{
