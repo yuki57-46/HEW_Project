@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ソース ファイル">
@@ -135,23 +135,14 @@
     <ClCompile Include="ObjectNot.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
-<<<<<<< .merge_file_2TrK9h
-
-    <ClCompile Include="Lift_Obj.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
 	<ClCompile Include="Sound.cpp">
 	  <Filter>ソース ファイル</Filter>
 	</ClCompile>
 	<ClCompile Include="CoinCntUI.cpp">
 	  <Filter>ソース ファイル\App</Filter>
 	</ClCompile>
-    <ClCompile Include="Lever.cpp">
-      <Filter>ソース ファイル\System</Filter>
-=======
     <ClCompile Include="ObjectAutoMove.cpp">
       <Filter>ソース ファイル\Object</Filter>
->>>>>>> .merge_file_I5qNJL
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,7 +215,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
-<<<<<<< .merge_file_2TrK9h
     <ClInclude Include="Lift_Obj.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -234,15 +224,11 @@
 	<ClInclude Include="CoinCntUI.h">
 	  <Filter>ヘッダー ファイル\App</Filter>
 	</ClInclude>
-    <ClInclude Include="Lever.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-=======
     <ClInclude Include="ObjectNot.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="ObjectAutoMove.h">
       <Filter>ヘッダー ファイル\Object</Filter>
->>>>>>> .merge_file_I5qNJL
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

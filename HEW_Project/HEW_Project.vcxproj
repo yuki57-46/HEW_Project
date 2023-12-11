@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -179,11 +179,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="Lift_Obj.cpp" />
-    <ClCompile Include="Lever.cpp" />
-=======
->>>>>>> object_a
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -216,11 +211,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HCollision.h" />
     <ClInclude Include="Input.h" />
-<<<<<<< HEAD
-    <ClInclude Include="Lift_Obj.hpp" />
-    <ClInclude Include="Lever.h" />
-=======
->>>>>>> object_a
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="Main.h" />

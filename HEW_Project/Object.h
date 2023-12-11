@@ -1,9 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "CameraBase.h"
 #include "GameObject.h"
 #include "Model.h"
 #include "Shader.h"
-#include"Soundtest.h"
 
 class Object : public GameObject
 {
@@ -66,8 +65,6 @@ private:
 	
 	
 
-	IXAudio2SourceVoice* m_pSVSEBlk; // ƒTƒEƒ“ƒhƒ\[ƒX
-	XAUDIO2_BUFFER* m_pSDSEBlk; // ƒTƒEƒ“ƒhƒoƒbƒtƒ@
 
 	DirectX::XMFLOAT3 objectMinBound;
 	DirectX::XMFLOAT3 objectMaxBound;
