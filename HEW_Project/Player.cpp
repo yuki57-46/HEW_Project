@@ -148,53 +148,53 @@ void Player::Update()
 	// 	SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 	// }
 
-	if (IsKeyPress(VK_UP) && IsKeyPress(VK_RIGHT))
+	if (IsKeyPress(VK_UP) && IsKeyPress(VK_RIGHT) || IsKeyPress('W') && IsKeyPress('D'))
 	{
 		m_pos.z += moveSpeed;
 		m_pos.x += moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		m_rotationY = -135.0f;
 	}
-	else if (IsKeyPress(VK_UP) && IsKeyPress(VK_LEFT))
+	else if (IsKeyPress(VK_UP) && IsKeyPress(VK_LEFT) || IsKeyPress('W') && IsKeyPress('A'))
 	{
 		m_pos.z += moveSpeed;
 		m_pos.x -= moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		m_rotationY = 135.0f;
 	}
-	else if (IsKeyPress(VK_DOWN) && IsKeyPress(VK_RIGHT))
+	else if (IsKeyPress(VK_DOWN) && IsKeyPress(VK_RIGHT) || IsKeyPress('S') && IsKeyPress('D'))
 	{
 		m_pos.z -= moveSpeed;
 		m_pos.x += moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		m_rotationY = -45.0f;
 	}
-	else if (IsKeyPress(VK_DOWN) && IsKeyPress(VK_LEFT))
+	else if (IsKeyPress(VK_DOWN) && IsKeyPress(VK_LEFT) || IsKeyPress('S') && IsKeyPress('A'))
 	{
 		m_pos.z -= moveSpeed;
 		m_pos.x -= moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		m_rotationY = 45.0f;
 	}
-	else if (IsKeyPress(VK_UP))
+	else if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 	{
 		m_pos.z += moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		m_rotationY = -180.0f;
 	}
-	else if (IsKeyPress(VK_DOWN))
+	else if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 	{
 		m_pos.z -= moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		m_rotationY = 0.0f;
 	}
-	else if (IsKeyPress(VK_RIGHT))
+	else if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 	{
 		m_pos.x += moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		m_rotationY = -90.0f;
 	}
-	else if (IsKeyPress(VK_LEFT))
+	else if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 	{
 		m_pos.x -= moveSpeed;
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
@@ -204,7 +204,7 @@ void Player::Update()
 
 
 
-		HSetBounds(HMinBound, HMaxBound);
+	HSetBounds(HMinBound, HMaxBound);
 }
 
 void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
