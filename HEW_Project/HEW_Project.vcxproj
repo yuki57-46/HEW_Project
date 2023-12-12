@@ -189,6 +189,7 @@
     <ClCompile Include="ObjectNot.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderList.cpp" />
     <ClCompile Include="ShadowP.cpp" />
     <ClCompile Include="SObjects.cpp" />
     <ClCompile Include="Sound.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Safe_Delete.hpp" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderList.h" />
     <ClInclude Include="ShadowP.h" />
     <ClInclude Include="SObjects.h" />
     <ClInclude Include="Sound.hpp" />

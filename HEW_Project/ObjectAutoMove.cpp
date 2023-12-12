@@ -60,28 +60,7 @@ ObjectAutoMove::~ObjectAutoMove()
 
 void ObjectAutoMove::Update()
 {
-	float objSpeed = 0.1f;	// オブジェクトが移動する早さ
-	float objpos = 0.0f;	// オブジェクトの現在位置
-	int time = 0;			// 経過時間
-
-	bool objmove = false;
-
-	if (time <= 10)	// 10秒経過した時、オブジェクトが動く
-	{
-		objmove = true;
-	}
-	if (time >= 0)
-	{
-		objmove = false;
-	}
-	if (objmove = true)	// オブジェクトが左に動く
-	{
-		objpos--;
-	}
-	if (objmove = false)	// オブジェクトが右に動く
-	{
-		objpos++;
-	}
+	
 
 	m_oldPos = m_pos;
 

@@ -1,19 +1,19 @@
-#include "SceneGame.h"
+ï»¿#include "SceneGame.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 
 SceneGame::SceneGame()
 {
-	RenderTarget* pRTV = GetDefaultRTV();  //ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éRenderTargetView‚Ìæ“¾
-	DepthStencil* pDSV = GetDefaultDSV();  //ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éDepthStencilView‚Ìæ“¾
-	SetRenderTargets(1, &pRTV, pDSV);      //DSV‚ªnull‚¾‚Æ2D•\¦‚É‚È‚é
+	RenderTarget* pRTV = GetDefaultRTV();  //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹RenderTargetViewã®å–å¾—
+	DepthStencil* pDSV = GetDefaultDSV();  //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹DepthStencilViewã®å–å¾—
+	SetRenderTargets(1, &pRTV, pDSV);      //DSVãŒnullã ã¨2Dè¡¨ç¤ºã«ãªã‚‹
 	
 
 	//m_pPlayer = new Player();
 	m_pObjectMng = new ObjectMng();
 	m_pCamera = new CameraDebug();
 	m_pObject2D = new Object2D();
-	m_pCoinCntUI = new CoinCntUI();		//ƒRƒCƒ“W‚ß‚½‚æUI
+	m_pCoinCntUI = new CoinCntUI();		//ã‚³ã‚¤ãƒ³é›†ã‚ãŸã‚ˆUI
 }
 
 SceneGame::~SceneGame()
@@ -50,7 +50,7 @@ SceneGame::~SceneGame()
 void SceneGame::Update(float tick)
 {
 ;
-	m_pObjectMng->Update();
+	m_pObjectMng->Update(tick);
 	//m_pPlayer->Update();
 	m_pCamera->Update();
 	
@@ -71,15 +71,15 @@ void SceneGame::Draw()
 	m_pObjectMng->Draw(viewMatrix, projectionMatrix);
 
 	m_pObject2D->Draw(viewMatrix, projectionMatrix);
-	//---Geometry—p‚Ì•ÏŠ·s—ñ‚ğŒvZ
+	//---Geometryç”¨ã®å¤‰æ›è¡Œåˆ—ã‚’è¨ˆç®—
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(5.0f, 0.5f, 5.0f);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚Ìİ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	//----Geomatry—p‚Ì•ÏŠ·s—ñ‚ğİ’è
+	//----Geomatryç”¨ã®å¤‰æ›è¡Œåˆ—ã‚’è¨­å®š
 	Geometory::SetWorld(mat[0]);
 	Geometory::SetView(mat[1]);
 	Geometory::SetProjection(mat[2]);
@@ -87,5 +87,5 @@ void SceneGame::Draw()
 	//Geometory::DrawBox();
 	Geometory::DrawTriangle();
 
-	m_pCoinCntUI->Draw();		//ƒRƒCƒ“W‚ß‚½UI‚ğ•`‰æ
+	m_pCoinCntUI->Draw();		//ã‚³ã‚¤ãƒ³é›†ã‚ãŸUIã‚’æç”»
 }

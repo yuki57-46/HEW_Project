@@ -1,9 +1,9 @@
-#include "ObjectManager.h"
+ï»¿#include "ObjectManager.h"
 #include"Input.h"
 
-#define HBLOCK	1	// œßˆË‰Â”\ƒuƒƒbƒN
-#define DBLOCK  2	// œßˆË•s‰ÂƒuƒƒbƒN
-#define MBLOCK	3	// ¶‰EˆÚ“®ƒuƒƒbƒN
+#define HBLOCK	1	// æ†‘ä¾å¯èƒ½ãƒ–ãƒ­ãƒƒã‚¯
+#define DBLOCK  2	// æ†‘ä¾ä¸å¯ãƒ–ãƒ­ãƒƒã‚¯
+#define MBLOCK	3	// å·¦å³ç§»å‹•ãƒ–ãƒ­ãƒƒã‚¯
 
 //InputManager imanagerO = InputManager();
 
@@ -25,46 +25,46 @@ ObjectMng::ObjectMng()
 	{
 		float x, y, z, scaleX, scaleY, scaleZ, kind;
 		int blockID;
-		float highPosY, lowPosY; // ƒŠƒtƒg‚Ì‚‚³‚ÌãŒÀ‚Æ‰ºŒÀ 12/02 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
-		float moveSpeed; // ƒŠƒtƒg‚ÌˆÚ“®‘¬“x 12/02 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
+		float highPosY, lowPosY; // ãƒªãƒ•ãƒˆã®é«˜ã•ã®ä¸Šé™ã¨ä¸‹é™ 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
+		float moveSpeed; // ãƒªãƒ•ãƒˆã®ç§»å‹•é€Ÿåº¦ 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 	};
-	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	//ãƒ–ãƒ­ãƒƒã‚¯é…ç½®.ã‚¹ã‚±ãƒ¼ãƒ«æŒ‡å®š
 	Setting data[] = {
 		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
 		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
 		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
 		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, DBLOCK},
-		{-2.0f, 0.0f, 3.0f, 20.0f, 30.0f, 10.0f, MBLOCK},	// 12/01 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
+		{-2.0f, 0.0f, 3.0f, 20.0f, 30.0f, 10.0f, MBLOCK},	// 12/01 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 	};
 
-	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
 	m_num = sizeof(data) / sizeof(data[0]);
 
-	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
 	m_pObjects		= new Object[m_num];
 	m_pObjectsNot	= new ObjectNot[m_num];
 	m_pObjectsAuto	= new ObjectAutoMove[m_num];
 
-	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
 	for (int i = 0; i < m_num; i++)
 	{
-		int kindInt = static_cast<int>(data[i].kind);  // float‚©‚çint‚Ö‚Ì•ÏŠ·
+		int kindInt = static_cast<int>(data[i].kind);  // floatã‹ã‚‰intã¸ã®å¤‰æ›
 
 		switch (kindInt)
 		{
-		// œßˆË‰Â”\ƒuƒƒbƒN
+		// æ†‘ä¾å¯èƒ½ãƒ–ãƒ­ãƒƒã‚¯
 		case 1:
 			m_pObjects[i].Create(
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 				break;
-		// œßˆË•s‰ÂƒuƒƒbƒN
+		// æ†‘ä¾ä¸å¯ãƒ–ãƒ­ãƒƒã‚¯
 		case 2:
 			m_pObjectsNot[i].CreateNot(
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 			break;
-		// ¶‰EˆÚ“®ƒuƒƒbƒN
+		// å·¦å³ç§»å‹•ãƒ–ãƒ­ãƒƒã‚¯
 		case 3:
 			m_pObjectsAuto[i].CreateAuto(
 				data[i].x, data[i].y, data[i].z,
@@ -72,7 +72,7 @@ ObjectMng::ObjectMng()
 			break;
 		}
 
-		// 12/08 ’Ç‰ÁƒvƒƒOƒ‰ƒ€
+		// 12/08 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 		//if (data[i].kind)
 		//	m_pObjects[i].Create(
 		//		data[i].x, data[i].y, data[i].z,
@@ -120,7 +120,7 @@ ObjectMng::~ObjectMng()
 	}
 }
 
-void ObjectMng::Update()
+void ObjectMng::Update(float tick)
 {
 	/*imanagerO.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
 	imanagerO.addKeycode(1, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
@@ -135,11 +135,11 @@ void ObjectMng::Update()
 	float YB = static_cast<float>(imanagerO.getKey(2));
 	float XB = static_cast<float>(imanagerO.getKey(3));
 */
-	m_pPlayer->Update();
+	m_pPlayer->Update(tick);
 
 	for (int i = 0; i < m_num; i++)
 	{
-		int BlockType = 0;  // float‚©‚çint‚Ö‚Ì•ÏŠ·
+		int BlockType = 0;  // floatã‹ã‚‰intã¸ã®å¤‰æ›
 
 		m_pObjects[i].Update();
 		m_pObjectsNot[i].Update();
@@ -147,9 +147,9 @@ void ObjectMng::Update()
 
 		//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		//{
-		//	//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+		//	//ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
 		//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
-		//		// Õ“Ë‚Ìˆ—
+		//		// è¡çªæ™‚ã®å‡¦ç†
 		//		m_pPlayer->PlayerPos();
 		//	}
 			switch (BlockType)
@@ -157,12 +157,12 @@ void ObjectMng::Update()
 			case HBLOCK:
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 				{
-					//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+					//ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
 					if (m_pPlayer->IsCollidingWith(*gameObject)) {
-						// Õ“Ë‚Ìˆ—
+						// è¡çªæ™‚ã®å‡¦ç†
 						m_pPlayer->PlayerPos();
 					}
-					//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡
+					//æ†‘ä¾ã®ãŸã‚ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå½“ãŸã£ãŸå ´åˆ
 					if (m_pPlayer->HIsCollidingWith(*gameObject))
 					{
 						if (IsKeyPress('Q'))
@@ -174,18 +174,45 @@ void ObjectMng::Update()
 							m_pObjects[i].Modelchg();
 						}
 					}
+					if (m_pObjects[i].SetR() == true)
+					{
+						for (int j = 0; j < m_num; j++)
+						{
+							if (j == i)
+							{
+								j = i + 1;
+							}
+							if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+
+							{
+								if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
+								{
+									// ãƒ–ãƒ­ãƒƒã‚¯iã¨ãƒ–ãƒ­ãƒƒã‚¯jã®å½“ãŸã‚Šåˆ¤å®š
+									if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
+									{
+										// è¡çªã—ãŸå ´åˆã®å‡¦ç†
+										//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
+										//m_pObjects[i].GetF();
+
+										m_pObjects[i].OBJPos();
+
+									}
+								}
+							}
+						}
+					}
 				}
 				break;
 
 			case DBLOCK:
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
 				{
-					//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+					//ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
 					if (m_pPlayer->IsCollidingWith(*gameObject)) {
-						// Õ“Ë‚Ìˆ—
+						// è¡çªæ™‚ã®å‡¦ç†
 						m_pPlayer->PlayerPos();
 					}
-					//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡(œßˆË‚µ‚È‚¢ver)
+					//æ†‘ä¾ã®ãŸã‚ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå½“ãŸã£ãŸå ´åˆ(æ†‘ä¾ã—ãªã„ver)
 					if (m_pPlayer->HIsCollidingWith(*gameObject))
 					{
 						m_pPlayer->SetNOk();
@@ -201,12 +228,12 @@ void ObjectMng::Update()
 			case MBLOCK:
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsAuto[i]))
 				{
-					//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+					//ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
 					if (m_pPlayer->IsCollidingWith(*gameObject)) {
-						// Õ“Ë‚Ìˆ—
+						// è¡çªæ™‚ã®å‡¦ç†
 						m_pPlayer->PlayerPos();
 					}
-					//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡(œßˆË‚µ‚È‚¢ver)
+					//æ†‘ä¾ã®ãŸã‚ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå½“ãŸã£ãŸå ´åˆ(æ†‘ä¾ã—ãªã„ver)
 					if (m_pPlayer->HIsCollidingWith(*gameObject))
 					{
 						m_pPlayer->SetNOk();
@@ -221,7 +248,7 @@ void ObjectMng::Update()
 
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
-			//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡
+			//æ†‘ä¾ã®ãŸã‚ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå½“ãŸã£ãŸå ´åˆ
 			if (m_pPlayer->HIsCollidingWith(*gameObject))
 			{
 				if (IsKeyPress('Q'))
@@ -234,7 +261,7 @@ void ObjectMng::Update()
 					m_pObjects[i].Modelchg();
 				}
 			}
-			//œßˆË‰ğœ
+			//æ†‘ä¾è§£é™¤
 			if (!m_pPlayer->HIsCollidingWith(*gameObject))
 			{
 				if (IsKeyPress('E'))	//(imanagerO.getKey(1) & 0b011)
@@ -249,33 +276,33 @@ void ObjectMng::Update()
 				}
 			}
 		}
-		if (m_pObjects[i].SetR() == true)
-		{
-			for (int j = 0; j < m_num; j++)
-			{
-				if (j == i)
-				{
-					j = i + 1;
-				}
-				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+		// if (m_pObjects[i].SetR() == true)
+		// {
+		// 	for (int j = 0; j < m_num; j++)
+		// 	{
+		// 		if (j == i)
+		// 		{
+		// 			j = i + 1;
+		// 		}
+		// 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 
-				{
-					if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
-					{
-						// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
-						if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
-						{
-							// Õ“Ë‚µ‚½ê‡‚Ìˆ—
-							//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
-							//m_pObjects[i].GetF();
+		// 		{
+		// 			if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
+		// 			{
+		// 				// ãƒ–ãƒ­ãƒƒã‚¯iã¨ãƒ–ãƒ­ãƒƒã‚¯jã®å½“ãŸã‚Šåˆ¤å®š
+		// 				if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
+		// 				{
+		// 					// è¡çªã—ãŸå ´åˆã®å‡¦ç†
+		// 					//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
+		// 					//m_pObjects[i].GetF();
 
-							m_pObjects[i].OBJPos();
+		// 					m_pObjects[i].OBJPos();
 
-						}
-					}
-				}
-			}
-		}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 	}
 }
