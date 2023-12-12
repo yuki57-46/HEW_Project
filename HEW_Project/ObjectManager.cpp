@@ -44,9 +44,8 @@ ObjectMng::ObjectMng()
 
 	//確保したブロックに初期データを設定
 	for (int i = 0; i < m_num; i++)
-	{		
+	{
 		int kindInt = static_cast<int>(data[i].kind);  // floatからintへの変換
-
 		switch (kindInt)
 		{
 		// 憑依可能ブロック
@@ -69,13 +68,8 @@ ObjectMng::ObjectMng()
 			break;
 		}
 
-		// 12/08 追加プログラム
 		//if (data[i].kind)
 		//	m_pObjects[i].Create(
-		//		data[i].x, data[i].y, data[i].z,
-		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
-		//if (data[i].kind)
-		//	m_pObjectsAuto[i].CreateAuto(
 		//		data[i].x, data[i].y, data[i].z,
 		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 	}
@@ -142,13 +136,14 @@ void ObjectMng::Update()
 		m_pObjectsNot[i].Update();
 		m_pObjectsAuto[i].Update();
 
-		//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
-		//{
-		//	//ブロックとプレイヤー衝突
-		//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
-		//		// 衝突時の処理
-		//		m_pPlayer->PlayerPos();
-		//	}
+		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+		{
+			//ブロックとプレイヤー衝突
+			if (m_pPlayer->IsCollidingWith(*gameObject)) {
+				// 衝突時の処理
+				m_pPlayer->PlayerPos();
+			}
+		}
 			switch (BlockType)
 			{
 				// 憑依可能ブロック
@@ -159,31 +154,6 @@ void ObjectMng::Update()
 				//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
 				//		// 衝突時の処理
 				//		m_pPlayer->PlayerPos();
-				//	}
-				//	//憑依のため・ブロックとプレイヤーが当たった場合
-				//	if (m_pPlayer->HIsCollidingWith(*gameObject))
-				//	{
-				//		if (IsKeyPress('Q'))
-				//		{
-				//			m_pPlayer->SetOk();
-				//			m_pPlayer->HPlayerPos();
-				//			m_pObjects[i].Set();
-				//			m_pObjects[i].Modelchg();
-				//		}
-				//	}
-				//	//憑依解除
-				//	if (!m_pPlayer->HIsCollidingWith(*gameObject))
-				//	{
-				//		if (IsKeyPress('E'))	//(imanagerO.getKey(1) & 0b011)
-				//		{
-				//			m_pPlayer->SetNOk();
-				//			m_pPlayer->PlayerPos();
-				//			if (m_pObjects[i].SetR() == true)
-				//			{
-				//				m_pObjects[i].SetF();
-				//			}
-				//			m_pObjects[i].Modelchg2();
-				//		}
 				//	}
 				//}
 				break;
@@ -208,10 +178,6 @@ void ObjectMng::Update()
 			case MBLOCK:
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsAuto[i]))
 				{
-					//float moveSpeed = 1.0f;
-					//float time = static_cast<float>(timeGetTime()) * 0.001f;
-					//float displacement = sin(time * moveSpeed);
-
 					//憑依のため・ブロックとプレイヤーが当たった場合(憑依しないver)
 					if (m_pPlayer->HIsCollidingWith(*gameObject))
 					{
@@ -222,7 +188,7 @@ void ObjectMng::Update()
 					}
 				}
 				break;
-		}
+			}
 
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
@@ -238,6 +204,7 @@ void ObjectMng::Update()
 
 					m_pObjects[i].Modelchg();
 				}
+
 			}
 			//憑依解除
 			if (!m_pPlayer->HIsCollidingWith(*gameObject))
@@ -254,6 +221,7 @@ void ObjectMng::Update()
 				}
 			}
 		}
+
 		if (m_pObjects[i].SetR() == true)
 		{
 			for (int j = 0; j < m_num; j++)
