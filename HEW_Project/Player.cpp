@@ -22,7 +22,8 @@ Player::Player()
 {
 	m_pModel = new Model;
 	 //モデルの読み込み処理
-	if (!m_pModel->Load("Assets/Model/もこ田めめめ/MokotaMememe.pmx", 0.05f, Model::Flip::XFlip)) {
+//	if (!m_pModel->Load("Assets/Model/もこ田めめめ/MokotaMememe.pmx", 0.05f, Model::Flip::XFlip)) {
+	if (!m_pModel->Load("Assets/Model/Golem/Golem.FBX", 0.01f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}
 	

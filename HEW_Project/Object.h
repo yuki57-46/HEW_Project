@@ -38,7 +38,7 @@ public:
 
 	void OBJPos();
 
-	bool OBJRPos();
+//	bool OBJRPos();
 
 	void Modelchg();
 

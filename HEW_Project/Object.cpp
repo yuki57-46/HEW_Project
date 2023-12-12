@@ -38,9 +38,6 @@ Object::Object()
 	m_pObjectModel->SetVertexShader(m_pObjectVS);
 
 
-
-
-
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
 	CSetBounds(cminBound, cmaxBound);
@@ -244,8 +241,6 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
 }
-//
-
 
 
 //œßˆË”»’è—p

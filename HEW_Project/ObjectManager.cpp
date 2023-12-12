@@ -1,10 +1,6 @@
 #include "ObjectManager.h"
 #include"Input.h"
 
-#define HBLOCK	1	// 憑依可能ブロック
-#define DBLOCK  2	// 憑依不可ブロック
-#define MBLOCK	3	// 左右移動ブロック
-
 //InputManager imanagerO = InputManager();
 
 ObjectMng::ObjectMng()
@@ -21,17 +17,20 @@ ObjectMng::ObjectMng()
 	caabb = new CAABB();
 	
 	m_pPlayer = new Player();
+
 	struct Setting
 	{
-		float x, y, z, scaleX, scaleY, scaleZ, kind;
+		float x, y, z, scaleX, scaleY, scaleZ;
+		int kind;
 	};
+	
 	//ブロック配置.スケール指定
 	Setting data[] = {
-		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
-		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
-		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, HBLOCK},
-		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, DBLOCK},
-		{-2.0f, 0.0f, 1.5f, 20.0f, 30.0f, 10.0f, MBLOCK},	// 12/01 追加プログラム
+		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, BLOCK_H},	// 右
+		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, BLOCK_H},	// 左
+		{3.0f, 0.0f,  1.0f, 20.0f, 30.0f, 20.0f, BLOCK_H},	// ????????
+		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, BLOCK_D},	// 奥の憑依不可ブロック
+		{-2.0f, 0.0f, 1.5f, 20.0f, 30.0f, 10.0f, BLOCK_M},	// 動くブロック
 	};
 	
 	//配列の要素の数から必要なブロック数を計算
@@ -45,31 +44,43 @@ ObjectMng::ObjectMng()
 	//確保したブロックに初期データを設定
 	for (int i = 0; i < m_num; i++)
 	{
-		int kindInt = static_cast<int>(data[i].kind);  // floatからintへの変換
-		switch (kindInt)
+//		int kindint = static_cast<int>(data[i].kind);  // floatからintへの変換
+//		int BlockType = 1;
+
+		switch (data[i].kind)
 		{
 		// 憑依可能ブロック
-		case 1:
+		case BLOCK_H:
 			m_pObjects[i].Create(
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 				break;
 		// 憑依不可ブロック
-		case 2:
+		case BLOCK_D:
 			m_pObjectsNot[i].CreateNot(
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 			break;
 		// 左右移動ブロック
-		case 3:
+		case BLOCK_M:
 			m_pObjectsAuto[i].CreateAuto(
 				data[i].x, data[i].y, data[i].z,
 				data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 			break;
 		}
 
-		//if (data[i].kind)
+		//if (data[i].kind == BLOCK_H)
 		//	m_pObjects[i].Create(
+		//		data[i].x, data[i].y, data[i].z,
+		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+
+		//if (data[i].kind == g_KindBlock.BLOCK_D)
+		//	m_pObjectsNot[i].CreateNot(
+		//		data[i].x, data[i].y, data[i].z,
+		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
+
+		//if (data[i].kind == g_KindBlock.BLOCK_M)
+		//	m_pObjectsAuto[i].CreateAuto(
 		//		data[i].x, data[i].y, data[i].z,
 		//		data[i].scaleX, data[i].scaleY, data[i].scaleZ);
 	}
@@ -78,11 +89,9 @@ ObjectMng::ObjectMng()
 
 ObjectMng::~ObjectMng()
 {
-
-	delete[] m_pObjects;
-	delete[] m_pObjectsNot;
 	delete[] m_pObjectsAuto;
-	
+	delete[] m_pObjectsNot;
+	delete[] m_pObjects;
 
 	if (m_pObjectCamera)
 	{
@@ -130,65 +139,106 @@ void ObjectMng::Update()
 
 	for (int i = 0; i < m_num; i++)
 	{
-		int BlockType = 0;
-
 		m_pObjects[i].Update();
 		m_pObjectsNot[i].Update();
 		m_pObjectsAuto[i].Update();
 
-		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+		int KindBlock = 1;
+
+		switch (KindBlock)
 		{
-			//ブロックとプレイヤー衝突
-			if (m_pPlayer->IsCollidingWith(*gameObject)) {
-				// 衝突時の処理
-				m_pPlayer->PlayerPos();
-			}
-		}
-			switch (BlockType)
+		case BLOCK_H:
+			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 			{
-				// 憑依可能ブロック
-			case HBLOCK:
-				//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
-				//{
-				//	//ブロックとプレイヤー衝突
-				//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
-				//		// 衝突時の処理
-				//		m_pPlayer->PlayerPos();
-				//	}
-				//}
-				break;
-
-				// 憑依不可ブロック
-			case DBLOCK:
-				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+				//ブロックとプレイヤー衝突
+				if (m_pPlayer->IsCollidingWith(*gameObject))
 				{
-					//憑依のため・ブロックとプレイヤーが当たった場合(憑依しないver)
-					if (m_pPlayer->HIsCollidingWith(*gameObject))
-					{
-						m_pPlayer->SetNOk();
-						m_pPlayer->HPlayerPos();
-						m_pObjectsNot[i].SetF();
-						m_pObjectsNot[i].Modelchg();	
-					}
-
+					// 衝突時の処理
+					m_pPlayer->PlayerPos();
 				}
-				break;
-
-				// 左右移動ブロック
-			case MBLOCK:
-				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsAuto[i]))
-				{
-					//憑依のため・ブロックとプレイヤーが当たった場合(憑依しないver)
-					if (m_pPlayer->HIsCollidingWith(*gameObject))
-					{
-						m_pPlayer->SetNOk();
-						m_pPlayer->HPlayerPos();
-						m_pObjectsAuto[i].SetF();
-						m_pObjectsAuto[i].Modelchg();
-					}
-				}
-				break;
 			}
+			break;
+
+		case BLOCK_D:
+			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+			{
+				//ブロックとプレイヤー衝突
+				if (m_pPlayer->IsCollidingWith(*gameObject)) 
+				{
+					// 衝突時の処理
+					m_pPlayer->PlayerPos();
+				}
+			}
+			break;
+
+		case BLOCK_M:
+			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsAuto[i]))
+			{
+				//ブロックとプレイヤー衝突
+				if (m_pPlayer->IsCollidingWith(*gameObject)) 
+				{
+					// 衝突時の処理
+					m_pPlayer->PlayerPos();
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+
+			//switch (BlockType)
+			//{
+			//// 憑依可能ブロック		
+			//case HBLOCK:
+			//	//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+			//	//{
+			//	//	//ブロックとプレイヤー衝突
+			//	//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
+			//	//		// 衝突時の処理
+			//	//		m_pPlayer->PlayerPos();
+			//	//	}
+			//	//}
+			//	break;
+
+			//// 憑依不可ブロック
+			//case DBLOCK:
+			//	if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+			//	{
+			//		//ブロックとプレイヤー衝突
+			//		if (m_pPlayer->IsCollidingWith(*gameObject)) {
+			//			// 衝突時の処理
+			//			m_pPlayer->PlayerPos();
+			//		}
+			//	}
+			//	//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsNot[i]))
+			//	//{
+			//	//	//憑依のため・ブロックとプレイヤーが当たった場合(憑依しないver)
+			//	//	if (m_pPlayer->HIsCollidingWith(*gameObject))
+			//	//	{
+			//	//		m_pPlayer->SetNOk();
+			//	//		m_pPlayer->HPlayerPos();
+			//	//		m_pObjectsNot[i].SetF();
+			//	//		m_pObjectsNot[i].Modelchg();	
+			//	//	}
+			//	//}
+			//	break;
+
+			//// 左右移動ブロック
+			//case MBLOCK:
+			//	//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjectsAuto[i]))
+			//	//{
+			//	//	//憑依のため・ブロックとプレイヤーが当たった場合(憑依しないver)
+			//	//	if (m_pPlayer->HIsCollidingWith(*gameObject))
+			//	//	{
+			//	//		m_pPlayer->SetNOk();
+			//	//		m_pPlayer->HPlayerPos();
+			//	//		m_pObjectsAuto[i].SetF();
+			//	//		m_pObjectsAuto[i].Modelchg();
+			//	//	}
+			//	//}
+			//	break;
+			//}
 
 		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 		{
