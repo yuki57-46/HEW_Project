@@ -126,7 +126,7 @@ void ObjectAutoMove::Update()
 	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//憑依用の当たり判定
 	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ブロック同士の当たり判定
 
-	time++;
+//	time++;
 }
 
 void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
