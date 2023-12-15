@@ -120,14 +120,6 @@ void Object::Update()
 		{
 			m_pos.z += moveSpeed;
 
-			if (m_pos.y <= 0.0f)
-			{
-				if (elapsedTime >= soundInterval)
-				{
-					// 最後のサウンド再生時間を更新します
-					lastSoundPlayTime = currentTime;
-				}
-			}
 		}
 		if (IsKeyPress(VK_DOWN))
 		{

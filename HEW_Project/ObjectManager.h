@@ -1,5 +1,4 @@
-#pragma once
-#include "Object.h"
+ï»¿#include "Object.h"
 #include "ObjectNot.h"
 #include "ObjectAutoMove.h"
 #include "CameraBase.h"
@@ -14,9 +13,9 @@ class ObjectMng
 public:
 	enum BlockType
 	{
-		BLOCK_H,	// œßˆË‰Â”\ƒuƒƒbƒN
-		BLOCK_D,	// œßˆË•s‰ÂƒuƒƒbƒN
-		BLOCK_M,	// ¶‰EˆÚ“®ƒuƒƒbƒN
+		BLOCK_H,	// æ†‘ä¾å¯èƒ½ãƒ–ãƒ­ãƒƒã‚¯
+		BLOCK_D,	// æ†‘ä¾ä¸å¯ãƒ–ãƒ­ãƒƒã‚¯
+		BLOCK_M,	// å·¦å³ç§»å‹•ãƒ–ãƒ­ãƒƒã‚¯
 	};
 
 

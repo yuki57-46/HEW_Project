@@ -20,10 +20,11 @@ ObjectMng::ObjectMng()
 
 	struct Setting
 	{
-		float x, y, z, scaleX, scaleY, scaleZ, kind;
+		float x, y, z, scaleX, scaleY, scaleZ;
 		int blockID;
 		float highPosY, lowPosY; // リフトの高さの上限と下限 12/02 追加プログラム
 		float moveSpeed; // リフトの移動速度 12/02 追加プログラム
+		BlockType blockType;
 	};
 
 	//ブロック配置.スケール指定
@@ -46,10 +47,10 @@ ObjectMng::ObjectMng()
 	//確保したブロックに初期データを設定
 	for (int i = 0; i < m_num; i++)
 	{
-//		int kindint = static_cast<int>(data[i].kind);  // floatからintへの変換
+		int kindint = static_cast<int>(data[i].blockType);  // floatからintへの変換
 //		int BlockType = 1;
 
-		switch (data[i].kind)
+		switch (data[i].blockType)
 		{
 		// 憑依可能ブロック
 		case BLOCK_H:
