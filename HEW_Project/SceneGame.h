@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "ObjectManager.h"
 #include "Object.h"
-#include "CoinCntUI.h"
 
 #include "ShadowP.h"
 #include "2DObjectManager.h"
@@ -25,7 +24,6 @@ private:
 	ObjectMng* m_pObjectMng;
 	VertexShader* m_pVS;
 	CameraDebug* m_pCamera;
-	CoinCntUI* m_pCoinCntUI;		//ÉRÉCÉìèWÇﬂÇΩÇÊUI
 
 	ShadowP* m_pShadowP;
 	Object2D* m_pObject2D;

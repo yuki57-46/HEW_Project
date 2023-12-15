@@ -4,14 +4,14 @@
 
 //InputManager imanagerOB = InputManager();
 
-DirectX::XMFLOAT3 objectMinBoundAuto = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//プレイヤーとの当たり判定用
-DirectX::XMFLOAT3 objectMaxBoundAuto = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
+//DirectX::XMFLOAT3 objectMinBoundAuto = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//プレイヤーとの当たり判定用
+//DirectX::XMFLOAT3 objectMaxBoundAuto = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
 
-DirectX::XMFLOAT3 hobjectMinBoundAuto = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//憑依用
-DirectX::XMFLOAT3 hobjectMaxBoundAuto = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
+//DirectX::XMFLOAT3 hobjectMinBoundAuto = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//憑依用
+//DirectX::XMFLOAT3 hobjectMaxBoundAuto = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
 
-DirectX::XMFLOAT3 cobjectMinBoundAuto = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ブロック同士用
-DirectX::XMFLOAT3 cobjectMaxBoundAuto = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
+//DirectX::XMFLOAT3 cobjectMinBoundAuto = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ブロック同士用
+//DirectX::XMFLOAT3 cobjectMaxBoundAuto = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
 
 
@@ -22,7 +22,9 @@ ObjectAutoMove::ObjectAutoMove()
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
 	, moveok(false)
-
+	, m_MaxPosX(1.5f)
+	, m_MinPosX(-1.5f)
+	, m_MoveX(false)
 	, m_isPossessed(true)
 {
 
@@ -38,9 +40,9 @@ ObjectAutoMove::ObjectAutoMove()
 	}
 	m_pObjectModel->SetVertexShader(m_pObjectVS);
 
-	SetBounds(minBound, maxBound);
-	HSetBounds(hminBound, hmaxBound);
-	CSetBounds(cminBound, cmaxBound);
+//	SetBounds(minBoundAuto, maxBoundAuto);
+//	HSetBounds(hminBound, hmaxBound);
+//	CSetBounds(cminBoundAuto, cmaxBoundAuto);
 
 }
 
@@ -60,9 +62,37 @@ ObjectAutoMove::~ObjectAutoMove()
 
 void ObjectAutoMove::Update()
 {
-	
-
 	m_oldPos = m_pos;
+
+	if (m_MoveX == true)	// オブジェクトの移動がtrueなら
+	{
+		m_pos.x += 0.01f;
+		if (m_pos.x >= m_MaxPosX)	// 指定した範囲(右)まで移動
+		{
+			m_pos.x = m_MaxPosX;
+			m_MoveX = false;
+		}
+	}
+	if (m_MoveX == false)
+	{
+		m_pos.x -= 0.01f;
+		if (m_pos.x <= m_MinPosX)	// 指定した範囲(左)まで移動
+		{
+			m_pos.x = m_MinPosX;
+			m_MoveX = true;
+		}
+	}
+
+	// bool objmove = true;
+	//if (objmove = true)		// オブジェクトが右に動く
+	//{
+	//	m_pos.x += 0.01f;
+	//}
+	//if (objmove = false)	// オブジェクトが左に動く
+	//{
+	//	m_pos.x -= 0.01f;
+	//}
+
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -121,12 +151,10 @@ void ObjectAutoMove::Update()
 		}
 	}
 
-	SetBounds(objectMinBoundAuto, objectMaxBoundAuto);  //最小値と最大値をセット
+//	SetBounds(objectMinBoundAuto, objectMaxBoundAuto);  //最小値と最大値をセット
 
-	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//憑依用の当たり判定
-	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ブロック同士の当たり判定
-
-//	time++;
+//	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//憑依用の当たり判定
+//	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ブロック同士の当たり判定
 }
 
 void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -149,21 +177,21 @@ void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 pr
 }
 
 //
-void ObjectAutoMove::SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
-{
-	minBound = Add(m_pos, min);
-	maxBound = Add(m_pos, max);
-}
-
-DirectX::XMFLOAT3 ObjectAutoMove::GetminBounds()
-{
-	return minBound;
-}
-
-DirectX::XMFLOAT3 ObjectAutoMove::GetmaxBounds()
-{
-	return maxBound;
-}
+//void ObjectAutoMove::SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
+//{
+//	minBoundAuto = Add(m_pos, min);
+//	maxBoundAuto = Add(m_pos, max);
+//}
+//
+//DirectX::XMFLOAT3 ObjectAutoMove::GetminBounds()
+//{
+//	return minBoundAuto;
+//}
+//
+//DirectX::XMFLOAT3 ObjectAutoMove::GetmaxBounds()
+//{
+//	return maxBoundAuto;
+//}
 
 DirectX::XMFLOAT3 ObjectAutoMove::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
@@ -177,48 +205,47 @@ DirectX::XMFLOAT3 ObjectAutoMove::Add(const DirectX::XMFLOAT3& a, const DirectX:
 
 
 //憑依当たり判定
-void ObjectAutoMove::HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
-{
-	hminBound = HAdd(m_pos, min);
-	hmaxBound = HAdd(m_pos, max);
-}
+//void ObjectAutoMove::HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
+//{
+//	hminBound = HAdd(m_pos, min);
+//	hmaxBound = HAdd(m_pos, max);
+//}
+//DirectX::XMFLOAT3 ObjectAutoMove::HGetminBounds()
+//{
+//	return hminBound;
+//}
+//
+//DirectX::XMFLOAT3 ObjectAutoMove::HGetmaxBounds()
+//{
+//	return hmaxBound;
+//}
+//
+//DirectX::XMFLOAT3 ObjectAutoMove::HAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
+//{
+//	DirectX::XMFLOAT3 result;
+//	result.x = a.x + b.x;
+//	result.y = a.y + b.y;
+//	result.z = a.z + b.z;
+//	return result;
+//}
 
-DirectX::XMFLOAT3 ObjectAutoMove::HGetminBounds()
-{
-	return hminBound;
-}
 
-DirectX::XMFLOAT3 ObjectAutoMove::HGetmaxBounds()
-{
-	return hmaxBound;
-}
-
-DirectX::XMFLOAT3 ObjectAutoMove::HAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
-{
-	DirectX::XMFLOAT3 result;
-	result.x = a.x + b.x;
-	result.y = a.y + b.y;
-	result.z = a.z + b.z;
-	return result;
-}
-
-
-//ブロック同士
-void ObjectAutoMove::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
-{
-	cminBound = CAdd(m_pos, min);
-	cmaxBound = CAdd(m_pos, max);
-}
-
-DirectX::XMFLOAT3 ObjectAutoMove::CGetminBounds()
-{
-	return cminBound;
-}
-
-DirectX::XMFLOAT3 ObjectAutoMove::CGetmaxBounds()
-{
-	return cmaxBound;
-}
+////ブロック同士
+//void ObjectAutoMove::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
+//{
+//	cminBoundAuto = CAdd(m_pos, min);
+//	cmaxBoundAuto = CAdd(m_pos, max);
+//}
+//
+//DirectX::XMFLOAT3 ObjectAutoMove::CGetminBounds()
+//{
+//	return cminBoundAuto;
+//}
+//
+//DirectX::XMFLOAT3 ObjectAutoMove::CGetmaxBounds()
+//{
+//	return cmaxBoundAuto;
+//}
 
 DirectX::XMFLOAT3 ObjectAutoMove::CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {

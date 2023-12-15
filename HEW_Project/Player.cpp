@@ -9,8 +9,8 @@
 DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //境界の最小値
 DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //最大値
 
-DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.45f, -0.5f, -0.3f);  //境界の最小値
-DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.4f, 0.5f, 0.5f);     //最大値
+DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //境界の最小値
+DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //最大値
 
 
 Player::Player()
@@ -344,7 +344,7 @@ void Player::SetNOk()
 void Player::SetAnime()
 {
 	// 入れるアニメーションのセット
-	
+
 }
 
 /**

@@ -4,35 +4,26 @@
 
 SceneGame::SceneGame()
 	:m_pShadowP(nullptr)
-,m_pSound(nullptr)
-,m_pSourceVoice(nullptr)
 {
 	RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
 	DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
 	SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
-	
+
 
 	//m_pPlayer = new Player();
 	m_pObjectMng = new ObjectMng();
 	m_pCamera = new CameraDebug();
 	m_pObject2D = new Object2D();
-	m_pCoinCntUI = new CoinCntUI();		//コイン集めたよUI
 }
 
 SceneGame::~SceneGame()
 {
-	
+
 	/*if (m_pPlayer)
 	{
 		delete m_pPlayer;
 		m_pPlayer = nullptr;
 	}*/
-
-	if (m_pCoinCntUI)
-	{
-		delete m_pCoinCntUI;
-		m_pCoinCntUI = nullptr;
-	}
 	if (m_pCamera)
 	{
 		delete m_pCamera;
@@ -56,9 +47,8 @@ void SceneGame::Update(float tick)
 	m_pObjectMng->Update(tick);
 	//m_pPlayer->Update();
 	m_pCamera->Update();
-	
+
 	m_pObject2D->Update();
-	m_pCoinCntUI->Update();
 }
 
 void SceneGame::Draw()
@@ -70,7 +60,7 @@ void SceneGame::Draw()
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
 
-	
+
 	m_pObjectMng->Draw(viewMatrix, projectionMatrix);
 
 	m_pObject2D->Draw(viewMatrix, projectionMatrix);
@@ -90,5 +80,4 @@ void SceneGame::Draw()
 	//Geometory::DrawBox();
 	Geometory::DrawTriangle();
 
-	m_pCoinCntUI->Draw();		//コイン集めたUIを描画
 }

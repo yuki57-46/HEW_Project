@@ -1,27 +1,17 @@
 ﻿#include "Object.h"
 #include "Geometory.h"
 #include "Input.h"
-#include <chrono>
-
-//minbound maxboundをメンバ変数に
-//create部分にスケールと当たり判定をかけ合わせる処理を追加　yは追加で計算必要
-
-
 
 //InputManager imanagerOB = InputManager();
 
-//DirectX::XMFLOAT3 objectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//プレイヤーとの当たり判定用
-//DirectX::XMFLOAT3 objectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-//
-//DirectX::XMFLOAT3 hobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//憑依用
-//DirectX::XMFLOAT3 hobjectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-//
-//DirectX::XMFLOAT3 cobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ブロック同士用
-//DirectX::XMFLOAT3 cobjectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+DirectX::XMFLOAT3 objectMinBound = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//プレイヤーとの当たり判定用
+DirectX::XMFLOAT3 objectMaxBound = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
 
-std::chrono::steady_clock::time_point lastSoundPlayTime;
-const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
+DirectX::XMFLOAT3 hobjectMinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//憑依用
+DirectX::XMFLOAT3 hobjectMaxBound = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
 
+DirectX::XMFLOAT3 cobjectMinBound = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ブロック同士用
+DirectX::XMFLOAT3 cobjectMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
 
 
@@ -62,7 +52,7 @@ Object::Object()
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
 	CSetBounds(cminBound, cmaxBound);
-	
+
 
 }
 
@@ -78,25 +68,12 @@ Object::~Object()
 		delete m_pObjectVS;
 		m_pObjectVS = nullptr;
 	}
-	//m_pSVSEBlk->Stop();
 }
 
 void Object::Update()
 {
 
-
-	m_oldPos = m_pos;
-
-	float moveSpeed = 0.03f; // 移動速度の調整
-	float rotationSpeed = 10.0f;
-
-
-
-	if (m_pos.y >= 0.0f)
-	{
-		m_pos.y -= 0.1f;
-		
-	}
+		m_oldPos = m_pos;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -106,7 +83,9 @@ void Object::Update()
 
 	imanagerOB.inspect();*/
 
+	float moveSpeed = 0.03f; // 移動速度の調整
 
+	float rotationSpeed = 10.0f;
 
 	//// 左スティックのX軸とY軸方向の入力を取得
 	//float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
@@ -135,13 +114,9 @@ void Object::Update()
 	//	m_pos.z -= moveSpeed * moveDirection.z;
 	//}
 
-	auto currentTime = std::chrono::steady_clock::now();
-	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTime);
-
-
 	if (moveok == true)
 	{
-		if (IsKeyPress(VK_UP) )
+		if (IsKeyPress(VK_UP))
 		{
 			m_pos.z += moveSpeed;
 
@@ -157,76 +132,26 @@ void Object::Update()
 		if (IsKeyPress(VK_DOWN))
 		{
 			m_pos.z -= moveSpeed;
-			if (m_pos.y <= 0.0f)
-			{
-				if (elapsedTime >= soundInterval)
-				{
-					// 最後のサウンド再生時間を更新します
-					lastSoundPlayTime = currentTime;
-				}
-			}
 		}
 		if (IsKeyPress(VK_RIGHT))
 		{
 			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.0f)
-			{
-				if (elapsedTime >= soundInterval)
-				{
-					// 最後のサウンド再生時間を更新します
-					lastSoundPlayTime = currentTime;
-				}
-			}
 		}
 		if (IsKeyPress(VK_LEFT))
 		{
 			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.0f)
-			{
-				if (elapsedTime >= soundInterval)
-				{
-					// 最後のサウンド再生時間を更新します
-					lastSoundPlayTime = currentTime;
-				}
-			}
-		}
-
-		if (IsKeyPress('U'))
-		{
-			m_pos.y -= moveSpeed;
-		}
-		if (IsKeyPress('I'))
-		{
-			m_pos.y += moveSpeed;
-		}
-
-	
-		if (m_pos.y<=0||ok==false)
-		{
-			if (IsKeyPress(VK_SPACE))
-			{
-				// スペースキーが押されたら上昇を実行
-				m_pos.y += 1.5f;
-
-				// 「高さを維持」の状態をtrueに設定
-				ok = true;
-			}
 		}
 	}
-		SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
-		HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
-		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 
 
-		if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
-			|| m_pos.z >= 7.0f || m_pos.z <= -5.0f
-			|| m_pos.y >= 6.0f)
-		{
-			OBJPos();
-		}
+	SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
 
-	
+	HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
+	CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
+
+
 }
+
 void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
 	DirectX::XMFLOAT4X4 mat[3];
@@ -240,25 +165,25 @@ void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 
 	mat[1] = viewMatrix; // 与えられた viewMatrix を使う
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
-	
+
 	m_pObjectVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
 	m_pObjectModel->Draw();
 
 }
 
-
+//
 void Object::SetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
 {
 	minBound = Add(m_pos, min);
 	maxBound = Add(m_pos, max);
 }
 
-DirectX::XMFLOAT3 Object::GetminBounds() 
+DirectX::XMFLOAT3 Object::GetminBounds()
 {
 	return minBound;
 }
 
-DirectX::XMFLOAT3 Object::GetmaxBounds() 
+DirectX::XMFLOAT3 Object::GetmaxBounds()
 {
 	return maxBound;
 }
@@ -336,49 +261,7 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	m_scale.x = scaleX;
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
-
-
-	//
-	objectMinBound.x *= m_scale.x;
-	objectMinBound.y *= m_scale.y;
-	objectMinBound.z *= m_scale.z;
-	objectMaxBound.x *= m_scale.x;
-	objectMaxBound.y *= m_scale.y;
-	objectMaxBound.z *= m_scale.z;
-
-	SetBounds(objectMinBound, objectMaxBound);
-
-	cobjectMinBound.x *= m_scale.x;
-	cobjectMinBound.y *= m_scale.y;
-	cobjectMinBound.z *= m_scale.z;
-	cobjectMaxBound.x *= m_scale.x;
-	cobjectMaxBound.y *= m_scale.y;
-	cobjectMaxBound.z *= m_scale.z;
-
-	//これがないとy軸の当たり判定おかしくなる
-
-	if (cobjectMinBound.y < 0)
-	{
-		a = cobjectMinBound.y *= -1;
-		cobjectMaxBound.y += a;
-
-		cobjectMinBound.y = 0;
-	}
-
-	CSetBounds(cobjectMinBound, cobjectMaxBound);
-
-
-	hobjectMinBound.x *= m_scale.x;
-	hobjectMinBound.y *= m_scale.y;
-	hobjectMinBound.z *= m_scale.z;
-	hobjectMaxBound.x *= m_scale.x;
-	hobjectMaxBound.y *= m_scale.y;
-	hobjectMaxBound.z *= m_scale.z;
-
-	HSetBounds(hobjectMinBound, hobjectMaxBound);
-	
 }
-
 
 
 //憑依判定用
@@ -410,25 +293,11 @@ void Object::OBJPos()
 
 void Object::Modelchg()
 {
-	if (m_pObjectModel->Load("Assets/Model/test_model/test_block.fbx",  Model::Flip::XFlip));
+	if (m_pObjectModel->Load("Assets/Model/test_model/test_block.fbx", 0.05f, Model::Flip::XFlip));
 }
 
 void Object::Modelchg2()
 {
-	if (m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx",  Model::Flip::XFlip));
+	if (m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip));
 }
 
-void Object::Set1()
-{
-	ok = true;
-}
-
-void Object::SetF1()
-{
-	ok = false;
-}
-
-bool Object::SetR1()
-{
-	return ok;
-}

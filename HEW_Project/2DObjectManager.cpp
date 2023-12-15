@@ -101,7 +101,6 @@ Object2D::Object2D()
 		nCnt++;
 	}
 
-
 	//ステージデータの読み取り
 	for (int j = 0; j < height; j++)
 	{
@@ -120,12 +119,12 @@ Object2D::Object2D()
 					-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f,
 					0.0098f, 0.008f, 0.005f
 				);*/
-				m_pSObjects[j * width + i].Create(-5.0f + i * 0.00975f, -j * 0.008f + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
+				m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
 				//break;
 				//break;
 				break;
 			case 2:
-				m_pSObjects[j * width + i].CreateBounds(-5.0f + i * 0.00975f, -j * 0.008f + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
+				m_pSObjects[j * width + i].CreateBounds(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);				//m_pSObjects[j * width + i].Create(-5.0 + i * 0.00975, -j * 0.008 + 0.5f, 10.0f, 0.0098f, 0.008f, 0.05f, "Assets/Model/Block/blc.fbx", 0.05f, Model::Flip::XFlip);
 
 				break;
 			}
@@ -189,7 +188,7 @@ void Object2D::Update()
 				}
 			}
 		}
-		
+
 		if (m_pSObjects[i].IBound() == true)
 		{
 			if (m_pSObjects[i].IBound() == true && m_pShadowP->isUse() == false)
@@ -203,7 +202,7 @@ void Object2D::Update()
 						m_pShadowP->ShadowPPosY();
 						m_pShadowP->Use();
 						break;
-						//m_pShadowP->ShadowPPos();						
+						//m_pShadowP->ShadowPPos();
 						//m_pShadowP->Use();
 					}
 				}
@@ -226,7 +225,7 @@ void Object2D::Update()
 				}
 			}
 		}
-		
+
 
 	}
 
@@ -248,7 +247,7 @@ void Object2D::Update()
 		{
 			m_IsUse = true;
 		}
-		
+
 	}
 
 	if (IsKeyPress('P'))//imanagerSP.getKey(1) & 0b011)
@@ -257,10 +256,6 @@ void Object2D::Update()
 		m_IsUse = false;
 	}
 }
-
-
-
-
 
 void Object2D::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {

@@ -33,17 +33,18 @@ public:
 	void Set();
 	void SetF();
 	bool SetR();
-	
+
+
 
 	void OBJPos();
+
+//	bool OBJRPos();
+
 	void Modelchg();
+
 	void Modelchg2();
 
-	void Set1();
 
-	void SetF1();
-
-	bool SetR1();
 
 
 private:
@@ -58,12 +59,12 @@ private:
 	DirectX::XMMATRIX m_rotationMatrix;
 	float m_lastRotationY;
 	bool moveok;
-	
+
 
 	bool ok;
 	float a = 0.0f;
-	
-	
+
+
 
 
 	DirectX::XMFLOAT3 objectMinBound;

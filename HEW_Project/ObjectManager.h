@@ -12,6 +12,14 @@
 class ObjectMng
 {
 public:
+	enum BlockType
+	{
+		BLOCK_H,	// 憑依可能ブロック
+		BLOCK_D,	// 憑依不可ブロック
+		BLOCK_M,	// 左右移動ブロック
+	};
+
+
 	ObjectMng();
 	~ObjectMng();
 	void Update(float tick);
