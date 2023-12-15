@@ -3,6 +3,9 @@
 #include <DirectXMath.h>
 
 SceneGame::SceneGame()
+	:m_pShadowP(nullptr)
+,m_pSound(nullptr)
+,m_pSourceVoice(nullptr)
 {
 	RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
 	DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得

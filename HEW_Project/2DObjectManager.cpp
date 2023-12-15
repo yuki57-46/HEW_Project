@@ -1,4 +1,4 @@
-#include "2DObjectManager.h"
+﻿#include "2DObjectManager.h"
 #include <iostream>
 #include <vector>
 #include "Input.h"
@@ -7,12 +7,12 @@
 
 //InputManager imanagerSP = InputManager();
 
-#define _shadow_ (0)
+#define _shadow_ (1)
 
 
 #if _shadow_ >= 1
-const int width = 200;
-const int height = 50;
+const int width = 20;
+const int height = 4;
 #else
 const int width = 1;
 const int height = 1;
