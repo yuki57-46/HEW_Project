@@ -367,3 +367,4 @@ FodyWeavers.xsd
 
 # not ignore
 !*.lib
+*.cso
