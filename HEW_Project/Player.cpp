@@ -14,7 +14,7 @@ DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //ç≈ëÂíl
 
 
 Player::Player()
-	: m_pos(0.0f, 0.0f, 0.0f)
+	: m_pos(0.0f, 0.0f, 2.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
@@ -40,7 +40,6 @@ Player::Player()
 
 	hminBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
 	hmaxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
-
 	
 }
 

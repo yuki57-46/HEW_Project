@@ -61,7 +61,7 @@ Object::~Object()
 void Object::Update()
 {
 	
-		m_oldPos = m_pos;
+	m_oldPos = m_pos;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
