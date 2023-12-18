@@ -1,0 +1,25 @@
+[ 更新履歴 ]
+2023/11/24
+ Effekseer対応
+
+
+[ 前準備 ]
+1. LibEffekseer.h/.cppをプロジェクトに追加
+2. Main.cppのGeometoryやSpriteの箇所にLibEffekseer::Init(), LibEffekseer::Uninit()を追加。
+3. Main.cppのEndDrawDirectXの前にLibEffekseer::Draw()を追加
+4. .efkefc/.efk、それらに関連するテクスチャを用意
+
+[ 初期化 ]
+Effekseer::EffectRef effect = LibEffekseer::Create( [ 読み込むエフェクトファイル ] );
+
+[ 更新処理（エフェクトの再生） ]
+LibEffekseer::GetManager()->Play(effect, 0.0f, 0.0f, 0.0f);
+
+[ 描画処理（描画に必要な設定のみを行う） ]
+LibEffekseer::SetViewPosition(m_pCamera->GetPos());
+LibEffekseer::SetCameraMatrix(efkMat[0], efkMat[1]);
+
+
+[ 補足 ]
+エフェクトを動かしたいなどは、[Effekseer for C++]内のExsampleを見て
+どのように呼び出せばよいのか紐解くこと。
