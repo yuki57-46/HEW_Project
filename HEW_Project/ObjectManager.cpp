@@ -130,7 +130,7 @@ ObjectMng::ObjectMng()
 
 
 	// effect
-	m_Effect = LibEffekseer::Create("Assets/effect/NA_test.efkefc");
+	m_Effect = LibEffekseer::Create("Assets/effect/BoxSet.efkefc");
 }
 
 
@@ -171,7 +171,7 @@ ObjectMng::~ObjectMng()
 	}
 }
 
-void ObjectMng::Update()
+void ObjectMng::Update(float tick)
 {
 	/*imanagerO.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
 	imanagerO.addKeycode(1, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
@@ -187,7 +187,7 @@ void ObjectMng::Update()
 	float XB = static_cast<float>(imanagerO.getKey(3));
 */
 	
-	float tick=0.1f;
+	
 
 	m_pPlayer->Update(tick);
 
@@ -301,12 +301,12 @@ void ObjectMng::Update()
 					if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 					{
 						//// effect‚±‚¤‚µ‚ñ
-						m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, 0.0f, 0.0f, 0.0f);
+						m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
 
-						//ˆÚ“®‚³‚¹‚éŽž
-						Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
-						EffecMat.Translation(0.0f, 1.0f, 0.0f);
-						LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+						////ˆÚ“®‚³‚¹‚éŽž
+						//Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
+						//EffecMat.Translation(0.0f, 1.0f, 0.0f);
+						//LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
 
 						m_pPlayer->SetOk();
 						m_pPlayer->HPlayerPos();
@@ -538,7 +538,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	DirectX::XMMATRIX effekMat2 = XMLoadFloat4x4(&effectmat[1]);
 	effekMat2 = XMMatrixTranspose(effekMat2);
 	XMStoreFloat4x4(&effectmat[1], effekMat2);
-	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5);
+	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 1.0f, 1.0f, 1.0);
 
 	LibEffekseer::SetViewPosition(m_pObjectCamera->GetPos());
 	LibEffekseer::SetCameraMatrix(effectmat[0], effectmat[1]);

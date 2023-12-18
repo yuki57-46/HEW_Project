@@ -38,6 +38,10 @@ public:
 	void SetOk();
 	void SetNOk();
 
+	float GetPosX();
+	float GetPosY();
+	float GetPosZ();
+
 	void SetAnime();
 	void SetAnime2();
 

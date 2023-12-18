@@ -28,7 +28,7 @@ Player::Player()
 {
 	m_pModel = new Model;
 	 //モデルの読み込み処理
-	if (!m_pModel->Load("Assets/Model/Player/kuroko.fbx", Model::Flip::XFlip)) {
+	if (!m_pModel->Load("Assets/Model/Player/kuroko.fbx",0.5f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}
 	
@@ -355,6 +355,21 @@ void Player::SetOk()
 void Player::SetNOk()
 {
 	ok = false;
+}
+
+float Player::GetPosX()
+{
+	return m_pos.x;
+}
+
+float Player::GetPosY()
+{
+	return m_pos.y;
+}
+
+float Player::GetPosZ()
+{
+	return m_pos.z;
 }
 
 /**

@@ -106,7 +106,7 @@ void SceneGame::Update(float tick)
 
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
-	m_pObjectMng->Update();
+	m_pObjectMng->Update(tick);
 	//m_pObject2D->Update();
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
