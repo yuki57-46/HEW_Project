@@ -23,17 +23,7 @@ bool GameObject::HIsCollidingWith(GameObject& other)
 
 bool GameObject::col(GameObject & other)
 {
-	return m_caabb.col(cminBound, cmaxBound, other.cminBound, other.cmaxBound);
-}
-
-DirectX::XMFLOAT3 GameObject::GetCMinBounds()
-{
-	return cminBound;
-}
-
-DirectX::XMFLOAT3 GameObject::GetMaxBounds()
-{
-	return cmaxBound;
+	return m_caabb.col(hminBound, hmaxBound, other.hminBound, other.hmaxBound);
 }
 
 

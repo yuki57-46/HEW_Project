@@ -29,8 +29,6 @@ public:
 	DirectX::XMFLOAT3 CGetmaxBounds();
 	DirectX::XMFLOAT3 CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b);
 
-	DirectX::XMFLOAT3 GetObjectMaxBounds();
-	DirectX::XMFLOAT3 GetPos();
 
 	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
 	void Set();
@@ -39,23 +37,15 @@ public:
 	
 
 	void OBJPos();
-	void OBJPosy();
 	void Modelchg();
 	void Modelchg2();
 
 	void Set1();
+
 	void SetF1();
 
-	void SetColgravity();
-	void framepls();
-	void SetObjectTop();
-	void MoveObject(float y);
-
-
 	bool SetR1();
-	bool IsGravity();
-	bool IsXZ();
-	bool IsObjectTop();
+
 
 private:
 	Model* m_pObjectModel;
@@ -63,8 +53,6 @@ private:
 	DirectX::XMFLOAT3 m_oldPos;
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_scale;
-	DirectX::XMFLOAT3 m_jmp;
-	DirectX::XMFLOAT3 m_mmovespeed;
 
 	float m_rotationY;
 	DirectX::XMFLOAT3 m_direction;
@@ -74,12 +62,7 @@ private:
 	
 
 	bool ok;
-	bool gravity;
-	bool xz;
-	bool objectTop;
-	bool colgravity;
 	float a = 0.0f;
-
 	
 	
 

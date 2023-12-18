@@ -21,7 +21,7 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
+x64/**
 x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# add other
+.vscode/
+
+# Shader build output
+*.cso
+
+# not ignore
+!*.lib
