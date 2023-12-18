@@ -20,15 +20,23 @@
 #endif
 #elif _MSC_VER >= 1920
 #ifdef _DEBUG
-#pragma comment(lib, "assimp-vc142-mtd.lib")
+#pragma comment(lib, "Effekseer/Effekseer_vs2019D.lib")
+#pragma comment(lib, "Effekseer/EffekseerRendererDX11_vs2019D.lib")
+#pragma comment(lib, "Effekseer/EffekseerSoundXAudio2_vs2019D.lib")
 #else
-#pragma comment(lib, "assimp-vc142-mt.lib")
+#pragma comment(lib, "Effekseer/Effekseer_vs2019.lib")
+#pragma comment(lib, "Effekseer/EffekseerRendererDX11_vs2019.lib")
+#pragma comment(lib, "Effekseer/EffekseerSoundXAudio2_vs2019.lib")
 #endif
 #elif _MSC_VER >= 1910
 #ifdef _DEBUG
-#pragma comment(lib, "assimp-vc141-mtd.lib")
+#pragma comment(lib, "Effekseer/Effekseer_vs2017D.lib")
+#pragma comment(lib, "Effekseer/EffekseerRendererDX11_vs2017D.lib")
+#pragma comment(lib, "Effekseer/EffekseerSoundXAudio2_vs2017D.lib")
 #else
-#pragma comment(lib, "assimp-vc141-mt.lib")
+#pragma comment(lib, "Effekseer/Effekseer_vs2017.lib")
+#pragma comment(lib, "Effekseer/EffekseerRendererDX11_vs2017.lib")
+#pragma comment(lib, "Effekseer/EffekseerSoundXAudio2_vs2017.lib")
 #endif
 #endif
 
@@ -36,18 +44,18 @@
 class LibEffekseer
 {
 public:
-	// Šî–{ˆ—
+	// åŸºæœ¬å‡¦ç†
 	LibEffekseer() {}
 	~LibEffekseer() {}
 	static void Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, IXAudio2* pAudio = nullptr);
 	static void Uninit();
 
-	// •`‰æŠÖ˜Aˆ—
+	// æç”»é–¢é€£å‡¦ç†
 	static void SetViewPosition(DirectX::XMFLOAT3 pos);
 	static void SetCameraMatrix(DirectX::XMFLOAT4X4 view, DirectX::XMFLOAT4X4 proj);
 	static void Draw();
 
-	// ƒGƒtƒFƒNƒg‹@”\
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆæ©Ÿèƒ½
 	static Effekseer::ManagerRef GetManager();
 	static Effekseer::EffectRef Create(const char* fileName);
 
