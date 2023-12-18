@@ -1,12 +1,18 @@
 #pragma once
 #include "Object.h"
+#include "yuka.h"
 #include "CameraBase.h"
 #include "CameraDebug.h"
+#include"CameraObject.h"
 #include "Player.h"
 #include "Collision.h"
-#include"HCollision.h"
-#include"col.h"
+#include "HCollision.h"
+#include "col.h"
 #include "Lift_Obj.hpp"
+#include "Lever.h"
+#include "LibEffekseer.h"
+#include "Effekseer/Effekseer.h"
+
 
 class ObjectMng
 {
@@ -20,13 +26,21 @@ public:
 	
 private:
 	Object* m_pObjects;
-	Lift_Obj* m_pLift;
-	
+	Yuka* m_pYuka;
+	Lift_Obj* m_pLift_obj;
+   Lever* m_pLever;
+
 	CameraDebug* m_pObjectCamera;
+
+	
 	Player* m_pPlayer;
 	AABB* aabb;
 	HAABB* haabb;
 	CAABB* caabb;
+	Effekseer::Handle		m_EffectHandle;
+	Effekseer::EffectRef	m_Effect;
 	int m_num;
-	
+	int m_num1;
+	int m_num2;
+	int m_num3;
 };

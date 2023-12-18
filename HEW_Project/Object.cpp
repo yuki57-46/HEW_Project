@@ -7,7 +7,6 @@
 //create部分にスケールと当たり判定をかけ合わせる処理を追加　yは追加で計算必要
 
 
-
 //InputManager imanagerOB = InputManager();
 
 //DirectX::XMFLOAT3 objectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//プレイヤーとの当たり判定用
@@ -20,15 +19,17 @@
 //DirectX::XMFLOAT3 cobjectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 
 std::chrono::steady_clock::time_point lastSoundPlayTime;
-const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
+const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
 
-
+int frame = 50;
 
 
 Object::Object()
 	: m_pos(0.0f, 0.0f, 0.0f)
+	, m_mmovespeed(0.0f, 0.0f, 0.0f)
 	, m_scale(0.0f, 0.0f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
+	, m_jmp(0.0f,0.0f,0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
 	, moveok(false)
@@ -41,6 +42,10 @@ Object::Object()
 	, cobjectMinBound(-0.5f, -0.5f, -0.5f)
 	, cobjectMaxBound(0.5f, 0.5f, 0.5f)
 	, ok(true)
+	, gravity(false)
+	, xz(false)
+	, colgravity(true)
+	, objectTop(false)
 {
 	m_pObjectModel = new Model;
 
@@ -53,6 +58,9 @@ Object::Object()
 	if (!m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}
+	/*if (!m_pObjectModel->Load("Assets/Stage/Butai.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+	}*/
 	m_pObjectVS = new VertexShader();
 	if (FAILED(m_pObjectVS->Load("Assets/Shader/VS_Model.cso")))
 	{
@@ -87,18 +95,20 @@ Object::~Object()
 void Object::Update()
 {
 
-
 	m_oldPos = m_pos;
 
 	float moveSpeed = 0.03f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
-
-
-	if (m_pos.y >= 0.0f)
+	if (colgravity == true)
 	{
-		m_pos.y -= 0.1f;
-		
+		m_pos.y -= 0.05f;
+	}
+
+	if (m_pos.y <= 0.0f)
+	{
+		//ok = false;
+		gravity = false;
 	}
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -141,6 +151,7 @@ void Object::Update()
 	auto currentTime = std::chrono::steady_clock::now();
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTime);
 
+	//m_jmp = m_pos;
 
 	if (moveok == true)
 	{
@@ -154,12 +165,13 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新します
+					// 最後のサウンド再生時間を更新
 					lastSoundPlayTime = currentTime;
 				}
 			}
+			xz = true;
 		}
-		if (IsKeyPress(VK_DOWN))
+		else if (IsKeyPress(VK_DOWN))
 		{
 			m_pos.z -= moveSpeed;
 			if (m_pos.y <= 0.0f)
@@ -168,12 +180,13 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新します
+					// 最後のサウンド再生時間を更新
 					lastSoundPlayTime = currentTime;
 				}
 			}
+			xz = true;
 		}
-		if (IsKeyPress(VK_RIGHT))
+		else if (IsKeyPress(VK_RIGHT))
 		{
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.0f)
@@ -182,12 +195,13 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新します
+					// 最後のサウンド再生時間を更新
 					lastSoundPlayTime = currentTime;
 				}
 			}
+			xz = true;
 		}
-		if (IsKeyPress(VK_LEFT))
+		else if (IsKeyPress(VK_LEFT))
 		{
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.0f)
@@ -196,10 +210,15 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新します
+					// 最後のサウンド再生時間を更新
 					lastSoundPlayTime = currentTime;
 				}
 			}
+			xz = true;
+		}
+		else
+		{
+			xz = false;
 		}
 
 		if (IsKeyPress('U'))
@@ -211,19 +230,48 @@ void Object::Update()
 			m_pos.y += moveSpeed;
 		}
 
-	
-		if (m_pos.y<=0||ok==false)
+
+		if (ok == false)
 		{
+
 			if (IsKeyPress(VK_SPACE))
 			{
-				// スペースキーが押されたら上昇を実行
-				m_pos.y += 1.5f;
+				frame -= moveSpeed * 0.01;
+				// スペースキーが押されたら上昇を実行.ゲージを減少
+			   //m_pos.y += 0.07f;
+				m_pos.y += frame * 0.003f;
 
-				// 「高さを維持」の状態をtrueに設定
-				ok = true;
+				if (m_pos.y > 2.5f)
+				{
+					m_pos.y = m_oldPos.y;
+				}
 			}
+			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
+			{
+				m_pos.y -= 0.1f;
+				gravity = true;
+			}
+			if (m_pos.y <= 0.0f&&frame <= 0)
+			{
+				frame = 50;
+			}
+
 		}
+		else if (ok == true)
+		{
+			m_pos.y -= 0.05f;
+			gravity = true;
+			//m_jmp = m_pos;
+		}
+		
+		//if (ok == true)
+		//{
+		//	m_pos.y -= 0.5f;
+		//	gravity = true;
+		//	//m_jmp = m_pos;
+		//}
 	}
+	
 		SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
 		HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
 		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
@@ -231,12 +279,17 @@ void Object::Update()
 
 		if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
 			|| m_pos.z >= 7.0f || m_pos.z <= -5.0f
-			|| m_pos.y >= 6.0f)
+			|| m_pos.y >= 7.0f)
 		{
+
 			OBJPos();
 		}
-
-	
+		if (m_pos.y <= 0.0f)
+		{
+			SetF1();
+			OBJPosy();
+			gravity = false;
+		}	
 }
 void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
@@ -339,6 +392,16 @@ DirectX::XMFLOAT3 Object::CAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLO
 	return result;
 }
 
+DirectX::XMFLOAT3 Object::GetObjectMaxBounds()
+{
+	return cobjectMaxBound;
+}
+
+DirectX::XMFLOAT3 Object::GetPos()
+{
+	return m_pos;
+}
+
 void Object::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
 {
 	m_pos.x = posX;
@@ -386,8 +449,19 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	hobjectMaxBound.y *= m_scale.y;
 	hobjectMaxBound.z *= m_scale.z;
 
+
+	if (cobjectMinBound.y < 0)
+	{
+		a = cobjectMinBound.y *= -1;
+		cobjectMaxBound.y += a;
+
+		cobjectMinBound.y = 0;
+	}
+
 	HSetBounds(hobjectMinBound, hobjectMaxBound);
 	
+	m_mmovespeed = m_pos;
+
 }
 
 
@@ -417,7 +491,10 @@ void Object::OBJPos()
 	m_pos = m_oldPos;
 }
 
-
+void Object::OBJPosy()
+{
+	m_pos.y = m_oldPos.y;
+}
 
 void Object::Modelchg()
 {
@@ -442,4 +519,52 @@ void Object::SetF1()
 bool Object::SetR1()
 {
 	return ok;
+}
+
+bool Object::IsGravity()
+{
+	return gravity;
+}
+
+bool Object::IsXZ()
+{
+	return xz;
+}
+
+void Object::MoveObject(float y)
+{
+	m_pos.y = y;
+}
+bool Object::IsObjectTop()
+{
+	return objectTop;
+}
+
+void Object::SetObjectTop()
+{
+	if (objectTop == true)
+	{
+		objectTop = false;
+	}
+	else/* if (colgravity == false)*/
+	{
+		objectTop = true;
+	}
+}
+
+void Object::SetColgravity()
+{
+	if (colgravity == true)
+	{
+		colgravity = false;
+	}
+	else/* if (colgravity == false)*/
+	{
+		colgravity = true;
+	}
+}
+
+void Object::framepls()
+{
+	frame=50;
 }

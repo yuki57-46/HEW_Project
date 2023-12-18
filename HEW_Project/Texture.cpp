@@ -144,7 +144,7 @@ HRESULT RenderTarget::CreateFromScreen()
 	// バックバッファへのポインタを指定してレンダーターゲットビューを作成
 	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
 	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	rtvDesc.Texture2D.MipSlice = 0;
 	hr = GetDevice()->CreateRenderTargetView(m_pTex, &rtvDesc, &m_pRTV);
 	if (SUCCEEDED(hr))
@@ -156,6 +156,37 @@ HRESULT RenderTarget::CreateFromScreen()
 	}
 	return hr;
 }
+HRESULT RenderTarget::CreateReadBuffer()
+{
+	// テクスチャフォーマット取得
+	D3D11_TEXTURE2D_DESC desc = {};
+	m_pTex->GetDesc(&desc);
+
+	// コピー用フォーマット設定
+	desc.BindFlags = 0;
+	desc.Usage = D3D11_USAGE_STAGING;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	HRESULT hr = GetDevice()->CreateTexture2D(&desc, nullptr, &m_pCopy);
+
+	return hr;
+}
+
+
+void RenderTarget::Read(std::function<void(const void*, UINT, UINT)> CallbackFunc)
+{
+	if (!m_pCopy || !CallbackFunc) { return; }
+
+	// レンダーターゲットの内容をコピーリソースにコピー
+	GetContext()->CopyResource(m_pCopy, m_pTex);
+
+	// コピーリソースからデータ読み取り
+	D3D11_MAPPED_SUBRESOURCE subRes;
+	HRESULT hr = GetContext()->Map(m_pCopy, 0, D3D11_MAP_READ, 0, &subRes);
+	CallbackFunc(subRes.pData, m_width, m_height);
+	GetContext()->Unmap(m_pCopy, 0);
+}
+
+
 ID3D11RenderTargetView* RenderTarget::GetView() const
 {
 	return m_pRTV;

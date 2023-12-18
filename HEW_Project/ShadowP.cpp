@@ -3,11 +3,12 @@
 DirectX::XMFLOAT3 PMinBound = DirectX::XMFLOAT3(-0.15f, -0.1f, -0.3f);  //境界の最小値
 DirectX::XMFLOAT3 PMaxBound = DirectX::XMFLOAT3(0.2f, 0.1f, 0.5f);     //最大値
 ShadowP::ShadowP()
-	: m_pos(-3.5f, 0.5f, 10.0f)
+	: m_pos(3.5f, 0.2f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 10.0f)
 	, IsUse(false)
 	, m_Jump(false)
-	, m_moveY(0.0f)
+	, m_footing(false)
+	, m_moveY(0.001f)
 	, m_JumpY(0.5f)
 {
 	m_pModel = new Model;
@@ -52,28 +53,31 @@ ShadowP::~ShadowP()
 }
 
 void ShadowP::Update()
-{
+{//編集
 	m_oldPos = m_pos;
 	if (IsUse == true)
 	{
-		m_pos.x -= 0.015;
+		m_pos.x += 0.015;
 	}
 	else if (IsUse == false)
 	{
-		m_pos.x += 0.015;
+		m_pos.x -= 0.015;
 	}
 
-	m_pos.y -= 0.05f;
-	m_pos.y += m_moveY;
-	if (m_moveY > 0.0f)
+	//重力
+	if (!m_footing)
 	{
-		m_moveY -= 0.2;
+		m_pos.y -= m_moveY;
+		if (m_moveY < 0.5f && m_moveY >= 0.0f)
+		{
+			m_moveY += 0.001;
+		}
 	}
 
 	//if (m_Jump == true)
 	//{
 	//	m_moveY = 1.2f;
-	//	//m_pos.y += m_moveY;
+	//	m_pos.y += m_moveY;
 	//	m_Jump = false;
 	//}
 	//m_moveYは常に下方向へ加速する
@@ -152,13 +156,15 @@ void ShadowP::ShadowPPos()
 }
 
 void ShadowP::Use()
-{
-	//if (IsUse == false)
-	//{
-	//	IsUse = true;
-	//}
-	IsUse = true;
-
+{//編集
+	if (IsUse == false)
+	{
+		IsUse = true;
+	}
+	else
+	{
+		IsUse = false;
+	}
 }
 
 void  ShadowP::NotUse()
@@ -172,13 +178,8 @@ void  ShadowP::NotUse()
 
 void ShadowP::Jump()
 {
-	m_Jump = true;
-	if (m_Jump == true)
-	{
-		m_moveY = 0.06f;
-		//m_pos.y += m_moveY;
-		m_Jump = false;
-	}
+	m_moveY = 0.10f;
+	m_pos.y += m_moveY;
 }
 
 bool ShadowP::isUse()
@@ -189,4 +190,18 @@ bool ShadowP::isUse()
 bool ShadowP::IsJump()
 {
 	return m_Jump;
+}
+
+float ShadowP::GetMove()
+{
+	return m_moveY;
+}
+
+void ShadowP::SetFooting(bool footing)
+{
+	m_footing = footing;
+	if (m_footing == true)
+	{
+		m_moveY = 0.0f;
+	}
 }

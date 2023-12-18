@@ -1,12 +1,20 @@
 #include "ObjectManager.h"
 #include"Input.h"
 
+
 //InputManager imanagerO = InputManager();
 
+
 ObjectMng::ObjectMng()
-	: m_pObjects(nullptr), m_pLift(nullptr)
+	: m_pObjects(nullptr)
+	, m_pYuka(nullptr)
 	, m_pPlayer(nullptr)
+	, m_pLift_obj(nullptr)
+	, m_pLever(nullptr)
 	, m_num(0)
+	, m_num1(0)
+	, m_num2(0)	
+	, m_num3(0)
 	
 {
 	m_pObjectCamera = new CameraDebug();
@@ -15,62 +23,126 @@ ObjectMng::ObjectMng()
 	caabb = new CAABB();
 	
 	m_pPlayer = new Player();
+
+	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
 	struct Setting
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
-		int blockID;
-		float highPosY, lowPosY; // ãƒªãƒ•ãƒˆã®é«˜ã•ã®ä¸Šé™ã¨ä¸‹é™ 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
-		float moveSpeed; // ãƒªãƒ•ãƒˆã®ç§»å‹•é€Ÿåº¦ 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 	};
-	//ãƒ–ãƒ­ãƒƒã‚¯é…ç½®.ã‚¹ã‚±ãƒ¼ãƒ«æŒ‡å®š
 	Setting data[] = {
-		{ 2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
-		{-2.0f, 0.0f, 0.0f, 10.0f, 30.0f, 10.0f, 0},
-		{0.0f, 0.0f, -3.0f, 10.0f, 30.0f, 10.0f, 0},
-		{0.0f, 0.0f,  3.0f, 10.0f, 30.0f, 10.0f, 0},
-		{-2.0f, 0.0f, 3.0f, 30.0f, 30.0f, 10.0f, 0},	// 12/02 è¿½åŠ ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
-		{-5.0f, 1.0f, 5.0f, 10.0f, 10.0f, 10.0f, 1, 10.0f, 0.0f, 1.0f}, // 12/02 è¿½åŠ 
+		//{ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
+		{-2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
+		{0.0f, 0.0f, -3.0f, 1.0f, 1.0f, 1.0f},
+		{0.0f, 0.0f,  3.0f, 1.0f, 1.0f, 1.0f},
+
 	};
 	
-	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
+	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
 	m_num = sizeof(data) / sizeof(data[0]);
 
-	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
+	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
 	m_pObjects = new Object[m_num];
-	m_pLift = new Lift_Obj[m_num];
-	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
+	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
 	for (int i = 0; i < m_num; i++)
 	{
-		switch (data[i].blockID)
-		{
-		case 0:
-			m_pObjects[i].Create(
-				data[i].x, data[i].y, data[i].z,
-				data[i].scaleX, data[i].scaleY, data[i].scaleZ
-			);
-			break;
-		case 1:
-			m_pLift[i].Create(
-				data[i].x, data[i].y, data[i].z,
-				data[i].scaleX, data[i].scaleY, data[i].scaleZ
-				);
-			m_pLift[i].SetHeightPosY(data[i].highPosY);
-			m_pLift[i].SetLowPosY(data[i].lowPosY);
-			m_pLift[i].SetSpeed(data[i].moveSpeed);
-			break;
-		}
+		m_pObjects[i].Create(
+			data[i].x, data[i].y, data[i].z,
+			data[i].scaleX, data[i].scaleY, data[i].scaleZ
+		);
 	}
 	
 
+//ƒŠƒtƒg
+	struct Setting1
+	{
+		float x, y, z, scaleX, scaleY, scaleZ,lifth,liftl,lifts;
+	};
+	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	Setting1 data1[] = {
+		{ 3.0f, 2.5f, 0.0f, 1.0f, 0.25f, 0.5f,4.0f,1.5f,0.5f}
+	};
+
+	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	m_num1 = sizeof(data1) / sizeof(data1[0]);
+
+	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	m_pLift_obj = new Lift_Obj[m_num1];
+	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	for (int i = 0; i < m_num1; i++)
+	{
+		m_pLift_obj[i].Create(
+			data1[i].x, data1[i].y, data1[i].z,
+			data1[i].scaleX, data1[i].scaleY, data1[i].scaleZ
+			,data1[i].lifth, data1[i].liftl,  data1[i].lifts
+		);
+	}
+
+	//ƒŒƒo[
+	struct Setting2
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	Setting2 data2[] = {
+		{ 4.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.5f}
+	};
+
+	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	m_num2 = sizeof(data2) / sizeof(data2[0]);
+
+	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	m_pLever = new Lever[m_num2];
+	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	for (int i = 0; i < m_num2; i++)
+	{
+		m_pLever[i].Create(
+			data2[i].x, data2[i].y, data2[i].z,
+			data2[i].scaleX, data2[i].scaleY, data2[i].scaleZ		
+		);
+	}
+
+	//°
+
+	struct Setting3
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	Setting3 data3[] = {
+		{ 0.0f, -0.3f, 0.0f, 30.0f, 0.5f, 30.0f},
+
+	};
+
+	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	m_num3 = sizeof(data3) / sizeof(data3[0]);
+
+	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	m_pYuka = new Yuka[m_num3];
+	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	for (int i = 0; i < m_num3; i++)
+	{
+		m_pYuka[i].Create(
+			data3[i].x, data3[i].y, data3[i].z,
+			data3[i].scaleX, data3[i].scaleY, data3[i].scaleZ
+		);
+	}
+
+
+
+	// effect
+	m_Effect = LibEffekseer::Create("Assets/effect/NA_test.efkefc");
 }
 
 
 ObjectMng::~ObjectMng()
 {
-
 	delete[] m_pObjects;
-	delete[] m_pLift;
 	
+	delete[] m_pLift_obj;
+
+	delete[] m_pLever;
+
+	delete[] m_pYuka;
 
 	if (m_pObjectCamera)
 	{
@@ -114,108 +186,386 @@ void ObjectMng::Update()
 	float YB = static_cast<float>(imanagerO.getKey(2));
 	float XB = static_cast<float>(imanagerO.getKey(3));
 */
-	//__
-
-	//__
-	m_pPlayer->Update();
-
 	
+	float tick=0.1f;
+
+	m_pPlayer->Update(tick);
+
+	for (int y = 0; y < m_num3; y++)
+	{
+		m_pYuka[y].Update();
+	}
+
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Update();
-		m_pLift[i].Update();
 
-
-		//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
-		//{
-		//	//ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
-		//	if (m_pPlayer->IsCollidingWith(*gameObject)) {
-		//		// è¡çªæ™‚ã®å‡¦ç†
-		//		m_pPlayer->PlayerPos();
-		//	}
-		//}
-		//if (GameObject* gameObject_ = dynamic_cast<GameObject*>(&m_pLift[i]))
-		//{
-		//	// ãƒªãƒ•ãƒˆã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
-		//	if (m_pPlayer->IsCollidingWith(*gameObject_)) {
-		//		// è¡çªæ™‚ã®å‡¦ç†
-		//		m_pPlayer->PlayerPos();
-		//	}
-		//	
-		//}
-		if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+		for (int a = 0; a < m_num1; a++)
 		{
-			//æ†‘ä¾ã®ãŸã‚ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå½“ãŸã£ãŸå ´åˆ
-			if (m_pPlayer->HIsCollidingWith(*gameObject))
-			{
-				
-				if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
-				{
-					m_pPlayer->SetOk();
-					m_pPlayer->HPlayerPos();
-					m_pObjects[i].Set();
+			//m_pLift_obj[a].Update();
+			//if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+			//{
+			//	if (Lift_Obj* lift = dynamic_cast<Lift_Obj*>(&m_pLift_obj[a]))
+			//	{
 
-					m_pObjects[i].Modelchg();
+			//		//ƒuƒƒbƒN‚ÌÕ“Ë
+			//		if (m_pObjects[i].col(*lift))
+			//		{
+			//			m_pObjects[i].OBJPos();
+			//		}
+			//	}
+			//}
+			//for (int l = 0; l < m_num2; l++)
+			//{
+
+			//	m_pLever[l].Update();//ƒŒƒo[‚ÆƒvƒŒƒCƒ„[
+			//	if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
+			//	{
+			//		if (m_pPlayer->IsCollidingWith(*lever))
+			//		{
+			//			if (IsKeyPress('3'))
+			//			{
+			//				m_pLift_obj[a].SetFLever();
+			//			}
+			//			if (IsKeyPress('4'))
+			//			{
+			//				m_pLift_obj[a].SetLever();
+			//			}
+			//		}
+			//	}
+			//}
+
+			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+			{
+				if (Lift_Obj* lift = dynamic_cast<Lift_Obj*>(&m_pLift_obj[a]))
+				{
+					float liftposY = lift[a].GetMaxBounds().y;
+					m_pLift_obj[a].Update();
+					//ƒuƒƒbƒN‚ÌÕ“Ë
+					if (m_pObjects[i].col(*lift))
+					{
+						//m_pObjects[i].OBJPosy();
+						if (gameObject->GetCMinBounds().y + 0.1 >= lift->GetMaxBounds().y)
+						{
+							m_pObjects[i].OBJPosy();
+						}
+						else if (m_pObjects[i].IsXZ())
+						{
+							m_pObjects[i].OBJPos();
+						}
+						if (m_pLift_obj[a].IsMove())
+						{
+							m_pObjects[i].MoveObject(liftposY);
+						}
+					}
 				}
 			}
-			//æ†‘ä¾è§£é™¤
-			if (!m_pPlayer->HIsCollidingWith(*gameObject))
+			for (int l = 0; l < m_num2; l++)
 			{
+
+				m_pLever[l].Update();//ƒŒƒo[‚ÆƒvƒŒƒCƒ„[
+				if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
+				{
+					if (m_pPlayer->IsCollidingWith(*lever))
+					{
+						if (IsKeyPress('Q'))
+						{
+							m_pLift_obj[a].SetMoveTrue();
+							m_pPlayer->SetOk();
+							m_pPlayer->HPlayerPos();
+						}
+					}
+					if (IsKeyPress('E'))
+					{
+						m_pLift_obj[a].SetMoveFalse();
+						m_pPlayer->SetNOk();
+						m_pPlayer->PlayerPos();
+					}
+				}
+			}
+
+			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+			{
+				//////ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+				//if (m_pPlayer->IsCollidingWith(*gameObject)) {
+				//	// Õ“Ë‚Ìˆ—
+				//	m_pPlayer->PlayerPos();
+				//}
+			}
+			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+			{
+				//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡
+				if (m_pPlayer->HIsCollidingWith(*gameObject))
+				{
+
+					if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
+					{
+						//// effect‚±‚¤‚µ‚ñ
+						m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, 0.0f, 0.0f, 0.0f);
+
+						//ˆÚ“®‚³‚¹‚é
+						Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
+						EffecMat.Translation(0.0f, 1.0f, 0.0f);
+						LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+
+						m_pPlayer->SetOk();
+						m_pPlayer->HPlayerPos();
+						m_pObjects[i].Set();
+						m_pObjects[i].Set1();
+						m_pObjects[i].SetColgravity();
+						//m_pObjects[i].Modelchg();
+					}
+				}
+				//œßˆË‰ğœ
+				/*if (!m_pPlayer->HIsCollidingWith(*gameObject))
+				{*/
+				//if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
+				//{
+				//	m_pPlayer->SetNOk();
+				//	m_pPlayer->PlayerPos();
+				//	if (m_pObjects[i].SetR() == true)
+				//	{
+				//		m_pObjects[i].SetF();
+				//	}
+				//	//m_pObjects[i].Modelchg2();
+				//}
+
 				if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
 				{
-					m_pPlayer->SetNOk();
-					m_pPlayer->PlayerPos();
 					if (m_pObjects[i].SetR() == true)
 					{
-						m_pObjects[i].SetF();
-					}
-					m_pObjects[i].Modelchg2();
-				}
-			}
-		}
-		if (m_pObjects[i].SetR() == true)
-		{
-			for (int j = 0; j < m_num; j++)
-			{
-				if (j == i)
-				{
-					j = i + 1;
-				}
-				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
-
-				{
-					if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
-					{
-						// ãƒ–ãƒ­ãƒƒã‚¯iã¨ãƒ–ãƒ­ãƒƒã‚¯jã®å½“ãŸã‚Šåˆ¤å®š
-						if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
+						m_pPlayer->SetNOk();
+						m_pPlayer->PlayerPos();
+						for (int j = 0; j < m_num; j++)
 						{
-							// è¡çªã—ãŸå ´åˆã®å‡¦ç†
-							//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
-							//m_pObjects[i].GetF();
+							m_pObjects[j].SetF();
+							/*if (m_pObjects[i].SetR() == true)
+							{
+								m_pObjects[i].SetF();
+							}*/
+						}
+						m_pObjects[i].SetF1();
+						m_pObjects[i].SetColgravity();
+						//m_pObjects[i].Update(); //d—Í‚ğÁ‚µ‚Ä‚©‚çUpdate‚ğŒo‚¸‚Éfalse‚É“ü‚Á‚Ä‚¢‚é
+						//m_pObjects[i].Modelchg2();
+					}
+				}
+				//}
+			}
 
-							m_pObjects[i].OBJPos();
-						
+
+			if (m_pObjects[i].SetR() == true)//|| m_pObjects[i].SetR() == false)
+			{
+				for (int j = 0; j < m_num; j++)
+				{
+					if (j == i)
+					{
+						j++;
+					}
+					if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+					{
+						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
+						{
+
+							// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
+						//if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
+						//{	
+						//	if (m_pObjects[i].IsGravity())
+						//	{
+						//		if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
+						//		{
+						//			m_pObjects[i].OBJPosy();
+						//		}
+						//		else if (m_pObjects[i].IsXZ())
+						//		{
+						//			m_pObjects[i].OBJPos();
+						//		}
+						//	}
+						//	else if (m_pObjects[i].IsXZ())
+						//	{
+						//		m_pObjects[i].OBJPos();
+						//	}
+						//}
+
+
+								// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
+							if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
+							{
+								//m_pObjects[j].OBJPos();
+								//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+								if (m_pObjects[i].IsGravity())
+								{
+									if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
+									{
+										m_pObjects[i].framepls();
+										m_pObjects[i].OBJPosy();
+									}
+									else if (m_pObjects[i].IsXZ())
+									{
+										m_pObjects[i].OBJPos();
+									}
+								}
+								else if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.5)
+								{
+									for (int h = 0; h < m_num; h++)
+									{
+										m_pObjects[h].Set1();
+									}
+									m_pObjects[j].SetObjectTop();
+									//m_pObjects[i].Set1();
+									m_pObjects[j].Set();
+									m_pObjects[j].OBJPosy();
+									//m_pObjects[i].OBJPosy();
+									//m_pObjects[i].Update();
+									//m_pObjects[j].Update();
+									//m_pObjects[j].OBJPos();
+								}
+								/*else if (m_pObjects[j].IsObjectTop() == true)
+								{
+									if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.5)
+									{
+										m_pObjects[j].SetObjectTop();
+										m_pObjects[i].SetF1();
+									}
+								}*/
+								else if (m_pObjects[i].IsXZ())
+								{
+									m_pObjects[i].OBJPos();
+									m_pObjects[j].OBJPos();
+									//m_pObjects[i].SetF();
+								}
+							}
+							else
+							{
+								if (m_pObjects[i].IsObjectTop() == true)
+								{
+									//m_pObjects[i].OBJPos();
+									m_pObjects[i].SetObjectTop();
+									m_pObjects[i].SetF();
+
+									//m_pObjects[j].OBJPos();
+								}
+							}
+
 
 						}
 					}
 				}
 			}
-		}
 
+			if (m_pObjects[i].SetR() == false)
+			{
+				for (int j = 0; j < m_num; j++)
+				{
+					if (j == i)
+					{
+						j++;
+					}
+					if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+					{
+						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
+						{
+
+							// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
+							if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
+							{
+								if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
+								{
+									m_pObjects[i].OBJPosy();
+
+
+								}
+								else if (m_pObjects[j].IsXZ())
+								{
+									//if(m_pObjects[j].IsObjectTop() == true)
+									//{ 
+									//	m_pObjects[j].OBJPos();
+									//	m_pObjects[j].SetObjectTop();
+									//	m_pObjects[j].SetF1();
+									//	//m_pObjects[j].OBJPos();
+									//}
+									//m_pObjects[i].OBJPos();
+									for (int h = 0; h < m_num; h++)
+									{
+										if (h == i || h == j)
+										{
+											h++;
+										}
+										if (GameObject* gameObject3 = dynamic_cast<GameObject*>(&m_pObjects[h]))
+										{
+											if (gameObject2->GetMaxBounds().y <= gameObject3->GetCMinBounds().y + 0.5)
+											{
+												m_pObjects[j].OBJPos();
+												m_pObjects[h].OBJPos();
+												m_pObjects[h].SetObjectTop();
+												m_pObjects[h].SetF1();
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+
+
+
+
+
+		}
 	}
 }
 
 
 
+
 void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
+	// effect‚©‚ñ‚ê‚ñ
+	//s—ñ‚ÌŒvZ
+	DirectX::XMFLOAT4X4 effectmat[2];
+
+	effectmat[0] = m_pObjectCamera->GetViewMatrix();
+	effectmat[1] = m_pObjectCamera->GetProjectionMatrix();
+
+	//effeksser‚É‘—‚é‘O‚É“]’u‚·‚é‘O‚Ìó‘Ô‚É–ß‚·
+	DirectX::XMMATRIX effekMat = XMLoadFloat4x4(&effectmat[0]);
+	effekMat = XMMatrixTranspose(effekMat);
+	XMStoreFloat4x4(&effectmat[0], effekMat);
+
+	DirectX::XMMATRIX effekMat2 = XMLoadFloat4x4(&effectmat[1]);
+	effekMat2 = XMMatrixTranspose(effekMat2);
+	XMStoreFloat4x4(&effectmat[1], effekMat2);
+	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5);
+
+	LibEffekseer::SetViewPosition(m_pObjectCamera->GetPos());
+	LibEffekseer::SetCameraMatrix(effectmat[0], effectmat[1]);
+
 	
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Draw(viewMatrix, projectionMatrix);
-		m_pLift[i].Draw(viewMatrix, projectionMatrix);
+		
 	}
-	
+	for (int i = 0; i < m_num1; i++)
+	{
+		m_pLift_obj[i].Draw(viewMatrix, projectionMatrix);
+	}
+	for (int i = 0; i < m_num2; i++)
+	{
+		m_pLever[i].Draw(viewMatrix, projectionMatrix);
+	}
+
+	for (int i = 0; i < m_num3; i++)
+	{
+		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
+
+	}
+
+
+
 	DirectX::XMFLOAT4X4 mat[3];
 
 	mat[1] = m_pObjectCamera->GetViewMatrix();

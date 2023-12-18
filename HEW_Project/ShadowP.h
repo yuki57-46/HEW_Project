@@ -27,6 +27,8 @@ public:
 	void Jump();
 	bool isUse();
 	bool IsJump();
+	float GetMove();
+	void SetFooting(bool footing);
 	//bool IsJump();
 private:
 	Model* m_pModel;
@@ -35,6 +37,7 @@ private:
 	DirectX::XMFLOAT3 m_oldPos;
 	bool IsUse;
 	bool m_Jump;
+	bool m_footing;
 	float m_moveY;
 	float m_JumpY;
 };
