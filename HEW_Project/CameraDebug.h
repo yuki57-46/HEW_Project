@@ -6,6 +6,7 @@ public:
 	CameraDebug();
 	~CameraDebug();
 	void Update();
+	
 private:
 	float m_radXZ;
 	float m_radY;
