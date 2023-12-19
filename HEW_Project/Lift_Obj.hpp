@@ -34,16 +34,26 @@ public:
 	DirectX::XMFLOAT3 CGetmaxBounds();
 	DirectX::XMFLOAT3 CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b);
 
-	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
+	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, float liftheight, float liftlow, float liftspeed);
+
+	
 	void LiftObj_SetPos();
 
 	void SetHeightPosY(float height);
 	void SetLowPosY(float low);
 	void SetSpeed(float speed);
 
-	void SetLever(Lever* pLever);
+	void SetLever();
+	void SetFLever();
+	bool SetRLever();
 
-	void SetMoveFlg(Lever::E_LeverState state = Lever::E_LeverState::LEVER_NONE);
+	void SetMoveTrue();
+	void SetMoveFalse();
+	bool IsMove();
+	bool LiftUp();
+	float LiftMoveSpeed();
+
+
 
 private:
 	Model* m_pModel;	// モデル
@@ -66,7 +76,17 @@ private:
 
 	bool m_RiseFlag;	// 上昇フラグ
 
-	int m_LiftState;	// リフトとレバーの連携
-	
-};
+	bool m_move;
+	bool m_LiftUp;
 
+	// プレイヤーとの当たり判定用
+	DirectX::XMFLOAT3 liftobj_MinBound;
+	DirectX::XMFLOAT3 liftobj_MaxBound;
+
+	DirectX::XMFLOAT3 c_liftobj_MinBound;
+	DirectX::XMFLOAT3 c_liftobj_MaxBound;
+
+
+
+	float a = 0.0f;
+};

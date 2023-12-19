@@ -1,12 +1,9 @@
-﻿#pragma once
-//#include <DirectXMath.h>
-//#include "2DObjectManager.h"
-//#include "Player.h"
-
-#include "GameObject.h"
+#pragma once
 #include "Model.h"
 #include "Shader.h"
-
+#include"Soundtest.h"
+#include "CameraBase.h"
+#include "GameObject.h"
 class Lever : public GameObject
 {
 public:
@@ -20,34 +17,70 @@ public:
 public:
 	Lever();
 	~Lever();
+
 	void Update();
 	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
+	void SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max);
+	DirectX::XMFLOAT3 GetminBounds();
+	DirectX::XMFLOAT3 GetmaxBounds();
+	DirectX::XMFLOAT3 Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b);
 
-	bool GetLeverFlag();
+	void HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max);
+	DirectX::XMFLOAT3 HGetminBounds();
+	DirectX::XMFLOAT3 HGetmaxBounds();
+	DirectX::XMFLOAT3 HAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b);
 
-	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool isFlag = false);
 
+	
+
+
+	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
 	void Set();
 	void SetF();
 	bool SetR();
 
-	void ModelChange();
-	void ModelChange2();
+
+	void OBJPos();
+	void OBJPosy();
+	void Modelchg();
+	void Modelchg2();
+
+	void Set1();
+
+	void SetF1();
+
+	bool SetR1();
+
 
 private:
-	bool m_isUse;
+	Model* m_pLeverModel;
+	VertexShader* m_pLeverVS;
+	DirectX::XMFLOAT3 m_oldPos;
+	DirectX::XMFLOAT3 m_pos;
+	DirectX::XMFLOAT3 m_scale;
 
-	Model* m_pModel;	// モデル
-	VertexShader* m_pVS; // 頂点シェーダー
-	DirectX::XMFLOAT3 m_pos;	// 位置
-	DirectX::XMFLOAT3 m_scale;	// 大きさ
-	DirectX::XMFLOAT3 m_rot;	// 回転量
-	DirectX::XMMATRIX m_rotMat;	// 回転行列
-	DirectX::XMFLOAT3 m_direction;	// 向き
-	float m_rotSpeed = 10.0f;	// 回転速度の設定
 
-	// 憑依しているかのフラグ
-	bool m_isPossession;
 
-	class Lift_Obj* m_pLift_Obj;
+
+	
+
+
+	bool ok;
+	float a = 0.0f;
+
+
+
+	
+	DirectX::XMFLOAT3 LeverMinBound;
+	DirectX::XMFLOAT3 LeverMaxBound;
+
+	DirectX::XMFLOAT3 hLeverMinBound;
+	DirectX::XMFLOAT3 hLeverMaxBound;
+
+	DirectX::XMFLOAT3 cLeverMinBound;
+	DirectX::XMFLOAT3 cLeverMaxBound;
+
+
+
 };
+

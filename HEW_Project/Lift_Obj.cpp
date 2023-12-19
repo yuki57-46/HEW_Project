@@ -1,17 +1,17 @@
 ﻿#include "Lift_Obj.hpp"
 #include "Geometory.h"
-#include "Safe_Delete.hpp"
+#include "Input.h"
 #include "GameObject.h"
 #include "Lever.h"
 
 
 // プレイヤーとの当たり判定用
-DirectX::XMFLOAT3 liftobj_MinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);
-DirectX::XMFLOAT3 liftobj_MaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+//DirectX::XMFLOAT3 liftobj_MinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);
+//DirectX::XMFLOAT3 liftobj_MaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 
 // ブロック同士の当たり判定用
-DirectX::XMFLOAT3 c_liftobj_MinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);
-DirectX::XMFLOAT3 c_liftobj_MaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
+//DirectX::XMFLOAT3 c_liftobj_MinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);
+//DirectX::XMFLOAT3 c_liftobj_MaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 
 
 Lever* g_pLever;
@@ -27,9 +27,16 @@ Lift_Obj::Lift_Obj()
 	, m_heightPosY(0.0f), m_lowPosY(0.0f)
 	, m_moveSpeed(0.0f)
 	, m_RiseFlag(false)
+	, m_move(false)
+	, m_LiftUp(false)
+	, liftobj_MinBound(-0.5f, -0.5f, -0.5f)//当たり判定用
+	, liftobj_MaxBound(0.5f, 0.5f, 0.5f)
+	, c_liftobj_MinBound(-0.5f, -0.5f, -0.5f)
+	, c_liftobj_MaxBound(0.5f, 0.5f, 0.5f)
+
 {
 	m_pModel = new Model();
-	if (!m_pModel->Load("Assets/Model/Block/test_black_cube.fbx", 0.05f, Model::Flip::XFlip))
+	if (!m_pModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip))
 	{
 		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました", "エラー", MB_OK | MB_ICONWARNING);
 	}
@@ -40,105 +47,99 @@ Lift_Obj::Lift_Obj()
 	}
 	m_pModel->SetVertexShader(m_pVS);
 
-	minBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
-	maxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
+
 	// それぞれの当たり判定の大きさを設定
 	//SetBounds(liftobj_MinBound, liftobj_MaxBound);
 	SetBounds(minBound, maxBound);
-	CSetBounds(c_liftobj_MinBound, c_liftobj_MaxBound);
+	CSetBounds(cminBound, cmaxBound);
 
 }
 
 Lift_Obj::~Lift_Obj()
 {
-	SafeDelete(m_pModel);
-	SafeDelete(m_pVS);
+	if (m_pModel)
+	{
+		delete m_pModel;
+		m_pModel = nullptr;
+	}
+	if (m_pVS)
+	{
+		delete m_pVS;
+		m_pVS = nullptr;
+	}
 }
 
 void Lift_Obj::Update(bool LeverFlg)
 {
 	m_oldPos = m_pos; // 前の位置を保存
 
-	// レバーが使用されている場合
-	if (LeverFlg == true)
+	// 上昇フラグが`true`の場合
+	//if (m_RiseFlag)
+	//{
+	//	// 最高点に到達していない場合
+
+	//	m_pos.y += m_moveSpeed * 0.01f; // 上昇させる
+	//	// 最高点に到達した場合
+	//	if (m_pos.y >= m_heightPosY)
+	//	{
+	//		m_pos.y = m_heightPosY; // 最高点に設定
+	//		m_RiseFlag = true; // 上昇フラグを`false`に設定
+	//	}
+
+	//}
+	//if (!m_RiseFlag)// 上昇フラグが`false`の場合
+
+	//{
+	//	m_pos.y -= m_moveSpeed * 0.01f; // 下降させる
+
+	//		// 最低点に到達した場合
+	//	if (m_pos.y <= m_lowPosY)
+	//	{
+	//		m_pos.y = m_lowPosY; // 最低点に設定
+	//		m_RiseFlag = false; // 上昇フラグを`true`に設定
+	//	}
+
+	//}
+
+	if (m_move == true)
 	{
-		// レバーがオンの状態
-		if (E_LiftState::Lift_UP)	// リフトが上に上がる処理
+		if (IsKeyPress(VK_UP))
 		{
-			if (m_RiseFlag == false) // `false`になってたら
-			{
-				m_RiseFlag = true; // 上昇フラグを`true`に設定
-			}
-			// 上昇フラグが`true`の場合
-			if (m_RiseFlag)
-			{
-				// 最高点に到達した場合
-				if (m_pos.y >= m_heightPosY)
-				{
-					m_pos.y = m_heightPosY; // 最高点に設定
-					m_RiseFlag = false; // 上昇フラグを`false`に設定
-				}
-				else // 最高点に到達していない場合
-				{
-					m_pos.y += m_moveSpeed * 0.01f; // 上昇させる
-				}
-			}
-		}
-		else if (E_LiftState::Lift_DOWN)	// レバーが下に下がる処理
-		{
-			if (m_RiseFlag == true) // `true`になってたら
-			{
-				m_RiseFlag = false; // 上昇フラグを`false`に設定
-			}
-			// 上昇フラグが`false`の場合
-			if (m_RiseFlag == false)
-			{
-				// 最低点に到達したら
-				if (m_pos.y <= m_lowPosY)
-				{
-					m_pos.y = m_lowPosY; // 最低点に設定
-				}
-				else
-				{
-					m_pos.y -= m_moveSpeed * 0.01f; // 下降させる
-				}
-			}
-		}
-		else if (E_LiftState::Lift_STOP)	// リフトの途中停止
-		{
-			m_pos = m_oldPos;	// 今の位置に前の位置の情報を持たせておく
-		}
-	}
-	else
-	{
-		// 上昇フラグが`true`の場合
-		if (m_RiseFlag)
-		{
+			// 最高点に到達していない場合
+			m_LiftUp = true;
+			m_pos.y += m_moveSpeed * 0.01f; // 上昇させる
 			// 最高点に到達した場合
 			if (m_pos.y >= m_heightPosY)
 			{
 				m_pos.y = m_heightPosY; // 最高点に設定
-				m_RiseFlag = false; // 上昇フラグを`false`に設定
+				//m_RiseFlag = true; // 上昇フラグを`false`に設定
 			}
-			else // 最高点に到達していない場合
-			{
-				m_pos.y += m_moveSpeed * 0.01f; // 上昇させる
-			}
+
 		}
-		else // 上昇フラグが`false`の場合
+		if (IsKeyPress(VK_DOWN))
+
 		{
-			// 最低点に到達した場合
+			m_LiftUp = false;
+			m_pos.y -= m_moveSpeed * 0.01f; // 下降させる
+
+				// 最低点に到達した場合
 			if (m_pos.y <= m_lowPosY)
 			{
 				m_pos.y = m_lowPosY; // 最低点に設定
-				m_RiseFlag = true; // 上昇フラグを`true`に設定
+				//m_RiseFlag = false; // 上昇フラグを`true`に設定
 			}
-			else // 最低点に到達していない場合
-			{
-				m_pos.y -= m_moveSpeed * 0.01f; // 下降させる
-			}
+
 		}
 	}
+	/*if (IsKeyPress('1'))
+	{
+		m_RiseFlag = true;
+
+	}
+	if (IsKeyPress('2'))
+	{
+		m_RiseFlag = false;
+	}*/
 
 	SetBounds(liftobj_MinBound, liftobj_MaxBound);
 	CSetBounds(c_liftobj_MinBound, c_liftobj_MaxBound);
@@ -150,9 +151,9 @@ void Lift_Obj::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projecti
 
 	// ワールド行列の設定
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranspose(
-				DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z) *
-				DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z)
-				);
+		DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z) *
+		DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z)
+	);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
 	mat[1] = viewMatrix; // 引数の `viewMatrix` を利用
@@ -190,8 +191,8 @@ DirectX::XMFLOAT3 Lift_Obj::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLO
 
 void Lift_Obj::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 {
-	c_liftobj_MinBound = CAdd(m_pos, min);
-	c_liftobj_MaxBound = CAdd(m_pos, max);
+	cminBound = CAdd(m_pos, min);
+	cmaxBound = CAdd(m_pos, max);
 }
 
 DirectX::XMFLOAT3 Lift_Obj::CGetminBounds()
@@ -214,7 +215,8 @@ DirectX::XMFLOAT3 Lift_Obj::CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFL
 	return result;
 }
 
-void Lift_Obj::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
+void Lift_Obj::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ
+    ,float liftheight,float liftlow ,float liftspeed)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
@@ -223,6 +225,40 @@ void Lift_Obj::Create(float posX, float posY, float posZ, float scaleX, float sc
 	m_scale.x = scaleX;
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
+
+
+	liftobj_MinBound.x *= m_scale.x;
+	liftobj_MinBound.y *= m_scale.y;
+	liftobj_MinBound.z *= m_scale.z;
+	liftobj_MaxBound.x *= m_scale.x;
+	liftobj_MaxBound.y *= m_scale.y;
+	liftobj_MaxBound.z *= m_scale.z;
+
+	SetBounds(liftobj_MinBound, liftobj_MaxBound);
+
+	c_liftobj_MinBound.x *= m_scale.x;
+	c_liftobj_MinBound.y *= m_scale.y;
+	c_liftobj_MinBound.z *= m_scale.z;
+	c_liftobj_MaxBound.x *= m_scale.x;
+	c_liftobj_MaxBound.y *= m_scale.y;
+	c_liftobj_MaxBound.z *= m_scale.z;
+
+	//これがないとy軸の当たり判定おかしくなる
+
+	if (c_liftobj_MinBound.y < 0)
+	{
+		a = c_liftobj_MinBound.y *= -1;
+		c_liftobj_MaxBound.y += a;
+
+		c_liftobj_MinBound.y = 0;
+	}
+
+	CSetBounds(c_liftobj_MinBound, c_liftobj_MaxBound);
+
+	m_heightPosY = liftheight;
+	m_lowPosY = liftlow;
+	m_moveSpeed = liftspeed;
+
 }
 
 // ブロックとリフトが当たった時に返す
@@ -258,13 +294,48 @@ void Lift_Obj::SetSpeed(float speed)
 	m_moveSpeed = speed;
 }
 
-void Lift_Obj::SetLever(Lever* pLever)
+
+
+void Lift_Obj::SetLever()
 {
-	g_pLever = pLever;
+	m_RiseFlag = true;
 }
 
-void Lift_Obj::SetMoveFlg(Lever::E_LeverState state)
+void Lift_Obj::SetFLever()
 {
-	// レバーの状態とリフトの状態の連携
-	m_LiftState = static_cast<E_LiftState>(state);	// 12/04 エラー箇所
+	m_RiseFlag = false;
+}
+
+bool Lift_Obj::SetRLever()
+{
+	return m_RiseFlag;
+}
+
+
+
+
+
+void Lift_Obj::SetMoveTrue()
+{
+	m_move = true;
+}
+
+void Lift_Obj::SetMoveFalse()
+{
+	m_move = false;
+}
+
+bool Lift_Obj::IsMove()
+{
+	return m_move;
+}
+
+bool Lift_Obj::LiftUp()
+{
+	return m_LiftUp;
+}
+
+float Lift_Obj::LiftMoveSpeed()
+{
+	return m_pos.y;
 }
