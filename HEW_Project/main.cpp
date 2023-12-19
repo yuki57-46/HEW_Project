@@ -6,11 +6,17 @@
 #include "Input.h"
 #include "SceneGame.h"
 #include "Defines.h"
+#include "Soundtest.h"
+#include "Gamepad.h"
+#include "LibEffekseer.h"
+#include "ShaderList.h"
 
 //--- グローバル変数
 SceneGame* g_pGame;
 
-//InputManager imanager = InputManager();
+//Sound* g_Sound;
+
+InputManager imanager = InputManager();
 
 
 HRESULT Init(HWND hWnd, UINT width, UINT height)
@@ -21,9 +27,12 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 	if (FAILED(hr)) { return hr; }
 
 	Geometory::Init();
-	Sprite::Init();	
-	//InitInput();
+	Sprite::Init();
+	ShaderList::Init();
+	InitInput();
+	LibEffekseer::Init(GetDevice(), GetContext(), nullptr); // effekseer初期化
 
+	InitSound();
 	// シーン作成
 	g_pGame = new SceneGame();
 
@@ -49,16 +58,19 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 void Uninit()
 {
 	delete g_pGame;
+	LibEffekseer::Uninit();	// effekseer終了処理
 	UninitInput();
+	ShaderList::Uninit();
 	Sprite::Uninit();
 	Geometory::Uninit();
+	UninitSound();
 	UninitDirectX();
 }
 
 void Update(float tick)
 {
 	UpdateInput();
-	//imanager.inspect();
+	imanager.inspect();
 	g_pGame->Update(tick);
 }
 
@@ -97,7 +109,7 @@ void Draw()
 
 	Geometory::DrawLines();
 #endif
-
+	LibEffekseer::Draw();	// effekseer描画
 	g_pGame->Draw();
 	EndDrawDirectX();
 }

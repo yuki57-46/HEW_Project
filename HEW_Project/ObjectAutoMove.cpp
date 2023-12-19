@@ -62,6 +62,8 @@ ObjectAutoMove::~ObjectAutoMove()
 
 void ObjectAutoMove::Update()
 {
+	
+
 	m_oldPos = m_pos;
 
 	if (m_MoveX == true)	// オブジェクトの移動がtrueなら
@@ -153,8 +155,10 @@ void ObjectAutoMove::Update()
 
 //	SetBounds(objectMinBoundAuto, objectMaxBoundAuto);  //最小値と最大値をセット
 
-//	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//憑依用の当たり判定
-//	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ブロック同士の当たり判定
+	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//憑依用の当たり判定
+	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ブロック同士の当たり判定
+
+//	time++;
 }
 
 void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)

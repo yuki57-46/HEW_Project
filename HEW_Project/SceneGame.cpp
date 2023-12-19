@@ -3,16 +3,50 @@
 #include <DirectXMath.h>
 
 SceneGame::SceneGame()
+	:m_pSound(nullptr)
+,m_pSourceVoice(nullptr)
+, m_pVS(nullptr)
+, m_pCamera{ nullptr, nullptr,nullptr }
+, m_pobjcamera(nullptr)
+, m_pRTV(nullptr)
+, m_pDSV(nullptr)
 {
-	RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
-	DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
-	SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
-	
+
+	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
+	//DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
+	//SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
+	//
+
+	//深度バッファ、レンダーターゲットの設定
+	m_pRTV = GetDefaultRTV();	//デフォルトで使用しているRender Target Viewの取得
+	m_pDSV = GetDefaultDSV();	//デフォルトで使用しているDepth Stencil Viewの取得
+	SetRenderTargets(1, &m_pRTV, m_pDSV);		//DSVがnullだと２D表示になる
 
 	//m_pPlayer = new Player();
+	m_pVS = new VertexShader();
+
+	m_pobjcamera = new ObjectCamera();
+
+	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
+	{
+		MessageBox(nullptr, "VS_Model.cso", "ERROR", MB_OK);
+	}
+
+	m_pCamera[CAM_OBJ] = new CameraObject(m_pobjcamera);
+	m_pCamera[CAM_DEBUG] = new CameraDebug();
+	m_pCamera[CAM_SHADOW] = new CameraShadow();
+
+	m_pBackShadow = new BackShadow;
+
 	m_pObjectMng = new ObjectMng();
-	m_pCamera = new CameraDebug();
-	m_pObject2D = new Object2D();
+	//m_pDCamera = new CameraDebug();
+	
+	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
+	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // サウンドファイルの読み込み
+	
+	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
+	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
+	//m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
 }
 
 SceneGame::~SceneGame()
@@ -23,60 +57,128 @@ SceneGame::~SceneGame()
 		delete m_pPlayer;
 		m_pPlayer = nullptr;
 	}*/
+	if (m_pRTV)
+	{
+		delete m_pRTV;
+		m_pRTV = nullptr;
+	}
+	if (m_pDSV)
+	{
+		delete m_pDSV;
+		m_pDSV = nullptr;
+	}
 	if (m_pCamera)
 	{
-		delete m_pCamera;
-		m_pCamera = nullptr;
+		for (int i = 0; i < MAX_CAMERA; i++)
+		{
+			delete m_pCamera[i];
+			m_pCamera[i] = nullptr;
+		}
 	}
 	if (m_pObjectMng)
 	{
 		delete m_pObjectMng;
 		m_pObjectMng = nullptr;
 	}
-	if (m_pObject2D)
+	if (m_pBackShadow)
 	{
-		delete m_pObject2D;
-		m_pObject2D = nullptr;
+		delete m_pBackShadow;
+		m_pBackShadow = nullptr;
 	}
+	if (m_pBackShadow)
+	{
+		delete m_pBackShadow;
+		m_pBackShadow = nullptr;
+	}
+	//m_pSourceVoice->Stop();
 }
 
 void SceneGame::Update(float tick)
 {
-;
-	m_pObjectMng->Update();
-	//m_pPlayer->Update();
-	m_pCamera->Update();
-	
-	m_pObject2D->Update();
+
+	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
+	m_pBackShadow->Update();
+
+	//m_pObjectMng->SetPlayer(m_pPlayer);
+	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
+
+	m_pCamera[CAM_OBJ]->Update();
+
+	//オブジェクト
+	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
+	m_pObjectMng->Update(tick);
+	//m_pObject2D->Update();
+
+	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
+	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
+	DirectX::XMMATRIX mat = S * T;
+	mat = DirectX::XMMatrixTranspose(mat);
+	DirectX::XMFLOAT4X4 fMat;
+	DirectX::XMStoreFloat4x4(&fMat, mat);
+	Geometory::SetWorld(fMat);
 }
 
 void SceneGame::Draw()
 {
+
+	m_pDSV->Clear();
+	SetRenderTargets(1, &m_pRTV, nullptr);
+
+	static float rad = 0.0f;
 	DirectX::XMFLOAT4X4 mat[3];
 
-	mat[1] = m_pCamera->GetViewMatrix();
-	mat[2] = m_pCamera->GetProjectionMatrix();
-	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
-	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
+	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
+	m_pBackShadow->Draw(m_pObjectMng);
 
-	
-	m_pObjectMng->Draw(viewMatrix, projectionMatrix);
 
-	m_pObject2D->Draw(viewMatrix, projectionMatrix);
-	//---Geometry用の変換行列を計算
-	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
-	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(5.0f, 0.5f, 5.0f);
-	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ワールド行列の設定];
+	//3D表示に変更
+	SetRenderTargets(1, &m_pRTV, m_pDSV);
+
+	//ワールド行列の計算
+	DirectX::XMMATRIX world =
+		DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
+		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
+		DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
+	//ビュー行列の計算
+	mat[1] = m_pCamera[CAM_OBJ]->GetViewMatrix();
+	//プロジェクション行列の計算
+	mat[2] = m_pCamera[CAM_OBJ]->GetProjectionMatrix();
 
-	//----Geomatry用の変換行列を設定
+	//行列をシェーダーへ設定
+	m_pVS->WriteBuffer(0, mat);
+
+	//m_pPlayer->Draw(viewMatrix, projectionMatrix);
+
+	//プレイヤー
+	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
+	m_pobjcamera->Draw();
+
+	//オブジェクト
+	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
+	
+
+	//Geometry用の変更行列を計算
+	//ワールド行列の再計算
+	world =
+		DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f) *
+		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
+		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
+	//転置行列に変換
+	world = DirectX::XMMatrixTranspose(world);
+	//XMMATRIX型からXMFLOAT4X4に変換して格納
+	DirectX::XMStoreFloat4x4(&mat[0], world);
+
+	//Geometory用の変換行列を設定
 	Geometory::SetWorld(mat[0]);
 	Geometory::SetView(mat[1]);
 	Geometory::SetProjection(mat[2]);
 
+	//モデル表示
 	//Geometory::DrawBox();
-	Geometory::DrawTriangle();
 
+	//2D表示に変換(ミニマップやUI
+	SetRenderTargets(1, &m_pRTV, nullptr);
 }
+

@@ -3,14 +3,28 @@
 
 #include "Model.h"
 #include "Shader.h"
+
 #include "CameraBase.h"
-#include "CameraDebug.h"
+#include"Objectcamera.h"
 #include "Player.h"
 #include "ObjectManager.h"
 #include "Object.h"
+//#include"CameraObject.h"
 
-#include "ShadowP.h"
-#include "2DObjectManager.h"
+#include"BackShadow.h"
+
+#include "Soundtest.h"
+
+
+enum CameraKind
+{
+	CAM_OBJ,	//
+	CAM_SHADOW,	//レンダー用カメラ
+	CAM_DEBUG,	//でバック用のカメラ
+	MAX_CAMERA	//カメラ最大数
+};
+
+
 class SceneGame
 {
 public:
@@ -20,13 +34,27 @@ public:
 	void Draw();
 
 private:
-	Player* m_pPlayer;
+
 	ObjectMng* m_pObjectMng;
 	VertexShader* m_pVS;
-	CameraDebug* m_pCamera;
 
-	ShadowP* m_pShadowP;
-	Object2D* m_pObject2D;
+	ObjectCamera* m_pobjcamera;
+
+	CameraKind		m_mainCamera;
+	CameraBase*		m_pCamera[MAX_CAMERA];
+
+	BackShadow*		m_pBackShadow;
+
+	
+	
+
+
+	RenderTarget*	m_pRTV;
+	DepthStencil*	m_pDSV;
+
+	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
+	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
+	//Sound m_Sound;
 };
 
 #endif // __SCENE_GAME_H__
