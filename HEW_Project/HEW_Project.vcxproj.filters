@@ -37,23 +37,17 @@
     <Filter Include="ヘッダー ファイル\System">
       <UniqueIdentifier>{23598e8f-8b92-47d1-ac2c-8d127274e433}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Collision">
-      <UniqueIdentifier>{b2e9df62-cad6-43b7-8376-6a1f2a36245c}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\object">
+      <UniqueIdentifier>{7947d1fd-73e8-4848-b063-1b1e8505dbe3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object">
-      <UniqueIdentifier>{9834a47a-b00b-4c7e-8666-4446f68dcf5d}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\object">
+      <UniqueIdentifier>{1df359fd-87b3-4216-b0ca-f510a7e2d27f}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Camera">
-      <UniqueIdentifier>{073623e2-d9ba-4df2-9552-40f45b0f26bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object">
-      <UniqueIdentifier>{2952dd16-258f-46e4-8e3b-d10ea54565fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Collision">
-      <UniqueIdentifier>{84991a16-2a97-4e66-aa09-3befa1da3a82}</UniqueIdentifier>
+      <UniqueIdentifier>{f8f9ed80-6588-44c5-bd35-561ca0c40600}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Camera">
-      <UniqueIdentifier>{a33a7206-bc00-466d-9972-815c6fbb92ca}</UniqueIdentifier>
+      <UniqueIdentifier>{62ffaefe-89bf-4abd-a750-bf3be0da2810}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,50 +87,71 @@
     <ClCompile Include="Model.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Geometory.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="ShadowP.cpp">
-      <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="col.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="HCollision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+      <Filter>ソース ファイル\object</Filter>
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>ソース ファイル\object</Filter>
     </ClCompile>
-    <ClCompile Include="2DObjectManager.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+    <ClCompile Include="ShadowP.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="col.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="HCollision.cpp">
+      <Filter>ソース ファイル\object</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+      <Filter>ソース ファイル\object</Filter>
     </ClCompile>
-    <ClCompile Include="CameraBase.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClCompile Include="Soundtest.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Lift_Obj.cpp">
+      <Filter>ソース ファイル\object</Filter>
     </ClCompile>
     <ClCompile Include="CameraDebug.cpp">
       <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
+    <ClCompile Include="CameraBase.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="SObjects.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+    <ClCompile Include="Gamepad.cpp">
+      <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectNot.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+    <ClCompile Include="Lever.cpp">
+      <Filter>ソース ファイル\object</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectAutoMove.cpp">
-      <Filter>ソース ファイル\Object</Filter>
+    <ClCompile Include="LibEffekseer.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="yuka.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="BackShadow.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraShadow.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderList.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraObject.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,44 +191,65 @@
     <ClInclude Include="Player.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="ShadowP.h">
+    <ClInclude Include="GameObject.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="CameraDebug.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
+    <ClInclude Include="col.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="HCollision.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowP.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="Soundtest.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Lift_Obj.hpp">
+      <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
     <ClInclude Include="CameraBase.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="col.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
+    <ClInclude Include="CameraDebug.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
+    <ClInclude Include="Gamepad.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
+    <ClInclude Include="Lever.h">
+      <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
+    <ClInclude Include="LibEffekseer.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="2DObjectManager.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
+    <ClInclude Include="yuka.h">
+      <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
-    <ClInclude Include="SObjects.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
+    <ClInclude Include="BackShadow.h">
+      <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
-    <ClInclude Include="HCollision.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
+    <ClInclude Include="CameraShadow.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
+    <ClInclude Include="ShaderList.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectNot.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
+    <ClInclude Include="CameraObject.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectAutoMove.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
+    <ClInclude Include="Objectcamera.h">
+      <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -28,6 +28,8 @@ public:
 	DirectX::XMFLOAT3 CGetmaxBounds();
 	DirectX::XMFLOAT3 CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b);
 
+	DirectX::XMFLOAT3 GetObjectMaxBounds();
+	DirectX::XMFLOAT3 GetPos();
 
 	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
 	void Set();
@@ -37,22 +39,33 @@ public:
 
 
 	void OBJPos();
-
-//	bool OBJRPos();
-
+	void OBJPosy();
 	void Modelchg();
 
 	void Modelchg2();
 
-	
-	
-	
+	void Set1();
+	void SetF1();
+
+	void SetColgravity();
+	void framepls();
+	void SetObjectTop();
+	void MoveObject(float y);
+
+
+	bool SetR1();
+	bool IsGravity();
+	bool IsXZ();
+	bool IsObjectTop();
+
 private:
 	Model* m_pObjectModel;
 	VertexShader* m_pObjectVS;
 	DirectX::XMFLOAT3 m_oldPos;
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_scale;
+	DirectX::XMFLOAT3 m_jmp;
+	DirectX::XMFLOAT3 m_mmovespeed;
 
 	float m_rotationY;
 	DirectX::XMFLOAT3 m_direction;
@@ -60,7 +73,31 @@ private:
 	float m_lastRotationY;
 	bool moveok;
 	
-	bool m_isPossessed;
+
+	bool ok;
+	bool gravity;
+	bool xz;
+	bool objectTop;
+	bool colgravity;
+	float a = 0.0f;
+
+	
+	
+
+	IXAudio2SourceVoice* m_pSVSEBlk; // サウンドソース
+	XAUDIO2_BUFFER* m_pSDSEBlk; // サウンドバッファ
+
+	DirectX::XMFLOAT3 objectMinBound;
+	DirectX::XMFLOAT3 objectMaxBound;
+
+	DirectX::XMFLOAT3 hobjectMinBound;
+	DirectX::XMFLOAT3 hobjectMaxBound;
+
+	DirectX::XMFLOAT3 cobjectMinBound;
+	DirectX::XMFLOAT3 cobjectMaxBound;
+
+
+
 };
 
 

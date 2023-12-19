@@ -2,6 +2,7 @@
 #define __TEXTURE_H__
 
 #include "DirectX.h"
+#include <functional>
 
 /// <summary>
 /// テクスチャ
@@ -41,6 +42,8 @@ public:
 	void Clear(const float* color);
 	HRESULT Create(DXGI_FORMAT format, UINT width, UINT height);
 	HRESULT CreateFromScreen();
+	HRESULT CreateReadBuffer();
+	void Read(std::function<void(const void* pData, UINT width, UINT height)> CallbackFunc);
 	ID3D11RenderTargetView* GetView() const;
 
 protected:
@@ -48,6 +51,7 @@ protected:
 
 private:
 	ID3D11RenderTargetView* m_pRTV;
+	ID3D11Texture2D* m_pCopy;
 };
 
 /// <summary>
@@ -68,5 +72,4 @@ protected:
 private:
 	ID3D11DepthStencilView* m_pDSV;
 };
-
-#endif // __TEXTURE_H__
+#endif
