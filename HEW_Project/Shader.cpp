@@ -1,11 +1,11 @@
-ï»¿#include "Shader.h"
+#include "Shader.h"
 #include <d3dcompiler.h>
 #include <stdio.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
 
 //----------
-// åŸºæœ¬ã‚¯ãƒ©ã‚¹
+// Šî–{ƒNƒ‰ƒX
 Shader::Shader(Kind kind)
 	: m_kind(kind)
 {
@@ -23,26 +23,26 @@ HRESULT Shader::Load(const char* pFileName)
 {
 	HRESULT hr = E_FAIL;
 
-	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€
+	// ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş
 	FILE* fp;
 	fopen_s(&fp, pFileName, "rb");
 	if (!fp) { return hr; }
 
-	// ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºã‚’èª¿ã¹ã‚‹
+	// ƒtƒ@ƒCƒ‹‚ÌƒTƒCƒY‚ğ’²‚×‚é
 	int fileSize = 0;
 	fseek(fp, 0, SEEK_END);
 	fileSize = ftell(fp);
 
-	// ãƒ¡ãƒ¢ãƒªã«èª­ã¿è¾¼ã¿
+	// ƒƒ‚ƒŠ‚É“Ç‚İ‚İ
 	fseek(fp, 0, SEEK_SET);
 	char* pData = new char[fileSize];
 	fread(pData, fileSize, 1, fp);
 	fclose(fp);
 
-	// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ä½œæˆ
+	// ƒVƒF[ƒ_[ì¬
 	hr = Make(pData, fileSize);
 	
-	// çµ‚äº†å‡¦ç†
+	// I—¹ˆ—
 	if (pData) { delete[] pData; }
 	return hr;
 }
@@ -62,7 +62,7 @@ HRESULT Shader::Compile(const char *pCode)
 		"main", pTargetList[m_kind], compileFlag, 0, &pBlob, &error);
 	if (FAILED(hr)) { return hr; }
 
-	// ã‚·ã‚§ãƒ¼ãƒ€ä½œæˆ
+	// ƒVƒF[ƒ_ì¬
 	hr = Make(pBlob->GetBufferPointer(), (UINT)pBlob->GetBufferSize());
 	SAFE_RELEASE(pBlob);
 	SAFE_RELEASE(error);
@@ -91,40 +91,40 @@ HRESULT Shader::Make(void* pData, UINT size)
 	HRESULT hr;
 	ID3D11Device* pDevice = GetDevice();
 
-	// è§£æç”¨ã®ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
+	// ‰ğÍ—p‚ÌƒŠƒtƒŒƒNƒVƒ‡ƒ“ì¬
 	ID3D11ShaderReflection* pReflection;
 	hr = D3DReflect(pData, size, IID_PPV_ARGS(&pReflection));
 	if (FAILED(hr)) { return hr; }
 
-	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ä½œæˆ
+	// ’è”ƒoƒbƒtƒ@ì¬
 	D3D11_SHADER_DESC shaderDesc;
 	pReflection->GetDesc(&shaderDesc);
 	m_pBuffers.resize(shaderDesc.ConstantBuffers, nullptr);
 	for (UINT i = 0; i < shaderDesc.ConstantBuffers; ++i)
 	{
-		// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®æƒ…å ±ã‚’å–å¾—
+		// ƒVƒF[ƒ_[‚Ì’è”ƒoƒbƒtƒ@‚Ìî•ñ‚ğæ“¾
 		D3D11_SHADER_BUFFER_DESC shaderBufDesc;
 		ID3D11ShaderReflectionConstantBuffer* cbuf = pReflection->GetConstantBufferByIndex(i);
 		cbuf->GetDesc(&shaderBufDesc);
 
-		// ä½œæˆã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã®æƒ…å ±
+		// ì¬‚·‚éƒoƒbƒtƒ@‚Ìî•ñ
 		D3D11_BUFFER_DESC bufDesc = {};
 		bufDesc.ByteWidth = shaderBufDesc.Size;
 		bufDesc.Usage = D3D11_USAGE_DEFAULT;
 		bufDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
-		// ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
+		// ƒoƒbƒtƒ@‚Ìì¬
 		hr = pDevice->CreateBuffer(&bufDesc, nullptr, &m_pBuffers[i]);
 		if (FAILED(hr)) { return hr; }
 	}
-	// ãƒ†ã‚¯ã‚¹ãƒãƒ£é ˜åŸŸä½œæˆ
+	// ƒeƒNƒXƒ`ƒƒ—Ìˆæì¬
 	m_pTextures.resize(shaderDesc.TextureNormalInstructions, nullptr);
 
 	return MakeShader(pData, size);
 }
 
 //----------
-// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€
+// ’¸“_ƒVƒF[ƒ_
 VertexShader::VertexShader()
 	: Shader(Shader::Vertex)
 	, m_pVS(nullptr)
@@ -154,14 +154,14 @@ HRESULT VertexShader::MakeShader(void* pData, UINT size)
 	HRESULT hr;
 	ID3D11Device* pDevice = GetDevice();
 	
-	// ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ä½œæˆ
+	// ƒVƒF[ƒ_[ì¬
 	hr = pDevice->CreateVertexShader(pData, size, NULL, &m_pVS);
 	if(FAILED(hr)) { return hr; }
 
 	/*
-	ã‚·ã‚§ãƒ¼ãƒ€ä½œæˆæ™‚ã«ã‚·ã‚§ãƒ¼ãƒ€ãƒªãƒ•ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚’é€šã—ã¦ã‚¤ãƒ³ãƒ—ãƒƒãƒˆãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’å–å¾—
-	ã‚»ãƒãƒ³ãƒ†ã‚£ã‚¯ã‚¹ã®é…ç½®ãªã©ã‹ã‚‰è­˜åˆ¥å­ã‚’ä½œæˆ
-	è­˜åˆ¥å­ãŒç™»éŒ²æ¸ˆâ†’å†åˆ©ç”¨ã€ãªã‘ã‚Œã°æ–°è¦ä½œæˆ
+	ƒVƒF[ƒ_ì¬‚ÉƒVƒF[ƒ_ƒŠƒtƒŒƒNƒVƒ‡ƒ“‚ğ’Ê‚µ‚ÄƒCƒ“ƒvƒbƒgƒŒƒCƒAƒEƒg‚ğæ“¾
+	ƒZƒ}ƒ“ƒeƒBƒNƒX‚Ì”z’u‚È‚Ç‚©‚ç¯•Êq‚ğì¬
+	¯•Êq‚ª“o˜^Ï¨Ä—˜—pA‚È‚¯‚ê‚ÎV‹Kì¬
 	https://blog.techlab-xe.net/dxc-shader-reflection/
 	*/
 
@@ -234,7 +234,7 @@ HRESULT VertexShader::MakeShader(void* pData, UINT size)
 }
 
 //----------
-// ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€
+// ƒsƒNƒZƒ‹ƒVƒF[ƒ_
 PixelShader::PixelShader()
 	: Shader(Shader::Pixel)
 	, m_pPS(nullptr)

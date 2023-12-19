@@ -153,8 +153,10 @@ void ObjectAutoMove::Update()
 
 //	SetBounds(objectMinBoundAuto, objectMaxBoundAuto);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
 
-//	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//æ†‘ä¾ç”¨ã®å½“ãŸã‚Šåˆ¤å®š
-//	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
+	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//œßˆË—p‚Ì“–‚½‚è”»’è
+	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ƒuƒƒbƒN“¯m‚Ì“–‚½‚è”»’è
+
+//	time++;
 }
 
 void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)

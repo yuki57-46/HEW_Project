@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>C:\HAL\2年\DX22\DX22Base\DX22Base\DX22Base;$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -130,6 +130,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>NotSet</SubSystem>
@@ -169,62 +170,74 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="2DObjectManager.cpp" />
+    <ClCompile Include="BackShadow.cpp" />
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="CameraBase.cpp" />
     <ClCompile Include="CameraDebug.cpp" />
+    <ClCompile Include="CameraObject.cpp" />
+    <ClCompile Include="CameraShadow.cpp" />
     <ClCompile Include="col.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Lever.cpp" />
+    <ClCompile Include="LibEffekseer.cpp" />
+    <ClCompile Include="Lift_Obj.cpp" />
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="ObjectAutoMove.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="ObjectNot.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderList.cpp" />
     <ClCompile Include="ShadowP.cpp" />
-    <ClCompile Include="SObjects.cpp" />
+    <ClCompile Include="Soundtest.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="yuka.cpp" />
     <ClCompile Include="_geometory.cpp" />
     <ClCompile Include="_model.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2DObjectManager.h" />
+    <ClInclude Include="BackShadow.h" />
+    <ClInclude Include="Objectcamera.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CameraDebug.h" />
+    <ClInclude Include="CameraObject.h" />
+    <ClInclude Include="CameraShadow.h" />
     <ClInclude Include="col.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DirectX.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Gamepad.h" />
     <ClInclude Include="HCollision.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Lever.h" />
+    <ClInclude Include="LibEffekseer.h" />
+    <ClInclude Include="Lift_Obj.hpp" />
     <ClInclude Include="MeshBuffer.h" />
     <ClInclude Include="Geometory.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="ObjectAutoMove.h" />
     <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="ObjectNot.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderList.h" />
     <ClInclude Include="ShadowP.h" />
-    <ClInclude Include="SObjects.h" />
+    <ClInclude Include="Soundtest.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="yuka.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VS_Model.hlsl">

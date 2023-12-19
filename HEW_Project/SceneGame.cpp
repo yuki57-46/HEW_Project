@@ -1,19 +1,52 @@
-ï»¿#include "SceneGame.h"
+#include "SceneGame.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 
 SceneGame::SceneGame()
-	:m_pShadowP(nullptr)
+	:m_pSound(nullptr)
+,m_pSourceVoice(nullptr)
+, m_pVS(nullptr)
+, m_pCamera{ nullptr, nullptr,nullptr }
+, m_pobjcamera(nullptr)
+, m_pRTV(nullptr)
+, m_pDSV(nullptr)
 {
-	RenderTarget* pRTV = GetDefaultRTV();  //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹RenderTargetViewã®å–å¾—
-	DepthStencil* pDSV = GetDefaultDSV();  //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹DepthStencilViewã®å–å¾—
-	SetRenderTargets(1, &pRTV, pDSV);      //DSVãŒnullã ã¨2Dè¡¨ç¤ºã«ãªã‚‹
 
+	//RenderTarget* pRTV = GetDefaultRTV();  //ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éRenderTargetView‚Ìæ“¾
+	//DepthStencil* pDSV = GetDefaultDSV();  //ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éDepthStencilView‚Ìæ“¾
+	//SetRenderTargets(1, &pRTV, pDSV);      //DSV‚ªnull‚¾‚Æ2D•\¦‚É‚È‚é
+	//
+
+	//[“xƒoƒbƒtƒ@AƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìİ’è
+	m_pRTV = GetDefaultRTV();	//ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éRender Target View‚Ìæ“¾
+	m_pDSV = GetDefaultDSV();	//ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éDepth Stencil View‚Ìæ“¾
+	SetRenderTargets(1, &m_pRTV, m_pDSV);		//DSV‚ªnull‚¾‚Æ‚QD•\¦‚É‚È‚é
 
 	//m_pPlayer = new Player();
+	m_pVS = new VertexShader();
+
+	m_pobjcamera = new ObjectCamera();
+
+	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
+	{
+		MessageBox(nullptr, "VS_Model.cso", "ERROR", MB_OK);
+	}
+
+	m_pCamera[CAM_OBJ] = new CameraObject(m_pobjcamera);
+	m_pCamera[CAM_DEBUG] = new CameraDebug();
+	m_pCamera[CAM_SHADOW] = new CameraShadow();
+
+	m_pBackShadow = new BackShadow;
+
 	m_pObjectMng = new ObjectMng();
-	m_pCamera = new CameraDebug();
-	m_pObject2D = new Object2D();
+	//m_pDCamera = new CameraDebug();
+	
+	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
+	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+	
+	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
+	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
+	//m_pSourceVoice = PlaySound(m_pSound); // ƒTƒEƒ“ƒh‚ÌÄ¶
 }
 
 SceneGame::~SceneGame()
@@ -24,60 +57,128 @@ SceneGame::~SceneGame()
 		delete m_pPlayer;
 		m_pPlayer = nullptr;
 	}*/
+	if (m_pRTV)
+	{
+		delete m_pRTV;
+		m_pRTV = nullptr;
+	}
+	if (m_pDSV)
+	{
+		delete m_pDSV;
+		m_pDSV = nullptr;
+	}
 	if (m_pCamera)
 	{
-		delete m_pCamera;
-		m_pCamera = nullptr;
+		for (int i = 0; i < MAX_CAMERA; i++)
+		{
+			delete m_pCamera[i];
+			m_pCamera[i] = nullptr;
+		}
 	}
 	if (m_pObjectMng)
 	{
 		delete m_pObjectMng;
 		m_pObjectMng = nullptr;
 	}
-	if (m_pObject2D)
+	if (m_pBackShadow)
 	{
-		delete m_pObject2D;
-		m_pObject2D = nullptr;
+		delete m_pBackShadow;
+		m_pBackShadow = nullptr;
 	}
+	if (m_pBackShadow)
+	{
+		delete m_pBackShadow;
+		m_pBackShadow = nullptr;
+	}
+	//m_pSourceVoice->Stop();
 }
 
 void SceneGame::Update(float tick)
 {
-;
-	m_pObjectMng->Update(tick);
-	//m_pPlayer->Update();
-	m_pCamera->Update();
 
-	m_pObject2D->Update();
+	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
+	m_pBackShadow->Update();
+
+	//m_pObjectMng->SetPlayer(m_pPlayer);
+	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
+
+	m_pCamera[CAM_OBJ]->Update();
+
+	//ƒIƒuƒWƒFƒNƒg
+	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
+	m_pObjectMng->Update(tick);
+	//m_pObject2D->Update();
+
+	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
+	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
+	DirectX::XMMATRIX mat = S * T;
+	mat = DirectX::XMMatrixTranspose(mat);
+	DirectX::XMFLOAT4X4 fMat;
+	DirectX::XMStoreFloat4x4(&fMat, mat);
+	Geometory::SetWorld(fMat);
 }
 
 void SceneGame::Draw()
 {
+
+	m_pDSV->Clear();
+	SetRenderTargets(1, &m_pRTV, nullptr);
+
+	static float rad = 0.0f;
 	DirectX::XMFLOAT4X4 mat[3];
 
-	mat[1] = m_pCamera->GetViewMatrix();
-	mat[2] = m_pCamera->GetProjectionMatrix();
-	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
-	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
+	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
+	m_pBackShadow->Draw(m_pObjectMng);
 
 
-	m_pObjectMng->Draw(viewMatrix, projectionMatrix);
+	//3D•\¦‚É•ÏX
+	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
-	m_pObject2D->Draw(viewMatrix, projectionMatrix);
-	//---Geometryç”¨ã®å¤‰æ›è¡Œåˆ—ã‚’è¨ˆç®—
-	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
-	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(5.0f, 0.5f, 5.0f);
-	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
+	//ƒ[ƒ‹ƒhs—ñ‚ÌŒvZ
+	DirectX::XMMATRIX world =
+		DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
+		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
+		DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
+	//ƒrƒ…[s—ñ‚ÌŒvZ
+	mat[1] = m_pCamera[CAM_OBJ]->GetViewMatrix();
+	//ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ÌŒvZ
+	mat[2] = m_pCamera[CAM_OBJ]->GetProjectionMatrix();
 
-	//----Geomatryç”¨ã®å¤‰æ›è¡Œåˆ—ã‚’è¨­å®š
+	//s—ñ‚ğƒVƒF[ƒ_[‚Öİ’è
+	m_pVS->WriteBuffer(0, mat);
+
+	//m_pPlayer->Draw(viewMatrix, projectionMatrix);
+
+	//ƒvƒŒƒCƒ„[
+	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
+	m_pobjcamera->Draw();
+
+	//ƒIƒuƒWƒFƒNƒg
+	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
+	
+
+	//Geometry—p‚Ì•ÏXs—ñ‚ğŒvZ
+	//ƒ[ƒ‹ƒhs—ñ‚ÌÄŒvZ
+	world =
+		DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f) *
+		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
+		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
+	//“]’us—ñ‚É•ÏŠ·
+	world = DirectX::XMMatrixTranspose(world);
+	//XMMATRIXŒ^‚©‚çXMFLOAT4X4‚É•ÏŠ·‚µ‚ÄŠi”[
+	DirectX::XMStoreFloat4x4(&mat[0], world);
+
+	//Geometory—p‚Ì•ÏŠ·s—ñ‚ğİ’è
 	Geometory::SetWorld(mat[0]);
 	Geometory::SetView(mat[1]);
 	Geometory::SetProjection(mat[2]);
 
+	//ƒ‚ƒfƒ‹•\¦
 	//Geometory::DrawBox();
-	Geometory::DrawTriangle();
 
+	//2D•\¦‚É•ÏŠ·(ƒ~ƒjƒ}ƒbƒv‚âUI
+	SetRenderTargets(1, &m_pRTV, nullptr);
 }
+

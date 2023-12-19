@@ -1,6 +1,4 @@
 #include "Collision.h"
-
-// プレイヤーとボックスの当たり判定
 bool AABB::IsAABBIntersecting(const DirectX::XMFLOAT3& minA, const DirectX::XMFLOAT3& maxA, const DirectX::XMFLOAT3& minB, const DirectX::XMFLOAT3& maxB) {
 	return (minA.x <= maxB.x && maxA.x >= minB.x) &&
 		(minA.y <= maxB.y && maxA.y >= minB.y) &&

@@ -1,11 +1,11 @@
-ï»¿#pragma once
+#pragma once
 // Player.h
 #include "Model.h"
-
 #include "Collision.h"
 #include "HCollision.h"
 #include "GameObject.h"
-#include "ShaderList.h"
+#include "Soundtest.h"
+#include"ShaderList.h"
 
 //#include"Object.h"
 
@@ -38,6 +38,10 @@ public:
 	void SetOk();
 	void SetNOk();
 
+	float GetPosX();
+	float GetPosY();
+	float GetPosZ();
+
 	void SetAnime();
 	void SetAnime2();
 
@@ -45,9 +49,9 @@ private:
 	Model* m_pModel;
 	VertexShader* m_pVS;
 
-	Model::AnimeNo m_anime_Levitation;	// é»’å­ç”¨ã®æµ®éŠ
-	Model::AnimeNo m_anime_possession;	// æ†‘ä¾æ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
-
+	Model::AnimeNo m_anime_Levitation;	// •q—p‚Ì•‚—V
+	Model::AnimeNo m_anime_possession;	// œßˆË‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+  
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_oldPos;
 	float m_rotationY;
@@ -57,4 +61,9 @@ private:
 	bool IsUse;
 	bool ok;
 
+	IXAudio2SourceVoice* m_pSVSEPly; // ƒTƒEƒ“ƒhƒ\[ƒX
+	XAUDIO2_BUFFER* m_pSDSEPly; // ƒTƒEƒ“ƒhƒoƒbƒtƒ@
+
 };
+
+
