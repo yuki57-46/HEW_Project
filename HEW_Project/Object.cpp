@@ -1,25 +1,25 @@
-#include "Object.h"
+ï»¿#include "Object.h"
 #include "Geometory.h"
 #include "Input.h"
 #include <chrono>
 
-//minbound maxbound‚ğƒƒ“ƒo•Ï”‚É
-//create•”•ª‚ÉƒXƒP[ƒ‹‚Æ“–‚½‚è”»’è‚ğ‚©‚¯‡‚í‚¹‚éˆ—‚ğ’Ç‰Á@y‚Í’Ç‰Á‚ÅŒvZ•K—v
+//minbound maxboundã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã«
+//createéƒ¨åˆ†ã«ã‚¹ã‚±ãƒ¼ãƒ«ã¨å½“ãŸã‚Šåˆ¤å®šã‚’ã‹ã‘åˆã‚ã›ã‚‹å‡¦ç†ã‚’è¿½åŠ ã€€yã¯è¿½åŠ ã§è¨ˆç®—å¿…è¦
 
 
 //InputManager imanagerOB = InputManager();
 
-//DirectX::XMFLOAT3 objectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è—p
+//DirectX::XMFLOAT3 objectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®å½“ãŸã‚Šåˆ¤å®šç”¨
 //DirectX::XMFLOAT3 objectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 //
-//DirectX::XMFLOAT3 hobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//œßˆË—p
+//DirectX::XMFLOAT3 hobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//æ†‘ä¾ç”¨
 //DirectX::XMFLOAT3 hobjectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 //
-//DirectX::XMFLOAT3 cobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ƒuƒƒbƒN“¯m—p
+//DirectX::XMFLOAT3 cobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ç”¨
 //DirectX::XMFLOAT3 cobjectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 
 std::chrono::steady_clock::time_point lastSoundPlayTime;
-const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//Ä¶ŠÔO•b‚Ì
+const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//å†ç”Ÿæ™‚é–“ä¸‰ç§’ã®æ™‚
 
 int frame = 50;
 
@@ -33,9 +33,9 @@ Object::Object()
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
 	, moveok(false)
-	, m_pSVSEBlk(nullptr)//ƒXƒs[ƒJ
-	,m_pSDSEBlk(nullptr)//ƒTƒEƒ“ƒhƒf[ƒ^
-	, objectMinBound(-0.5f, -0.5f, -0.5f)//“–‚½‚è”»’è—p
+	, m_pSVSEBlk(nullptr)//ã‚¹ãƒ”ãƒ¼ã‚«
+	,m_pSDSEBlk(nullptr)//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿
+	, objectMinBound(-0.5f, -0.5f, -0.5f)//å½“ãŸã‚Šåˆ¤å®šç”¨
 	, objectMaxBound(0.5f, 0.5f, 0.5f)
 	, hobjectMinBound(-0.5f, -0.5f, -0.5f)
 	, hobjectMaxBound(0.5f, 0.5f, 0.5f)
@@ -50,16 +50,16 @@ Object::Object()
 	m_pObjectModel = new Model;
 
 	/*if (!m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}*/
 	/*if (!m_pObjectModel->Load("Assets/Model/Block/Slope.fbx",0.1,  Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}*/
 	if (!m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}
 	/*if (!m_pObjectModel->Load("Assets/Stage/Butai.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}*/
 	m_pObjectVS = new VertexShader();
 	if (FAILED(m_pObjectVS->Load("Assets/Shader/VS_Model.cso")))
@@ -96,7 +96,7 @@ void Object::Update()
 
 	m_oldPos = m_pos;
 
-	float moveSpeed = 0.03f; // ˆÚ“®‘¬“x‚Ì’²®
+	float moveSpeed = 0.03f; // ç§»å‹•é€Ÿåº¦ã®èª¿æ•´
 	float rotationSpeed = 10.0f;
 
 	if (colgravity == true)
@@ -118,11 +118,8 @@ void Object::Update()
 
 	imanagerOB.inspect();*/
 
-	float moveSpeed = 0.03f; // ç§»å‹•é€Ÿåº¦ã®èª¿æ•´
 
-	float rotationSpeed = 10.0f;
-
-	//// ¶ƒXƒeƒBƒbƒN‚ÌX²‚ÆY²•ûŒü‚Ì“ü—Í‚ğæ“¾
+	//// å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸ã¨Yè»¸æ–¹å‘ã®å…¥åŠ›ã‚’å–å¾—
 	//float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
 	//float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
 	//float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
@@ -130,20 +127,20 @@ void Object::Update()
 
 
 
-	// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğŒvZ
+	// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğ³‹K‰»i’·‚³‚ª1‚É‚È‚é‚æ‚¤‚Éj
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ï¼ˆé•·ã•ãŒ1ã«ãªã‚‹ã‚ˆã†ã«ï¼‰
 	//DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
 	//directionVector = DirectX::XMVector3Normalize(directionVector);
 	//DirectX::XMFLOAT3 normalizedDirection;
 	//DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚©‚ç‰ñ“]Šp“x‚ğŒvZ
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰å›è»¢è§’åº¦ã‚’è¨ˆç®—
 	//float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
 	//m_rotationY = rotationAngle;
 
-	//if (moveok == true)//œßˆË
+	//if (moveok == true)//æ†‘ä¾æ™‚
 	//{
 	//	m_pos.x -= moveSpeed * moveDirection.x;
 	//	m_pos.z -= moveSpeed * moveDirection.z;
@@ -166,7 +163,7 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
 					lastSoundPlayTime = currentTime;
 				}
 			}
@@ -181,7 +178,7 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
 					lastSoundPlayTime = currentTime;
 				}
 			}
@@ -196,7 +193,7 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
 					lastSoundPlayTime = currentTime;
 				}
 			}
@@ -211,7 +208,7 @@ void Object::Update()
 				{
 					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
 					lastSoundPlayTime = currentTime;
 				}
 			}
@@ -238,7 +235,7 @@ void Object::Update()
 			if (IsKeyPress(VK_SPACE))
 			{
 				frame -= moveSpeed * 0.01;
-				// ƒXƒy[ƒXƒL[‚ª‰Ÿ‚³‚ê‚½‚çã¸‚ğÀs.ƒQ[ƒW‚ğŒ¸­
+				// ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‚‰ä¸Šæ˜‡ã‚’å®Ÿè¡Œ.ã‚²ãƒ¼ã‚¸ã‚’æ¸›å°‘
 			   //m_pos.y += 0.07f;
 				m_pos.y += frame * 0.003f;
 
@@ -273,9 +270,9 @@ void Object::Update()
 		//}
 	}
 	
-		SetBounds(objectMinBound, objectMaxBound);  //Å¬’l‚ÆÅ‘å’l‚ğƒZƒbƒg
-		HSetBounds(hobjectMinBound, hobjectMaxBound);//œßˆË—p‚Ì“–‚½‚è”»’è
-		CSetBounds(cobjectMinBound, cobjectMaxBound);//ƒuƒƒbƒN“¯m‚Ì“–‚½‚è”»’è
+		SetBounds(objectMinBound, objectMaxBound);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
+		HSetBounds(hobjectMinBound, hobjectMaxBound);//æ†‘ä¾ç”¨ã®å½“ãŸã‚Šåˆ¤å®š
+		CSetBounds(cobjectMinBound, cobjectMaxBound);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
 
 
 		if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
@@ -300,14 +297,14 @@ void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚Ìİ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	mat[1] = viewMatrix; // —^‚¦‚ç‚ê‚½ viewMatrix ‚ğg‚¤
-	mat[2] = projectionMatrix; // —^‚¦‚ç‚ê‚½ projectionMatrix ‚ğg‚¤
+	mat[1] = viewMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ viewMatrix ã‚’ä½¿ã†
+	mat[2] = projectionMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ projectionMatrix ã‚’ä½¿ã†
 	
-	m_pObjectVS->WriteBuffer(0, mat);    //”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ğw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ğ“n‚·
+	m_pObjectVS->WriteBuffer(0, mat);    //é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
 	m_pObjectModel->Draw();
 
 }
@@ -340,7 +337,7 @@ DirectX::XMFLOAT3 Object::Add(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOA
 //_
 
 
-//œßˆË“–‚½‚è”»’è
+//æ†‘ä¾å½“ãŸã‚Šåˆ¤å®š
 void Object::HSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
 {
 	hminBound = HAdd(m_pos, min);
@@ -368,7 +365,7 @@ DirectX::XMFLOAT3 Object::HAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLO
 //_
 
 
-//ƒuƒƒbƒN“¯m
+//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«
 void Object::CSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
 {
 	cminBound = CAdd(m_pos, min);
@@ -431,7 +428,7 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	cobjectMaxBound.y *= m_scale.y;
 	cobjectMaxBound.z *= m_scale.z;
 
-	//‚±‚ê‚ª‚È‚¢‚Æy²‚Ì“–‚½‚è”»’è‚¨‚©‚µ‚­‚È‚é
+	//ã“ã‚ŒãŒãªã„ã¨yè»¸ã®å½“ãŸã‚Šåˆ¤å®šãŠã‹ã—ããªã‚‹
 
 	if (cobjectMinBound.y < 0)
 	{
@@ -468,7 +465,7 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 
 
 
-//œßˆË”»’è—p
+//æ†‘ä¾åˆ¤å®šç”¨
 void Object::Set()
 {
 	moveok = true;
@@ -486,7 +483,7 @@ bool Object::SetR()
 
 
 
-//ƒuƒƒbƒN“¯m‚ª‚Ô‚Â‚©‚Á‚½‚É•Ô‚·
+//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ãŒã¶ã¤ã‹ã£ãŸæ™‚ã«è¿”ã™
 
 void Object::OBJPos()
 {
