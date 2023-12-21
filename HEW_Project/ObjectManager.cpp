@@ -1,4 +1,4 @@
-#include "ObjectManager.h"
+ï»¿#include "ObjectManager.h"
 #include"Input.h"
 
 
@@ -24,7 +24,7 @@ ObjectMng::ObjectMng()
 	
 	m_pPlayer = new Player();
 
-	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	//ãƒ–ãƒ­ãƒƒã‚¯é…ç½®.ã‚¹ã‚±ãƒ¼ãƒ«æŒ‡å®š
 	struct Setting
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
@@ -37,12 +37,12 @@ ObjectMng::ObjectMng()
 
 	};
 	
-	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
 	m_num = sizeof(data) / sizeof(data[0]);
 
-	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
 	m_pObjects = new Object[m_num];
-	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Create(
@@ -52,22 +52,22 @@ ObjectMng::ObjectMng()
 	}
 	
 
-//ƒŠƒtƒg
+//ãƒªãƒ•ãƒˆ
 	struct Setting1
 	{
 		float x, y, z, scaleX, scaleY, scaleZ,lifth,liftl,lifts;
 	};
-	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	//ãƒ–ãƒ­ãƒƒã‚¯é…ç½®.ã‚¹ã‚±ãƒ¼ãƒ«æŒ‡å®š
 	Setting1 data1[] = {
-		{ 3.0f, 2.5f, 0.0f, 1.0f, 0.25f, 0.5f,4.0f,1.5f,0.5f}
+		{ 3.0f, 3.5f, 0.0f, 1.0f, 0.25f, 0.5f,4.0f,1.5f,0.5f}
 	};
 
-	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
 	m_num1 = sizeof(data1) / sizeof(data1[0]);
 
-	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
 	m_pLift_obj = new Lift_Obj[m_num1];
-	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
 	for (int i = 0; i < m_num1; i++)
 	{
 		m_pLift_obj[i].Create(
@@ -77,22 +77,22 @@ ObjectMng::ObjectMng()
 		);
 	}
 
-	//ƒŒƒo[
+	//ãƒ¬ãƒãƒ¼
 	struct Setting2
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
-	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	//ãƒ–ãƒ­ãƒƒã‚¯é…ç½®.ã‚¹ã‚±ãƒ¼ãƒ«æŒ‡å®š
 	Setting2 data2[] = {
-		{ 4.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.5f}
+		{ 4.0f, 3.0f, 0.0f, 0.5f, 0.5f, 0.5f}
 	};
 
-	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
 	m_num2 = sizeof(data2) / sizeof(data2[0]);
 
-	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
 	m_pLever = new Lever[m_num2];
-	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
 	for (int i = 0; i < m_num2; i++)
 	{
 		m_pLever[i].Create(
@@ -101,24 +101,24 @@ ObjectMng::ObjectMng()
 		);
 	}
 
-	//°
+	//åºŠ
 
 	struct Setting3
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
-	//ƒuƒƒbƒN”z’u.ƒXƒP[ƒ‹w’è
+	//ãƒ–ãƒ­ãƒƒã‚¯é…ç½®.ã‚¹ã‚±ãƒ¼ãƒ«æŒ‡å®š
 	Setting3 data3[] = {
 		{ 0.0f, -0.3f, 0.0f, 30.0f, 0.5f, 30.0f},
 
 	};
 
-	//”z—ñ‚Ì—v‘f‚Ì”‚©‚ç•K—v‚ÈƒuƒƒbƒN”‚ğŒvZ
+	//é…åˆ—ã®è¦ç´ ã®æ•°ã‹ã‚‰å¿…è¦ãªãƒ–ãƒ­ãƒƒã‚¯æ•°ã‚’è¨ˆç®—
 	m_num3 = sizeof(data3) / sizeof(data3[0]);
 
-	//•K—v‚È”‚¾‚¯ƒuƒƒbƒN‚ğŠm•Û
+	//å¿…è¦ãªæ•°ã ã‘ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿
 	m_pYuka = new Yuka[m_num3];
-	//Šm•Û‚µ‚½ƒuƒƒbƒN‚É‰Šúƒf[ƒ^‚ğİ’è
+	//ç¢ºä¿ã—ãŸãƒ–ãƒ­ãƒƒã‚¯ã«åˆæœŸãƒ‡ãƒ¼ã‚¿ã‚’è¨­å®š
 	for (int i = 0; i < m_num3; i++)
 	{
 		m_pYuka[i].Create(
@@ -208,7 +208,7 @@ void ObjectMng::Update(float tick)
 			//	if (Lift_Obj* lift = dynamic_cast<Lift_Obj*>(&m_pLift_obj[a]))
 			//	{
 
-			//		//ƒuƒƒbƒN‚ÌÕ“Ë
+			//		//ãƒ–ãƒ­ãƒƒã‚¯ã®è¡çª
 			//		if (m_pObjects[i].col(*lift))
 			//		{
 			//			m_pObjects[i].OBJPos();
@@ -218,7 +218,7 @@ void ObjectMng::Update(float tick)
 			//for (int l = 0; l < m_num2; l++)
 			//{
 
-			//	m_pLever[l].Update();//ƒŒƒo[‚ÆƒvƒŒƒCƒ„[
+			//	m_pLever[l].Update();//ãƒ¬ãƒãƒ¼ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 			//	if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
 			//	{
 			//		if (m_pPlayer->IsCollidingWith(*lever))
@@ -241,7 +241,7 @@ void ObjectMng::Update(float tick)
 				{
 					float liftposY = lift[a].GetMaxBounds().y;
 					m_pLift_obj[a].Update();
-					//ƒuƒƒbƒN‚ÌÕ“Ë
+					//ãƒ–ãƒ­ãƒƒã‚¯ã®è¡çª
 					if (m_pObjects[i].col(*lift))
 					{
 						//m_pObjects[i].OBJPosy();
@@ -263,7 +263,7 @@ void ObjectMng::Update(float tick)
 			for (int l = 0; l < m_num2; l++)
 			{
 
-				m_pLever[l].Update();//ƒŒƒo[‚ÆƒvƒŒƒCƒ„[
+				m_pLever[l].Update();//ãƒ¬ãƒãƒ¼ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 				if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
 				{
 					if (m_pPlayer->IsCollidingWith(*lever))
@@ -286,24 +286,24 @@ void ObjectMng::Update(float tick)
 
 			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 			{
-				//////ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“Ë
+				//////ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çª
 				//if (m_pPlayer->IsCollidingWith(*gameObject)) {
-				//	// Õ“Ë‚Ìˆ—
+				//	// è¡çªæ™‚ã®å‡¦ç†
 				//	m_pPlayer->PlayerPos();
 				//}
 			}
 			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 			{
-				//œßˆË‚Ì‚½‚ßEƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[‚ª“–‚½‚Á‚½ê‡
+				//æ†‘ä¾ã®ãŸã‚ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå½“ãŸã£ãŸå ´åˆ
 				if (m_pPlayer->HIsCollidingWith(*gameObject))
 				{
 
 					if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 					{
-						//// effect‚±‚¤‚µ‚ñ
+						//// effectã“ã†ã—ã‚“
 						m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
 
-						////ˆÚ“®‚³‚¹‚é
+						////ç§»å‹•ã•ã›ã‚‹æ™‚
 						//Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
 						//EffecMat.Translation(0.0f, 1.0f, 0.0f);
 						//LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
@@ -316,7 +316,7 @@ void ObjectMng::Update(float tick)
 						//m_pObjects[i].Modelchg();
 					}
 				}
-				//œßˆË‰ğœ
+				//æ†‘ä¾è§£é™¤
 				/*if (!m_pPlayer->HIsCollidingWith(*gameObject))
 				{*/
 				//if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
@@ -346,7 +346,7 @@ void ObjectMng::Update(float tick)
 						}
 						m_pObjects[i].SetF1();
 						m_pObjects[i].SetColgravity();
-						//m_pObjects[i].Update(); //d—Í‚ğÁ‚µ‚Ä‚©‚çUpdate‚ğŒo‚¸‚Éfalse‚É“ü‚Á‚Ä‚¢‚é
+						//m_pObjects[i].Update(); //é‡åŠ›ã‚’æ¶ˆã—ã¦ã‹ã‚‰Updateã‚’çµŒãšã«falseã«å…¥ã£ã¦ã„ã‚‹
 						//m_pObjects[i].Modelchg2();
 					}
 				}
@@ -367,7 +367,7 @@ void ObjectMng::Update(float tick)
 						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
 						{
 
-							// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
+							// ãƒ–ãƒ­ãƒƒã‚¯iã¨ãƒ–ãƒ­ãƒƒã‚¯jã®å½“ãŸã‚Šåˆ¤å®š
 						//if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
 						//{	
 						//	if (m_pObjects[i].IsGravity())
@@ -388,11 +388,11 @@ void ObjectMng::Update(float tick)
 						//}
 
 
-								// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
+								// ãƒ–ãƒ­ãƒƒã‚¯iã¨ãƒ–ãƒ­ãƒƒã‚¯jã®å½“ãŸã‚Šåˆ¤å®š
 							if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
 							{
 								//m_pObjects[j].OBJPos();
-								//MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+								//MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 								if (m_pObjects[i].IsGravity())
 								{
 									if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
@@ -466,7 +466,7 @@ void ObjectMng::Update(float tick)
 						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
 						{
 
-							// ƒuƒƒbƒNi‚ÆƒuƒƒbƒNj‚Ì“–‚½‚è”»’è
+							// ãƒ–ãƒ­ãƒƒã‚¯iã¨ãƒ–ãƒ­ãƒƒã‚¯jã®å½“ãŸã‚Šåˆ¤å®š
 							if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
 							{
 								if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
@@ -523,14 +523,14 @@ void ObjectMng::Update(float tick)
 
 void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
-	// effect‚©‚ñ‚ê‚ñ
-	//s—ñ‚ÌŒvZ
+	// effectã‹ã‚“ã‚Œã‚“
+	//è¡Œåˆ—ã®è¨ˆç®—
 	DirectX::XMFLOAT4X4 effectmat[2];
 
 	effectmat[0] = m_pObjectCamera->GetViewMatrix();
 	effectmat[1] = m_pObjectCamera->GetProjectionMatrix();
 
-	//effeksser‚É‘—‚é‘O‚É“]’u‚·‚é‘O‚Ìó‘Ô‚É–ß‚·
+	//effeksserã«é€ã‚‹å‰ã«è»¢ç½®ã™ã‚‹å‰ã®çŠ¶æ…‹ã«æˆ»ã™
 	DirectX::XMMATRIX effekMat = XMLoadFloat4x4(&effectmat[0]);
 	effekMat = XMMatrixTranspose(effekMat);
 	XMStoreFloat4x4(&effectmat[0], effekMat);

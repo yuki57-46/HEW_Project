@@ -1,7 +1,7 @@
-#include "CameraBase.h"
+ï»¿#include "CameraBase.h"
 
 CameraBase::CameraBase()
-	: m_pos(0.0f, 3.0f, -6.0f)
+	: m_pos(0.0f, 3.0f, 6.0f)
 	, m_look(0.0f, 0.0f, 0.0f)
 	, m_up(0.0f, 1.0f, 0.0f)
 	, m_Spos(0.0f, 1.0f, -10.0f)
@@ -27,9 +27,9 @@ DirectX::XMFLOAT4X4 CameraBase::GetViewMatrix()
 	DirectX::XMMATRIX view;
 
 	view = DirectX::XMMatrixLookAtLH(
-		DirectX::XMLoadFloat3(&m_pos),	//ƒJƒƒ‰‚ÌˆÊ’u
-		DirectX::XMLoadFloat3(&m_look),	//ƒJƒƒ‰‚Ì’‹“_
-		DirectX::XMLoadFloat3(&m_up));	//ƒJƒƒ‰‚Ìã•ûŒü
+		DirectX::XMLoadFloat3(&m_pos),	//ã‚«ãƒ¡ãƒ©ã®ä½ç½®
+		DirectX::XMLoadFloat3(&m_look),	//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+		DirectX::XMLoadFloat3(&m_up));	//ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹å‘
 
 	view = DirectX::XMMatrixTranspose(view);
 	DirectX::XMStoreFloat4x4(&mat, view);
@@ -54,9 +54,9 @@ DirectX::XMFLOAT4X4 CameraBase::GetShadowViewMatrix()
 	DirectX::XMMATRIX view;
 
 	view = DirectX::XMMatrixLookAtLH(
-		DirectX::XMLoadFloat3(&m_Spos),		//ƒJƒƒ‰‚ÌˆÊ’u
-		DirectX::XMLoadFloat3(&m_Slook),	//ƒJƒƒ‰‚Ì’‹“_
-		DirectX::XMLoadFloat3(&m_Sup));		//ƒJƒƒ‰‚Ìã•ûŒü
+		DirectX::XMLoadFloat3(&m_Spos),		//ã‚«ãƒ¡ãƒ©ã®ä½ç½®
+		DirectX::XMLoadFloat3(&m_Slook),	//ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+		DirectX::XMLoadFloat3(&m_Sup));		//ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹å‘
 
 	view = DirectX::XMMatrixTranspose(view);
 	DirectX::XMStoreFloat4x4(&mat, view);
