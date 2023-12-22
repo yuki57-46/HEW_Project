@@ -1,4 +1,6 @@
 # editorconfig
+# https://editorconfig.org
+root = true
 
 [*]
 indent_style = tab
