@@ -15,7 +15,7 @@ SceneGame::SceneGame()
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
 	//DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
 	//SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
-	//
+	
 
 	//深度バッファ、レンダーターゲットの設定
 	m_pRTV = GetDefaultRTV();	//デフォルトで使用しているRender Target Viewの取得
@@ -127,7 +127,7 @@ void SceneGame::Draw()
 	static float rad = 0.0f;
 	DirectX::XMFLOAT4X4 mat[3];
 
-	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
+	//m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	m_pBackShadow->Draw(m_pObjectMng);
 
 
@@ -151,12 +151,12 @@ void SceneGame::Draw()
 
 	//m_pPlayer->Draw(viewMatrix, projectionMatrix);
 
-	//プレイヤー
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
-	m_pobjcamera->Draw();
+
+	//m_pobjcamera->Draw();
 
 	//オブジェクト
-	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
+	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
 	
 
 	//Geometry用の変更行列を計算

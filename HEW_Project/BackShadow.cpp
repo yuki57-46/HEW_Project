@@ -32,6 +32,7 @@ BackShadow::BackShadow()
 	, m_collisionFlag(false)
 	, m_upFlag(false)
 	, m_LRcheck(false)
+
 {
 	//レンダー表示関連の確保
 	m_pRTVTexture = new Texture;
@@ -116,7 +117,7 @@ void BackShadow::Draw(ObjectMng* Obj)
 	//ここに表示したいものを持ってくる
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
-	Obj->Draw(viewMatrix, projectionMatrix);
+	Obj->Draw(viewMatrix, projectionMatrix,false);
 	m_pShadowPlayer->Draw(viewMatrix, projectionMatrix);
 
 
@@ -256,7 +257,7 @@ bool BackShadow::ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha)
 	//}
 
 	// 左右のα値の参照
-	if (sumAlpha / cntAlpha > 240 && cntAlpha > 25)
+	if (sumAlpha / cntAlpha > 200 && cntAlpha > 25)
 	{// 壁
 		m_pShadowPlayer->Use();
 		return true;

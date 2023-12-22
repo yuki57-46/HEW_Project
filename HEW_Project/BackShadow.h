@@ -50,6 +50,8 @@ private:
 	int m_noAlphaData;			// スキャン範囲にα値のない場所の数
 	bool m_LRcheck;				// 進行方向確認
 
+	bool m_draw;
+
 	//影のみに描きたい物
 	ShadowP* m_pShadowPlayer;	// 影プレイヤー
 

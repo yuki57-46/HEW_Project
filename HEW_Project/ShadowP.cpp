@@ -20,7 +20,7 @@ ShadowP::ShadowP()
 	//}
 
 	 //モデルの読み込み処理
-	if (!m_pModel->Load("Assets/Model/Player/kage.fbx",  Model::Flip::XFlip)) {
+	if (!m_pModel->Load("Assets/Model/Player/kage.fbx",0.5f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}
 	/*if (!m_pModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
@@ -145,7 +145,7 @@ void ShadowP::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectio
 		}
 		ShaderList::SetBones(bones);
 	});
-	m_pModel->DrawBone();
+	//m_pModel->DrawBone();
 
 }
 

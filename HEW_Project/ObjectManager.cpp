@@ -33,7 +33,7 @@ ObjectMng::ObjectMng()
 		//{ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
 		{-2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
 		{0.0f, 0.0f, -3.0f, 1.0f, 1.0f, 1.0f},
-		{0.0f, 0.0f,  3.0f, 1.0f, 1.0f, 1.0f},
+		//{0.0f, 0.0f,  3.0f, 1.0f, 1.0f, 1.0f},
 
 	};
 	
@@ -109,7 +109,7 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting3 data3[] = {
-		{ 0.0f, -0.3f, 0.0f, 30.0f, 0.5f, 30.0f},
+		{ 0.0f, -0.2f, 0.0f, 30.0f, 0.3f, 30.0f},
 
 	};
 
@@ -350,9 +350,8 @@ void ObjectMng::Update(float tick)
 						//m_pObjects[i].Modelchg2();
 					}
 				}
-				//}
+				
 			}
-
 
 			if (m_pObjects[i].SetR() == true)//|| m_pObjects[i].SetR() == false)
 			{
@@ -366,7 +365,6 @@ void ObjectMng::Update(float tick)
 					{
 						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
 						{
-
 							// ブロックiとブロックjの当たり判定
 						//if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
 						//{	
@@ -386,8 +384,6 @@ void ObjectMng::Update(float tick)
 						//		m_pObjects[i].OBJPos();
 						//	}
 						//}
-
-
 								// ブロックiとブロックjの当たり判定
 							if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
 							{
@@ -446,8 +442,6 @@ void ObjectMng::Update(float tick)
 									//m_pObjects[j].OBJPos();
 								}
 							}
-
-
 						}
 					}
 				}
@@ -508,22 +502,14 @@ void ObjectMng::Update(float tick)
 					}
 				}
 			}
-
-
-
-
-
-
 		}
 	}
 }
 
 
 
-
-void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
+void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix,bool draw)
 {
-	// effectかんれん
 	//行列の計算
 	DirectX::XMFLOAT4X4 effectmat[2];
 
@@ -538,12 +524,11 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	DirectX::XMMATRIX effekMat2 = XMLoadFloat4x4(&effectmat[1]);
 	effekMat2 = XMMatrixTranspose(effekMat2);
 	XMStoreFloat4x4(&effectmat[1], effekMat2);
-	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 1.0f, 1.0f, 1.0);
 
+	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.7f, 0.7f, 0.7);
 	LibEffekseer::SetViewPosition(m_pObjectCamera->GetPos());
 	LibEffekseer::SetCameraMatrix(effectmat[0], effectmat[1]);
 
-	
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Draw(viewMatrix, projectionMatrix);
@@ -561,17 +546,16 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	for (int i = 0; i < m_num3; i++)
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
-
 	}
-
-
 
 	DirectX::XMFLOAT4X4 mat[3];
 
 	mat[1] = m_pObjectCamera->GetViewMatrix();
 	mat[2] = m_pObjectCamera->GetProjectionMatrix();
 	
-
-	m_pPlayer->Draw(viewMatrix, projectionMatrix);
+	if (draw==true)
+	{
+		m_pPlayer->Draw(viewMatrix, projectionMatrix);
+	}
 }
 

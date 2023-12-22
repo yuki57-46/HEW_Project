@@ -108,8 +108,11 @@ void Draw()
 	Geometory::AddLine(DirectX::XMFLOAT3(0,0,0), DirectX::XMFLOAT3(0,0,-size),  DirectX::XMFLOAT4(0,0,0,1));
 
 	Geometory::DrawLines();
+
 #endif
+
 	LibEffekseer::Draw();	// effekseer•`‰æ
+
 	g_pGame->Draw();
 	EndDrawDirectX();
 }

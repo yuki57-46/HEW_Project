@@ -20,7 +20,7 @@ public:
 	ObjectMng();
 	~ObjectMng();
 	void Update(float tick);
-	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
+	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix,bool draw);
 
 
 	

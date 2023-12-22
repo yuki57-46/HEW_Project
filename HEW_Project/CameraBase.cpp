@@ -18,9 +18,6 @@ CameraBase::~CameraBase()
 {
 }
 
-
-
-
 DirectX::XMFLOAT4X4 CameraBase::GetViewMatrix()
 {
 	DirectX::XMFLOAT4X4 mat;

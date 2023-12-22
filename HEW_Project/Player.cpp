@@ -182,19 +182,19 @@ void Player::Update(float tick)
 	{
 		if (IsKeyPress(VK_UP))
 		{
-			m_pos.z += moveSpeed;
+			m_pos.z -= moveSpeed;
 		}
 		if (IsKeyPress(VK_DOWN))
 		{
-			m_pos.z -= moveSpeed;
+			m_pos.z += moveSpeed;
 		}
 		if (IsKeyPress(VK_RIGHT))
 		{
-			m_pos.x += moveSpeed;
+			m_pos.x -= moveSpeed;
 		}
 		if (IsKeyPress(VK_LEFT))
 		{
-			m_pos.x -= moveSpeed;
+			m_pos.x += moveSpeed;
 		}
 		if (IsKeyPress('U'))
 		{
@@ -359,17 +359,17 @@ void Player::SetNOk()
 
 float Player::GetPosX()
 {
-	return m_pos.x;
+	return m_oldPos.x;
 }
 
 float Player::GetPosY()
 {
-	return m_pos.y;
+	return m_oldPos.y+1.2f;
 }
 
 float Player::GetPosZ()
 {
-	return m_pos.z;
+	return m_oldPos.z;
 }
 
 /**
