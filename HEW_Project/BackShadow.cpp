@@ -1,11 +1,11 @@
-#include "BackShadow.h"
+ï»¿#include "BackShadow.h"
 #include "Sprite.h"
 #include "Geometory.h"
 
-#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[‚Ì•\¦ƒTƒCƒYX
-#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.5f)	//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[‚Ì•\¦ƒTƒCƒYY
-#define RTV_3D_POS_WIDTH	(640.0f)			//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[•\¦‚ÌŒ´“_X
-#define RTV_3D_POS_HEIGHT	(360.0f)			//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[•\¦‚ÌŒ´“_Y
+#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	//3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è¡¨ç¤ºã‚µã‚¤ã‚ºX
+#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.5f)	//3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è¡¨ç¤ºã‚µã‚¤ã‚ºY
+#define RTV_3D_POS_WIDTH	(640.0f)			//3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼è¡¨ç¤ºã®åŸç‚¹X
+#define RTV_3D_POS_HEIGHT	(360.0f)			//3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼è¡¨ç¤ºã®åŸç‚¹Y
 
 int testw = 10;
 int testh = 10;
@@ -33,26 +33,26 @@ BackShadow::BackShadow()
 	, m_upFlag(false)
 	, m_LRcheck(false)
 {
-	//ƒŒƒ“ƒ_[•\¦ŠÖ˜A‚ÌŠm•Û
+	//ãƒ¬ãƒ³ãƒ€ãƒ¼è¡¨ç¤ºé–¢é€£ã®ç¢ºä¿
 	m_pRTVTexture = new Texture;
 	m_pRTV_BS = new RenderTarget;
 	m_pDSV_BS = new DepthStencil;
 
-	//ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg§ì
-	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280 / 2, 720 / 2);//ƒŒƒ“ƒ_[“à‚Ì‘å‚«‚³
+	//ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆåˆ¶ä½œ
+	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280 / 2, 720 / 2);//ãƒ¬ãƒ³ãƒ€ãƒ¼å†…ã®å¤§ãã•
 	m_pDSV_BS->Create(m_pRTV_BS->GetWidth(), m_pRTV_BS->GetHeight(), true);
 	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);
 
-	//‰e‚Ì‚İ‚É•\¦‚·‚é‚à‚Ì‚ÌŠm•Û
+	//å½±ã®ã¿ã«è¡¨ç¤ºã™ã‚‹ã‚‚ã®ã®ç¢ºä¿
 	m_pShadowPlayer = new ShadowP;
 
-	//ƒRƒs[—pƒtƒH[ƒ}ƒbƒgì¬
+	//ã‚³ãƒ”ãƒ¼ç”¨ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆä½œæˆ
 	m_pRTV_BS->CreateReadBuffer();
 
-	//‰e‚Ì“–‚½‚è”»’è—p•Ï”‰Šú‰»
+	//å½±ã®å½“ãŸã‚Šåˆ¤å®šç”¨å¤‰æ•°åˆæœŸåŒ–
 	m_SPpos = m_pShadowPlayer->NowPos();
 
-	//is•ûŒü‰Šú‰»
+	//é€²è¡Œæ–¹å‘åˆæœŸåŒ–
 	m_LRcheck = m_pShadowPlayer->isUse();
 }
 
@@ -82,8 +82,8 @@ BackShadow::~BackShadow()
 
 /**
  * @fn
- * ‰e(ƒŒƒ“ƒ_[)‚ÌXV
- * ‰eƒvƒŒƒCƒ„[‚ÌXV
+ * å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®æ›´æ–°
+ * å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ›´æ–°
  */
 void BackShadow::Update()
 {
@@ -92,27 +92,27 @@ void BackShadow::Update()
 
 /**
  * @fn
- * Šî–{“®ì@@‰e(ƒŒƒ“ƒ_[)‚Ì•`‰æ
- * Šî–{ˆÈŠO@@‰e‚ÌƒeƒNƒXƒ`ƒƒî•ñ‚ğæ“¾A“–‚½‚è”»’è—p•Ï”‚ÌXV
- * @brief ‰e(ƒŒƒ“ƒ_[)‚Ì•`‰æ
- * @param (Player* Player) ƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^
- * @param (ObjectMng* Obj) ƒIƒuƒWƒF‚Ìƒ|ƒCƒ“ƒ^
- * @sa QÆ‚·‚×‚«ŠÖ”‚ğ‘‚¯‚ÎƒŠƒ“ƒN‚ª“\‚ê‚é
- * @detail 3D‹óŠÔ‚É‚ ‚é‚à‚Ì‚ğ•\¦‚µ‚½‚¢‚Æ‚«‚Íuˆø”‚ğ‘‚â‚·v‚±‚Æ
+ * åŸºæœ¬å‹•ä½œã€€ï¼ã€€å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®æç”»
+ * åŸºæœ¬ä»¥å¤–ã€€ï¼ã€€å½±ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±ã‚’å–å¾—ã€å½“ãŸã‚Šåˆ¤å®šç”¨å¤‰æ•°ã®æ›´æ–°
+ * @brief å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®æç”»
+ * @param (Player* Player) ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿
+ * @param (ObjectMng* Obj) ã‚ªãƒ–ã‚¸ã‚§ã®ãƒã‚¤ãƒ³ã‚¿
+ * @sa å‚ç…§ã™ã¹ãé–¢æ•°ã‚’æ›¸ã‘ã°ãƒªãƒ³ã‚¯ãŒè²¼ã‚Œã‚‹
+ * @detail 3Dç©ºé–“ã«ã‚ã‚‹ã‚‚ã®ã‚’è¡¨ç¤ºã—ãŸã„ã¨ãã¯ã€Œå¼•æ•°ã‚’å¢—ã‚„ã™ã€ã“ã¨
  */
-void BackShadow::Draw(ObjectMng* Obj)
+void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3)
 {
-	//[“xƒoƒbƒtƒ@‚ÌƒNƒŠƒA
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã®ã‚¯ãƒªã‚¢
 	//m_pDSV_BS->Clear();
 
-	//ƒŒƒ“ƒ_[‚ÌFİ’è‚µA‚»‚ÌF‚Å‰æ–ÊƒNƒŠƒA
+	//ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è‰²è¨­å®šã—ã€ãã®è‰²ã§ç”»é¢ã‚¯ãƒªã‚¢
 	float color[4] = { 1.0f, 0.5f, 1.0f, 0.1f };
 	m_pRTV_BS->Clear(color);
 	//m_pRTV_BS->Clear();
 
-	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);//ƒŒƒ“ƒ_[‚Ìİ’è
+	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);//ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è¨­å®š
 
-	//‚±‚±‚É•\¦‚µ‚½‚¢‚à‚Ì‚ğ‚Á‚Ä‚­‚é
+	//ã“ã“ã«è¡¨ç¤ºã—ãŸã„ã‚‚ã®ã‚’æŒã£ã¦ãã‚‹
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
 	Obj->Draw(viewMatrix, projectionMatrix);
@@ -124,38 +124,90 @@ void BackShadow::Draw(ObjectMng* Obj)
 
 	SetRenderTargets(1, &pRTV, nullptr);
 
-	//ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌFî•ñ“Ç‚İæ‚è
+	//ã‚³ã‚¤ãƒ³ã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸Šã«è¡¨ç¤º
+	if (Coin1->IsFirstCollected == false)
+	{
+		Coin1->Draw(270.0f, 355.0f, 0.0f, 20.0f, 20.0f, 1);	//å·¦ y=120.0f
+	}
+	if (Coin2->IsFirstCollected == false)
+	{
+		Coin2->Draw(500.0f, 320.0f, 0.0f, 20.0f, 20.0f, 2);	//çœŸã‚“ä¸­
+	}
+	if (Coin3->IsFirstCollected == false)
+	{
+		Coin3->Draw(1200.0f, 300.0f, 0.0f, 20.0f, 20.0f, 3);	//å³
+	}
+
+	//ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®è‰²æƒ…å ±èª­ã¿å–ã‚Š
 	m_pRTV_BS->Read([&](const void* colorData, UINT width, UINT height) {
 		struct Color {
 			BYTE r, g, b, a;
 		};
 
-		//ƒŒƒ“ƒ_[“–‚½‚è”»’è—p•Ï”XV
-		m_SPpos = m_pShadowPlayer->NowPos();				//‰e‚ÌÀ•W‚ğŠ“¾
-		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		//X²‚ğƒŒƒ“ƒ_[‚ÌƒEƒBƒ“ƒhƒEÀ•W‚É‡‚í‚¹‚Ä•ÏŠ·
-		m_SPposY = ((m_SPpos.y - 3.0f) / 6.0f) * (-1);		//Y²‚ğƒŒƒ“ƒ_[‚ÌƒEƒBƒ“ƒhƒEÀ•W‚É‡‚í‚¹‚Ä•ÏŠ·
-		
-		//ƒLƒƒƒXƒg—p
+		//ãƒ¬ãƒ³ãƒ€ãƒ¼å½“ãŸã‚Šåˆ¤å®šç”¨å¤‰æ•°æ›´æ–°
+		m_SPpos = m_pShadowPlayer->NowPos();				//å½±ã®åº§æ¨™ã‚’æ‰€å¾—
+		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		//Xè»¸ã‚’ãƒ¬ãƒ³ãƒ€ãƒ¼ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åº§æ¨™ã«åˆã‚ã›ã¦å¤‰æ›
+		m_SPposY = ((m_SPpos.y - 3.0f) / 6.0f) * (-1);		//Yè»¸ã‚’ãƒ¬ãƒ³ãƒ€ãƒ¼ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åº§æ¨™ã«åˆã‚ã›ã¦å¤‰æ›
+
+		//ã‚³ã‚¤ãƒ³
+		if (Coin1->IsFirstCollected == false)
+		{
+			m_1Cpos = Coin1->GetPosition();
+		}
+
+		m_Csize = Coin1->GetSize();
+
+		if (Coin2->IsFirstCollected == false)
+		{
+			m_2Cpos = Coin2->GetPosition();
+		}
+
+		m_Csize = Coin2->GetSize();
+
+		if (Coin3->IsFirstCollected == false)
+		{
+			m_3Cpos = Coin3->GetPosition();
+		}
+
+		m_Csize = Coin3->GetSize();
+
+
+		m_cast1CposX = static_cast<int>(m_1Cpos.x / 2.0f);
+		m_cast1CposY = static_cast<int>(m_1Cpos.y / 2.0f);
+
+		m_cast2CposX = static_cast<int>(m_2Cpos.x / 2.0f);
+		m_cast2CposY = static_cast<int>(m_2Cpos.y / 2.0f);
+
+		m_cast3CposX = static_cast<int>(m_3Cpos.x / 2.0f);
+		m_cast3CposY = static_cast<int>(m_3Cpos.y / 2.0f);
+
+		m_castCsizeX = static_cast<int>(m_Csize.x / 2.0f);
+		m_castCsizeY = static_cast<int>(m_Csize.y / 2.0f);
+
+		//ã‚­ãƒ£ã‚¹ãƒˆç”¨
 		m_castPosX = static_cast<int>(m_SPposX * width);
 		m_castPosY = static_cast<int>(m_SPposY * height);
 
-		//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÆƒXƒNƒŠ[ƒ“¶ã‚ÌÀ•W‚Ì·•ª‚ğAƒXƒNƒŠ[ƒ“‚Ì‰¡•‚ÅŠ„‚é‚Æ”z—ñ‚ÌƒCƒ“ƒfƒbƒNƒX‚ª‹‚ß‚ç‚ê‚é
-		//‰e‚ÌƒvƒŒƒCƒ„[‚ÍƒŒƒ“ƒ_[‚É‚Ì‚İ•\¦‚µ‚Ä‚¢‚é->ƒŒƒ“ƒ_[•‚ª‰eƒvƒŒƒCƒ„[‚ÌƒEƒBƒ“ƒhƒE•
-		//‚½‚¾‚µA¡‰ñ‚ÌƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÆƒXƒNƒŠ[ƒ“¶ã‚ÌÀ•W‚Ì·•ª‚Í‚È‚¢‚½‚ß‚»‚Ì‚Ü‚Ü‚ÅA‚©‚ÂAŒ³‚Ì’l‚ğ0`1‚É‚µ‚Ä‚¢‚é‚½‚ßŠ|‚¯Z‚ğg—p
-		//(—á)(int)((m_pos.x - screenPos.x) / screenWidth)
+		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã¨ã‚¹ã‚¯ãƒªãƒ¼ãƒ³å·¦ä¸Šã®åº§æ¨™ã®å·®åˆ†ã‚’ã€ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®æ¨ªå¹…ã§å‰²ã‚‹ã¨é…åˆ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒæ±‚ã‚ã‚‰ã‚Œã‚‹
+		//å½±ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯ãƒ¬ãƒ³ãƒ€ãƒ¼ã«ã®ã¿è¡¨ç¤ºã—ã¦ã„ã‚‹->ãƒ¬ãƒ³ãƒ€ãƒ¼å¹…ãŒå½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¹…
+		//ãŸã ã—ã€ä»Šå›ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã¨ã‚¹ã‚¯ãƒªãƒ¼ãƒ³å·¦ä¸Šã®åº§æ¨™ã®å·®åˆ†ã¯ãªã„ãŸã‚ãã®ã¾ã¾ã§ã€ã‹ã¤ã€å…ƒã®å€¤ã‚’0ï½1ã«ã—ã¦ã„ã‚‹ãŸã‚æ›ã‘ç®—ã‚’ä½¿ç”¨
+		//(ä¾‹)(int)((m_pos.x - screenPos.x) / screenWidth)
 		m_indexX = m_castPosX;
 		m_indexY = m_castPosY;
 
+		//ã‚³ã‚¤ãƒ³
+		CoinCollection(Coin1, Coin2, Coin3);
+
 		const Color* pData = reinterpret_cast<const Color*>(colorData);
-		//m_Player_a = pData[m_indexY * width + m_indexX].a;	//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Ìƒ¿’l‚ğŒ©‚½‚¢
+		//m_Player_a = pData[m_indexY * width + m_indexX].a;	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã®Î±å€¤ã‚’è¦‹ãŸã„
 		//m_alpha[0] = pData[m_indexY * width + m_indexX + 11].a;
 
 		//if (m_alpha[0] > 128)
 		//{
-		//	m_pShadowPlayer->Use();//ƒGƒ‰[237-392
+		//	m_pShadowPlayer->Use();//ã‚¨ãƒ©ãƒ¼237-392
 		//}
 
-		//is•ûŒüƒ`ƒFƒbƒN
+		//é€²è¡Œæ–¹å‘ãƒã‚§ãƒƒã‚¯
 		m_LRcheck = m_pShadowPlayer->isUse();
 
 		for (int h = 0; h < height; ++h)
@@ -171,7 +223,7 @@ void BackShadow::Draw(ObjectMng* Obj)
 					{
 						if (m_LRcheck == false)
 						{
-							m_alpha = pData[(m_indexY - j) * width + m_indexX + 10 + i].a;	//ƒŒƒ“ƒ_[ƒEƒBƒ“ƒhƒE‚Ìƒ¿’l‚ğ¶ã‚©‚çˆê‚Â‚¸‚ÂŒ©‚Ä‚é
+							m_alpha = pData[(m_indexY - j) * width + m_indexX + 10 + i].a;	//ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®Î±å€¤ã‚’å·¦ä¸Šã‹ã‚‰ä¸€ã¤ãšã¤è¦‹ã¦ã‚‹
 						}
 						else
 						{
@@ -208,7 +260,7 @@ void BackShadow::Draw(ObjectMng* Obj)
 
 	DirectX::XMFLOAT4X4 mat[3];
 
-	//ƒ[ƒ‹ƒhs—ñ‚ÍX‚ÆY‚Ì‚İl—¶
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã¯Xã¨Yã®ã¿è€ƒæ…®
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(RTV_3D_POS_WIDTH, RTV_3D_POS_HEIGHT, 0.0f);
 
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
@@ -216,7 +268,7 @@ void BackShadow::Draw(ObjectMng* Obj)
 	mat[1] = m_pCamera->GetShadowViewMatrix();
 	mat[2] = m_pCamera->GetShadowProjectionMatrix();
 
-	//ƒXƒvƒ‰ƒCƒg‚Ìİ’è
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®è¨­å®š
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
@@ -227,7 +279,7 @@ void BackShadow::Draw(ObjectMng* Obj)
 
 /**
  * @fn
- * ƒŒƒ“ƒ_[—pƒJƒƒ‰‚ÌƒZƒbƒg
+ * ãƒ¬ãƒ³ãƒ€ãƒ¼ç”¨ã‚«ãƒ¡ãƒ©ã®ã‚»ãƒƒãƒˆ
  */
 void BackShadow::SetShadowCamera(CameraBase* pCamera)
 {
@@ -236,32 +288,32 @@ void BackShadow::SetShadowCamera(CameraBase* pCamera)
 
 /**
  * @fn
- * ƒ¿’l‚ğg‚Á‚½“–‚½‚è”»’è
- * @brief ‰e(ƒŒƒ“ƒ_[)‚Ì“–‚½‚è”»’è
- * @param (BYTE alpha)	ƒŒƒ“ƒ_[‰æ–Ê‚Ìƒ¿’l(ˆêƒsƒNƒZƒ‹•ª)
- * @param (int h)@		ƒŒƒ“ƒ_[‰æ–Ê‚Ì‚‚³‚ÌQÆ’l(ˆêƒsƒNƒZƒ‹‚²‚Æ)
- * @param (int w)@		ƒŒƒ“ƒ_[‰æ–Ê‚Ì•‚ÌQÆ’l(ˆêƒsƒNƒZƒ‹‚²‚Æ)
- * @param (UINT width)	ƒŒƒ“ƒ_[‰æ–Ê‚Ì•
- * @return true or false(‰½‚à‚È‚¢‚È‚çfalse‚Å•Ô‚·)
- * @detail ¡‚Í‚Ü‚¾•`‰æ‚ª‚ ‚é‚©Œ©‚Ä‚é‚¾‚¯
+ * Î±å€¤ã‚’ä½¿ã£ãŸå½“ãŸã‚Šåˆ¤å®š
+ * @brief å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®å½“ãŸã‚Šåˆ¤å®š
+ * @param (BYTE alpha)	ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®Î±å€¤(ä¸€ãƒ”ã‚¯ã‚»ãƒ«åˆ†)
+ * @param (int h)ã€€		ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®é«˜ã•ã®å‚ç…§å€¤(ä¸€ãƒ”ã‚¯ã‚»ãƒ«ã”ã¨)
+ * @param (int w)ã€€		ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®å¹…ã®å‚ç…§å€¤(ä¸€ãƒ”ã‚¯ã‚»ãƒ«ã”ã¨)
+ * @param (UINT width)	ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®å¹…
+ * @return true or false(ä½•ã‚‚ãªã„ãªã‚‰falseã§è¿”ã™)
+ * @detail ä»Šã¯ã¾ã æç”»ãŒã‚ã‚‹ã‹è¦‹ã¦ã‚‹ã ã‘
  */
 bool BackShadow::ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha)
 {
-	//•Ï”Šm”FƒvƒƒOƒ‰ƒ€
+	//å¤‰æ•°ç¢ºèªãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 	//if (cntAlpha > 13 && noAlpha > 10)
 	//{
 	//	int a = sumAlpha / (cntAlpha + noAlpha);
 	//	int b = 0;
 	//}
 
-	// ¶‰E‚Ìƒ¿’l‚ÌQÆ
+	// å·¦å³ã®Î±å€¤ã®å‚ç…§
 	if (sumAlpha / cntAlpha > 240 && cntAlpha > 25)
-	{// •Ç
+	{// å£
 		m_pShadowPlayer->Use();
 		return true;
 	}
 	if (sumAlpha / (cntAlpha + noAlpha) > 128 && cntAlpha > 13 && noAlpha > 10)
-	{// ŠK’i
+	{// éšæ®µ
 		m_pShadowPlayer->Jump();
 		return true;
 	}
@@ -271,7 +323,7 @@ bool BackShadow::ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha)
 
 bool BackShadow::ShadowUnderCollision(BYTE underAlpha)
 {
-	// ‘«Œ³‚Ìƒ¿’lQÆ
+	// è¶³å…ƒã®Î±å€¤å‚ç…§
 	if (underAlpha > 240)
 	{
 		m_pShadowPlayer->SetFooting(true);
@@ -287,14 +339,51 @@ bool BackShadow::ShadowUnderCollision(BYTE underAlpha)
 bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 {
 	if (h * width + 2 == m_indexY * width + m_indexX)
-	{// ¶‚Ì‰æ–Ê’[
+	{// å·¦ã®ç”»é¢ç«¯
 		m_pShadowPlayer->Use();
 		return true;
 	}
 	if (h * width + width - 1 == m_indexY * width + m_indexX)
-	{// ‰E‚Ì‰æ–Ê’[
+	{// å³ã®ç”»é¢ç«¯
 		m_pShadowPlayer->Use();
 		return true;
 	}
 	return false;
+}
+
+//ã‚³ã‚¤ãƒ³ã®å½“ãŸã‚Šåˆ¤å®šï¼†å‡¦ç†
+void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
+{
+	// ã‚³ã‚¤ãƒ³ã®å–å¾—å‡¦ç†
+	// å½±ã®åº§æ¨™
+	int shadowPosX = m_castPosX;
+	int shadowPosY = m_castPosY;
+
+
+	if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX &&
+		m_cast1CposX - m_castCsizeX / 2 < shadowPosX &&
+		m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&
+		m_cast1CposY - m_castCsizeY / 2 < shadowPosY)
+	{
+		// å½±ã¨ã‚³ã‚¤ãƒ³ãŒé‡ãªã£ãŸã‚‰ã‚³ã‚¤ãƒ³ã‚’å–å¾—ã™ã‚‹
+		Coin1->SetCollect(true);
+	}
+
+	if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX &&
+		m_cast2CposX - m_castCsizeX / 2 < shadowPosX &&
+		m_cast2CposY + m_castCsizeY / 2 > shadowPosY &&
+		m_cast2CposY - m_castCsizeY / 2 < shadowPosY)
+	{
+		// å½±ã¨ã‚³ã‚¤ãƒ³ãŒé‡ãªã£ãŸã‚‰ã‚³ã‚¤ãƒ³ã‚’å–å¾—ã™ã‚‹
+		Coin2->SetCollect(true);
+	}
+
+	if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX &&
+		m_cast3CposX - m_castCsizeX / 2 < shadowPosX &&
+		m_cast3CposY + m_castCsizeY / 2 > shadowPosY &&
+		m_cast3CposY - m_castCsizeY / 2 < shadowPosY)
+	{
+		// å½±ã¨ã‚³ã‚¤ãƒ³ãŒé‡ãªã£ãŸã‚‰ã‚³ã‚¤ãƒ³ã‚’å–å¾—ã™ã‚‹
+		Coin3->SetCollect(true);
+	}
 }

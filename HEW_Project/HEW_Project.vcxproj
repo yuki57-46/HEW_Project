@@ -176,6 +176,8 @@
     <ClCompile Include="CameraDebug.cpp" />
     <ClCompile Include="CameraObject.cpp" />
     <ClCompile Include="CameraShadow.cpp" />
+    <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="CoinCntUI.cpp" />
     <ClCompile Include="col.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectX.cpp" />
@@ -183,6 +185,7 @@
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="ItemUI.cpp" />
     <ClCompile Include="Lever.cpp" />
     <ClCompile Include="LibEffekseer.cpp" />
     <ClCompile Include="Lift_Obj.cpp" />
@@ -207,6 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackShadow.h" />
+    <ClInclude Include="Coin.h" />
+    <ClInclude Include="CoinCntUI.h" />
+    <ClInclude Include="ItemUI.h" />
     <ClInclude Include="Objectcamera.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CameraDebug.h" />

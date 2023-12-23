@@ -1,4 +1,4 @@
-#include "SceneGame.h"
+ï»¿#include "SceneGame.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 
@@ -10,22 +10,28 @@ SceneGame::SceneGame()
 , m_pobjcamera(nullptr)
 , m_pRTV(nullptr)
 , m_pDSV(nullptr)
+, m_pUI(nullptr)
 {
 
-	//RenderTarget* pRTV = GetDefaultRTV();  //ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éRenderTargetView‚Ìæ“¾
-	//DepthStencil* pDSV = GetDefaultDSV();  //ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éDepthStencilView‚Ìæ“¾
-	//SetRenderTargets(1, &pRTV, pDSV);      //DSV‚ªnull‚¾‚Æ2D•\¦‚É‚È‚é
+	//RenderTarget* pRTV = GetDefaultRTV();  //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹RenderTargetViewã®å–å¾—
+	//DepthStencil* pDSV = GetDefaultDSV();  //ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹DepthStencilViewã®å–å¾—
+	//SetRenderTargets(1, &pRTV, pDSV);      //DSVãŒnullã ã¨2Dè¡¨ç¤ºã«ãªã‚‹
 	//
 
-	//[“xƒoƒbƒtƒ@AƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ìİ’è
-	m_pRTV = GetDefaultRTV();	//ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éRender Target View‚Ìæ“¾
-	m_pDSV = GetDefaultDSV();	//ƒfƒtƒHƒ‹ƒg‚Åg—p‚µ‚Ä‚¢‚éDepth Stencil View‚Ìæ“¾
-	SetRenderTargets(1, &m_pRTV, m_pDSV);		//DSV‚ªnull‚¾‚Æ‚QD•\¦‚É‚È‚é
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã€ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®è¨­å®š
+	m_pRTV = GetDefaultRTV();	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹Render Target Viewã®å–å¾—
+	m_pDSV = GetDefaultDSV();	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä½¿ç”¨ã—ã¦ã„ã‚‹Depth Stencil Viewã®å–å¾—
+	SetRenderTargets(1, &m_pRTV, m_pDSV);		//DSVãŒnullã ã¨ï¼’Dè¡¨ç¤ºã«ãªã‚‹
 
 	//m_pPlayer = new Player();
 	m_pVS = new VertexShader();
 
 	m_pobjcamera = new ObjectCamera();
+
+	//ã‚³ã‚¤ãƒ³ç³»
+	m_pUI = new ItemUI();
+	m_pCoinCntUI = new CoinCntUI();
+	m_pCoin = new Coin[3];
 
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
 	{
@@ -42,16 +48,32 @@ SceneGame::SceneGame()
 	//m_pDCamera = new CameraDebug();
 	
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // ƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
+	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // ã‚µã‚¦ãƒ³ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿
 	
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	//m_pSourceVoice = PlaySound(m_pSound); // ƒTƒEƒ“ƒh‚ÌÄ¶
+	//m_pSourceVoice = PlaySound(m_pSound); // ã‚µã‚¦ãƒ³ãƒ‰ã®å†ç”Ÿ
 }
 
 SceneGame::~SceneGame()
 {
-	
+	if (m_pCoin)
+	{
+		delete[] m_pCoin;
+		m_pCoin = nullptr;
+	}
+
+	if (m_pCoinCntUI)
+	{
+		delete m_pCoinCntUI;
+		m_pCoinCntUI = nullptr;
+	}
+
+	if (m_pUI)
+	{
+		delete m_pUI;
+		m_pUI = nullptr;
+	}
 	/*if (m_pPlayer)
 	{
 		delete m_pPlayer;
@@ -104,10 +126,11 @@ void SceneGame::Update(float tick)
 
 	m_pCamera[CAM_OBJ]->Update();
 
-	//ƒIƒuƒWƒFƒNƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
 	m_pObjectMng->Update(tick);
 	//m_pObject2D->Update();
+	m_pCoinCntUI->Update();
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
 	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
@@ -128,57 +151,78 @@ void SceneGame::Draw()
 	DirectX::XMFLOAT4X4 mat[3];
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
-	m_pBackShadow->Draw(m_pObjectMng);
+	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
 
 
-	//3D•\¦‚É•ÏX
+	//3Dè¡¨ç¤ºã«å¤‰æ›´
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
-	//ƒ[ƒ‹ƒhs—ñ‚ÌŒvZ
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
 	DirectX::XMMATRIX world =
 		DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
 		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
 		DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
-	//ƒrƒ…[s—ñ‚ÌŒvZ
+	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®è¨ˆç®—
 	mat[1] = m_pCamera[CAM_OBJ]->GetViewMatrix();
-	//ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ÌŒvZ
+	//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã®è¨ˆç®—
 	mat[2] = m_pCamera[CAM_OBJ]->GetProjectionMatrix();
 
-	//s—ñ‚ğƒVƒF[ƒ_[‚Öİ’è
+	//è¡Œåˆ—ã‚’ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸è¨­å®š
 	m_pVS->WriteBuffer(0, mat);
 
 	//m_pPlayer->Draw(viewMatrix, projectionMatrix);
 
-	//ƒvƒŒƒCƒ„[
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pobjcamera->Draw();
 
-	//ƒIƒuƒWƒFƒNƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
 	
 
-	//Geometry—p‚Ì•ÏXs—ñ‚ğŒvZ
-	//ƒ[ƒ‹ƒhs—ñ‚ÌÄŒvZ
+	//Geometryç”¨ã®å¤‰æ›´è¡Œåˆ—ã‚’è¨ˆç®—
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å†è¨ˆç®—
 	world =
 		DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f) *
 		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
 		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
-	//“]’us—ñ‚É•ÏŠ·
+	//è»¢ç½®è¡Œåˆ—ã«å¤‰æ›
 	world = DirectX::XMMatrixTranspose(world);
-	//XMMATRIXŒ^‚©‚çXMFLOAT4X4‚É•ÏŠ·‚µ‚ÄŠi”[
+	//XMMATRIXå‹ã‹ã‚‰XMFLOAT4X4ã«å¤‰æ›ã—ã¦æ ¼ç´
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	//Geometory—p‚Ì•ÏŠ·s—ñ‚ğİ’è
+	//Geometoryç”¨ã®å¤‰æ›è¡Œåˆ—ã‚’è¨­å®š
 	Geometory::SetWorld(mat[0]);
 	Geometory::SetView(mat[1]);
 	Geometory::SetProjection(mat[2]);
 
-	//ƒ‚ƒfƒ‹•\¦
+	//ãƒ¢ãƒ‡ãƒ«è¡¨ç¤º
 	//Geometory::DrawBox();
 
-	//2D•\¦‚É•ÏŠ·(ƒ~ƒjƒ}ƒbƒv‚âUI
+	//2Dè¡¨ç¤ºã«å¤‰æ›(ãƒŸãƒ‹ãƒãƒƒãƒ—ã‚„UI
 	SetRenderTargets(1, &m_pRTV, nullptr);
+
+	//ã‚³ã‚¤ãƒ³ã®æ è¡¨ç¤º
+	m_pCoinCntUI->Draw();
+
+
+	//ã‚³ã‚¤ãƒ³ãŒå–å¾—ã•ã‚Œã¦ã„ãŸã‚‰æç”»
+	if (m_pCoin[0].IsFirstCollected == true)
+	{
+		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+	}
+
+	if (m_pCoin[1].IsFirstCollected == true)
+	{
+		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+	}
+
+	if (m_pCoin[2].IsFirstCollected == true)
+	{
+		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+	}
+
 }
 
