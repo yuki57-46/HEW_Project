@@ -28,10 +28,10 @@ Player::Player()
 {
 	m_pModel = new Model;
 	 //モデルの読み込み処理
-	if (!m_pModel->Load("Assets/Model/Player/kage.fbx", Model::Flip::XFlip)) {
+	if (!m_pModel->Load("Assets/Model/Player/kuroko.fbx", 0.5f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}
-	
+
 	// モデルにShaderListからVS,PSを読み込む
 	m_pModel->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));
 	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_TOON));
@@ -45,14 +45,14 @@ Player::Player()
 
 //	m_pModel->SetVertexShader(m_pVS);
 
-	m_anime_Levitation = m_pModel->AddAnimation("Assets/Animation/Walk.fbx");	//	ファイルパスを入れる
+	m_anime_Levitation = m_pModel->AddAnimation("Assets/Animation/kuroko_huyu.fbx");	//	ファイルパスを入れる
 	if (FAILED(m_pModel->AddAnimation("Assets/Animation/kuroko_huyu.fbx")))
 	{
 		MessageBox(nullptr, "anime", "Error", MB_OK);
 	}
 	m_anime_possession = m_pModel->AddAnimation("Assets/Animation/kuroko_hyoui.fbx");
 
-	
+
 	minBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
 	maxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
 
@@ -87,7 +87,7 @@ void Player::Update(float tick)
 	float moveSpeed = 0.03f; // 移動速度の調整
 
 	float rotationSpeed = 1.0f;
-	
+
 	auto currentTime = std::chrono::steady_clock::now();
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTimePly);
 
@@ -261,7 +261,7 @@ void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 	//m_pModel->DrawBone();
 
 #endif // DEBUG
-		
+
 }
 
 void Player::SetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)

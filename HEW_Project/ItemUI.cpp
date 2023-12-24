@@ -13,11 +13,11 @@ ItemUI::ItemUI()
 
 ItemUI::~ItemUI()
 {
-	if (m_pTexture)
-	{
-		delete m_pTexture;
-		m_pTexture = nullptr;
-	}
+	//if (m_pTexture)
+	//{
+	//	delete m_pTexture;
+	//	m_pTexture = nullptr;
+	//}
 }
 
 void ItemUI::Update()
