@@ -9,6 +9,7 @@
 #include "ObjectManager.h"
 #include "ShadowP.h"
 
+#include"Coin.h"
 class BackShadow
 {
 public:
@@ -16,12 +17,12 @@ public:
 	~BackShadow();
 
 	void Update(float tick);
-	void Draw(ObjectMng* Obj);
+	void Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3);
 	void SetShadowCamera(CameraBase* pCamera);
 	bool ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha);
 	bool ShadowUnderCollision(BYTE underAlpha);
 	bool ShadowEdgeCollision(int h, UINT width);
-
+	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3);//コインの所得処理
 private:
 	// カメラ
 	CameraBase* m_pCamera;	// レンダーのカメラ
@@ -55,6 +56,22 @@ private:
 	//影のみに描きたい物
 	ShadowP* m_pShadowPlayer;	// 影プレイヤー
 
+		//1コイン
+	DirectX::XMFLOAT3 m_1Cpos;
+	int m_cast1CposX;
+	int m_cast1CposY;
+
+	DirectX::XMFLOAT3 m_2Cpos;
+	int m_cast2CposX;
+	int m_cast2CposY;
+
+	DirectX::XMFLOAT3 m_3Cpos;
+	int m_cast3CposX;
+	int m_cast3CposY;
+
+	DirectX::XMFLOAT3 m_Csize;
+	int m_castCsizeX;
+	int m_castCsizeY;
 };
 
 //#endif // !___BACK_SHADOW_H___

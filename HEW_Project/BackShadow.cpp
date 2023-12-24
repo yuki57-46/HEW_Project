@@ -88,7 +88,7 @@ BackShadow::~BackShadow()
  */
 void BackShadow::Update(float tick)
 {
-	
+
 	m_pShadowPlayer->Update(tick);
 }
 
@@ -102,7 +102,7 @@ void BackShadow::Update(float tick)
  * @sa 参照すべき関数を書けばリンクが貼れる
  * @detail 3D空間にあるものを表示したいときは「引数を増やす」こと
  */
-void BackShadow::Draw(ObjectMng* Obj)
+void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3)
 {
 	//深度バッファのクリア
 	//m_pDSV_BS->Clear();
@@ -126,6 +126,20 @@ void BackShadow::Draw(ObjectMng* Obj)
 
 	SetRenderTargets(1, &pRTV, nullptr);
 
+	//コインをフィールド上に表示
+	if (Coin1->IsFirstCollected == false)
+	{
+		Coin1->Draw(270.0f, 355.0f, 0.0f, 20.0f, 20.0f, 1);	//左 y=120.0f
+	}
+	if (Coin2->IsFirstCollected == false)
+	{
+		Coin2->Draw(500.0f, 320.0f, 0.0f, 20.0f, 20.0f, 2);	//真ん中
+	}
+	if (Coin3->IsFirstCollected == false)
+	{
+		Coin3->Draw(1200.0f, 300.0f, 0.0f, 20.0f, 20.0f, 3);	//右
+	}
+
 	//レンダーターゲットの色情報読み取り
 	m_pRTV_BS->Read([&](const void* colorData, UINT width, UINT height) {
 		struct Color {
@@ -136,7 +150,42 @@ void BackShadow::Draw(ObjectMng* Obj)
 		m_SPpos = m_pShadowPlayer->NowPos();				//影の座標を所得
 		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		//X軸をレンダーのウィンドウ座標に合わせて変換
 		m_SPposY = ((m_SPpos.y - 3.0f) / 6.0f) * (-1);		//Y軸をレンダーのウィンドウ座標に合わせて変換
-		
+
+		//コイン
+		if (Coin1->IsFirstCollected == false)
+		{
+			m_1Cpos = Coin1->GetPosition();
+		}
+
+		m_Csize = Coin1->GetSize();
+
+		if (Coin2->IsFirstCollected == false)
+		{
+			m_2Cpos = Coin2->GetPosition();
+		}
+
+		m_Csize = Coin2->GetSize();
+
+		if (Coin3->IsFirstCollected == false)
+		{
+			m_3Cpos = Coin3->GetPosition();
+		}
+
+		m_Csize = Coin3->GetSize();
+
+
+		m_cast1CposX = static_cast<int>(m_1Cpos.x / 2.0f);
+		m_cast1CposY = static_cast<int>(m_1Cpos.y / 2.0f);
+
+		m_cast2CposX = static_cast<int>(m_2Cpos.x / 2.0f);
+		m_cast2CposY = static_cast<int>(m_2Cpos.y / 2.0f);
+
+		m_cast3CposX = static_cast<int>(m_3Cpos.x / 2.0f);
+		m_cast3CposY = static_cast<int>(m_3Cpos.y / 2.0f);
+
+		m_castCsizeX = static_cast<int>(m_Csize.x / 2.0f);
+		m_castCsizeY = static_cast<int>(m_Csize.y / 2.0f);
+
 		//キャスト用
 		m_castPosX = static_cast<int>(m_SPposX * width);
 		m_castPosY = static_cast<int>(m_SPposY * height);
@@ -147,6 +196,9 @@ void BackShadow::Draw(ObjectMng* Obj)
 		//(例)(int)((m_pos.x - screenPos.x) / screenWidth)
 		m_indexX = m_castPosX;
 		m_indexY = m_castPosY;
+
+		//コイン
+		CoinCollection(Coin1, Coin2, Coin3);
 
 		const Color* pData = reinterpret_cast<const Color*>(colorData);
 		//m_Player_a = pData[m_indexY * width + m_indexX].a;	//プレイヤーの位置のα値を見たい
@@ -191,7 +243,7 @@ void BackShadow::Draw(ObjectMng* Obj)
 						}
 					}
 				}
-				
+
 				if (ShadowCollision(m_sumAlpha, m_alphaData, m_noAlphaData) || ShadowEdgeCollision(h, width))
 				{
 					m_collisionFlag = true;
@@ -299,4 +351,41 @@ bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 		return true;
 	}
 	return false;
+}
+
+//コインの当たり判定＆処理
+void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
+{
+	// コインの取得処理
+	// 影の座標
+	int shadowPosX = m_castPosX;
+	int shadowPosY = m_castPosY;
+
+
+	if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX &&
+		m_cast1CposX - m_castCsizeX / 2 < shadowPosX &&
+		m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&
+		m_cast1CposY - m_castCsizeY / 2 < shadowPosY)
+	{
+		// 影とコインが重なったらコインを取得する
+		Coin1->SetCollect(true);
+	}
+
+	if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX &&
+		m_cast2CposX - m_castCsizeX / 2 < shadowPosX &&
+		m_cast2CposY + m_castCsizeY / 2 > shadowPosY &&
+		m_cast2CposY - m_castCsizeY / 2 < shadowPosY)
+	{
+		// 影とコインが重なったらコインを取得する
+		Coin2->SetCollect(true);
+	}
+
+	if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX &&
+		m_cast3CposX - m_castCsizeX / 2 < shadowPosX &&
+		m_cast3CposY + m_castCsizeY / 2 > shadowPosY &&
+		m_cast3CposY - m_castCsizeY / 2 < shadowPosY)
+	{
+		// 影とコインが重なったらコインを取得する
+		Coin3->SetCollect(true);
+	}
 }
