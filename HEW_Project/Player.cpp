@@ -1,38 +1,38 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "Input.h"
 #include"Gamepad.h"
 #include <chrono>
 
 InputManager imanagerP = InputManager();
 
-DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //‹«ŠE‚ÌÅ¬’l
-DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //Å‘å’l
+DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //å¢ƒç•Œã®æœ€å°å€¤
+DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //æœ€å¤§å€¤
 
-DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //‹«ŠE‚ÌÅ¬’l
-DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //Å‘å’l
+DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //å¢ƒç•Œã®æœ€å°å€¤
+DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //æœ€å¤§å€¤
 
 std::chrono::steady_clock::time_point lastSoundPlayTimePly;
-const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//Ä¶ŠÔO•b‚Ì
+const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//å†ç”Ÿæ™‚é–“ä¸‰ç§’ã®æ™‚
 
 Player::Player()
 	: m_pos(0.0f, 0.0f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
-	, m_pSVSEPly(nullptr)//ƒXƒs[ƒJ
-	, m_pSDSEPly(nullptr)//ƒTƒEƒ“ƒhƒf[ƒ^
+	, m_pSVSEPly(nullptr)//ã‚¹ãƒ”ãƒ¼ã‚«
+	, m_pSDSEPly(nullptr)//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿
 	, ok (false)
 	, m_pVS(nullptr)
 	, m_anime_Levitation(NULL)
 	, m_anime_possession(NULL)
 {
 	m_pModel = new Model;
-	 //ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İˆ—
-	if (!m_pModel->Load("Assets/Model/Player/kuroko.fbx",0.5f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+	 //ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿å‡¦ç†
+	if (!m_pModel->Load("Assets/Model/Player/kuroko.fbx", 0.5f, Model::Flip::XFlip)) {
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}
-	
-	// ƒ‚ƒfƒ‹‚ÉShaderList‚©‚çVS,PS‚ğ“Ç‚İ‚Ş
+
+	// ãƒ¢ãƒ‡ãƒ«ã«ShaderListã‹ã‚‰VS,PSã‚’èª­ã¿è¾¼ã‚€
 	m_pModel->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));
 	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_TOON));
 
@@ -45,14 +45,14 @@ Player::Player()
 
 //	m_pModel->SetVertexShader(m_pVS);
 
-	m_anime_Levitation = m_pModel->AddAnimation("Assets/Animation/kuroko_huyu.fbx");	//	ƒtƒ@ƒCƒ‹ƒpƒX‚ğ“ü‚ê‚é
+	m_anime_Levitation = m_pModel->AddAnimation("Assets/Animation/kuroko_huyu.fbx");	//	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å…¥ã‚Œã‚‹
 	if (FAILED(m_pModel->AddAnimation("Assets/Animation/kuroko_huyu.fbx")))
 	{
 		MessageBox(nullptr, "anime", "Error", MB_OK);
 	}
 	m_anime_possession = m_pModel->AddAnimation("Assets/Animation/kuroko_hyoui.fbx");
 
-	
+
 	minBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
 	maxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
 
@@ -79,15 +79,15 @@ Player::~Player()
 void Player::Update(float tick)
 {
 
-	//œßˆË‰ğœ‚ÉœßˆË‚µ‚½‚ÌˆÊ’u‚ÉƒvƒŒƒCƒ„[‚ğ–ß‚·‚½‚ß
+	//æ†‘ä¾è§£é™¤æ™‚ã«æ†‘ä¾ã—ãŸæ™‚ã®ä½ç½®ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æˆ»ã™ãŸã‚
 	if (ok==false)
 	{
 		m_oldPos = m_pos;
 	}
-	float moveSpeed = 0.03f; // ˆÚ“®‘¬“x‚Ì’²®
+	float moveSpeed = 0.03f; // ç§»å‹•é€Ÿåº¦ã®èª¿æ•´
 
 	float rotationSpeed = 1.0f;
-	
+
 	auto currentTime = std::chrono::steady_clock::now();
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTimePly);
 
@@ -95,15 +95,15 @@ void Player::Update(float tick)
 
 	if (ok == false)
 	{
-		m_pModel->Play(m_anime_Levitation, true);	// •‚—VƒAƒjƒ[ƒVƒ‡ƒ“(í)
+		m_pModel->Play(m_anime_Levitation, true);	// æµ®éŠã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³(å¸¸æ™‚)
 	}
 	//else
 	//{
-	//	m_pModel->Play(m_anime_possession, false);	// ƒ‹[ƒv–³‚µƒAƒjƒ[ƒVƒ‡ƒ“
+	//	m_pModel->Play(m_anime_possession, false);	// ãƒ«ãƒ¼ãƒ—ç„¡ã—ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	//}
 
 	//m_pCamera->Update();
-	//ƒQ[ƒ€ƒpƒbƒh‚Ì‘Î‰
+	//ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®å¯¾å¿œ
 	imanagerP.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerP.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerP.addKeycode(2, 0, GAMEPAD_KEYTYPE::ThumbLU, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -113,7 +113,7 @@ void Player::Update(float tick)
 	imanagerP.addKeycode(6, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
 	imanagerP.inspect();
 
-	// ¶ƒXƒeƒBƒbƒN‚ÌX²‚ÆY²•ûŒü‚Ì“ü—Í‚ğæ“¾
+	// å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸ã¨Yè»¸æ–¹å‘ã®å…¥åŠ›ã‚’å–å¾—
 	float leftStickX1 = static_cast<float>(imanagerP.getKey(0));
 	float leftStickX2 = static_cast<float>(imanagerP.getKey(1));
 	float leftStickZ1 = static_cast<float>(imanagerP.getKey(2));
@@ -121,20 +121,20 @@ void Player::Update(float tick)
 
 
 
-	// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğŒvZ
+	// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 	DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	 //ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğ³‹K‰»
+	 //ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–
 	DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
 	directionVector = DirectX::XMVector3Normalize(directionVector);
 	DirectX::XMFLOAT3 normalizedDirection;
 	DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚©‚ç‰ñ“]Šp“x‚ğŒvZ
+	// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰å›è»¢è§’åº¦ã‚’è¨ˆç®—
 	float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
 	m_rotationY = rotationAngle;
 
-	// ˆÊ’u‚ğXV
+	// ä½ç½®ã‚’æ›´æ–°
 	m_pos.x -= moveSpeed * moveDirection.x;
 	m_pos.z -= moveSpeed * moveDirection.z;
 
@@ -146,12 +146,12 @@ void Player::Update(float tick)
 		{
 			m_pSVSEPly = PlaySound(m_pSDSEPly);
 
-			// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
+			// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
 			lastSoundPlayTimePly = currentTime;
 		}
 	}
 
-	// ‰ñ“]s—ñ‚ğXV
+	// å›è»¢è¡Œåˆ—ã‚’æ›´æ–°
 	m_rotationMatrix = DirectX::XMMatrixRotationY(m_rotationY);
 
 	if (imanagerP.getKey(5) & 0b011)
@@ -166,15 +166,15 @@ void Player::Update(float tick)
 
 	if (moveDirection.x == 0.0f && moveDirection.z == 0.0f)
 	{
-		// ÅŒã‚ÉŒü‚¢‚Ä‚¢‚½•ûŒü‚ğg—p
+		// æœ€å¾Œã«å‘ã„ã¦ã„ãŸæ–¹å‘ã‚’ä½¿ç”¨
 		m_rotationY = m_lastFacingDirection;
 	}
 	else
 	{
-		// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚©‚ç‰ñ“]Šp“x‚ğŒvZ
+		// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰å›è»¢è§’åº¦ã‚’è¨ˆç®—
 		float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
 		m_rotationY = rotationAngle;
-		// ÅŒã‚ÉŒü‚¢‚½•ûŒü‚ğXV
+		// æœ€å¾Œã«å‘ã„ãŸæ–¹å‘ã‚’æ›´æ–°
 		m_lastFacingDirection = m_rotationY;
 	}
 
@@ -182,19 +182,19 @@ void Player::Update(float tick)
 	{
 		if (IsKeyPress(VK_UP))
 		{
-			m_pos.z += moveSpeed;
+			m_pos.z -= moveSpeed;
 		}
 		if (IsKeyPress(VK_DOWN))
 		{
-			m_pos.z -= moveSpeed;
+			m_pos.z += moveSpeed;
 		}
 		if (IsKeyPress(VK_RIGHT))
 		{
-			m_pos.x += moveSpeed;
+			m_pos.x -= moveSpeed;
 		}
 		if (IsKeyPress(VK_LEFT))
 		{
-			m_pos.x -= moveSpeed;
+			m_pos.x += moveSpeed;
 		}
 		if (IsKeyPress('U'))
 		{
@@ -206,7 +206,7 @@ void Player::Update(float tick)
 		}
 	}
 
-		SetBounds(MinBound, MaxBound);  //Å¬’l‚ÆÅ‘å’l‚ğƒZƒbƒg
+		SetBounds(MinBound, MaxBound);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
 		HSetBounds(HMinBound, HMaxBound);
 
 
@@ -222,11 +222,11 @@ void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
-	// ƒ[ƒ‹ƒhs—ñ‚ÌŒvZ‚É‰ñ“]‚ğ’Ç‰Á
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—ã«å›è»¢ã‚’è¿½åŠ 
 	DirectX::XMMATRIX MT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
-	//DirectX::XMMATRIX MR = DirectX::XMMatrixRotationY(m_rotationY); // Y²‰ñ“]
+	//DirectX::XMMATRIX MR = DirectX::XMMatrixRotationY(m_rotationY); // Yè»¸å›è»¢
 	DirectX::XMMATRIX MS = DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f);
-	DirectX::XMMATRIX world = MS  * MT;//MR* MT; // ‰ñ“]‚ğ“K—p
+	DirectX::XMMATRIX world = MS  * MT;//MR* MT; // å›è»¢ã‚’é©ç”¨
 
 
 	world = DirectX::XMMatrixTranspose(world);
@@ -234,13 +234,13 @@ void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 	mat[1] = viewMatrix;
 	mat[2] = projectionMatrix;
 
-	 //s—ñ‚ğƒVƒF[ƒ_[‚Öİ’è
+	 //è¡Œåˆ—ã‚’ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸è¨­å®š
 	m_pVS->WriteBuffer(0, mat);
 //	m_pModel->Draw();
 
-	ShaderList::SetWVP(mat);	// “]’uÏ‚İ‚Ì•ÏŠ·s—ñ
+	ShaderList::SetWVP(mat);	// è»¢ç½®æ¸ˆã¿ã®å¤‰æ›è¡Œåˆ—
 
-	m_pModel->Draw(nullptr, [this](int index)	// ƒ‰ƒ€ƒ_®
+	m_pModel->Draw(nullptr, [this](int index)	// ãƒ©ãƒ ãƒ€å¼
 	{
 		const Model::Mesh* pMesh = m_pModel->GetMesh(index);
 		const Model::Material* pMaterial = m_pModel->GetMaterial(pMesh->materialID);
@@ -249,7 +249,7 @@ void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 		DirectX::XMFLOAT4X4 bones[200];
 		for (int i = 0; i < pMesh->bones.size() && i < 200; ++i)
 		{
-			// ‚±‚ÌŒvZ‚ÍƒQ[ƒ€‚Â‚­‚ë[uƒXƒLƒ“ƒƒbƒVƒ…‚Ìd‘g‚İv‚ªQl‚É‚È‚é
+			// ã“ã®è¨ˆç®—ã¯ã‚²ãƒ¼ãƒ ã¤ãã‚ãƒ¼ã€Œã‚¹ã‚­ãƒ³ãƒ¡ãƒƒã‚·ãƒ¥ã®ä»•çµ„ã¿ã€ãŒå‚è€ƒã«ãªã‚‹
 			DirectX::XMStoreFloat4x4(&bones[i], DirectX::XMMatrixTranspose(
 				pMesh->bones[i].invOffset *
 				m_pModel->GetBone(pMesh->bones[i].index)
@@ -258,10 +258,10 @@ void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 		ShaderList::SetBones(bones);
 	});
 #ifdef _DEBUG
-//	m_pModel->DrawBone();
+	//m_pModel->DrawBone();
 
 #endif // DEBUG
-		
+
 }
 
 void Player::SetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
@@ -283,7 +283,7 @@ DirectX::XMFLOAT3 Player::GetmaxBox()
 
 DirectX::XMFLOAT3 Player::Add(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOAT3 & b)
 {
-	//pos‚ÉÅ¬’lAÅ‘å’l‚ğ‘«‚µ‚Ä“–‚½‚è”»’è‚ğ‚¸‚ç‚·
+	//posã«æœ€å°å€¤ã€æœ€å¤§å€¤ã‚’è¶³ã—ã¦å½“ãŸã‚Šåˆ¤å®šã‚’ãšã‚‰ã™
 	DirectX::XMFLOAT3 result;
 	result.x = a.x + b.x;
 	result.y = a.y + b.y;
@@ -293,7 +293,7 @@ DirectX::XMFLOAT3 Player::Add(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOA
 
 
 
-//œßˆË“–‚½‚è”»’è
+//æ†‘ä¾å½“ãŸã‚Šåˆ¤å®š
 void Player::HSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
 {
 	hminBound = HAdd(m_pos, min);
@@ -313,7 +313,7 @@ DirectX::XMFLOAT3 Player::HGetmaxBox()
 
 DirectX::XMFLOAT3 Player::HAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOAT3 & b)
 {
-	//pos‚ÉÅ¬’lAÅ‘å’l‚ğ‘«‚µ‚Ä“–‚½‚è”»’è‚ğ‚¸‚ç‚·
+	//posã«æœ€å°å€¤ã€æœ€å¤§å€¤ã‚’è¶³ã—ã¦å½“ãŸã‚Šåˆ¤å®šã‚’ãšã‚‰ã™
 	DirectX::XMFLOAT3 result;
 	result.x = a.x + b.x;
 	result.y = a.y + b.y;
@@ -323,19 +323,19 @@ DirectX::XMFLOAT3 Player::HAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLO
 //__
 
 
-//ƒuƒƒbƒN‚ÆƒvƒŒƒCƒ„[Õ“ËAƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ğ•Ô‚·
+//ãƒ–ãƒ­ãƒƒã‚¯ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¡çªæ™‚ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã‚’è¿”ã™
 void Player::PlayerPos()
 {
 	m_pos = m_oldPos;
 }
 
-//œßˆË‚É”ò‚Î‚·
+//æ†‘ä¾æ™‚ã«é£›ã°ã™
 void Player::HPlayerPos()
 {
 	m_pos.y = -100.0f;
 }
 
-//ƒŠƒZƒbƒg—pi–¢À‘•j
+//ãƒªã‚»ãƒƒãƒˆç”¨ï¼ˆæœªå®Ÿè£…ï¼‰
 void Player::RPlayerPos()
 {
 	m_pos.z = 0.0f;
@@ -359,36 +359,36 @@ void Player::SetNOk()
 
 float Player::GetPosX()
 {
-	return m_pos.x;
+	return m_oldPos.x;
 }
 
 float Player::GetPosY()
 {
-	return m_pos.y;
+	return m_oldPos.y+1.2f;
 }
 
 float Player::GetPosZ()
 {
-	return m_pos.z;
+	return m_oldPos.z;
 }
 
 /**
- * @brief ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìİ’è
- * @param[in] ‚È‚µ
- * @return ‚È‚µ
+ * @brief ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®š
+ * @param[in] ãªã—
+ * @return ãªã—
  */
 void Player::SetAnime()
 {
-	// “ü‚ê‚éƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒZƒbƒg
+	// å…¥ã‚Œã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚»ãƒƒãƒˆ
 
 }
 
 /**
- * @brief ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìİ’è
- * @param[in] ‚È‚µ
- * @return ‚È‚µ
+ * @brief ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®š
+ * @param[in] ãªã—
+ * @return ãªã—
  */
 void Player::SetAnime2()
 {
-	m_pModel->Play(m_anime_possession, false);	// œßˆË‚Ì•`‰æ
+	m_pModel->Play(m_anime_possession, false);	// æ†‘ä¾ã®æç”»
 }

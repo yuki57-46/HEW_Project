@@ -1,4 +1,4 @@
-#include "CameraShadow.h"
+ï»¿#include "CameraShadow.h"
 #include "Input.h"
 
 CameraShadow::CameraShadow()
@@ -24,8 +24,8 @@ void CameraShadow::Update()
 	//m_look = m_pos;
 
 	//const float Speed = 0.05f;
-	////ƒJƒƒ‰‚Ì‹“_‚ğ“®‚©‚·
-	////‰ñ“]
+	////ã‚«ãƒ¡ãƒ©ã®è¦–ç‚¹ã‚’å‹•ã‹ã™
+	////å›è»¢
 	//if (IsKeyPress(VK_UP))		{ m_radY += Speed; }
 	//if (IsKeyPress(VK_DOWN))	{ m_radY -= Speed; }
 	//if (IsKeyPress(VK_LEFT))	{ m_radXZ += Speed; }

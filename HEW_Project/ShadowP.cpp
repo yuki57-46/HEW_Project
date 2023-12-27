@@ -1,5 +1,6 @@
 ﻿#include "ShadowP.h"
 #include "Input.h"
+
 DirectX::XMFLOAT3 PMinBound = DirectX::XMFLOAT3(-0.15f, -0.1f, -0.3f);  //境界の最小値
 DirectX::XMFLOAT3 PMaxBound = DirectX::XMFLOAT3(0.2f, 0.1f, 0.5f);     //最大値
 ShadowP::ShadowP()
@@ -10,6 +11,7 @@ ShadowP::ShadowP()
 	, m_footing(false)
 	, m_moveY(0.001f)
 	, m_JumpY(0.5f)
+	,m_anime_shadow_Levitation(NULL)
 {
 	m_pModel = new Model;
 	//if (!m_pModel->Load("Assets/Model/Golem//Golem.FBX"))
@@ -18,18 +20,27 @@ ShadowP::ShadowP()
 	//}
 
 	 //モデルの読み込み処理
-	if (!m_pModel->Load("Assets/Model/kage.fbx", 0.05f, Model::Flip::XFlip)) {
+	if (!m_pModel->Load("Assets/Model/Player/kage.fbx",0.5f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}
 	/*if (!m_pModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}*/
+
 	m_pVS = new VertexShader();
+	m_pModel->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));
+	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_TOON));
+
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
 	{
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
-	m_pModel->SetVertexShader(m_pVS);
+	//m_pModel->SetVertexShader(m_pVS);
+	m_anime_shadow_Levitation = m_pModel->AddAnimation("Assets/Animation/Walk.fbx");	//	ファイルパスを入れる
+	if (FAILED(m_pModel->AddAnimation("Assets/Animation/kuroko_huyu.fbx")))
+	{
+		MessageBox(nullptr, "anime", "Error", MB_OK);
+	}
 
 	minBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);
 	maxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
@@ -52,8 +63,16 @@ ShadowP::~ShadowP()
 	}
 }
 
-void ShadowP::Update()
-{//�ҏW
+void ShadowP::Update(float tick)
+{//編集
+
+	m_pModel->Step(tick);
+
+	if (IsUse == true || IsUse == false)
+	{
+		m_pModel->Play(m_anime_shadow_Levitation, true);
+	}
+
 	m_oldPos = m_pos;
 	if (IsUse == true)
 	{
@@ -64,7 +83,7 @@ void ShadowP::Update()
 		m_pos.x -= 0.015;
 	}
 
-	//�d��
+	//�d��
 	if (!m_footing)
 	{
 		m_pos.y -= m_moveY;
@@ -84,7 +103,7 @@ void ShadowP::Update()
 	//m_moveYの速度に応じてプレイヤーの座標を変える
 	//ジャンプ
 
-	
+
 	SetBounds(PMinBound, PMaxBound);  //最小値と最大値をセット
 }
 
@@ -103,7 +122,31 @@ void ShadowP::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectio
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
 	//----行列をシェーダーへ設定
 	m_pVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
-	m_pModel->Draw();
+//	m_pModel->Draw();
+
+
+
+	ShaderList::SetWVP(mat);	// 転置済みの変換行列
+
+	m_pModel->Draw(nullptr, [this](int index)	// ラムダ式
+	{
+		const Model::Mesh* pMesh = m_pModel->GetMesh(index);
+		const Model::Material* pMaterial = m_pModel->GetMaterial(pMesh->materialID);
+		ShaderList::SetMaterial(*pMaterial);
+
+		DirectX::XMFLOAT4X4 bones[200];
+		for (int i = 0; i < pMesh->bones.size() && i < 200; ++i)
+		{
+			// この計算はゲームつくろー「スキンメッシュの仕組み」が参考になる
+			DirectX::XMStoreFloat4x4(&bones[i], DirectX::XMMatrixTranspose(
+				pMesh->bones[i].invOffset *
+				m_pModel->GetBone(pMesh->bones[i].index)
+			));
+		}
+		ShaderList::SetBones(bones);
+	});
+	//m_pModel->DrawBone();
+
 }
 
 void ShadowP::SetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
@@ -156,7 +199,7 @@ void ShadowP::ShadowPPos()
 }
 
 void ShadowP::Use()
-{//�ҏW
+{//�ҏW
 	if (IsUse == false)
 	{
 		IsUse = true;
@@ -171,7 +214,7 @@ void  ShadowP::NotUse()
 {
 	//if (IsUse == true)
 	//{
-	//	
+	//
 	//}
 	IsUse = false;
 }

@@ -7,6 +7,7 @@ CameraObject::CameraObject(ObjectCamera* pCamera)
 	, m_radY(0.0f)
 	, m_radius(0.0f)
 {
+	
 }
 
 CameraObject::~CameraObject()
@@ -17,7 +18,7 @@ void CameraObject::Update()
 {
 	//m_look = ->GetPos();	//注視点をプレイヤーの位置とする
 
-	const float Speed = 0.05f;
+	//const float Speed = 0.05f;
 
 	//W, A, S, D, Q, Eでカメラの視点を動かす
 	////回転

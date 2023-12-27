@@ -1,10 +1,11 @@
-#pragma once
+﻿#pragma once
 // ShadowP.h
 #include "Model.h"
 #include "CameraDebug.h"
 #include "CameraBase.h"
 #include "Collision.h"
 #include "GameObject.h"
+#include"ShaderList.h"
 
 class ShadowP : public GameObject
 {
@@ -12,7 +13,7 @@ public:
 	ShadowP();
 	~ShadowP();
 
-	void Update();
+	void Update(float tick);
 	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
 	void SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max);
 	DirectX::XMFLOAT3 Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b);
@@ -35,6 +36,10 @@ private:
 	VertexShader* m_pVS;
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_oldPos;
+
+
+	Model::AnimeNo m_anime_shadow_Levitation;	// 黒子用の浮遊
+
 	bool IsUse;
 	bool m_Jump;
 	bool m_footing;

@@ -1,4 +1,4 @@
-#include "Main.h"
+ï»¿#include "Main.h"
 #include <memory>
 #include "DirectX.h"
 #include "Geometory.h"
@@ -11,7 +11,7 @@
 #include "LibEffekseer.h"
 #include "ShaderList.h"
 
-//--- ƒOƒ[ƒoƒ‹•Ï”
+//--- ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 SceneGame* g_pGame;
 
 //Sound* g_Sound;
@@ -22,7 +22,7 @@ InputManager imanager = InputManager();
 HRESULT Init(HWND hWnd, UINT width, UINT height)
 {
 	HRESULT hr;
-	// DirectX‰Šú‰»
+	// DirectXåˆæœŸåŒ–
 	hr = InitDirectX(hWnd, width, height, false);
 	if (FAILED(hr)) { return hr; }
 
@@ -30,13 +30,13 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 	Sprite::Init();
 	ShaderList::Init();
 	InitInput();
-	LibEffekseer::Init(GetDevice(), GetContext(), nullptr); // effekseer‰Šú‰»
+	LibEffekseer::Init(GetDevice(), GetContext(), nullptr); // effekseeråˆæœŸåŒ–
 
 	InitSound();
-	// ƒV[ƒ“ì¬
+	// ã‚·ãƒ¼ãƒ³ä½œæˆ
 	g_pGame = new SceneGame();
 
-	// ƒWƒIƒƒgƒŠ—pƒJƒƒ‰‰Šú‰»
+	// ã‚¸ã‚ªãƒ¡ãƒˆãƒªç”¨ã‚«ãƒ¡ãƒ©åˆæœŸåŒ–
 	DirectX::XMFLOAT4X4 mat[2];
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(
 		DirectX::XMMatrixLookAtLH(
@@ -58,7 +58,7 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 void Uninit()
 {
 	delete g_pGame;
-	LibEffekseer::Uninit();	// effekseerI—¹ˆ—
+	LibEffekseer::Uninit();	// effekseerçµ‚äº†å‡¦ç†
 	UninitInput();
 	ShaderList::Uninit();
 	Sprite::Uninit();
@@ -78,9 +78,9 @@ void Draw()
 {
 	BeginDrawDirectX();
 
-	// ²ü‚Ì•\¦
+	// è»¸ç·šã®è¡¨ç¤º
 #ifdef _DEBUG
-	// ƒOƒŠƒbƒh
+	// ã‚°ãƒªãƒƒãƒ‰
 	DirectX::XMFLOAT4 lineColor(0.5f, 0.5f, 0.5f, 1.0f);
 	float size = DEBUG_GRID_NUM * DEBUG_GRID_MARGIN;
 	for (int i = 1; i <= DEBUG_GRID_NUM; ++i)
@@ -100,7 +100,7 @@ void Draw()
 		pos[0].z = pos[1].z = -grid;
 		Geometory::AddLine(pos[0], pos[1], lineColor);
 	}
-	// ²
+	// è»¸
 	Geometory::AddLine(DirectX::XMFLOAT3(0,0,0), DirectX::XMFLOAT3(size,0,0), DirectX::XMFLOAT4(1,0,0,1));
 	Geometory::AddLine(DirectX::XMFLOAT3(0,0,0), DirectX::XMFLOAT3(0,size,0), DirectX::XMFLOAT4(0,1,0,1));
 	Geometory::AddLine(DirectX::XMFLOAT3(0,0,0), DirectX::XMFLOAT3(0,0,size), DirectX::XMFLOAT4(0,0,1,1));
@@ -108,9 +108,12 @@ void Draw()
 	Geometory::AddLine(DirectX::XMFLOAT3(0,0,0), DirectX::XMFLOAT3(0,0,-size),  DirectX::XMFLOAT4(0,0,0,1));
 
 	Geometory::DrawLines();
+
 #endif
-	LibEffekseer::Draw();	// effekseer•`‰æ
+
 	g_pGame->Draw();
+
+	LibEffekseer::Draw();	// effekseeræç”»
 	EndDrawDirectX();
 }
 
