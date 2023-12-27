@@ -29,6 +29,17 @@ BackShadow::BackShadow()
 	, m_sumAlpha(0)
 	, m_alphaData(0)
 	, m_noAlphaData(0)
+	, m_1Cpos(0.0f, 0.0f, 0.0f)		//コイン1の座標
+	, m_cast1CposX(0)				//コイン1のX変換座標用
+	, m_cast1CposY(0)				//コイン1のY変換座標用
+	, m_2Cpos(0.0f, 0.0f, 0.0f)		//コイン2の座標
+	, m_cast2CposX(0)		   		//コイン2のX変換座標用
+	, m_cast2CposY(0)		   		//コイン2のY変換座標用
+	, m_3Cpos(0.0f, 0.0f, 0.0f)		//コイン3の座標
+	, m_cast3CposX(0)				//コイン3のX変換座標用
+	, m_cast3CposY(0)				//コイン3のY変換座標用
+	, m_castCsizeX(0)
+	, m_castCsizeY(0)
 	, m_collisionFlag(false)
 	, m_upFlag(false)
 	, m_LRcheck(false)
@@ -127,6 +138,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	SetRenderTargets(1, &pRTV, nullptr);
 
 	//コインをフィールド上に表示
+	//Drawの１,２個目の数値をいじればコイン描画座標が変わる
 	if (Coin1->IsFirstCollected == false)
 	{
 		Coin1->Draw(270.0f, 355.0f, 0.0f, 20.0f, 20.0f, 1);	//左 y=120.0f
