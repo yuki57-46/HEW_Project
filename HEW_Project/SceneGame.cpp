@@ -224,5 +224,7 @@ void SceneGame::Draw()
 		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
 	}
 
+	SetRenderTargets(1, &m_pRTV, m_pDSV);
+
 }
 
