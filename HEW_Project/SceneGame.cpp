@@ -153,7 +153,7 @@ void SceneGame::Draw()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
 
-
+	
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
@@ -209,6 +209,7 @@ void SceneGame::Draw()
 
 
 	//コインが取得されていたら描画
+	
 	if (m_pCoin[0].IsFirstCollected == true)
 	{
 		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);

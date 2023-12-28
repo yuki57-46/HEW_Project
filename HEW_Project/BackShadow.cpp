@@ -16,6 +16,7 @@ BackShadow::BackShadow()
 	, m_pDSV_BS(nullptr)
 	, m_pCamera(nullptr)
 	, m_pShadowPlayer(nullptr)
+	,m_pScreen(nullptr)//27
 	, m_indexX(0)
 	, m_indexY(0)
 	, m_castPosX(0)
@@ -56,7 +57,8 @@ BackShadow::BackShadow()
 	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);
 
 	//影のみに表示するものの確保
-	m_pShadowPlayer = new ShadowP;
+	m_pShadowPlayer = new ShadowP();
+	m_pScreen = new Screen();//27
 
 	//コピー用フォーマット作成
 	m_pRTV_BS->CreateReadBuffer();
@@ -101,6 +103,8 @@ void BackShadow::Update(float tick)
 {
 
 	m_pShadowPlayer->Update(tick);
+
+	
 }
 
 /**
@@ -128,8 +132,13 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//ここに表示したいものを持ってくる
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
-	Obj->Draw(viewMatrix, projectionMatrix,false);
+    Obj->Draw(viewMatrix, projectionMatrix,false);
+
+	
+
 	m_pShadowPlayer->Draw(viewMatrix, projectionMatrix);
+
+	
 
 
 	RenderTarget* pRTV;

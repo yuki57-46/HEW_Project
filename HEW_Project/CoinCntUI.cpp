@@ -7,6 +7,7 @@
 //===コンストラクタ===
 CoinCntUI::CoinCntUI() :m_pTexture(nullptr)
 {
+
 	m_pTexture = new Texture();
 
 	//それぞれの.pngが開けなかった時メッセージボックスを表示する

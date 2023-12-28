@@ -1,4 +1,4 @@
-#include "CameraObject.h"
+ï»¿#include "CameraObject.h"
 #include "Input.h"
 
 CameraObject::CameraObject(ObjectCamera* pCamera)
@@ -16,12 +16,12 @@ CameraObject::~CameraObject()
 
 void CameraObject::Update()
 {
-	//m_look = ->GetPos();	//’‹“_‚ğƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Æ‚·‚é
+	//m_look = ->GetPos();	//æ³¨è¦–ç‚¹ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã¨ã™ã‚‹
 
 	//const float Speed = 0.05f;
 
-	//W, A, S, D, Q, E‚ÅƒJƒƒ‰‚Ì‹“_‚ğ“®‚©‚·
-	////‰ñ“]
+	////W, A, S, D, Q, Eã§ã‚«ãƒ¡ãƒ©ã®è¦–ç‚¹ã‚’å‹•ã‹ã™
+	////å›è»¢
 	//if (IsKeyPress(VK_UP)) { m_radY += Speed; }
 	//if (IsKeyPress(VK_DOWN)) { m_radY -= Speed; }
 	//if (IsKeyPress(VK_LEFT)) { m_radXZ += Speed; }

@@ -15,6 +15,7 @@ ObjectMng::ObjectMng()
 	, m_num1(0)
 	, m_num2(0)	
 	, m_num3(0)
+	,m_num4(0)
 	
 {
 	m_pObjectCamera = new CameraDebug();
@@ -31,8 +32,8 @@ ObjectMng::ObjectMng()
 	};
 	Setting data[] = {
 		//{ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
-		{-2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
-		{0.0f, 0.0f, -3.0f, 1.0f, 1.0f, 1.0f},
+		{-2.0f, 0.0f, 3.0f, 0.5f, 0.5f, 0.5f},
+		{0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
 		//{0.0f, 0.0f,  3.0f, 1.0f, 1.0f, 1.0f},
 
 	};
@@ -109,7 +110,7 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting3 data3[] = {
-		{ 0.0f, -0.2f, 0.0f, 30.0f, 0.3f, 30.0f},
+		{ 0.0f, -0.2f, 3.0f, 30.0f, 0.3f, 15.0f},
 
 	};
 
@@ -143,6 +144,8 @@ ObjectMng::~ObjectMng()
 	delete[] m_pLever;
 
 	delete[] m_pYuka;
+
+
 
 	if (m_pObjectCamera)
 	{
@@ -195,6 +198,9 @@ void ObjectMng::Update(float tick)
 	{
 		m_pYuka[y].Update();
 	}
+
+	
+
 
 	for (int i = 0; i < m_num; i++)
 	{
@@ -547,6 +553,9 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
 	}
+	
+	
+
 
 	DirectX::XMFLOAT4X4 mat[3];
 
@@ -557,5 +566,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pPlayer->Draw(viewMatrix, projectionMatrix);
 	}
+
+
 }
 

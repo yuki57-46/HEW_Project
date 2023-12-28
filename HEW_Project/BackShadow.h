@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "ObjectManager.h"
 #include "ShadowP.h"
+#include"Screen.h"
 
 #include"Coin.h"
 class BackShadow
@@ -72,6 +73,10 @@ private:
 	DirectX::XMFLOAT3 m_Csize;
 	int m_castCsizeX;
 	int m_castCsizeY;
+
+	//スクリーン
+	Screen* m_pScreen;
+
 };
 
 //#endif // !___BACK_SHADOW_H___

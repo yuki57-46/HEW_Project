@@ -56,7 +56,7 @@ Object::Object()
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}*/
 	if (!m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+		MessageBox(NULL, "モデルの読み込みエラー_box", "Error", MB_OK);
 	}
 	/*if (!m_pObjectModel->Load("Assets/Stage/Butai.fbx", Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
@@ -72,7 +72,7 @@ Object::Object()
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
 	CSetBounds(cminBound, cmaxBound);
-	
+
 	m_pSDSEBlk = LoadSound("Assets/Sound/SE/Blockgaugokuoto_Oobayashi.wav");
 
 }
@@ -261,7 +261,7 @@ void Object::Update()
 			gravity = true;
 			//m_jmp = m_pos;
 		}
-		
+
 		//if (ok == true)
 		//{
 		//	m_pos.y -= 0.5f;
@@ -269,7 +269,7 @@ void Object::Update()
 		//	//m_jmp = m_pos;
 		//}
 	}
-	
+
 		SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
 		HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
 		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
@@ -287,7 +287,7 @@ void Object::Update()
 			SetF1();
 			OBJPosy();
 			gravity = false;
-		}	
+		}
 }
 
 void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -303,7 +303,7 @@ void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 
 	mat[1] = viewMatrix; // 与えられた viewMatrix を使う
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
-	
+
 	m_pObjectVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
 	m_pObjectModel->Draw();
 
@@ -458,7 +458,7 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	}
 
 	HSetBounds(hobjectMinBound, hobjectMaxBound);
-	
+
 	m_mmovespeed = m_pos;
 
 }
