@@ -3,6 +3,7 @@
 
 DirectX::XMFLOAT3 PMinBound = DirectX::XMFLOAT3(-0.15f, -0.1f, -0.3f);  //境界の最小値
 DirectX::XMFLOAT3 PMaxBound = DirectX::XMFLOAT3(0.2f, 0.1f, 0.5f);     //最大値
+
 ShadowP::ShadowP()
 	: m_pos(3.5f, 0.2f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 10.0f)

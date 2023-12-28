@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Object.h"
 #include "yuka.h"
 #include "CameraBase.h"
@@ -12,6 +12,7 @@
 #include "Lever.h"
 #include "LibEffekseer.h"
 #include "Effekseer/Effekseer.h"
+
 
 
 class ObjectMng
@@ -30,6 +31,7 @@ private:
 	Lift_Obj* m_pLift_obj;
    Lever* m_pLever;
 
+
 	CameraDebug* m_pObjectCamera;
 
 	
@@ -43,4 +45,5 @@ private:
 	int m_num1;
 	int m_num2;
 	int m_num3;
+	int m_num4;
 };

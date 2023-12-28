@@ -1,4 +1,4 @@
-#include "Lift_Obj.hpp"
+﻿#include "Lift_Obj.hpp"
 #include "Geometory.h"
 #include "Input.h"
 #include "GameObject.h"
@@ -34,7 +34,7 @@ Lift_Obj::Lift_Obj()
 	m_pModel = new Model();
 	if (!m_pModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip))
 	{
-		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました", "エラー", MB_OK | MB_ICONWARNING);
+		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました‗リフト", "エラー", MB_OK | MB_ICONWARNING);
 	}
 	m_pVS = new VertexShader();
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))

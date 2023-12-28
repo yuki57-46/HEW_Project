@@ -1,15 +1,16 @@
-//===ƒCƒ“ƒNƒ‹[ƒh•”===
+ï»¿//===ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰éƒ¨===
 #include "CoinCntUI.h"
 #include "Sprite.h"
 #include "Input.h"
 
 
-//===ƒRƒ“ƒXƒgƒ‰ƒNƒ^===
+//===ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿===
 CoinCntUI::CoinCntUI() :m_pTexture(nullptr)
 {
+
 	m_pTexture = new Texture();
 
-	//‚»‚ê‚¼‚ê‚Ì.png‚ªŠJ‚¯‚È‚©‚Á‚½ƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚ğ•\¦‚·‚é
+	//ãã‚Œãã‚Œã®.pngãŒé–‹ã‘ãªã‹ã£ãŸæ™‚ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒœãƒƒã‚¯ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹
 	if (FAILED(m_pTexture->Create("Assets/UI/000CoinUI.png")))
 	{
 		MessageBox(NULL, "000CoinUI.png", "Error", MB_OK);
@@ -42,9 +43,10 @@ CoinCntUI::CoinCntUI() :m_pTexture(nullptr)
 	{
 		MessageBox(NULL, "111CoinUI.png", "Error", MB_OK);
 	}*/
+
 }
 
-//===ƒfƒXƒgƒ‰ƒNƒ^===
+//===ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿===
 CoinCntUI::~CoinCntUI()
 {
 	if (m_pTexture)
@@ -54,7 +56,7 @@ CoinCntUI::~CoinCntUI()
 	}
 }
 
-//===XV===
+//===æ›´æ–°===
 void CoinCntUI::Update()
 {
 	if (IsKeyPress('1'))
@@ -91,26 +93,26 @@ void CoinCntUI::Update()
 	}
 }
 
-//===•`‰æ===
+//===æç”»===
 void CoinCntUI::Draw()
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
-	//ƒ[ƒ‹ƒhs—ñ‚ÍX‚ÆY‚Ì‚İ‚ğl—¶‚µ‚Äì¬
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã¯Xã¨Yã®ã¿ã‚’è€ƒæ…®ã—ã¦ä½œæˆ
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(
 		150.0f, 80.0f, 0.0f);
 
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
-	//’P‘Ìs—ñ‚ğİ’è
+	//å˜ä½“è¡Œåˆ—ã‚’è¨­å®š
 	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
-	//ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚É‚Í2D‚Æ‚µ‚Ä•\¦‚·‚é‚½‚ß‚Ìs—ñ‚ğİ’è
+	//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã«ã¯2Dã¨ã—ã¦è¡¨ç¤ºã™ã‚‹ãŸã‚ã®è¡Œåˆ—ã‚’è¨­å®š
 	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
 		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f);
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
-	//ƒXƒvƒ‰ƒCƒg‚Ìİ’è
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®è¨­å®š
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
