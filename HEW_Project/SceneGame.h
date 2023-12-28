@@ -37,6 +37,8 @@ public:
 
 private:
 
+	Screen* m_pScreen;
+
 	ObjectMng* m_pObjectMng;
 	VertexShader* m_pVS;
 
