@@ -134,9 +134,11 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
     Obj->Draw(viewMatrix, projectionMatrix,false);
 
+	
+
 	m_pShadowPlayer->Draw(viewMatrix, projectionMatrix);
 
-	//m_pScreen->Draw(viewMatrix, projectionMatrix);//27
+	
 
 
 	RenderTarget* pRTV;

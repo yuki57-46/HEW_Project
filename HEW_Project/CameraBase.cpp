@@ -1,7 +1,7 @@
 ﻿#include "CameraBase.h"
 
 CameraBase::CameraBase()
-	: m_pos(0.0f, 4.0f, 8.0f)
+	: m_pos(0.0f, 2.0f, 8.0f)
 	, m_look(0.0f, 0.0f, 0.0f)
 	, m_up(0.0f, 1.0f, 0.0f)
 	, m_Spos(0.0f, 1.0f, -10.0f)

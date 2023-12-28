@@ -153,7 +153,7 @@ void SceneGame::Draw()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
 
-
+	
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
