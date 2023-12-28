@@ -5,8 +5,8 @@
 #include "Input.h"
 
 Screen::Screen()
-	: m_pos(0.0f, 0.2f, 0.0f)
-	
+	: m_pos(0.0f, 0.2f, -10.0f)
+	,m_scale(100.0f,100.0f,1.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
@@ -14,7 +14,7 @@ Screen::Screen()
 {
 	m_pNoEntryModel = new Model;
 
-	if (!m_pNoEntryModel->Load("Assets/Model/Block/Boxs.fbx",Model::Flip::ZFlip)) {
+	if (!m_pNoEntryModel->Load("Assets/Model/Block/StageScreen.fbx",Model::Flip::ZFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー_スクリーン", "Error", MB_OK);
 	}
 	m_pNoEntryVS = new VertexShader();

@@ -11,6 +11,7 @@ SceneGame::SceneGame()
 , m_pRTV(nullptr)
 , m_pDSV(nullptr)
 , m_pUI(nullptr)
+,m_pScreen(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -32,6 +33,9 @@ SceneGame::SceneGame()
 	m_pUI = new ItemUI();
 	m_pCoinCntUI = new CoinCntUI();
 	m_pCoin = new Coin[3];
+
+	//スクリーン
+	m_pScreen = new Screen();
 
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
 	{
@@ -57,6 +61,11 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
+	if (m_pScreen)
+	{
+		delete[] m_pScreen;
+		m_pScreen = nullptr;
+	}
 	if (m_pCoin)
 	{
 		delete[] m_pCoin;
@@ -151,6 +160,8 @@ void SceneGame::Draw()
 	DirectX::XMFLOAT4X4 mat[3];
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
+	//背景
+	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
 
 	
