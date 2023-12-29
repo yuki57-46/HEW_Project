@@ -189,8 +189,6 @@ void ObjectMng::Update(float tick)
 	float YB = static_cast<float>(imanagerO.getKey(2));
 	float XB = static_cast<float>(imanagerO.getKey(3));
 */
-	
-	
 
 	m_pPlayer->Update(tick);
 
@@ -198,9 +196,6 @@ void ObjectMng::Update(float tick)
 	{
 		m_pYuka[y].Update();
 	}
-
-	
-
 
 	for (int i = 0; i < m_num; i++)
 	{

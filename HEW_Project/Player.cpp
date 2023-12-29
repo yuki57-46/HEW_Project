@@ -1,6 +1,7 @@
 ﻿#include "Player.h"
 #include "Input.h"
 #include"Gamepad.h"
+#include "Model.h"
 #include <chrono>
 
 InputManager imanagerP = InputManager();
@@ -78,9 +79,8 @@ Player::~Player()
 
 void Player::Update(float tick)
 {
-
 	//憑依解除時に憑依した時の位置にプレイヤーを戻すため
-	if (ok==false)
+	if (ok == false)
 	{
 		m_oldPos = m_pos;
 	}
@@ -97,6 +97,11 @@ void Player::Update(float tick)
 	{
 		m_pModel->Play(m_anime_Levitation, true);	// 浮遊アニメーション(常時)
 	}
+	else if ( ok == true && !m_pModel->IsPlay(m_anime_possession) )
+	{
+		m_pModel->Play(m_anime_possession, false);
+	}
+
 	//else
 	//{
 	//	m_pModel->Play(m_anime_possession, false);	// ループ無しアニメーション
@@ -332,7 +337,8 @@ void Player::PlayerPos()
 //憑依時に飛ばす
 void Player::HPlayerPos()
 {
-	m_pos.y = -100.0f;
+	// 12/29 pos.y = -100.0f → -0.3f
+	m_pos.y = -0.3f;
 }
 
 //リセット用（未実装）
