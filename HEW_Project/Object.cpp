@@ -155,7 +155,7 @@ void Object::Update()
 
 	if (moveok == true)
 	{
-		if (IsKeyPress(VK_UP) )
+		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
 
@@ -171,7 +171,7 @@ void Object::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_DOWN))
+		else if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
 			if (m_pos.y <= 0.0f)
@@ -186,7 +186,7 @@ void Object::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_RIGHT))
+		else if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.0f)
@@ -201,7 +201,7 @@ void Object::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_LEFT))
+		else if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.0f)
