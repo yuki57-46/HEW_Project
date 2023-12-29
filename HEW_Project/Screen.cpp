@@ -14,7 +14,7 @@ Screen::Screen()
 {
 	m_pNoEntryModel = new Model;
 
-	if (!m_pNoEntryModel->Load("Assets/Model/Block/StageScreen.fbx",Model::Flip::ZFlip)) {
+	if (!m_pNoEntryModel->Load("Assets/Model/Block/BoxS.fbx",Model::Flip::ZFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー_スクリーン", "Error", MB_OK);
 	}
 	m_pNoEntryVS = new VertexShader();

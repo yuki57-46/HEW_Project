@@ -123,7 +123,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//m_pDSV_BS->Clear();
 
 	//レンダーの色設定し、その色で画面クリア
-	float color[4] = { 1.0f, 0.5f, 1.0f, 0.1f };
+	float color[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
 	m_pRTV_BS->Clear(color);
 	//m_pRTV_BS->Clear();
 
