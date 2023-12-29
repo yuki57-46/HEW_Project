@@ -185,19 +185,19 @@ void Player::Update(float tick)
 
 	if (ok == false)
 	{
-		if (IsKeyPress(VK_UP))
+		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
 		}
-		if (IsKeyPress(VK_DOWN))
+		if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
 		}
-		if (IsKeyPress(VK_RIGHT))
+		if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
 		}
-		if (IsKeyPress(VK_LEFT))
+		if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
 		}
