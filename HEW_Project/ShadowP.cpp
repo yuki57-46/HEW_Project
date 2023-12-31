@@ -7,12 +7,14 @@ DirectX::XMFLOAT3 PMaxBound = DirectX::XMFLOAT3(0.2f, 0.1f, 0.5f);     //最大�
 ShadowP::ShadowP()
 	: m_pos(3.5f, 0.2f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 10.0f)
-	, IsUse(false)
+	, m_IsAlterDir(false)
+	, m_LastDir(false)
 	, m_Jump(false)
 	, m_footing(false)
 	, m_moveY(0.001f)
 	, m_JumpY(0.5f)
-	,m_anime_shadow_Levitation(NULL)
+	, m_rotationY(0.0f)
+	,m_animeWalk(NULL)
 {
 	m_pModel = new Model;
 	//if (!m_pModel->Load("Assets/Model/Golem//Golem.FBX"))
@@ -37,11 +39,7 @@ ShadowP::ShadowP()
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
 	//m_pModel->SetVertexShader(m_pVS);
-	m_anime_shadow_Levitation = m_pModel->AddAnimation("Assets/Animation/Walk.fbx");	//	ファイルパスを入れる
-	if (FAILED(m_pModel->AddAnimation("Assets/Animation/kuroko_huyu.fbx")))
-	{
-		MessageBox(nullptr, "anime", "Error", MB_OK);
-	}
+	m_animeWalk = m_pModel->AddAnimation("Assets/Animation/Walk.fbx");	//	ファイルパスを入れる
 
 	minBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);
 	maxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
@@ -69,19 +67,27 @@ void ShadowP::Update(float tick)
 
 	m_pModel->Step(tick);
 
-	if (IsUse == true || IsUse == false)
+	if (m_IsAlterDir == true || m_IsAlterDir == false)
 	{
-		m_pModel->Play(m_anime_shadow_Levitation, true);
+		m_pModel->Play(m_animeWalk, true);
 	}
 
 	m_oldPos = m_pos;
-	if (IsUse == true)
+	if (m_IsAlterDir == true)
 	{
 		m_pos.x += 0.015;
+		if (m_IsAlterDir == true || m_LastDir == false)
+		{
+			m_rotationY = 0.0f;
+		}
 	}
-	else if (IsUse == false)
+	else if (m_IsAlterDir == false)
 	{
 		m_pos.x -= 0.015;
+		if (m_IsAlterDir == false || m_LastDir == true)
+		{
+			m_rotationY = 180.0f;
+		}
 	}
 
 	//重力
@@ -104,8 +110,9 @@ void ShadowP::Update(float tick)
 	//m_moveYの速度に応じてプレイヤーの座標を変える
 	//ジャンプ
 
-	
+
 	SetBounds(PMinBound, PMaxBound);  //最小値と最大値をセット
+	m_LastDir = m_IsAlterDir;
 }
 
 void ShadowP::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -115,8 +122,9 @@ void ShadowP::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectio
 	//---ワールド行列の計算
 	DirectX::XMMATRIX MT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	//DirectX::XMMATRIX MS = DirectX::XMMatrixScaling(1.0f, 2.5f, 1.0f);
+	DirectX::XMMATRIX MR = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(m_rotationY)); // Y軸回転
 	DirectX::XMMATRIX MS = DirectX::XMMatrixScaling(0.7f, 1.2f, 0.7f);
-	DirectX::XMMATRIX world = MS * MT;
+	DirectX::XMMATRIX world = MS * MR * MT; // 回転を適用
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 	mat[1] = viewMatrix; // 与えられた viewMatrix を使う
@@ -201,23 +209,23 @@ void ShadowP::ShadowPPos()
 
 void ShadowP::Use()
 {//編集
-	if (IsUse == false)
+	if (m_IsAlterDir == false)
 	{
-		IsUse = true;
+		m_IsAlterDir = true;
 	}
 	else
 	{
-		IsUse = false;
+		m_IsAlterDir = false;
 	}
 }
 
 void  ShadowP::NotUse()
 {
-	//if (IsUse == true)
+	//if (m_IsAlterDir == true)
 	//{
-	//	
+	//
 	//}
-	IsUse = false;
+	m_IsAlterDir = false;
 }
 
 void ShadowP::Jump()
@@ -228,7 +236,7 @@ void ShadowP::Jump()
 
 bool ShadowP::isUse()
 {
-	return IsUse;
+	return m_IsAlterDir;
 }
 
 bool ShadowP::IsJump()
