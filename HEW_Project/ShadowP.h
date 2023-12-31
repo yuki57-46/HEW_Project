@@ -38,9 +38,11 @@ private:
 	DirectX::XMFLOAT3 m_oldPos;
 
 
-	Model::AnimeNo m_anime_shadow_Levitation;	// 黒子用の浮遊
+	Model::AnimeNo m_animeWalk;	// 影の歩行アニメーション
 
-	bool IsUse;
+	bool m_IsAlterDir; // 移動方向の反転
+	bool m_LastDir; // 最後に向いていた方向
+	float m_rotationY; // Y軸回転
 	bool m_Jump;
 	bool m_footing;
 	float m_moveY;
