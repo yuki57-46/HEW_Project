@@ -10,7 +10,7 @@ CameraBase::CameraBase()
 	, m_fovy(DirectX::XMConvertToRadians(60.0f))
 	, m_aspect(16.0f / 9.0f)
 	, m_near(0.3f)
-	, m_far(100.0f)
+	, m_far(10.0f)
 {
 }
 
