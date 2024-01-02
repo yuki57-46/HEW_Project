@@ -5,7 +5,7 @@
 #define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	//3D空間上のレンダーの表示サイズX
 #define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.5f)	//3D空間上のレンダーの表示サイズY
 #define RTV_3D_POS_WIDTH	(640.0f)			//3D空間上のレンダー表示の原点X
-#define RTV_3D_POS_HEIGHT	(180.0f)			//3D空間上のレンダー表示の原点Y
+#define RTV_3D_POS_HEIGHT	(280.0f)			//3D空間上のレンダー表示の原点Y
 
 int testw = 10;
 int testh = 10;
@@ -138,13 +138,6 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 	m_pShadowPlayer->Draw(viewMatrix, projectionMatrix);
 
-	
-
-
-	RenderTarget* pRTV;
-	pRTV = GetDefaultRTV();
-
-	SetRenderTargets(1, &pRTV, nullptr);
 
 	//コインをフィールド上に表示
 	//Drawの１,２個目の数値をいじればコイン描画座標が変わる
@@ -160,6 +153,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	{
 		Coin3->Draw(1200.0f, 300.0f, 0.0f, 20.0f, 20.0f, 3);	//右
 	}
+
+	RenderTarget* pRTV;
+	pRTV = GetDefaultRTV();
+	SetRenderTargets(1, &pRTV, nullptr);
 
 	//レンダーターゲットの色情報読み取り
 	m_pRTV_BS->Read([&](const void* colorData, UINT width, UINT height) {
@@ -280,6 +277,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_underAlpha = pData[(m_indexY + 2) * width + m_indexX + 10].a;
 		ShadowUnderCollision(m_underAlpha);
 	});
+
+
 
 	DirectX::XMFLOAT4X4 mat[3];
 
