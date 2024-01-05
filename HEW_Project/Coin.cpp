@@ -90,6 +90,7 @@ void Coin::Draw(float x, float y, float z, float sizeX, float sizeY, int num)
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetSize(DirectX::XMFLOAT2(sizeX, -sizeY));
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 	switch (num)
 	{

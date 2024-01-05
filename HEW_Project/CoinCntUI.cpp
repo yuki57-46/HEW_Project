@@ -58,5 +58,6 @@ void CoinCntUI::Draw()
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetSize(DirectX::XMFLOAT2(300.0f, -75.0f));
 	Sprite::SetTexture(m_pTexture);
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	Sprite::Draw();
 }

@@ -181,6 +181,7 @@
     <ClCompile Include="col.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectX.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="HCollision.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="BackShadow.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinCntUI.h" />
+    <ClInclude Include="Fade.hpp" />
     <ClInclude Include="ItemUI.h" />
     <ClInclude Include="Objectcamera.h" />
     <ClInclude Include="CameraBase.h" />
