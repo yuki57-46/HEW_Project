@@ -1,7 +1,7 @@
 ﻿#include "CameraBase.h"
 
 CameraBase::CameraBase()
-	: m_pos(0.0f, 2.0f, 8.0f)
+	: m_pos(0.0f, 1.5f, 6.0f)
 	, m_look(0.0f, 0.0f, 0.0f)
 	, m_up(0.0f, 1.0f, 0.0f)
 	, m_Spos(0.0f, 1.0f, -10.0f)
@@ -10,7 +10,7 @@ CameraBase::CameraBase()
 	, m_fovy(DirectX::XMConvertToRadians(60.0f))
 	, m_aspect(16.0f / 9.0f)
 	, m_near(0.3f)
-	, m_far(10.0f)
+	, m_far(8.0f)
 {
 }
 

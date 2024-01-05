@@ -16,7 +16,7 @@ std::chrono::steady_clock::time_point lastSoundPlayTimePly;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
 
 Player::Player()
-	: m_pos(0.0f, 0.0f, 0.0f)
+	: m_pos(0.0f, 0.0f, 3.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
@@ -215,9 +215,9 @@ void Player::Update(float tick)
 		HSetBounds(HMinBound, HMaxBound);
 
 
-		if (m_pos.x>=7.0f||m_pos.x<=-7.0f
-			||m_pos.z>=7.0f|| m_pos.z <= -5.0f
-			||m_pos.y >= 6.0f )
+		if (m_pos.x>=4.0f||m_pos.x<=-4.0f
+			||m_pos.z>=3.35f|| m_pos.z <= 0.0f
+			||m_pos.y >= 5.0f )
 		{
 			PlayerPos();
 		}
