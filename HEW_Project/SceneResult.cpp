@@ -1,8 +1,8 @@
-﻿#include "SceneGame.h"
+﻿#include "SceneResult.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 
-SceneGame::SceneGame()
+SceneResult::SceneResult()
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
@@ -59,7 +59,7 @@ SceneGame::SceneGame()
 	//m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
 }
 
-SceneGame::~SceneGame()
+SceneResult::~SceneResult()
 {
 	if (m_pScreen)
 	{
@@ -124,7 +124,7 @@ SceneGame::~SceneGame()
 	//m_pSourceVoice->Stop();
 }
 
-void SceneGame::Update(float tick)
+void SceneResult::Update(float tick)
 {
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
@@ -150,7 +150,7 @@ void SceneGame::Update(float tick)
 	Geometory::SetWorld(fMat);
 }
 
-void SceneGame::Draw()
+void SceneResult::Draw()
 {
 
 	m_pDSV->Clear();
@@ -162,9 +162,9 @@ void SceneGame::Draw()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	//背景
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
-	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
+	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2]);
 
-	
+
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
@@ -190,7 +190,7 @@ void SceneGame::Draw()
 	//m_pobjcamera->Draw();
 
 	//オブジェクト
-	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
+	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(), true);
 
 
 	//Geometry用の変更行列を計算
@@ -220,7 +220,7 @@ void SceneGame::Draw()
 
 
 	//コインが取得されていたら描画
-	
+
 	if (m_pCoin[0].IsFirstCollected == true)
 	{
 		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
@@ -239,4 +239,3 @@ void SceneGame::Draw()
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
 }
-

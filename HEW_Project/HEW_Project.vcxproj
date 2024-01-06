@@ -196,6 +196,8 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneResult.cpp" />
+    <ClCompile Include="SceneTutorial.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderList.cpp" />
@@ -238,6 +240,8 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="SceneResult.h" />
+    <ClInclude Include="SceneTutorial.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderList.h" />

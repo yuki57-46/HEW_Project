@@ -1,8 +1,8 @@
-﻿#include "SceneGame.h"
+﻿#include "SceneTutorial.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 
-SceneGame::SceneGame()
+SceneTutorial::SceneTutorial()
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
@@ -32,10 +32,10 @@ SceneGame::SceneGame()
 	//コイン系
 	m_pUI = new ItemUI();
 	m_pCoinCntUI = new CoinCntUI();
-	m_pCoin = new Coin[3];
+//	m_pCoin = new Coin[3];
 
 	//スクリーン
-	m_pScreen = new Screen();
+//	m_pScreen = new Screen();
 
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
 	{
@@ -59,7 +59,7 @@ SceneGame::SceneGame()
 	//m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
 }
 
-SceneGame::~SceneGame()
+SceneTutorial::~SceneTutorial()
 {
 	if (m_pScreen)
 	{
@@ -124,7 +124,7 @@ SceneGame::~SceneGame()
 	//m_pSourceVoice->Stop();
 }
 
-void SceneGame::Update(float tick)
+void SceneTutorial::Update(float tick)
 {
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
@@ -150,7 +150,7 @@ void SceneGame::Update(float tick)
 	Geometory::SetWorld(fMat);
 }
 
-void SceneGame::Draw()
+void SceneTutorial::Draw()
 {
 
 	m_pDSV->Clear();
@@ -162,11 +162,11 @@ void SceneGame::Draw()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	//背景
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
-	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
+	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2]);
 
-	
+
 	//3D表示に変更
-	SetRenderTargets(1, &m_pRTV, m_pDSV);
+//	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
 	//ワールド行列の計算
 	DirectX::XMMATRIX world =
@@ -190,7 +190,7 @@ void SceneGame::Draw()
 	//m_pobjcamera->Draw();
 
 	//オブジェクト
-	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
+	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(), true);
 
 
 	//Geometry用の変更行列を計算
@@ -216,27 +216,26 @@ void SceneGame::Draw()
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
 	//コインの枠表示
-	m_pCoinCntUI->Draw();
+//	m_pCoinCntUI->Draw();
 
 
 	//コインが取得されていたら描画
-	
-	if (m_pCoin[0].IsFirstCollected == true)
-	{
-		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
-	}
 
-	if (m_pCoin[1].IsFirstCollected == true)
-	{
-		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
-	}
+	//if (m_pCoin[0].IsFirstCollected == true)
+	//{
+	//	m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+	//}
 
-	if (m_pCoin[2].IsFirstCollected == true)
-	{
-		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
-	}
+	//if (m_pCoin[1].IsFirstCollected == true)
+	//{
+	//	m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+	//}
+
+	//if (m_pCoin[2].IsFirstCollected == true)
+	//{
+	//	m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+	//}
 
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
 }
-
