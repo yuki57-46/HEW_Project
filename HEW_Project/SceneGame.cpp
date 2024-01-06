@@ -161,7 +161,9 @@ void SceneGame::Draw()
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	//背景
+
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
+
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
 
 	

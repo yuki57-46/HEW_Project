@@ -277,9 +277,9 @@ void Object::Update()
 		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 
 
-		if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
-			|| m_pos.z >= 7.0f || m_pos.z <= -5.0f
-			|| m_pos.y >= 7.0f)
+		if (m_pos.x >= 4.0f || m_pos.x <= -4.0f
+			|| m_pos.z >= 3.35f || m_pos.z <= 0.0f
+			|| m_pos.y >= 4.0f)
 		{
 
 			OBJPos();
