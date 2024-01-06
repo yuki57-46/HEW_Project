@@ -207,6 +207,11 @@ void ShadowP::ShadowPPos()
 	m_pos = m_oldPos;
 }
 
+void ShadowP::ShadowPupY()
+{
+	m_pos.y += 0.02;
+}
+
 void ShadowP::Use()
 {//編集
 	if (m_IsAlterDir == false)
