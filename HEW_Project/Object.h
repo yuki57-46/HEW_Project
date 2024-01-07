@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CameraBase.h"
 #include "GameObject.h"
 #include "Model.h"
@@ -47,10 +47,11 @@ public:
 	void SetF1();
 
 	void SetColgravity();
+	void SetColgravityfalse();
 	void framepls();
 	void SetObjectTop();
 	void MoveObject(float y);
-
+	void SetSlope();
 
 	bool SetR1();
 	bool IsGravity();
@@ -83,8 +84,8 @@ private:
 	
 	
 
-	IXAudio2SourceVoice* m_pSVSEBlk; // ÉTÉEÉìÉhÉ\Å[ÉX
-	XAUDIO2_BUFFER* m_pSDSEBlk; // ÉTÉEÉìÉhÉoÉbÉtÉ@
+	IXAudio2SourceVoice* m_pSVSEBlk; // „Çµ„Ç¶„É≥„Éâ„ÇΩ„Éº„Çπ
+	XAUDIO2_BUFFER* m_pSDSEBlk; // „Çµ„Ç¶„É≥„Éâ„Éê„ÉÉ„Éï„Ç°
 
 	DirectX::XMFLOAT3 objectMinBound;
 	DirectX::XMFLOAT3 objectMaxBound;

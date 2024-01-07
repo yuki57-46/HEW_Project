@@ -10,6 +10,7 @@
 #include "col.h"
 #include "Lift_Obj.hpp"
 #include "Lever.h"
+#include "Stair.h"
 #include "LibEffekseer.h"
 #include "Effekseer/Effekseer.h"
 
@@ -30,6 +31,7 @@ private:
 	Yuka* m_pYuka;
 	Lift_Obj* m_pLift_obj;
    Lever* m_pLever;
+   Stair* m_pStair;
 
 
 	CameraDebug* m_pObjectCamera;

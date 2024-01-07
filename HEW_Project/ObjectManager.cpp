@@ -31,10 +31,10 @@ ObjectMng::ObjectMng()
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
 	Setting data[] = {
-		//{ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
+		{ 2.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
 		{-2.0f, 0.0f, 3.0f, 0.5f, 0.5f, 0.5f},
 		{0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{0.0f, 0.0f,  3.0f, 1.0f, 1.0f, 1.0f},
+		//{2.0f, 0.0f,  0.0f, 1.0f, 1.0f, 1.0f},
 
 	};
 	
@@ -101,33 +101,56 @@ ObjectMng::ObjectMng()
 			data2[i].scaleX, data2[i].scaleY, data2[i].scaleZ		
 		);
 	}
-
-	//床
-
+	//スロープ
 	struct Setting3
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
 	//ブロック配置.スケール指定
 	Setting3 data3[] = {
-		{ 0.0f, -0.15f, 1.0f, 30.0f, 0.3f, 10.0f},
-
+		//{ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
+		{-2.0f, 0.0f,  0.0f, 0.5f, 0.5f, 0.5f},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
 	m_num3 = sizeof(data3) / sizeof(data3[0]);
 
 	//必要な数だけブロックを確保
-	m_pYuka = new Yuka[m_num3];
+	m_pStair = new Stair[m_num3];
 	//確保したブロックに初期データを設定
 	for (int i = 0; i < m_num3; i++)
 	{
-		m_pYuka[i].Create(
+		m_pStair[i].Create(
 			data3[i].x, data3[i].y, data3[i].z,
 			data3[i].scaleX, data3[i].scaleY, data3[i].scaleZ
 		);
 	}
 
+	//床
+
+	struct Setting4
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ブロック配置.スケール指定
+	Setting3 data4[] = {
+		{ 0.0f, -0.15f, 1.0f, 30.0f, 0.3f, 10.0f},
+
+	};
+
+	//配列の要素の数から必要なブロック数を計算
+	m_num4 = sizeof(data4) / sizeof(data4[0]);
+
+	//必要な数だけブロックを確保
+	m_pYuka = new Yuka[m_num4];
+	//確保したブロックに初期データを設定
+	for (int i = 0; i < m_num4; i++)
+	{
+		m_pYuka[i].Create(
+			data4[i].x, data4[i].y, data4[i].z,
+			data4[i].scaleX, data4[i].scaleY, data4[i].scaleZ
+		);
+	}
 
 
 	// effect
@@ -145,6 +168,7 @@ ObjectMng::~ObjectMng()
 
 	delete[] m_pYuka;
 
+	delete[] m_pStair;
 
 
 	if (m_pObjectCamera)
@@ -200,7 +224,9 @@ void ObjectMng::Update(float tick)
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Update();
-
+		for(int b = 0; b < m_num3; b++)
+		{ 
+		m_pStair[b].Update();
 		for (int a = 0; a < m_num1; a++)
 		{
 			//m_pLift_obj[a].Update();
@@ -301,36 +327,17 @@ void ObjectMng::Update(float tick)
 
 					if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 					{
-						//// effectこうしん
-						m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
-
-						////移動させる時
-						//Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
-						//EffecMat.Translation(0.0f, 1.0f, 0.0f);
-						//LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
-
 						m_pPlayer->SetOk();
 						m_pPlayer->HPlayerPos();
 						m_pObjects[i].Set();
 						m_pObjects[i].Set1();
-						m_pObjects[i].SetColgravity();
+						m_pObjects[i].SetColgravityfalse();
 						//m_pObjects[i].Modelchg();
 					}
 				}
 				//憑依解除
 				/*if (!m_pPlayer->HIsCollidingWith(*gameObject))
 				{*/
-				//if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
-				//{
-				//	m_pPlayer->SetNOk();
-				//	m_pPlayer->PlayerPos();
-				//	if (m_pObjects[i].SetR() == true)
-				//	{
-				//		m_pObjects[i].SetF();
-				//	}
-				//	//m_pObjects[i].Modelchg2();
-				//}
-
 				if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
 				{
 					if (m_pObjects[i].SetR() == true)
@@ -351,10 +358,11 @@ void ObjectMng::Update(float tick)
 						//m_pObjects[i].Modelchg2();
 					}
 				}
-				
 			}
 
-			if (m_pObjects[i].SetR() == true)//|| m_pObjects[i].SetR() == false)
+
+
+			if (m_pObjects[i].SetR() == true /*|| m_pObjects[i].SetR() == false*/)
 			{
 				for (int j = 0; j < m_num; j++)
 				{
@@ -366,26 +374,8 @@ void ObjectMng::Update(float tick)
 					{
 						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
 						{
+
 							// ブロックiとブロックjの当たり判定
-						//if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
-						//{	
-						//	if (m_pObjects[i].IsGravity())
-						//	{
-						//		if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
-						//		{
-						//			m_pObjects[i].OBJPosy();
-						//		}
-						//		else if (m_pObjects[i].IsXZ())
-						//		{
-						//			m_pObjects[i].OBJPos();
-						//		}
-						//	}
-						//	else if (m_pObjects[i].IsXZ())
-						//	{
-						//		m_pObjects[i].OBJPos();
-						//	}
-						//}
-								// ブロックiとブロックjの当たり判定
 							if (m_pObjects[i].col(*gameObject2) /*&& m_pObjects[j].col(*gameObject)*/)
 							{
 								//m_pObjects[j].OBJPos();
@@ -394,15 +384,15 @@ void ObjectMng::Update(float tick)
 								{
 									if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
 									{
-										m_pObjects[i].framepls();
 										m_pObjects[i].OBJPosy();
+										m_pObjects[i].SetF1();
 									}
 									else if (m_pObjects[i].IsXZ())
 									{
 										m_pObjects[i].OBJPos();
 									}
 								}
-								else if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.5)
+								else if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.1)
 								{
 									for (int h = 0; h < m_num; h++)
 									{
@@ -439,15 +429,72 @@ void ObjectMng::Update(float tick)
 									//m_pObjects[i].OBJPos();
 									m_pObjects[i].SetObjectTop();
 									m_pObjects[i].SetF();
+									m_pObjects[j].OBJPos();
+								}
+							}
+						}
+						for (int h = 0; h < m_num3; h++)
+						{
+							if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
+							{
+								if (GameObject* gameObject1 = dynamic_cast<GameObject*>(&m_pStair[h]))
+								{
+									//float liftposY = lift[a].GetMaxBounds().y;
+									//m_pStair[h].Update();
+									//ブロックの衝突
+									if (m_pObjects[i].IsCollisionPoint(*gameObject1))
+									{
+										if (gameObject->GetCMinBounds().y + 0.1 >= gameObject1->GetMaxBounds().y)
+										{
+											m_pObjects[i].OBJPosy();
+										}
+										///*	else if (gameObject->GetCMinBounds().y + 0.1 <= gameObject1->GetMaxBounds().y)
+										//	{
+										//		m_pStair[h].OBJPosy();
+										//	}*/
+										else if (m_pStair[h].IsGravity())
+										{
+											if (gameObject1->GetCMinBounds().y + 0.1 >= gameObject->GetMaxBounds().y)
+											{
+												//m_pStair[h].OBJPosy();
+												m_pStair[h].SetStairTop();
+												m_pObjects[i].Set1();
+												m_pStair[h].Set1();
+												m_pStair[h].Set();
+												m_pStair[h].OBJPosy();
+											}
+										}
+										else if (m_pObjects[i].IsXZ())
+										{
+											m_pObjects[i].OBJPos();
+											for (int k = 0; k < m_num; k++)
+											{
+												if (i == k)
+												{
+													k++;
+												}
+												if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[k]))
+												{
+													if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.1)
+													{
+														m_pObjects[k].OBJPos();
+													}
+												}
+											}
+										}
+										else
+										{
+											m_pObjects[i].SetSlope();
 
-									//m_pObjects[j].OBJPos();
+
+										}
+									}
 								}
 							}
 						}
 					}
 				}
 			}
-
 			if (m_pObjects[i].SetR() == false)
 			{
 				for (int j = 0; j < m_num; j++)
@@ -472,28 +519,200 @@ void ObjectMng::Update(float tick)
 								}
 								else if (m_pObjects[j].IsXZ())
 								{
-									//if(m_pObjects[j].IsObjectTop() == true)
-									//{ 
-									//	m_pObjects[j].OBJPos();
-									//	m_pObjects[j].SetObjectTop();
-									//	m_pObjects[j].SetF1();
-									//	//m_pObjects[j].OBJPos();
-									//}
-									//m_pObjects[i].OBJPos();
 									for (int h = 0; h < m_num; h++)
 									{
-										if (h == i || h == j)
+										for (int k = 0; k < m_num3; k++)
+										{
+											if (h == i || h == j)
+											{
+												h++;
+											}
+											if (GameObject* gameObject3 = dynamic_cast<GameObject*>(&m_pObjects[h]))
+											{
+												if (gameObject2->GetMaxBounds().y <= gameObject3->GetCMinBounds().y + 0.1)
+												{
+													m_pObjects[j].OBJPos();
+													m_pObjects[h].OBJPos();
+													m_pObjects[h].SetObjectTop();
+													m_pObjects[h].SetF1();
+												}
+												if (GameObject* gameObject4 = dynamic_cast<GameObject*>(&m_pStair[k]))
+												{
+													if (gameObject2->GetMaxBounds().y <= gameObject4->GetCMinBounds().y + 0.1)
+													{
+														m_pStair[k].OBJPos();
+														//m_pObjects[h].OBJPos();
+														m_pStair[k].SetStairTop();
+														m_pStair[k].SetF1();
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
+					}
+				}
+			}
+			if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pStair[b]))
+			{
+				//憑依のため・ブロックとプレイヤーが当たった場合
+				if (m_pPlayer->HIsCollidingWith(*gameObject))
+				{
+
+					if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
+					{
+						m_pPlayer->SetOk();
+						m_pPlayer->HPlayerPos();
+						m_pStair[b].Set();
+						m_pStair[b].Set1();
+						m_pStair[b].SetColgravity();
+						//m_pObjects[i].Modelchg();
+					}
+				}
+				//憑依解除
+				/*if (!m_pPlayer->HIsCollidingWith(*gameObject))
+				{*/
+				if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
+				{
+					if (m_pStair[b].SetR() == true)
+					{
+						m_pPlayer->SetNOk();
+						m_pPlayer->PlayerPos();
+						for (int j = 0; j < m_num; j++)
+						{
+							m_pStair[b].SetF();
+							/*if (m_pObjects[i].SetR() == true)
+							{
+								m_pObjects[i].SetF();
+							}*/
+						}
+						m_pStair[b].SetF1();
+						m_pStair[b].SetColgravity();
+						//m_pObjects[i].Update(); //重力を消してからUpdateを経ずにfalseに入っている
+						//m_pObjects[i].Modelchg2();
+					}
+				}
+
+				//}
+			}
+			if (m_pStair[b].SetR() == true /*|| m_pObjects[i].SetR() == false*/)
+			{
+				for (int j = 0; j < m_num; j++)
+				{
+					/*if (j == i)
+					{
+						j++;
+					}*/
+					if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pStair[b]))
+					{
+						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
+						{
+							//ブロックの衝突
+							if (m_pObjects[j].IsCollisionPoint(*gameObject))
+							{
+								if (m_pStair[b].IsGravity())
+								{
+									if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
+									{
+										m_pStair[b].OBJPosy();
+									}
+									else if (m_pStair[i].IsXZ())
+									{
+										m_pStair[b].OBJPos();
+									}
+								}
+								else if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.1)
+								{
+									for (int h = 0; h < m_num; h++)
+									{
+										m_pObjects[h].Set1();
+										m_pStair[h].Set1();
+									}
+									m_pObjects[j].SetObjectTop();
+									m_pObjects[j].Set();
+									m_pObjects[j].OBJPosy();
+								}
+
+								else if (m_pStair[i].IsXZ())
+								{
+									m_pStair[b].OBJPos();
+									m_pObjects[j].OBJPos();
+									for (int k = 0; k < m_num; k++)
+									{
+										if (j == k)
+										{
+											k++;
+										}
+										if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[k]))
+										{
+											if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.1)
+											{
+												m_pObjects[k].OBJPos();
+											}
+										}
+									}
+									//m_pObjects[j].SetF();
+								}
+							}
+							else
+							{
+								if (m_pStair[b].IsStairTop() == true)
+								{
+									//m_pObjects[j].OBJPos();
+									m_pStair[b].SetStairTop();
+									//m_pObjects[j].SetF();
+									m_pObjects[j].OBJPos();
+								}
+							}
+
+
+						}
+					}
+
+
+				}
+			}
+
+			if (m_pStair[b].SetR() == false)
+			{
+				for (int j = 0; j < m_num; j++)
+				{
+					if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pStair[b]))
+					{
+						if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pObjects[j]))
+						{
+
+							// ブロックiとブロックjの当たり判定
+							if (m_pObjects[j].IsCollisionPoint(*gameObject)) /*&& m_pObjects[j].col(*gameObject)*/
+							{
+								if (gameObject->GetCMinBounds().y + 0.1 >= gameObject2->GetMaxBounds().y)
+								{
+									m_pStair[b].OBJPosy();
+								}
+								if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.1)
+								{
+									m_pObjects[j].OBJPosy();
+								}
+								if (m_pObjects[j].IsXZ())
+								{
+									for (int h = 0; h < m_num; h++)
+									{
+										if (h == j)
 										{
 											h++;
 										}
 										if (GameObject* gameObject3 = dynamic_cast<GameObject*>(&m_pObjects[h]))
 										{
-											if (gameObject2->GetMaxBounds().y <= gameObject3->GetCMinBounds().y + 0.5)
+											if (gameObject2->GetMaxBounds().y <= gameObject->GetCMinBounds().y + 0.1)
 											{
+												//m_pStair[i].OBJPos();
+												m_pStair[b].OBJPos();
 												m_pObjects[j].OBJPos();
-												m_pObjects[h].OBJPos();
-												m_pObjects[h].SetObjectTop();
-												m_pObjects[h].SetF1();
+												m_pObjects[j].SetObjectTop();
+												m_pObjects[j].SetF1();
 											}
 										}
 									}
@@ -503,6 +722,7 @@ void ObjectMng::Update(float tick)
 					}
 				}
 			}
+		}
 		}
 	}
 }
@@ -543,14 +763,15 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pLever[i].Draw(viewMatrix, projectionMatrix);
 	}
-
+	
 	for (int i = 0; i < m_num3; i++)
+	{
+		m_pStair[i].Draw(viewMatrix, projectionMatrix);
+	}
+	for (int i = 0; i < m_num4; i++)
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
 	}
-	
-	
-
 
 	DirectX::XMFLOAT4X4 mat[3];
 
