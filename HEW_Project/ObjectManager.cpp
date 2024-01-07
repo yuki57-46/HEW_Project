@@ -330,10 +330,10 @@ void ObjectMng::Update(float tick)
 						//// effectこうしん
 						m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
 
-						////移動させる時
-						//Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
-						//EffecMat.Translation(0.0f, 1.0f, 0.0f);
-						//LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+						//移動させる時
+						Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
+						EffecMat.Translation(0.0f, -1.0f, 0.0f);
+						LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
 
 						m_pPlayer->SetOk();
 						m_pPlayer->HPlayerPos();
