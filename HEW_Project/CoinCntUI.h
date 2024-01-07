@@ -1,23 +1,27 @@
-//CoinCntUI.h
-//W‚ß‚½ƒRƒCƒ“‚ğ•\¦‚·‚éUI
-//Cnt‚ÍCount‚Ì—ª
+ï»¿//CoinCntUI.h
+//é›†ã‚ãŸã‚³ã‚¤ãƒ³ã‚’è¡¨ç¤ºã™ã‚‹UI
+//Cntã¯Countã®ç•¥
 
 #pragma once
 #ifndef __COIN_CNT_UI_H__
 #define __COIN_CNT_UI_H__
 
-#include "Texture.h"		//Texture.h‚Ì“±“ü
+#include "Texture.h"		//Texture.hã®å°å…¥
 
-class CoinCntUI				//W‚ß‚½ƒRƒCƒ“ƒNƒ‰ƒX
+
+class CoinCntUI				//é›†ã‚ãŸã‚³ã‚¤ãƒ³ã‚¯ãƒ©ã‚¹
 {
 public:
-	CoinCntUI();			//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	~CoinCntUI();			//ƒfƒXƒgƒ‰ƒNƒ^
+	CoinCntUI();			//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	~CoinCntUI();			//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
-	void Update();			//XV
-	void Draw();			//•`‰æ
-	
+	void Update();			//æ›´æ–°
+	void Draw();			//æç”»
+
+	void GoalDraw();//ã‚´ãƒ¼ãƒ«ã®ä»®å‡¦ç†ç”¨
+
 private:
 	Texture* m_pTexture;
+	Texture* m_pGT;	//ã‚´ãƒ¼ãƒ«ã®ä»®å‡¦ç†ç”¨
 };
 #endif

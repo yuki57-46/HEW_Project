@@ -183,6 +183,7 @@
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="ItemUI.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="BackShadow.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinCntUI.h" />
+    <ClInclude Include="Goal.h" />
     <ClInclude Include="ItemUI.h" />
     <ClInclude Include="Objectcamera.h" />
     <ClInclude Include="CameraBase.h" />

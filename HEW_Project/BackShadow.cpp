@@ -39,8 +39,13 @@ BackShadow::BackShadow()
 	, m_3Cpos(0.0f, 0.0f, 0.0f)		//コイン3の座標
 	, m_cast3CposX(0)				//コイン3のX変換座標用
 	, m_cast3CposY(0)				//コイン3のY変換座標用
-	, m_castCsizeX(0)
-	, m_castCsizeY(0)
+	, m_castCsizeX(0)				//コインのXサイズ
+	, m_castCsizeY(0)				//コインのYサイズ
+	, m_Goalpos(0.0f,0.0f,0.0f)		//ゴールの座標
+	, m_castGoalposX(0)
+	, m_castGoalposY(0)
+	, m_castGoalsizeX(0)			//ゴールのXサイズ
+	, m_castGoalsizeY(0)			//ゴールのYサイズ
 	, m_collisionFlag(false)
 	, m_upFlag(false)
 	, m_LRcheck(false)
@@ -117,7 +122,7 @@ void BackShadow::Update(float tick)
  * @sa 参照すべき関数を書けばリンクが貼れる
  * @detail 3D空間にあるものを表示したいときは「引数を増やす」こと
  */
-void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3)
+void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3, Goal* Goal)
 {
 	//深度バッファのクリア
 	//m_pDSV_BS->Clear();
@@ -139,17 +144,23 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	m_pShadowPlayer->Draw(viewMatrix, projectionMatrix);
 
 
+	//ゴールをフィールド上に表示
+	if (Goal->IsGoal == false)
+	{
+		Goal->Draw(1230.0f, 70.0f, 0.0f, 60.0f, 60.0f);
+	}
+
 	//コインをフィールド上に表示
 	//Drawの１,２個目の数値をいじればコイン描画座標が変わる
-	if (Coin1->IsFirstCollected == false)
+	if (Coin1->IsCoinCollected == false)
 	{
-		Coin1->Draw(270.0f, 355.0f, 0.0f, 20.0f, 20.0f, 1);	//左 y=120.0f
+		Coin1->Draw(270.0f, 30.0f, 0.0f, 20.0f, 20.0f, 1);	//左 y=120.0f
 	}
-	if (Coin2->IsFirstCollected == false)
+	if (Coin2->IsCoinCollected == false)
 	{
 		Coin2->Draw(500.0f, 320.0f, 0.0f, 20.0f, 20.0f, 2);	//真ん中
 	}
-	if (Coin3->IsFirstCollected == false)
+	if (Coin3->IsCoinCollected == false)
 	{
 		Coin3->Draw(1200.0f, 300.0f, 0.0f, 20.0f, 20.0f, 3);	//右
 	}
@@ -169,29 +180,40 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		//X軸をレンダーのウィンドウ座標に合わせて変換
 		m_SPposY = ((m_SPpos.y - 3.0f) / 6.0f) * (-1);		//Y軸をレンダーのウィンドウ座標に合わせて変換
 
+		//ゴール
+		if (Goal->IsGoal == false)
+		{
+			m_Goalpos = Goal->GetPosition();
+		}
+		m_Goalsize = Goal->GetSize();
+
 		//コイン
-		if (Coin1->IsFirstCollected == false)
+		if (Coin1->IsCoinCollected == false)
 		{
 			m_1Cpos = Coin1->GetPosition();
 		}
-
 		m_Csize = Coin1->GetSize();
 
-		if (Coin2->IsFirstCollected == false)
+		if (Coin2->IsCoinCollected == false)
 		{
 			m_2Cpos = Coin2->GetPosition();
 		}
-
 		m_Csize = Coin2->GetSize();
 
-		if (Coin3->IsFirstCollected == false)
+		if (Coin3->IsCoinCollected == false)
 		{
 			m_3Cpos = Coin3->GetPosition();
 		}
-
 		m_Csize = Coin3->GetSize();
 
+		//ゴールの座標変換
+		m_castGoalposX = static_cast<int>(m_Goalpos.x / 2.0f);
+		m_castGoalposY = static_cast<int>(m_Goalpos.y / 2.0f);
+		//ゴールのサイズ変換
+		m_castGoalsizeX = static_cast<int>(m_Goalsize.x / 2.0f);
+		m_castGoalsizeY = static_cast<int>(m_Goalsize.y / 2.0f);
 
+		//コインの座標変換
 		m_cast1CposX = static_cast<int>(m_1Cpos.x / 2.0f);
 		m_cast1CposY = static_cast<int>(m_1Cpos.y / 2.0f);
 
@@ -200,7 +222,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 		m_cast3CposX = static_cast<int>(m_3Cpos.x / 2.0f);
 		m_cast3CposY = static_cast<int>(m_3Cpos.y / 2.0f);
-
+		//コインのサイズ変換
 		m_castCsizeX = static_cast<int>(m_Csize.x / 2.0f);
 		m_castCsizeY = static_cast<int>(m_Csize.y / 2.0f);
 
@@ -407,5 +429,22 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 	{
 		// 影とコインが重なったらコインを取得する
 		Coin3->SetCollect(true);
+	}
+}
+
+//ゴールの当たり判定＆処理
+void BackShadow::GoalCollision(Goal* Goal)
+{
+	// 影の座標
+	int shadowPosX = m_castPosX;
+	int shadowPosY = m_castPosY;
+
+	if (m_castGoalposX + m_castGoalsizeX / 2 > shadowPosX &&
+		m_castGoalposX - m_castGoalsizeX / 2 < shadowPosX &&
+		m_castGoalposY + m_castGoalsizeY / 2 > shadowPosY &&
+		m_castGoalposY - m_castGoalsizeY / 2 < shadowPosY)
+	{
+		// 影とダイヤ型が重なったらゴールする
+		Goal->SetGoal(true);
 	}
 }
