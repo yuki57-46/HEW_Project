@@ -145,10 +145,10 @@ DirectX::XMFLOAT3 Coin::GetSize() const
 
 void Coin::SetCollect(bool CollectFirst)
 {
-	IsFirstCollected = CollectFirst;
+	IsCoinCollected = CollectFirst;
 }
 
 bool Coin::GetCollect()
 {
-	return IsFirstCollected;
+	return IsCoinCollected;
 }

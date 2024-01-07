@@ -8,9 +8,11 @@
 #include "Player.h"
 #include "ObjectManager.h"
 #include "ShadowP.h"
-#include"Screen.h"
+#include "Screen.h"
 
-#include"Coin.h"
+#include "Coin.h"
+#include "Goal.h"
+
 class BackShadow
 {
 public:
@@ -18,12 +20,13 @@ public:
 	~BackShadow();
 
 	void Update(float tick);
-	void Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3);
+	void Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3, Goal* Goal);
 	void SetShadowCamera(CameraBase* pCamera);
 	bool ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha);
 	bool ShadowUnderCollision(BYTE underAlpha);
 	bool ShadowEdgeCollision(int h, UINT width);
 	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3);//コインの所得処理
+	void GoalCollision(Goal* Goal);//ゴール
 private:
 	// カメラ
 	CameraBase* m_pCamera;	// レンダーのカメラ
@@ -57,22 +60,35 @@ private:
 	//影のみに描きたい物
 	ShadowP* m_pShadowPlayer;	// 影プレイヤー
 
-		//1コイン
+	//1コイン
 	DirectX::XMFLOAT3 m_1Cpos;
 	int m_cast1CposX;
 	int m_cast1CposY;
 
+	//2コイン
 	DirectX::XMFLOAT3 m_2Cpos;
 	int m_cast2CposX;
 	int m_cast2CposY;
 
+	//3コイン
 	DirectX::XMFLOAT3 m_3Cpos;
 	int m_cast3CposX;
 	int m_cast3CposY;
 
+	//コインのサイズ
 	DirectX::XMFLOAT3 m_Csize;
 	int m_castCsizeX;
 	int m_castCsizeY;
+
+	//ゴール
+	DirectX::XMFLOAT3 m_Goalpos;
+	int m_castGoalposX;
+	int m_castGoalposY;
+
+	//ゴールのサイズ
+	DirectX::XMFLOAT3 m_Goalsize;
+	int m_castGoalsizeX;
+	int m_castGoalsizeY;
 
 	//スクリーン
 	Screen* m_pScreen;
