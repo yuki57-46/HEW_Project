@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ソース ファイル">
@@ -176,7 +176,6 @@
     </ClCompile>
     <ClCompile Include="Goal.cpp">
       <Filter>ソース ファイル\UI</Filter>
-	</ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -293,9 +292,8 @@
     <ClInclude Include="Coin.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-	  <ClInclude Include="Goal.h">
-		  <Filter>ヘッダー ファイル\UI</Filter>
-	  </ClInclude>	
+    <ClInclude Include="Goal.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
     <ClInclude Include="SceneManager.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

@@ -21,7 +21,7 @@
 std::chrono::steady_clock::time_point lastSoundPlayTime;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
 
-int frame = 50;
+int frame = 25;
 
 
 Object::Object()
@@ -251,9 +251,9 @@ void Object::Update()
 				m_pos.y -= 0.1f;
 				gravity = true;
 			}
-			if (m_pos.y <= 0.0f&&frame <= 0)
+			if (m_pos.y <= 0.0f)
 			{
-				frame = 50;
+				frame = 25;
 			}
 
 		}
@@ -573,7 +573,7 @@ void Object::SetColgravityfalse()
 
 void Object::framepls()
 {
-	frame=50;
+	frame=25;
 }
 
 void Object::SetSlope()
