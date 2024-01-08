@@ -23,6 +23,7 @@ public:
 	float ShadowPPosX();
 	DirectX::XMFLOAT3 NowPos();
 	void ShadowPPos();
+	void ShadowPupY();
 	void Use();
 	void NotUse();
 	void Jump();

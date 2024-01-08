@@ -25,7 +25,10 @@ BackShadow::BackShadow()
 	, m_SPposY(0.0f)
 	, m_SPpos(0.0f, 0.0f, 0.0f)
 	, m_alpha{0}
+	, m_alpha2{0}
 	, m_underAlpha{0}
+	, m_underAlpha2{0}
+	, m_PleyerSenter{0}
 	, m_Player_a{0}
 	, m_sumAlpha(0)
 	, m_alphaData(0)
@@ -296,8 +299,9 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 				break;
 			}
 		}
-		m_underAlpha = pData[(m_indexY + 2) * width + m_indexX + 10].a;
-		ShadowUnderCollision(m_underAlpha);
+		m_underAlpha	= pData[(m_indexY + 2) * width + m_indexX + 10].a;
+		m_underAlpha2	= pData[(m_indexY - 2) * width + m_indexX + 10].a;
+		ShadowUnderCollision(m_underAlpha, m_underAlpha2);
 	});
 
 
@@ -365,7 +369,7 @@ bool BackShadow::ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha)
 	return false;
 }
 
-bool BackShadow::ShadowUnderCollision(BYTE underAlpha)
+bool BackShadow::ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2)
 {
 	// 足元のα値参照
 	if (underAlpha > 240)
@@ -376,6 +380,11 @@ bool BackShadow::ShadowUnderCollision(BYTE underAlpha)
 	else
 	{
 		m_pShadowPlayer->SetFooting(false);
+	}
+	if (underAlpha2 > 240)
+	{
+		m_pShadowPlayer->ShadowPupY();
+		return true;
 	}
 	return false;
 }
