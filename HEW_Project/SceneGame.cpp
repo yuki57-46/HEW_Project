@@ -11,6 +11,7 @@ SceneGame::SceneGame()
 , m_pRTV(nullptr)
 , m_pDSV(nullptr)
 , m_pUI(nullptr)
+, m_pCurtainUI(nullptr)
 , m_pScreen(nullptr)
 {
 
@@ -35,8 +36,10 @@ SceneGame::SceneGame()
 	m_pCoin = new Coin[3];
 
 	//ゴール
-	m_pGoal = new Goal;
-	
+	m_pGoal = new Goal();
+
+	//カーテン
+	m_pCurtainUI = new CurtainUI();
 
 	//スクリーン
 	m_pScreen = new Screen();
@@ -70,9 +73,14 @@ SceneGame::~SceneGame()
 		delete[] m_pScreen;
 		m_pScreen = nullptr;
 	}
+	if (m_pCurtainUI)
+	{
+		delete m_pCurtainUI;
+		m_pCurtainUI = nullptr;
+	}
 	if (m_pGoal)
 	{
-		delete[] m_pGoal;
+		delete m_pGoal;
 		m_pGoal = nullptr;
 	}
 	if (m_pCoin)
@@ -149,6 +157,7 @@ void SceneGame::Update(float tick)
 	m_pObjectMng->Update(tick);
 	//m_pObject2D->Update();
 	m_pCoinCntUI->Update();
+	m_pCurtainUI->Update();
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
 	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
@@ -224,6 +233,10 @@ void SceneGame::Draw()
 
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
+
+	//カーテン表示
+	m_pCurtainUI->LeftDraw();
+	m_pCurtainUI->RightDraw();
 
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
