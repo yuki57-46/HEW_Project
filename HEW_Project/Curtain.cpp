@@ -14,7 +14,7 @@ CurtainUI::CurtainUI() :m_pTexture(nullptr)
 	//それぞれの.pngが開けなかった時メッセージボックスを表示する
 	if (FAILED(m_pTexture->Create("Assets/Texture/anmaku_usiro.png")))
 	{
-		MessageBox(NULL, "000CoinUI.png", "Error", MB_OK);
+		MessageBox(NULL, "Curtain.png", "Error", MB_OK);
 	}
 
 	m_pStageCurtainTex = new Texture();
@@ -44,6 +44,24 @@ CurtainUI::~CurtainUI()
 //===更新===
 void CurtainUI::Update()
 {
+	// カウントダウン
+	m_fTime -= 1.0f / 60.0f;
+
+	// 緞帳を動かす必要があるか
+	if (!IsPlay())
+	{
+		return;
+	}
+
+	// 緞帳の経過時間の割合からY座標を計算
+	float rate = m_fTime / m_fTotalTime;
+
+	// 緞帳を下げる場合だけ、Y座標を反転させる
+	if (!m_isUp)
+	{
+		rate = 1.0f - rate;
+	}
+	m_fPosY = m_fMinPosY + (m_fMaxPosY - m_fMinPosY) * rate;
 
 }
 
@@ -110,7 +128,7 @@ void CurtainUI::StageCurtainDraw()
 
 	// ワールド行列はX,Yのみを考慮して作成
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(
-		SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+		SCREEN_WIDTH / 2.0f, -300.0f, 0.0f);// 500.0f 
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
 	// 単位行列を設定
@@ -125,8 +143,27 @@ void CurtainUI::StageCurtainDraw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
-	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
-	Sprite::SetSize(DirectX::XMFLOAT2(SCREEN_WIDTH, -SCREEN_HEIGHT));
+	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 25.0f));
+	Sprite::SetSize(DirectX::XMFLOAT2(SCREEN_WIDTH*1.4f, -SCREEN_HEIGHT*1.4f));
 	Sprite::SetTexture(m_pStageCurtainTex);
 	Sprite::Draw();
+}
+
+void CurtainUI::Start(bool isUp, float Time)
+{
+	// 緞帳が移動中なら何もしない
+	if (IsPlay())
+	{
+		return;
+	}
+
+	m_isUp = isUp;
+	m_fTime = Time;
+	m_fTotalTime = Time;
+}
+
+bool CurtainUI::IsPlay()
+{
+	// 緞帳が移動中かどうか
+	return m_fTime > 0.0f;
 }

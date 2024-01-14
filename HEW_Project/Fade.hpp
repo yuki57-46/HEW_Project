@@ -1,11 +1,12 @@
 ﻿#pragma once
 
 #include "Texture.h"
+#include "Curtain.h"
 
 class Fade
 {
 public:
-	Fade();
+	Fade(CurtainUI* curtain);
 	~Fade();
 
 	void Update();
@@ -22,5 +23,7 @@ private:
 	bool m_isIn;
 	float m_time;
 	float m_totalTime;
+
+	CurtainUI* m_pCurtain;
 };
 

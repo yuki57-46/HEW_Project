@@ -3,10 +3,11 @@
 #include "Defines.h"
 #include "Sprite.h"
 
-Fade::Fade()
+Fade::Fade(CurtainUI* curtain)
 	: m_alpha(1.0f)
 	, m_time(0.0f)
 	, m_totalTime(0.0f)
+	, m_pCurtain(curtain)
 {
 	m_pTex = new Texture();
 	if (FAILED(m_pTex->Create("./Assets/Texture/Test.png")))
@@ -14,10 +15,17 @@ Fade::Fade()
 		MessageBox(NULL, "[Fade.cpp] Failed to Load Texture", "Error", MB_OK);
 		return;
 	}
+
+	
 }
 
 Fade::~Fade()
 {
+	//if (m_pCurtain)
+	//{
+	//	delete m_pCurtain;
+	//	m_pCurtain = nullptr;
+	//}
 	if (m_pTex)
 	{
 		delete m_pTex;
@@ -83,6 +91,8 @@ void Fade::Draw()
 
 	// スプライトの描画
 	Sprite::Draw();
+
+	m_pCurtain->StageCurtainDraw();
 }
 
 /**
@@ -100,6 +110,8 @@ void Fade::Start(bool isIn, float time)
 	m_isIn = isIn;
 	m_time = time;
 	m_totalTime = time;
+
+	m_pCurtain->Start(isIn, time-0.5f);
 }
 
 bool Fade::IsPlay()

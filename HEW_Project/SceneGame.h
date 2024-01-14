@@ -59,7 +59,9 @@ private:
 
 	//ゴール（仮状態の処理有）
 	Goal*			m_pGoal;
-	
+
+	// フェードイン・アウト
+	Fade* 		m_pFade;
 
 	RenderTarget*	m_pRTV;
 	DepthStencil*	m_pDSV;
