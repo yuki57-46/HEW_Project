@@ -77,7 +77,7 @@ void Fade::Draw()
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetTexture(m_pTex);
-
+	Sprite::SetOffset({ 0.0f, 0.0f });
 	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, m_alpha });
 	Sprite::SetSize(DirectX::XMFLOAT2(SCREEN_WIDTH, -SCREEN_HEIGHT - 30.0f));
 

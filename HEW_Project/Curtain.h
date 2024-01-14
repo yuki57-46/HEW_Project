@@ -17,7 +17,10 @@ public:
 	void LeftDraw();			//描画
 	void RightDraw();
 
+	void StageCurtainDraw();	//ステージカーテン描画
+
 private:
-	Texture* m_pTexture;
+	Texture* m_pTexture;	//テクスチャ
+	Texture* m_pStageCurtainTex; //ステージカーテン用テクスチャ
 };
 #endif

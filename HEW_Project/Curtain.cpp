@@ -2,6 +2,7 @@
 #include "Curtain.h"
 #include "Sprite.h"
 #include "Input.h"
+#include "Defines.h"
 
 
 //===コンストラクタ===
@@ -15,11 +16,24 @@ CurtainUI::CurtainUI() :m_pTexture(nullptr)
 	{
 		MessageBox(NULL, "000CoinUI.png", "Error", MB_OK);
 	}
+
+	m_pStageCurtainTex = new Texture();
+
+	// 画像ファイルが開けなかったら表示
+	if (FAILED(m_pStageCurtainTex->Create("Assets/Texture/Stage_Curtain.png")))
+	{
+		MessageBox(NULL, "StageCurtain.png", "Error", MB_OK);
+	}
 }
 
 //===デストラクタ===
 CurtainUI::~CurtainUI()
 {
+	if (m_pStageCurtainTex)
+	{
+		delete m_pStageCurtainTex;
+		m_pStageCurtainTex = nullptr;
+	}
 	if (m_pTexture)
 	{
 		delete m_pTexture;
@@ -85,5 +99,31 @@ void CurtainUI::RightDraw()
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetSize(DirectX::XMFLOAT2(640.0f, -720.0f));
 	Sprite::SetTexture(m_pTexture);
+	Sprite::Draw();
+}
+
+void CurtainUI::StageCurtainDraw()
+{
+	DirectX::XMFLOAT4X4 mat[3];
+
+	// ワールド行列はX,Yのみを考慮して作成
+	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(
+		SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
+
+	// 単位行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
+
+	// プロジェクション行列には2Dとして表示するための行列を設定
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.1f, 10.0f);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+
+	// スプライトの設定
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	Sprite::SetSize(DirectX::XMFLOAT2(SCREEN_WIDTH, -SCREEN_HEIGHT));
+	Sprite::SetTexture(m_pStageCurtainTex);
 	Sprite::Draw();
 }
