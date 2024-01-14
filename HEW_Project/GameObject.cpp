@@ -26,6 +26,16 @@ bool GameObject::col(GameObject & other)
 	return m_caabb.col(cminBound, cmaxBound, other.cminBound, other.cmaxBound);
 }
 
+bool GameObject::IsCollisionBoxTriangle(GameObject & other)
+{
+	return m_aabb.IntersectAABBTriangle(minBound, maxBound, other.v0, other.v1, other.v2);
+}
+
+bool GameObject::IsCollisionPoint(GameObject & other)
+{
+	return m_aabb.IsPointInsideAABB(other.points, minBound, maxBound);
+}
+
 DirectX::XMFLOAT3 GameObject::GetCMinBounds()
 {
 	return cminBound;

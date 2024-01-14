@@ -206,8 +206,8 @@ void SceneGame::Draw()
 	DirectX::XMFLOAT4X4 mat[3];
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
-	//背景
 
+	//背景
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2], m_pGoal);
 
@@ -238,6 +238,7 @@ void SceneGame::Draw()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	//m_pobjcamera->Draw();
+
 
 	//オブジェクト
 	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);

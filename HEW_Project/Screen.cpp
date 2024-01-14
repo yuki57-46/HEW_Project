@@ -5,8 +5,8 @@
 #include "Input.h"
 
 Screen::Screen()
-	: m_pos(0.0f, -2.4f, -10.0f)
-	, m_scale(0.35f,0.18f,1.0f)
+	: m_pos(0.0f, -4.4f, -9.0f)
+	, m_scale(0.525f,0.27f,1.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())

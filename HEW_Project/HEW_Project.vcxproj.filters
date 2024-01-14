@@ -165,12 +165,18 @@
     <ClCompile Include="Screen.cpp">
       <Filter>ソース ファイル\object</Filter>
     </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
     <ClCompile Include="Coin.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="CoinCntUI.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+	</ClCompile>
 	  <ClCompile Include="Goal.cpp">
 		  <Filter>ソース ファイル\UI</Filter>
 	  </ClCompile>
@@ -282,6 +288,9 @@
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Screen.h">
+      <Filter>ヘッダー ファイル\object</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
       <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
     <ClInclude Include="CoinCntUI.h">

@@ -21,7 +21,7 @@
 std::chrono::steady_clock::time_point lastSoundPlayTime;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
 
-int frame = 50;
+int frame = 25;
 
 
 Object::Object()
@@ -161,13 +161,13 @@ void Object::Update()
 
 			if (m_pos.y <= 0.0f)
 			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				//if (elapsedTime >= soundInterval)
+				//{
+				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
+				//	// 最後のサウンド再生時間を更新
+				//	lastSoundPlayTime = currentTime;
+				//}
 			}
 			xz = true;
 		}
@@ -176,13 +176,13 @@ void Object::Update()
 			m_pos.z += moveSpeed;
 			if (m_pos.y <= 0.0f)
 			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				//if (elapsedTime >= soundInterval)
+				//{
+				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
+				//	// 最後のサウンド再生時間を更新
+				//	lastSoundPlayTime = currentTime;
+				//}
 			}
 			xz = true;
 		}
@@ -191,13 +191,13 @@ void Object::Update()
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.0f)
 			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				//if (elapsedTime >= soundInterval)
+				//{
+				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
+				//	// 最後のサウンド再生時間を更新
+				//	lastSoundPlayTime = currentTime;
+				//}
 			}
 			xz = true;
 		}
@@ -206,13 +206,13 @@ void Object::Update()
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.0f)
 			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				//if (elapsedTime >= soundInterval)
+				//{
+				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
+				//	// 最後のサウンド再生時間を更新
+				//	lastSoundPlayTime = currentTime;
+				//}
 			}
 			xz = true;
 		}
@@ -233,7 +233,6 @@ void Object::Update()
 
 		if (ok == false)
 		{
-
 			if (IsKeyPress(VK_SPACE))
 			{
 				frame -= moveSpeed * 0.01;
@@ -251,9 +250,9 @@ void Object::Update()
 				m_pos.y -= 0.1f;
 				gravity = true;
 			}
-			if (m_pos.y <= 0.0f&&frame <= 0)
+			if (m_pos.y <= 0.0f)
 			{
-				frame = 50;
+				frame = 25;
 			}
 
 		}
@@ -420,6 +419,14 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	objectMaxBound.y *= m_scale.y;
 	objectMaxBound.z *= m_scale.z;
 
+	if (objectMinBound.y < 0)
+	{
+		a = objectMinBound.y *= -1;
+		objectMaxBound.y += a;
+
+		objectMinBound.y = 0;
+	}
+
 	SetBounds(objectMinBound, objectMaxBound);
 
 	cobjectMinBound.x *= m_scale.x;
@@ -452,10 +459,10 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 
 	if (cobjectMinBound.y < 0)
 	{
-		a = cobjectMinBound.y *= -1;
-		cobjectMaxBound.y += a;
+		a = hobjectMinBound.y *= -1;
+		hobjectMaxBound.y += a;
 
-		cobjectMinBound.y = 0;
+		hobjectMinBound.y = 0;
 	}
 
 	HSetBounds(hobjectMinBound, hobjectMaxBound);
@@ -540,6 +547,11 @@ bool Object::IsObjectTop()
 	return objectTop;
 }
 
+bool Object::IsMove()
+{
+	return moveok;
+}
+
 void Object::SetObjectTop()
 {
 	if (objectTop == true)
@@ -554,17 +566,23 @@ void Object::SetObjectTop()
 
 void Object::SetColgravity()
 {
-	if (colgravity == true)
-	{
-		colgravity = false;
-	}
-	else/* if (colgravity == false)*/
-	{
-		colgravity = true;
-	}
+	colgravity = true;
+
+}
+
+void Object::SetColgravityfalse()
+{
+	colgravity = false;
 }
 
 void Object::framepls()
 {
-	frame=50;
+	frame=25;
+}
+
+void Object::SetSlope()
+{
+	m_pos.x += 0.05;
+	//m_pos.y = m_oldPos.y;
+	//moveok = false;
 }

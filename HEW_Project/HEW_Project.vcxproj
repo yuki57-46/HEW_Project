@@ -206,6 +206,7 @@
     <ClCompile Include="ShadowP.cpp" />
     <ClCompile Include="Soundtest.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="SceneGame.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="ShadowP.h" />
     <ClInclude Include="Soundtest.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Stair.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="yuka.h" />
   </ItemGroup>
