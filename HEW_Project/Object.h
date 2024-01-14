@@ -57,7 +57,7 @@ public:
 	bool IsGravity();
 	bool IsXZ();
 	bool IsObjectTop();
-
+	bool IsMove();
 private:
 	Model* m_pObjectModel;
 	VertexShader* m_pObjectVS;

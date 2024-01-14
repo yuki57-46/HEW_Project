@@ -70,24 +70,24 @@ Stair::Stair()
 
 
 	points = {
-	{maxBound.x, minBound.y, minBound.z},  //左下
-	{maxBound.x, minBound.y, maxBound.z},
-	{maxBound.x + 0.25f, minBound.y, minBound.z},
-	{maxBound.x + 0.25f, minBound.y, maxBound.z},
-	{minBound.x, minBound.y, minBound.z},  //右下
-	{minBound.x, minBound.y, maxBound.z},
-	{minBound.x, minBound.y + 0.25f, minBound.z},
-	{minBound.x, minBound.y + 0.25f, maxBound.z},
-	{minBound.x, maxBound.y, minBound.z},  //右上
-	{minBound.x, maxBound.y, maxBound.z},
-	{minBound.x + 0.375f, minBound.y + 0.375f, minBound.z},
-	{maxBound.x + 0.375f, minBound.y + 0.375f, maxBound.z},
-	{maxBound.x + 0.25f, minBound.y + 0.25f, minBound.z},
-	{maxBound.x + 0.25f, minBound.y + 0.25f, maxBound.z},
-	{maxBound.x + 0.125f, minBound.y + 0.125f, minBound.z},
-	{maxBound.x + 0.125f, minBound.y + 0.125f, maxBound.z},
-	{maxBound.x + 0.075f, minBound.y + 0.075f, minBound.z},
-	{maxBound.x + 0.075f, minBound.y + 0.075f, maxBound.z},
+		{maxBound.x, minBound.y, minBound.z},  //左下
+		{maxBound.x, minBound.y, maxBound.z},
+		{maxBound.x - 0.25f, minBound.y, minBound.z},
+		{maxBound.x - 0.25f, minBound.y, maxBound.z},
+		{minBound.x, minBound.y, minBound.z},  //右下
+		{minBound.x, minBound.y, maxBound.z},
+		{minBound.x, minBound.y + 0.25f, minBound.z},
+		{minBound.x, minBound.y + 0.25f, maxBound.z},
+		{minBound.x, maxBound.y, minBound.z},  //右上
+		{minBound.x, maxBound.y, maxBound.z},
+		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
+		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
+		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
+		{maxBound.x - 0.25f, minBound.y + 0.25f, maxBound.z},
+		{maxBound.x - 0.125f, minBound.y + 0.125f, minBound.z},
+		{maxBound.x - 0.125f, minBound.y + 0.125f, maxBound.z},
+		{maxBound.x - 0.075f, minBound.y + 0.075f, minBound.z},
+		{maxBound.x - 0.075f, minBound.y + 0.075f, maxBound.z},
 	};
 }
 
@@ -501,13 +501,13 @@ void Stair::Create(float posX, float posY, float posZ, float scaleX, float scale
 	hStairMaxBound.y *= m_scale.y;
 	hStairMaxBound.z *= m_scale.z;
 
-	//if (cStairMinBound.y < 0)
-	//{
-	//	a = cStairMinBound.y *= -1;
-	//	cStairMaxBound.y += a;
+	if (hStairMinBound.y < 0)
+	{
+		a = hStairMinBound.y *= -1;
+		hStairMaxBound.y += a;
 
-	//	cStairMinBound.y = 0;
-	//}
+		hStairMinBound.y = 0;
+	}
 	HSetBounds(hStairMinBound, hStairMaxBound);
 
 	m_mmovespeed = m_pos;
@@ -600,6 +600,11 @@ void Stair::MoveStair(float y)
 	m_pos.y = y;
 }
 
+void Stair::framepls()
+{
+	frame = 25;
+}
+
 
 bool Stair::IsGravity()
 {
@@ -617,6 +622,11 @@ bool Stair::IsStairTop()
 	return StairTop;
 }
 
+bool Stair::IsMove()
+{
+	return moveok;
+}
+
 void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 {
 	const Model::Mesh* slopeMesh = slopeModel.GetMesh(0); // Slope.fbxが1つのメッシュしか持たないと仮定
@@ -630,5 +640,10 @@ void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 			// 頂点座標 (position.x, position.y, position.z) を使って何かを行います
 		}
 	}
+}
+
+void Stair::SetSlope()
+{
+	m_pos.x += 0.05;
 }
 
