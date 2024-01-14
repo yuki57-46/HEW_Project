@@ -159,7 +159,7 @@ void Object::Update()
 		{
 			m_pos.z -= moveSpeed;
 
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{
@@ -174,7 +174,7 @@ void Object::Update()
 		else if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{
@@ -189,7 +189,7 @@ void Object::Update()
 		else if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{
@@ -204,7 +204,7 @@ void Object::Update()
 		else if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{

@@ -52,6 +52,8 @@ BackShadow::BackShadow()
 	, m_collisionFlag(false)
 	, m_upFlag(false)
 	, m_LRcheck(false)
+	,m_pSDSESdCoin(nullptr)
+	,m_pSVSESdCoin(nullptr)
 
 {
 	//レンダー表示関連の確保
@@ -76,6 +78,9 @@ BackShadow::BackShadow()
 
 	//進行方向初期化
 	m_LRcheck = m_pShadowPlayer->isUse();
+
+	m_pSDSESdCoin = LoadSound("Assets/Sound/SE/Coinkaisyuu_Oobayashi.wav");
+	
 }
 
 BackShadow::~BackShadow()
@@ -157,7 +162,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//Drawの１,２個目の数値をいじればコイン描画座標が変わる
 	if (Coin1->IsCoinCollected == false)
 	{
-		Coin1->Draw(270.0f, 30.0f, 0.0f,40.0f, 40.0f, 1);	//左 y=120.0f
+		Coin1->Draw(270.0f, 0.0f, 0.0f,40.0f, 40.0f, 1);	//左 y=120.0f
 	}
 	if (Coin2->IsCoinCollected == false)
 	{
@@ -420,6 +425,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 	{
 		// 影とコインが重なったらコインを取得する
 		Coin1->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
 
 	if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX &&
@@ -429,6 +435,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 	{
 		// 影とコインが重なったらコインを取得する
 		Coin2->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
 
 	if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX &&
@@ -438,6 +445,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 	{
 		// 影とコインが重なったらコインを取得する
 		Coin3->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
 }
 

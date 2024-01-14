@@ -17,8 +17,9 @@
 //
 //DirectX::XMFLOAT3 cStairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ブロック同士用
 //DirectX::XMFLOAT3 cStairMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-//std::chrono::steady_clock::time_point lastSoundPlayTime1;
-//const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
+
+std::chrono::steady_clock::time_point lastSoundPlayTimeStair;
+const std::chrono::milliseconds soundIntervalStair = std::chrono::milliseconds(3000);//再生時間三秒の時
 Stair::Stair()
 	: m_pos(0.0f, 0.0f, 0.0f)
 	, m_mmovespeed(0.0f, 0.0f, 0.0f)
@@ -154,8 +155,8 @@ void Stair::Update()
 	//	m_pos.z -= moveSpeed * moveDirection.z;
 	//}
 
-	//auto currentTime = std::chrono::steady_clock::now();
-//	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTime);
+	auto currentTime = std::chrono::steady_clock::now();
+	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTimeStair);
 
 	//m_jmp = m_pos;
 
@@ -170,60 +171,60 @@ void Stair::Update()
 		{
 			m_pos.z -= moveSpeed;
 
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				////}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_DOWN))
 		{
 			m_pos.z += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_RIGHT))
 		{
 			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_LEFT))
 		{
 			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}

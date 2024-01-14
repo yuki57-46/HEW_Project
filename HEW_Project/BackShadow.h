@@ -96,6 +96,11 @@ private:
 	//スクリーン
 	Screen* m_pScreen;
 
+
+	//sound
+	IXAudio2SourceVoice* m_pSVSESdCoin; // サウンドソース
+	XAUDIO2_BUFFER* m_pSDSESdCoin; // サウンドバッファ
+
 };
 
 //#endif // !___BACK_SHADOW_H___
