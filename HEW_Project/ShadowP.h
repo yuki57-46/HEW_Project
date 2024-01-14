@@ -6,6 +6,7 @@
 #include "Collision.h"
 #include "GameObject.h"
 #include"ShaderList.h"
+#include"Soundtest.h"
 
 class ShadowP : public GameObject
 {
@@ -23,6 +24,7 @@ public:
 	float ShadowPPosX();
 	DirectX::XMFLOAT3 NowPos();
 	void ShadowPPos();
+	void ShadowPupY();
 	void Use();
 	void NotUse();
 	void Jump();
@@ -47,5 +49,8 @@ private:
 	bool m_footing;
 	float m_moveY;
 	float m_JumpY;
+
+	IXAudio2SourceVoice* m_pSVSESdPly; // サウンドソース
+	XAUDIO2_BUFFER* m_pSDSESdPly; // サウンドバッファ
 };
 

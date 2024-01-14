@@ -14,7 +14,7 @@ public:
 	void Update();
 	void Draw(float x, float y, float z, float sizeX, float sizeY, int num);
 
-	bool IsFirstCollected = false;							// コインが取得されたかどうかを返す
+	bool IsCoinCollected = false;							// コインが取得されたかどうかを返す
 
 	float SetPosition(float x, float y, float z);			// コイン位置を設定
 	DirectX::XMFLOAT3 GetPosition() const;
