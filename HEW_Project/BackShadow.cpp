@@ -154,15 +154,15 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//Drawの１,２個目の数値をいじればコイン描画座標が変わる
 	if (Coin1->IsCoinCollected == false)
 	{
-		Coin1->Draw(270.0f, 30.0f, 0.0f, 20.0f, 20.0f, 1);	//左 y=120.0f
+		Coin1->Draw(270.0f, 30.0f, 0.0f,40.0f, 40.0f, 1);	//左 y=120.0f
 	}
 	if (Coin2->IsCoinCollected == false)
 	{
-		Coin2->Draw(500.0f, 320.0f, 0.0f, 20.0f, 20.0f, 2);	//真ん中
+		Coin2->Draw(500.0f, 320.0f, 0.0f, 40.0f, 40.0f, 2);	//真ん中
 	}
 	if (Coin3->IsCoinCollected == false)
 	{
-		Coin3->Draw(1200.0f, 300.0f, 0.0f, 20.0f, 20.0f, 3);	//右
+		Coin3->Draw(1200.0f, 300.0f, 0.0f, 40.0f, 40.0f, 3);	//右
 	}
 
 	RenderTarget* pRTV;
