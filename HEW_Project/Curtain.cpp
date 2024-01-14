@@ -70,6 +70,7 @@ void CurtainUI::LeftDraw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(640.0f, -720.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
@@ -97,6 +98,7 @@ void CurtainUI::RightDraw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(640.0f, -720.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
@@ -123,6 +125,7 @@ void CurtainUI::StageCurtainDraw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(SCREEN_WIDTH, -SCREEN_HEIGHT));
 	Sprite::SetTexture(m_pStageCurtainTex);
 	Sprite::Draw();

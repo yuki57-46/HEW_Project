@@ -2,6 +2,7 @@
 #include "Geometory.h"
 #include <DirectXMath.h>
 
+
 SceneGame::SceneGame()
 : m_pSound(nullptr)
 , m_pSourceVoice(nullptr)
