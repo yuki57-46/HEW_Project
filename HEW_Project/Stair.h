@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "CameraBase.h"
 #include "GameObject.h"
 #include "Model.h"
@@ -50,14 +50,16 @@ public:
 	void SetStairTop();
 
 	void MoveStair(float y);
+	void framepls();
 
 	bool SetR1();
 	bool IsGravity();
 	bool IsXZ();
 	bool IsStairTop();
-
+	bool IsMove();
 	void ExtractSlopeVertexCoordinates(Model& slopeModel);
 
+	void SetSlope();
 
 private:
 	Model* m_pStairModel;
@@ -84,8 +86,8 @@ private:
 
 
 
-	IXAudio2SourceVoice* m_pSVSEBlk; // ÉTÉEÉìÉhÉ\Å[ÉX
-	XAUDIO2_BUFFER* m_pSDSEBlk; // ÉTÉEÉìÉhÉoÉbÉtÉ@
+	IXAudio2SourceVoice* m_pSVSEBlk; // „Çµ„Ç¶„É≥„Éâ„ÇΩ„Éº„Çπ
+	XAUDIO2_BUFFER* m_pSDSEBlk; // „Çµ„Ç¶„É≥„Éâ„Éê„ÉÉ„Éï„Ç°
 
 	DirectX::XMFLOAT3 StairMinBound;
 	DirectX::XMFLOAT3 StairMaxBound;

@@ -233,7 +233,6 @@ void Object::Update()
 
 		if (ok == false)
 		{
-
 			if (IsKeyPress(VK_SPACE))
 			{
 				frame -= moveSpeed * 0.01;
@@ -546,6 +545,11 @@ void Object::MoveObject(float y)
 bool Object::IsObjectTop()
 {
 	return objectTop;
+}
+
+bool Object::IsMove()
+{
+	return moveok;
 }
 
 void Object::SetObjectTop()
