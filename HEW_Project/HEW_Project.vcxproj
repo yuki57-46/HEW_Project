@@ -180,6 +180,7 @@
     <ClCompile Include="CoinCntUI.cpp" />
     <ClCompile Include="col.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Curtain.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gamepad.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="BackShadow.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinCntUI.h" />
+    <ClInclude Include="Curtain.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="ItemUI.h" />
     <ClInclude Include="Objectcamera.h" />

@@ -19,6 +19,7 @@
 #include "CoinCntUI.h"
 #include "ItemUI.h"
 #include "Goal.h"
+#include "Curtain.h"
 enum CameraKind
 {
 	CAM_OBJ,	//
@@ -53,6 +54,7 @@ private:
 	ItemUI*			m_pUI;
 	Coin*			m_pCoin;
 	CoinCntUI*		m_pCoinCntUI;
+	CurtainUI*		m_pCurtainUI;
 
 	//ゴール（仮状態の処理有）
 	Goal*			m_pGoal;

@@ -7,7 +7,7 @@ CameraObject::CameraObject(ObjectCamera* pCamera)
 	, m_radY(0.0f)
 	, m_radius(0.0f)
 {
-	
+	m_pos.y = m_pos.y + 2.0f;
 }
 
 CameraObject::~CameraObject()
