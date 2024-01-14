@@ -211,7 +211,10 @@ void SceneGame::Draw()
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2], m_pGoal);
 
-	
+	//カーテン表示
+	m_pCurtainUI->LeftDraw();
+	m_pCurtainUI->RightDraw();
+
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
@@ -262,9 +265,6 @@ void SceneGame::Draw()
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
-	//カーテン表示
-	m_pCurtainUI->LeftDraw();
-	m_pCurtainUI->RightDraw();
 
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
@@ -293,11 +293,11 @@ void SceneGame::Draw()
 		m_pCoinCntUI->GoalDraw();
 	}
 
-	m_pCurtainUI->StageCurtainDraw();
 
 #if FADE_TEST
 	m_pFade->Draw();
 #endif // FADE_TEST
+	m_pCurtainUI->StageCurtainDraw();
 
 
 	SetRenderTargets(1, &m_pRTV, m_pDSV);

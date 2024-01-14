@@ -6,7 +6,9 @@
 
 
 //===コンストラクタ===
-CurtainUI::CurtainUI() :m_pTexture(nullptr)
+CurtainUI::CurtainUI()
+	: m_pTexture(nullptr)
+	, m_fPosY(-300.0f)
 {
 
 	m_pTexture = new Texture();
@@ -61,8 +63,8 @@ void CurtainUI::Update()
 	{
 		rate = 1.0f - rate;
 	}
-	m_fPosY = m_fMinPosY + (m_fMaxPosY - m_fMinPosY) * rate;
-
+	//m_fPosY = m_fMinPosY + (m_fMaxPosY - m_fMinPosY) * rate;
+	m_fPosY = (1.0f - rate) * m_fMinPosY + rate * m_fMaxPosY;
 }
 
 //===描画===
@@ -90,6 +92,7 @@ void CurtainUI::LeftDraw()
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(640.0f, -720.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
 }
@@ -118,6 +121,7 @@ void CurtainUI::RightDraw()
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(640.0f, -720.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
 }
@@ -126,9 +130,10 @@ void CurtainUI::StageCurtainDraw()
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
+	SetSamplerState(SAMPLER_POINT);
 	// ワールド行列はX,Yのみを考慮して作成
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(
-		SCREEN_WIDTH / 2.0f, -300.0f, 0.0f);// 500.0f 
+		SCREEN_WIDTH / 2.0f, m_fPosY, 0.0f);// 500.0f 
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
 	// 単位行列を設定
@@ -143,10 +148,13 @@ void CurtainUI::StageCurtainDraw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
-	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 25.0f));
+	//Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 25.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(SCREEN_WIDTH*1.4f, -SCREEN_HEIGHT*1.4f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pStageCurtainTex);
 	Sprite::Draw();
+
+	SetSamplerState(SAMPLER_LINEAR);
 }
 
 void CurtainUI::Start(bool isUp, float Time)

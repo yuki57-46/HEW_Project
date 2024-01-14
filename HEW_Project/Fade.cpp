@@ -4,7 +4,7 @@
 #include "Sprite.h"
 
 Fade::Fade(CurtainUI* curtain)
-	: m_alpha(1.0f)
+	: m_alpha(0.0f)
 	, m_time(0.0f)
 	, m_totalTime(0.0f)
 	, m_pCurtain(curtain)
