@@ -161,13 +161,13 @@ void Object::Update()
 
 			if (m_pos.y <= 0.0f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
@@ -176,13 +176,13 @@ void Object::Update()
 			m_pos.z += moveSpeed;
 			if (m_pos.y <= 0.0f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
@@ -191,13 +191,13 @@ void Object::Update()
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.0f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
@@ -206,13 +206,13 @@ void Object::Update()
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.0f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
