@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 //#pragma once
 #ifndef ___CAMERA_PLAYER_H___
 #define ___CAMERA_PLAYER_H___
@@ -19,7 +19,8 @@ public:
 
 private:
 	ObjectCamera* m_pobjCamera;
-	//ƒJƒƒ‰‚Ìƒpƒ‰ƒ[ƒ^
+
+	//ã‚«ãƒ¡ãƒ©ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	float m_radXZ;
 	float m_radY;
 	float m_radius;

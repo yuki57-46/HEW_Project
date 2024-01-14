@@ -21,7 +21,7 @@
 std::chrono::steady_clock::time_point lastSoundPlayTime;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
 
-int frame = 50;
+int frame = 25;
 
 
 Object::Object()
@@ -159,7 +159,7 @@ void Object::Update()
 		{
 			m_pos.z -= moveSpeed;
 
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{
@@ -174,7 +174,7 @@ void Object::Update()
 		else if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{
@@ -189,7 +189,7 @@ void Object::Update()
 		else if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{
@@ -204,7 +204,7 @@ void Object::Update()
 		else if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
 				if (elapsedTime >= soundInterval)
 				{
@@ -233,7 +233,6 @@ void Object::Update()
 
 		if (ok == false)
 		{
-
 			if (IsKeyPress(VK_SPACE))
 			{
 				frame -= moveSpeed * 0.01;
@@ -251,9 +250,9 @@ void Object::Update()
 				m_pos.y -= 0.1f;
 				gravity = true;
 			}
-			if (m_pos.y <= 0.0f&&frame <= 0)
+			if (m_pos.y <= 0.0f)
 			{
-				frame = 50;
+				frame = 25;
 			}
 
 		}
@@ -277,9 +276,9 @@ void Object::Update()
 		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 
 
-		if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
-			|| m_pos.z >= 7.0f || m_pos.z <= -5.0f
-			|| m_pos.y >= 7.0f)
+		if (m_pos.x >= 4.0f || m_pos.x <= -4.0f
+			|| m_pos.z >= 3.35f || m_pos.z <= 0.0f
+			|| m_pos.y >= 4.0f)
 		{
 
 			OBJPos();
@@ -420,6 +419,14 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	objectMaxBound.y *= m_scale.y;
 	objectMaxBound.z *= m_scale.z;
 
+	if (objectMinBound.y < 0)
+	{
+		a = objectMinBound.y *= -1;
+		objectMaxBound.y += a;
+
+		objectMinBound.y = 0;
+	}
+
 	SetBounds(objectMinBound, objectMaxBound);
 
 	cobjectMinBound.x *= m_scale.x;
@@ -452,10 +459,10 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 
 	if (cobjectMinBound.y < 0)
 	{
-		a = cobjectMinBound.y *= -1;
-		cobjectMaxBound.y += a;
+		a = hobjectMinBound.y *= -1;
+		hobjectMaxBound.y += a;
 
-		cobjectMinBound.y = 0;
+		hobjectMinBound.y = 0;
 	}
 
 	HSetBounds(hobjectMinBound, hobjectMaxBound);
@@ -540,6 +547,11 @@ bool Object::IsObjectTop()
 	return objectTop;
 }
 
+bool Object::IsMove()
+{
+	return moveok;
+}
+
 void Object::SetObjectTop()
 {
 	if (objectTop == true)
@@ -554,17 +566,23 @@ void Object::SetObjectTop()
 
 void Object::SetColgravity()
 {
-	if (colgravity == true)
-	{
-		colgravity = false;
-	}
-	else/* if (colgravity == false)*/
-	{
-		colgravity = true;
-	}
+	colgravity = true;
+
+}
+
+void Object::SetColgravityfalse()
+{
+	colgravity = false;
 }
 
 void Object::framepls()
 {
-	frame=50;
+	frame=25;
+}
+
+void Object::SetSlope()
+{
+	m_pos.x += 0.05;
+	//m_pos.y = m_oldPos.y;
+	//moveok = false;
 }

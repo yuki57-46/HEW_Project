@@ -5,8 +5,8 @@
 #include "Input.h"
 
 Screen::Screen()
-	: m_pos(0.0f, -0.4f, -10.0f)
-	,m_scale(0.38f,0.3f,1.0f)
+	: m_pos(0.0f, -4.4f, -9.0f)
+	, m_scale(0.525f,0.27f,1.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
@@ -62,7 +62,6 @@ void Screen::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 
 	m_pNoEntryVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
 	m_pNoEntryModel->Draw();
-
 }
 
 

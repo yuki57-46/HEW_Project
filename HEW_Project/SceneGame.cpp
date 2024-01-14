@@ -3,15 +3,16 @@
 #include <DirectXMath.h>
 
 SceneGame::SceneGame()
-	:m_pSound(nullptr)
-,m_pSourceVoice(nullptr)
+: m_pSound(nullptr)
+, m_pSourceVoice(nullptr)
 , m_pVS(nullptr)
 , m_pCamera{ nullptr, nullptr,nullptr }
 , m_pobjcamera(nullptr)
 , m_pRTV(nullptr)
 , m_pDSV(nullptr)
 , m_pUI(nullptr)
-,m_pScreen(nullptr)
+, m_pCurtainUI(nullptr)
+, m_pScreen(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -34,6 +35,12 @@ SceneGame::SceneGame()
 	m_pCoinCntUI = new CoinCntUI();
 	m_pCoin = new Coin[3];
 
+	//ゴール
+	m_pGoal = new Goal();
+
+	//カーテン
+	m_pCurtainUI = new CurtainUI();
+
 	//スクリーン
 	m_pScreen = new Screen();
 
@@ -52,11 +59,11 @@ SceneGame::SceneGame()
 	//m_pDCamera = new CameraDebug();
 
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // サウンドファイルの読み込み
+	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav", true); // サウンドファイルの読み込み
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	//m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
+	m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
 }
 
 SceneGame::~SceneGame()
@@ -65,6 +72,16 @@ SceneGame::~SceneGame()
 	{
 		delete[] m_pScreen;
 		m_pScreen = nullptr;
+	}
+	if (m_pCurtainUI)
+	{
+		delete m_pCurtainUI;
+		m_pCurtainUI = nullptr;
+	}
+	if (m_pGoal)
+	{
+		delete m_pGoal;
+		m_pGoal = nullptr;
 	}
 	if (m_pCoin)
 	{
@@ -121,7 +138,7 @@ SceneGame::~SceneGame()
 		delete m_pBackShadow;
 		m_pBackShadow = nullptr;
 	}
-	//m_pSourceVoice->Stop();
+	m_pSourceVoice->Stop();
 }
 
 void SceneGame::Update(float tick)
@@ -140,6 +157,7 @@ void SceneGame::Update(float tick)
 	m_pObjectMng->Update(tick);
 	//m_pObject2D->Update();
 	m_pCoinCntUI->Update();
+	m_pCurtainUI->Update();
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
 	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
@@ -161,10 +179,14 @@ void SceneGame::Draw()
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	//背景
-	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
-	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0],&m_pCoin[1],&m_pCoin[2]);
 
-	
+	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
+	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2], m_pGoal);
+
+	//カーテン表示
+	m_pCurtainUI->LeftDraw();
+	m_pCurtainUI->RightDraw();
+
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
@@ -188,6 +210,7 @@ void SceneGame::Draw()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	//m_pobjcamera->Draw();
+
 
 	//オブジェクト
 	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
@@ -215,25 +238,33 @@ void SceneGame::Draw()
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
+
+
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
 
 
 	//コインが取得されていたら描画
-	
-	if (m_pCoin[0].IsFirstCollected == true)
+	if (m_pCoin[0].IsCoinCollected == true)
 	{
 		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
 	}
 
-	if (m_pCoin[1].IsFirstCollected == true)
+	if (m_pCoin[1].IsCoinCollected == true)
 	{
 		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
 	}
 
-	if (m_pCoin[2].IsFirstCollected == true)
+	if (m_pCoin[2].IsCoinCollected == true)
 	{
 		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+	}
+
+	//ゴールしたら表示（仮）
+	//本当は画面遷移
+	if (m_pGoal->IsGoal == true)
+	{
+		m_pCoinCntUI->GoalDraw();
 	}
 
 	SetRenderTargets(1, &m_pRTV, m_pDSV);

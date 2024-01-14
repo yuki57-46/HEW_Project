@@ -1,24 +1,25 @@
-#include "Stair.h"
+ï»¿#include "Stair.h"
 #include "Geometory.h"
 #include "Input.h"
 #include <chrono>
 
-//minbound maxbound‚ğƒƒ“ƒo•Ï”‚É
-//create•”•ª‚ÉƒXƒP[ƒ‹‚Æ“–‚½‚è”»’è‚ğ‚©‚¯‡‚í‚¹‚éˆ—‚ğ’Ç‰Á@y‚Í’Ç‰Á‚ÅŒvZ•K—v
+//minbound maxboundã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã«
+//createéƒ¨åˆ†ã«ã‚¹ã‚±ãƒ¼ãƒ«ã¨å½“ãŸã‚Šåˆ¤å®šã‚’ã‹ã‘åˆã‚ã›ã‚‹å‡¦ç†ã‚’è¿½åŠ ã€€yã¯è¿½åŠ ã§è¨ˆç®—å¿…è¦
 
 
 //InputManager imanagerOB = InputManager();
 
-//DirectX::XMFLOAT3 StairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è—p
+//DirectX::XMFLOAT3 StairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®å½“ãŸã‚Šåˆ¤å®šç”¨
 //DirectX::XMFLOAT3 StairMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 //
-//DirectX::XMFLOAT3 hStairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//œßˆË—p
+//DirectX::XMFLOAT3 hStairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//æ†‘ä¾ç”¨
 //DirectX::XMFLOAT3 hStairMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 //
-//DirectX::XMFLOAT3 cStairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ƒuƒƒbƒN“¯m—p
+//DirectX::XMFLOAT3 cStairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ç”¨
 //DirectX::XMFLOAT3 cStairMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-//std::chrono::steady_clock::time_point lastSoundPlayTime1;
-//const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//Ä¶ŠÔO•b‚Ì
+
+std::chrono::steady_clock::time_point lastSoundPlayTimeStair;
+const std::chrono::milliseconds soundIntervalStair = std::chrono::milliseconds(3000);//å†ç”Ÿæ™‚é–“ä¸‰ç§’ã®æ™‚
 Stair::Stair()
 	: m_pos(0.0f, 0.0f, 0.0f)
 	, m_mmovespeed(0.0f, 0.0f, 0.0f)
@@ -28,7 +29,7 @@ Stair::Stair()
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
 	, moveok(false)
-	, StairMinBound(-0.5f, -0.5f, -0.5f)//“–‚½‚è”»’è—p
+	, StairMinBound(-0.5f, -0.5f, -0.5f)//å½“ãŸã‚Šåˆ¤å®šç”¨
 	, StairMaxBound(0.5f, 0.5f, 0.5f)
 	, hStairMinBound(-0.5f, -0.5f, -0.5f)
 	, hStairMaxBound(0.5f, 0.5f, 0.5f)
@@ -45,13 +46,13 @@ Stair::Stair()
 	m_pStairModel = new Model;
 
 	/*if (!m_pStairModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}*/
 	/*if (!m_pStairModel->Load("Assets/Model/Block/Slope.fbx",0.1,  Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}*/
-	if (!m_pStairModel->Load("Assets/Model/Block/Slope.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+	if (!m_pStairModel->Load("Assets/Model/Block/SlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}
 	ExtractSlopeVertexCoordinates(*m_pStairModel);
 	m_pStairVS = new VertexShader();
@@ -68,39 +69,26 @@ Stair::Stair()
 
 	m_pSDSEBlk = LoadSound("Assets/Sound/SE/Blockgaugokuoto_Oobayashi.wav");
 
-	v0.x = 1.5f;
-	v0.y = 0.0f;
-	v0.z = -0.5f;
-	v1.x = 2.5f;
-	v1.y = 0.0f;
-	v1.z = -0.5f;
-	v2.x = 2.5f;
-	v2.y = 1.0f;
-	v2.z = -0.5f;
-
-	point.x = -0.5;
-	point.y = 0.0f;
-	point.z = 3.0f;
 
 	points = {
-	{minBound.x, minBound.y, minBound.z},  //¶‰º
-	{minBound.x, minBound.y, maxBound.z},
-	{minBound.x + 0.5f, minBound.y, minBound.z},
-	{minBound.x + 0.5f, minBound.y, maxBound.z},
-	{maxBound.x, minBound.y, minBound.z},  //‰E‰º
-	{maxBound.x, minBound.y, maxBound.z},
-	{maxBound.x, minBound.y + 0.5f, minBound.z},
-	{maxBound.x, minBound.y + 0.5f, maxBound.z},
-	{maxBound.x, maxBound.y, minBound.z},  //‰Eã
-	{maxBound.x, maxBound.y, maxBound.z},
-	{minBound.x + 0.75f, minBound.y + 0.75f, minBound.z},
-	{minBound.x + 0.75f, minBound.y + 0.75f, maxBound.z},
-	{minBound.x + 0.5f, minBound.y + 0.5f, minBound.z},
-	{minBound.x + 0.5f, minBound.y + 0.5f, maxBound.z},
-	{minBound.x + 0.25f, minBound.y + 0.25f, minBound.z},
-	{minBound.x + 0.25f, minBound.y + 0.25f, maxBound.z},
-	{minBound.x + 0.15f, minBound.y + 0.15f, minBound.z},
-	{minBound.x + 0.15f, minBound.y + 0.15f, maxBound.z},
+		{maxBound.x, minBound.y, minBound.z},  //å·¦ä¸‹
+		{maxBound.x, minBound.y, maxBound.z},
+		{maxBound.x - 0.25f, minBound.y, minBound.z},
+		{maxBound.x - 0.25f, minBound.y, maxBound.z},
+		{minBound.x, minBound.y, minBound.z},  //å³ä¸‹
+		{minBound.x, minBound.y, maxBound.z},
+		{minBound.x, minBound.y + 0.25f, minBound.z},
+		{minBound.x, minBound.y + 0.25f, maxBound.z},
+		{minBound.x, maxBound.y, minBound.z},  //å³ä¸Š
+		{minBound.x, maxBound.y, maxBound.z},
+		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
+		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
+		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
+		{maxBound.x - 0.25f, minBound.y + 0.25f, maxBound.z},
+		{maxBound.x - 0.125f, minBound.y + 0.125f, minBound.z},
+		{maxBound.x - 0.125f, minBound.y + 0.125f, maxBound.z},
+		{maxBound.x - 0.075f, minBound.y + 0.075f, minBound.z},
+		{maxBound.x - 0.075f, minBound.y + 0.075f, maxBound.z},
 	};
 }
 
@@ -127,7 +115,7 @@ void Stair::Update()
 	{
 		m_pos.y -= 0.05f;
 	}
-	float moveSpeed = 0.03f; // ˆÚ“®‘¬“x‚Ì’²®
+	float moveSpeed = 0.03f; // ç§»å‹•é€Ÿåº¦ã®èª¿æ•´
 	float rotationSpeed = 10.0f;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -140,7 +128,7 @@ void Stair::Update()
 
 
 
-	//// ¶ƒXƒeƒBƒbƒN‚ÌX²‚ÆY²•ûŒü‚Ì“ü—Í‚ğæ“¾
+	//// å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸ã¨Yè»¸æ–¹å‘ã®å…¥åŠ›ã‚’å–å¾—
 	//float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
 	//float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
 	//float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
@@ -148,27 +136,27 @@ void Stair::Update()
 
 
 
-	// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğŒvZ
+	// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğ³‹K‰»i’·‚³‚ª1‚É‚È‚é‚æ‚¤‚Éj
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ï¼ˆé•·ã•ãŒ1ã«ãªã‚‹ã‚ˆã†ã«ï¼‰
 	//DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
 	//directionVector = DirectX::XMVector3Normalize(directionVector);
 	//DirectX::XMFLOAT3 normalizedDirection;
 	//DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚©‚ç‰ñ“]Šp“x‚ğŒvZ
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰å›è»¢è§’åº¦ã‚’è¨ˆç®—
 	//float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
 	//m_rotationY = rotationAngle;
 
-	//if (moveok == true)//œßˆË
+	//if (moveok == true)//æ†‘ä¾æ™‚
 	//{
 	//	m_pos.x -= moveSpeed * moveDirection.x;
 	//	m_pos.z -= moveSpeed * moveDirection.z;
 	//}
 
-	//auto currentTime = std::chrono::steady_clock::now();
-//	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTime);
+	auto currentTime = std::chrono::steady_clock::now();
+	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTimeStair);
 
 	//m_jmp = m_pos;
 
@@ -181,62 +169,62 @@ void Stair::Update()
 	{
 		if (IsKeyPress(VK_UP))
 		{
-			m_pos.z += moveSpeed;
+			m_pos.z -= moveSpeed;
 
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
-				//	lastSoundPlayTime = currentTime;
-				////}
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_DOWN))
 		{
-			m_pos.z -= moveSpeed;
-			if (m_pos.y <= 0.0f)
+			m_pos.z += moveSpeed;
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_RIGHT))
 		{
-			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			m_pos.x -= moveSpeed;
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_LEFT))
 		{
-			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.0f)
+			m_pos.x += moveSpeed;
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundIntervalStair)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// ÅŒã‚ÌƒTƒEƒ“ƒhÄ¶ŠÔ‚ğXV
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// æœ€å¾Œã®ã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿæ™‚é–“ã‚’æ›´æ–°
+					lastSoundPlayTimeStair = currentTime;
+				}
 			}
 			xz = true;
 		}
@@ -263,7 +251,7 @@ void Stair::Update()
 			if (IsKeyPress(VK_SPACE))
 			{
 				frame -= moveSpeed * 0.01;
-				// ƒXƒy[ƒXƒL[‚ª‰Ÿ‚³‚ê‚½‚çã¸‚ğÀs.ƒQ[ƒW‚ğŒ¸­
+				// ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‚‰ä¸Šæ˜‡ã‚’å®Ÿè¡Œ.ã‚²ãƒ¼ã‚¸ã‚’æ¸›å°‘
 			   //m_pos.y += 0.07f;
 				m_pos.y += frame * 0.003f;
 
@@ -291,9 +279,9 @@ void Stair::Update()
 		}
 	}
 
-	SetBounds(StairMinBound, StairMaxBound);  //Å¬’l‚ÆÅ‘å’l‚ğƒZƒbƒg
-	HSetBounds(hStairMinBound, hStairMaxBound);//œßˆË—p‚Ì“–‚½‚è”»’è
-	CSetBounds(cStairMinBound, cStairMaxBound);//ƒuƒƒbƒN“¯m‚Ì“–‚½‚è”»’è
+	SetBounds(StairMinBound, StairMaxBound);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
+	HSetBounds(hStairMinBound, hStairMaxBound);//æ†‘ä¾ç”¨ã®å½“ãŸã‚Šåˆ¤å®š
+	CSetBounds(cStairMinBound, cStairMaxBound);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
 
 
 	if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
@@ -328,24 +316,24 @@ void Stair::Update()
 	//// Add more points as needed
 	//};
 	points = {
-	{minBound.x, minBound.y, minBound.z},  //¶‰º
-	{minBound.x, minBound.y, maxBound.z},
-	{minBound.x + 0.5f, minBound.y, minBound.z},
-	{minBound.x + 0.5f, minBound.y, maxBound.z},
-	{maxBound.x, minBound.y, minBound.z},  //‰E‰º
-	{maxBound.x, minBound.y, maxBound.z},  
-	{maxBound.x, minBound.y + 0.5f, minBound.z},
-	{maxBound.x, minBound.y + 0.5f, maxBound.z},
-	{maxBound.x, maxBound.y, minBound.z},  //‰Eã
-	{maxBound.x, maxBound.y, maxBound.z}, 
-	{minBound.x + 0.75f, minBound.y + 0.75f, minBound.z},
-	{minBound.x + 0.75f, minBound.y + 0.75f, maxBound.z},
-	{minBound.x + 0.5f, minBound.y + 0.5f, minBound.z},  
-	{minBound.x + 0.5f, minBound.y + 0.5f, maxBound.z},  
-	{minBound.x + 0.25f, minBound.y + 0.25f, minBound.z},
-	{minBound.x + 0.25f, minBound.y + 0.25f, maxBound.z},
-	{minBound.x + 0.15f, minBound.y + 0.15f, minBound.z},
-	{minBound.x + 0.15f, minBound.y + 0.15f, maxBound.z},
+		{maxBound.x, minBound.y, minBound.z},  //å·¦ä¸‹
+		{maxBound.x, minBound.y, maxBound.z},
+		{maxBound.x - 0.25f, minBound.y, minBound.z},
+		{maxBound.x - 0.25f, minBound.y, maxBound.z},
+		{minBound.x, minBound.y, minBound.z},  //å³ä¸‹
+		{minBound.x, minBound.y, maxBound.z},
+		{minBound.x, minBound.y + 0.25f, minBound.z},
+		{minBound.x, minBound.y + 0.25f, maxBound.z},
+		{minBound.x, maxBound.y, minBound.z},  //å³ä¸Š
+		{minBound.x, maxBound.y, maxBound.z},
+		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
+		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
+		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
+		{maxBound.x - 0.25f, minBound.y + 0.25f, maxBound.z},
+		{maxBound.x - 0.125f, minBound.y + 0.125f, minBound.z},
+		{maxBound.x - 0.125f, minBound.y + 0.125f, maxBound.z},
+		{maxBound.x - 0.075f, minBound.y + 0.075f, minBound.z},
+		{maxBound.x - 0.075f, minBound.y + 0.075f, maxBound.z},
 	};
 
 }
@@ -356,14 +344,14 @@ void Stair::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionM
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚Ìİ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	mat[1] = viewMatrix; // —^‚¦‚ç‚ê‚½ viewMatrix ‚ğg‚¤
-	mat[2] = projectionMatrix; // —^‚¦‚ç‚ê‚½ projectionMatrix ‚ğg‚¤
+	mat[1] = viewMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ viewMatrix ã‚’ä½¿ã†
+	mat[2] = projectionMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ projectionMatrix ã‚’ä½¿ã†
 
-	m_pStairVS->WriteBuffer(0, mat);    //”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ğw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ğ“n‚·
+	m_pStairVS->WriteBuffer(0, mat);    //é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
 	m_pStairModel->Draw();
 
 }
@@ -396,7 +384,7 @@ DirectX::XMFLOAT3 Stair::Add(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOAT
 //_
 
 
-//œßˆË“–‚½‚è”»’è
+//æ†‘ä¾å½“ãŸã‚Šåˆ¤å®š
 void Stair::HSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
 {
 	hminBound = HAdd(m_pos, min);
@@ -424,7 +412,7 @@ DirectX::XMFLOAT3 Stair::HAdd(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOA
 //_
 
 
-//ƒuƒƒbƒN“¯m
+//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«
 void Stair::CSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
 {
 	cminBound = CAdd(m_pos, min);
@@ -494,7 +482,7 @@ void Stair::Create(float posX, float posY, float posZ, float scaleX, float scale
 	cStairMaxBound.y *= m_scale.y;
 	cStairMaxBound.z *= m_scale.z;
 
-	//‚±‚ê‚ª‚È‚¢‚Æy²‚Ì“–‚½‚è”»’è‚¨‚©‚µ‚­‚È‚é
+	//ã“ã‚ŒãŒãªã„ã¨yè»¸ã®å½“ãŸã‚Šåˆ¤å®šãŠã‹ã—ããªã‚‹
 
 	if (cStairMinBound.y < 0)
 	{
@@ -514,13 +502,13 @@ void Stair::Create(float posX, float posY, float posZ, float scaleX, float scale
 	hStairMaxBound.y *= m_scale.y;
 	hStairMaxBound.z *= m_scale.z;
 
-	//if (cStairMinBound.y < 0)
-	//{
-	//	a = cStairMinBound.y *= -1;
-	//	cStairMaxBound.y += a;
+	if (hStairMinBound.y < 0)
+	{
+		a = hStairMinBound.y *= -1;
+		hStairMaxBound.y += a;
 
-	//	cStairMinBound.y = 0;
-	//}
+		hStairMinBound.y = 0;
+	}
 	HSetBounds(hStairMinBound, hStairMaxBound);
 
 	m_mmovespeed = m_pos;
@@ -529,7 +517,7 @@ void Stair::Create(float posX, float posY, float posZ, float scaleX, float scale
 
 
 
-//œßˆË”»’è—p
+//æ†‘ä¾åˆ¤å®šç”¨
 void Stair::Set()
 {
 	moveok = true;
@@ -547,7 +535,7 @@ bool Stair::SetR()
 
 
 
-//ƒuƒƒbƒN“¯m‚ª‚Ô‚Â‚©‚Á‚½‚É•Ô‚·
+//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ãŒã¶ã¤ã‹ã£ãŸæ™‚ã«è¿”ã™
 
 void Stair::OBJPos()
 {
@@ -613,6 +601,11 @@ void Stair::MoveStair(float y)
 	m_pos.y = y;
 }
 
+void Stair::framepls()
+{
+	frame = 25;
+}
+
 
 bool Stair::IsGravity()
 {
@@ -630,18 +623,28 @@ bool Stair::IsStairTop()
 	return StairTop;
 }
 
+bool Stair::IsMove()
+{
+	return moveok;
+}
+
 void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 {
-	const Model::Mesh* slopeMesh = slopeModel.GetMesh(0); // Slope.fbx‚ª1‚Â‚ÌƒƒbƒVƒ…‚µ‚©‚½‚È‚¢‚Æ‰¼’è
+	const Model::Mesh* slopeMesh = slopeModel.GetMesh(0); // Slope.fbxãŒ1ã¤ã®ãƒ¡ãƒƒã‚·ãƒ¥ã—ã‹æŒãŸãªã„ã¨ä»®å®š
 
 	if (slopeMesh) {
 		const std::vector<Model::Vertex>& vertices = slopeMesh->vertices;
 
-		// ’¸“_À•W‚Í 'vertices' ƒxƒNƒ^[‚©‚çƒAƒNƒZƒX‚Å‚«‚Ü‚·
+		// é ‚ç‚¹åº§æ¨™ã¯ 'vertices' ãƒ™ã‚¯ã‚¿ãƒ¼ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã§ãã¾ã™
 		for (const auto& vertex : vertices) {
 			DirectX::XMFLOAT3 position = vertex.pos;
-			// ’¸“_À•W (position.x, position.y, position.z) ‚ğg‚Á‚Ä‰½‚©‚ğs‚¢‚Ü‚·
+			// é ‚ç‚¹åº§æ¨™ (position.x, position.y, position.z) ã‚’ä½¿ã£ã¦ä½•ã‹ã‚’è¡Œã„ã¾ã™
 		}
 	}
+}
+
+void Stair::SetSlope()
+{
+	m_pos.x += 0.05;
 }
 

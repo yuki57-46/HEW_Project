@@ -9,14 +9,14 @@ InputManager imanagerP = InputManager();
 DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //境界の最小値
 DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //最大値
 
-DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //境界の最小値
-DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //最大値
+DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.15f);  //境界の最小値
+DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.15f, 0.1f, 0.15f);     //最大値
 
 std::chrono::steady_clock::time_point lastSoundPlayTimePly;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
 
 Player::Player()
-	: m_pos(0.0f, 0.0f, 0.0f)
+	: m_pos(0.0f, 0.0f, 3.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
 	, m_direction(0.0f, 0.0f, 0.0f)
 	, m_rotationMatrix(DirectX::XMMatrixIdentity())
@@ -188,18 +188,46 @@ void Player::Update(float tick)
 		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress('U'))
 		{
@@ -215,9 +243,9 @@ void Player::Update(float tick)
 		HSetBounds(HMinBound, HMaxBound);
 
 
-		if (m_pos.x>=7.0f||m_pos.x<=-7.0f
-			||m_pos.z>=7.0f|| m_pos.z <= -5.0f
-			||m_pos.y >= 6.0f )
+		if (m_pos.x>=4.0f||m_pos.x<=-4.0f
+			||m_pos.z>=3.35f|| m_pos.z <= 0.0f
+			||m_pos.y >= 5.0f )
 		{
 			PlayerPos();
 		}
@@ -338,7 +366,7 @@ void Player::PlayerPos()
 void Player::HPlayerPos()
 {
 	// 12/29 pos.y = -100.0f → -0.3f
-	m_pos.y = -0.3f;
+	m_pos.y = -1.0f;
 }
 
 //リセット用（未実装）

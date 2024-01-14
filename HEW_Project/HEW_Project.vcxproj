@@ -180,9 +180,11 @@
     <ClCompile Include="CoinCntUI.cpp" />
     <ClCompile Include="col.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Curtain.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gamepad.cpp" />
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="ItemUI.cpp" />
@@ -196,12 +198,14 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderList.cpp" />
     <ClCompile Include="ShadowP.cpp" />
     <ClCompile Include="Soundtest.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="SceneGame.cpp" />
@@ -213,6 +217,8 @@
     <ClInclude Include="BackShadow.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinCntUI.h" />
+    <ClInclude Include="Curtain.h" />
+    <ClInclude Include="Goal.h" />
     <ClInclude Include="ItemUI.h" />
     <ClInclude Include="Objectcamera.h" />
     <ClInclude Include="CameraBase.h" />
@@ -238,12 +244,14 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderList.h" />
     <ClInclude Include="ShadowP.h" />
     <ClInclude Include="Soundtest.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="Stair.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="yuka.h" />
   </ItemGroup>
