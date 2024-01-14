@@ -157,6 +157,11 @@ void CurtainUI::StageCurtainDraw()
 	SetSamplerState(SAMPLER_LINEAR);
 }
 
+/**
+ * @brief 緞帳の移動を開始する
+ * @param[in] isUp 緞帳を上げるかどうか (true):上げる (false):下げる
+ * @param[in] Time 緞帳を移動する時間
+*/
 void CurtainUI::Start(bool isUp, float Time)
 {
 	// 緞帳が移動中なら何もしない
@@ -166,8 +171,8 @@ void CurtainUI::Start(bool isUp, float Time)
 	}
 
 	m_isUp = isUp;
-	m_fTime = Time;
-	m_fTotalTime = Time;
+	m_fTime = Time + 1.0f;
+	m_fTotalTime = Time +1.0f;
 }
 
 bool CurtainUI::IsPlay()

@@ -10,7 +10,7 @@ Fade::Fade(CurtainUI* curtain)
 	, m_pCurtain(curtain)
 {
 	m_pTex = new Texture();
-	if (FAILED(m_pTex->Create("./Assets/Texture/Test.png")))
+	if (FAILED(m_pTex->Create("./Assets/Texture/Black.png")))
 	{
 		MessageBox(NULL, "[Fade.cpp] Failed to Load Texture", "Error", MB_OK);
 		return;
@@ -53,6 +53,15 @@ void Fade::Update()
 		rate = 1.0f - rate;
 	}
 	m_alpha = rate;
+
+	if ((GetAlpha() >= 0.5f && GetAlpha() <= 0.6f)&& m_isIn == false)
+	{
+		m_pCurtain->Start(false, m_time + 0.5f);
+	}
+	if ((GetAlpha() >= 0.9f && GetAlpha() <= 1.0f) && m_isIn == true)
+	{
+		m_pCurtain->Start(true, m_time - 0.5f);
+	}
 }
 
 void Fade::Draw()
@@ -92,7 +101,6 @@ void Fade::Draw()
 	// スプライトの描画
 	Sprite::Draw();
 
-	m_pCurtain->StageCurtainDraw();
 }
 
 /**
@@ -111,7 +119,6 @@ void Fade::Start(bool isIn, float time)
 	m_time = time;
 	m_totalTime = time;
 
-	m_pCurtain->Start(isIn, time-0.5f);
 }
 
 bool Fade::IsPlay()

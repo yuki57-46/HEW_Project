@@ -182,9 +182,9 @@ void SceneGame::Update(float tick)
 #if FADE_TEST
 	m_pFade->Update();
 	if (IsKeyTrigger('O'))
-		m_pFade->Start(true, 1.0f);
+		m_pFade->Start(true, 1.0f);// フェードイン
 	if (IsKeyTrigger('P'))
-		m_pFade->Start(false, 1.0f);
+		m_pFade->Start(false, 1.0f);// フェードアウト
 #endif
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
