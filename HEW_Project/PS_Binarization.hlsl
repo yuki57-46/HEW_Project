@@ -19,8 +19,14 @@ float4 main(PS_IN pin) : SV_TARGET
 	
 	// RGB値を平均化
 	float gray = (color.r + color.g + color.b) / 3.0f;
-	color = float4(gray, gray, gray, 1.0f);
+	//color = float4(gray, gray, gray, 1.0f);
+	
+	// しきい値を設定
+	float threshold = 0.8f;
+	
+	// 2値化
+	float4 binaryColor = (gray >= threshold) ? float4(1.0f, 1.0f, 1.0f, 1.0f) : float4(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	//return tex.Sample(samp, pin.uv) * pin.color;
-	return color;
+	return binaryColor;
 }

@@ -34,8 +34,10 @@ Player::Player()
 	}
 
 	// モデルにShaderListからVS,PSを読み込む
+	m_pPS= new PixelShader();
+	m_pPS = ShaderList::GetPS(ShaderList::PS_TOON);
 	m_pModel->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));
-	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_TOON));
+	m_pModel->SetPixelShader(m_pPS);
 
 	m_pVS = new VertexShader();
 

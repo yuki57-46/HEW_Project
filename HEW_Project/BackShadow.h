@@ -101,6 +101,8 @@ private:
 	IXAudio2SourceVoice* m_pSVSESdCoin; // サウンドソース
 	XAUDIO2_BUFFER* m_pSDSESdCoin; // サウンドバッファ
 
+
+	PixelShader* m_pPS[3];			
 };
 
 //#endif // !___BACK_SHADOW_H___

@@ -80,11 +80,26 @@ BackShadow::BackShadow()
 	m_LRcheck = m_pShadowPlayer->isUse();
 
 	m_pSDSESdCoin = LoadSound("Assets/Sound/SE/Coinkaisyuu_Oobayashi.wav");
-	
+
+	// PixelShader
+	m_pPS[0] = new PixelShader;
+	m_pPS[1] = new PixelShader;
+	m_pPS[2] = new PixelShader;
+	m_pPS[0]->Load("Assets/Shader/PS_Shadow.cso");
+	m_pPS[1]->Load("Assets/Shader/PS_Binarization.cso");
+	m_pPS[2]->Load("Assets/Shader/PS_Sprite.cso");
 }
 
 BackShadow::~BackShadow()
 {
+	for (int i = 0; i < 2; i++)
+	{
+		if (m_pPS[i])
+		{
+			delete m_pPS[i];
+			m_pPS[i] = nullptr;
+		}
+	}
 	if (m_pRTVTexture)
 	{
 		delete m_pRTVTexture;
@@ -143,6 +158,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);//レンダーの設定
 
 	//ここに表示したいものを持ってくる
+	m_pPS[0]->Bind();
+
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
     Obj->Draw(viewMatrix, projectionMatrix,false);
@@ -321,13 +338,22 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	mat[1] = m_pCamera->GetShadowViewMatrix();
 	mat[2] = m_pCamera->GetShadowProjectionMatrix();
 
+	
 	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS[1]);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetSize(DirectX::XMFLOAT2(RTV_3D_SIZE_WIDTH, RTV_3D_SIZE_HEIGHT));
 	Sprite::SetTexture(m_pRTV_BS);
 	Sprite::Draw();
+	
+
+	//m_pPS[0]->Bind();
+	//m_pPS[0]->WriteBuffer(0, mat);
+
+	Sprite::SetPixelShader(m_pPS[2]);
+
 }
 
 /**
