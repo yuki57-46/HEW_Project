@@ -32,6 +32,10 @@ float4 main(PS_IN pin) : SV_TARGET
 	//// 2値化
 	float4 binaryColor = (gray >= threshold) ? float4(1.0f, 1.0f, 1.0f, 1.0f) : float4(0.0f, 0.0f, 0.0f, 1.0f);
 	
+	//return gray;
+	
+	//return binaryColor;
+	
 	// 1/テクスチャのサイズ
 	uint width, height;
 	tex.GetDimensions(width, height);
@@ -87,4 +91,5 @@ float4 main(PS_IN pin) : SV_TARGET
 	binaryColor = (grayScale >= threshold) ? float4(1.0f, 1.0f, 1.0f, 1.0f) : float4(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	return binaryColor;
+	//return grayScale;
 }
