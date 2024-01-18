@@ -25,7 +25,7 @@ public:
 	bool ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha);
 	bool ShadowUnderCollision(BYTE underAlpha);
 	bool ShadowEdgeCollision(int h, UINT width);
-	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE Alpha);//コインの所得処理
+	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegAlpha, BYTE bodyAlpha);//コインの所得処理
 	void GoalCollision(Goal* Goal);//ゴール
 private:
 	// カメラ
