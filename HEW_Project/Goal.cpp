@@ -8,6 +8,7 @@
 Goal::Goal()
 	: m_pGoalTexture(nullptr)
 	, m_GoalPos(0.0f, 0.0f, 0.0f)
+	, m_pPS(nullptr)
 
 {
 	//モデルの読み込み処理
@@ -18,11 +19,22 @@ Goal::Goal()
 	}
 
 	SetGoal(false);
+
+	m_pPS = new PixelShader();
+	if (FAILED(m_pPS->Load("Assets/Shader/PS_Sprite.cso")))
+	{
+		MessageBox(NULL, "ゴールの読み込みエラー", "Error", MB_OK);
+	}
 }
 
 //デストラクタ
 Goal::~Goal()
 {
+	if (m_pPS)
+	{
+		delete m_pPS;
+		m_pPS = nullptr;
+	}
 	if (m_pGoalTexture)
 	{
 		delete m_pGoalTexture;
@@ -62,6 +74,7 @@ void Goal::Draw(float x, float y, float z, float sizeX, float sizeY)
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
 	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);

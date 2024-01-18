@@ -64,13 +64,15 @@ SceneGame::SceneGame()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
 	m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
+
+
 }
 
 SceneGame::~SceneGame()
 {
 	if (m_pScreen)
 	{
-		delete[] m_pScreen;
+		delete m_pScreen;
 		m_pScreen = nullptr;
 	}
 	if (m_pCurtainUI)
@@ -151,6 +153,8 @@ void SceneGame::Update(float tick)
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	m_pCamera[CAM_OBJ]->Update();
+
+	
 
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);

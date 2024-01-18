@@ -1,4 +1,4 @@
-﻿#include "BackShadow.h"
+#include "BackShadow.h"
 #include "Sprite.h"
 #include "Geometory.h"
 
@@ -158,7 +158,6 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);//レンダーの設定
 
 	//ここに表示したいものを持ってくる
-	m_pPS[0]->Bind();
 
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
@@ -192,7 +191,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 	RenderTarget* pRTV;
 	pRTV = GetDefaultRTV();
-	SetRenderTargets(1, &pRTV, nullptr);
+	SetRenderTargets(1, &pRTV, nullptr); 
 
 	//レンダーターゲットの色情報読み取り
 	m_pRTV_BS->Read([&](const void* colorData, UINT width, UINT height) {
