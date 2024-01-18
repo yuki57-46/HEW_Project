@@ -6,7 +6,7 @@ SceneTutorial::SceneTutorial()
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
-	, m_pCamera{ nullptr, nullptr,nullptr }
+//	, m_pCamera{ nullptr, nullptr,nullptr }
 	, m_pobjcamera(nullptr)
 	, m_pRTV(nullptr)
 	, m_pDSV(nullptr)
@@ -162,7 +162,7 @@ void SceneTutorial::Draw()
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	//背景
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
-	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2]);
+//	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2]);
 
 
 	//3D表示に変更

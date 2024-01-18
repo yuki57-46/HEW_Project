@@ -18,6 +18,7 @@
 #include"Coin.h"
 #include"CoinCntUI.h"
 #include"ItemUI.h"
+
 enum CameraKind
 {
 	CAM_OBJ,	//
@@ -45,7 +46,7 @@ private:
 	ObjectCamera* m_pobjcamera;
 
 	CameraKind		m_mainCamera;
-	CameraBase* m_pCamera[MAX_CAMERA];
+	CameraBase*		m_pCamera[MAX_CAMERA];
 
 	BackShadow* m_pBackShadow;
 

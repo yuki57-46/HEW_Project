@@ -20,6 +20,7 @@
 #include "ItemUI.h"
 #include "Goal.h"
 #include "Curtain.h"
+
 enum CameraKind
 {
 	CAM_OBJ,	//
