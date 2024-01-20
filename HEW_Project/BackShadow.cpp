@@ -362,7 +362,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//m_pPS[0]->WriteBuffer(0, mat);
 
 	Sprite::SetPixelShader(m_pPS[2]);
-
+	SetSamplerState(SAMPLER_LINEAR);
 }
 
 /**
