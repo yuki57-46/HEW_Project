@@ -70,6 +70,8 @@ Stair::Stair()
 
 
 	points = {
+		{minBound.x, maxBound.y, minBound.z},  //右上
+		{minBound.x, maxBound.y, maxBound.z},
 		{maxBound.x, minBound.y, minBound.z},  //左下
 		{maxBound.x, minBound.y, maxBound.z},
 		{maxBound.x - 0.25f, minBound.y, minBound.z},
@@ -78,8 +80,7 @@ Stair::Stair()
 		{minBound.x, minBound.y, maxBound.z},
 		{minBound.x, minBound.y + 0.25f, minBound.z},
 		{minBound.x, minBound.y + 0.25f, maxBound.z},
-		{minBound.x, maxBound.y, minBound.z},  //右上
-		{minBound.x, maxBound.y, maxBound.z},
+
 		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
 		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
 		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
@@ -315,6 +316,8 @@ void Stair::Update()
 	//// Add more points as needed
 	//};
 	points = {
+		{minBound.x, maxBound.y, minBound.z},  //右上
+		{minBound.x, maxBound.y, maxBound.z},
 		{maxBound.x, minBound.y, minBound.z},  //左下
 		{maxBound.x, minBound.y, maxBound.z},
 		{maxBound.x - 0.25f, minBound.y, minBound.z},
@@ -323,8 +326,7 @@ void Stair::Update()
 		{minBound.x, minBound.y, maxBound.z},
 		{minBound.x, minBound.y + 0.25f, minBound.z},
 		{minBound.x, minBound.y + 0.25f, maxBound.z},
-		{minBound.x, maxBound.y, minBound.z},  //右上
-		{minBound.x, maxBound.y, maxBound.z},
+		
 		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
 		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
 		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
@@ -583,6 +585,11 @@ void Stair::SetColgravity()
 	}
 }
 
+void Stair::SetColgravityfalse()
+{
+	colgravity = false;
+}
+
 void Stair::SetStairTop()
 {
 	if (StairTop == true)
@@ -645,5 +652,10 @@ void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 void Stair::SetSlope()
 {
 	m_pos.x += 0.05;
+}
+
+void Stair::SetSlopeY(float y)
+{
+	m_pos.y = y;
 }
 
