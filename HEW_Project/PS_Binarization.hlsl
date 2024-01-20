@@ -22,15 +22,40 @@ float4 main(PS_IN pin) : SV_TARGET
 	// テクスチャから色を取得
 	float4 color = tex.Sample(samp, pin.uv);
 	
+	if (color.a == 0.0f)
+	{
+		return float4(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	
+	//if (color.r == 1.0f && color.g == 1.0f && color.b == 1.0f)
+	//{
+	//	return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	//}
+	
+	//if (color.r == 0.0f && color.g == 0.0f && color.b == 0.0f)
+	//{
+	//	return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	//}
+	
+	if (0.95f <= color.r && color.r <= 1.0f || 0.22f <= color.g && color.g <= 0.25f || 0.95f <= color.b && color.b <= 1.0f)
+	{
+		return color;
+	}
+	
+	if (0.50f <= color.r && color.r <= 0.55f || 0.75f <= color.g && color.g <= 0.80f || 0.75f <= color.b && color.b <= 0.80f)
+	{
+		return color;
+	}
+	
 	//// RGB値を平均化
 	float gray = (color.r + color.g + color.b) / 3.0f;
 	////color = float4(gray, gray, gray, 1.0f);
 	
 	// しきい値を設定
-	float threshold = 0.8f;
+	float threshold = 0.0f;
 	
 	//// 2値化
-	float4 binaryColor = (gray >= threshold) ? float4(1.0f, 1.0f, 1.0f, 1.0f) : float4(0.0f, 0.0f, 0.0f, 1.0f);
+	float4 binaryColor = (gray >= threshold) ? float4(0.0f, 0.0f, 0.0f, 1.0f) : float4(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	//return gray;
 	
@@ -50,6 +75,8 @@ float4 main(PS_IN pin) : SV_TARGET
 	// 出力色
 	float4 output = 0.0f;
 	
+
+	
 	// フィルター処理
 	for (int i = -FILTER_SIZE; i <= FILTER_SIZE; i++)
 	{
@@ -59,7 +86,12 @@ float4 main(PS_IN pin) : SV_TARGET
 			float2 offset = float2(i, j) / float2(width, height);
 			
 			// フィルタ内のピクセルの色
-			float4 neighbor = tex.Sample(samp, pin.uv + offset);
+			// 前回のサンプリングと比較して、色が変わっていなければ、再度サンプリングを行わない
+			float4 neighbor = 0.0f;
+			if (all(neighbor == center))
+			{
+				neighbor = tex.Sample(samp, pin.uv + offset);
+			}
 			
 			// 距離に基づく重み(空間的な距離)
 			float weightD = exp(-0.5f * (i * i + j * j) / (SIGMA_D * SIGMA_D));
@@ -88,7 +120,9 @@ float4 main(PS_IN pin) : SV_TARGET
 	
 	
 	// 2値化
-	binaryColor = (grayScale >= threshold) ? float4(1.0f, 1.0f, 1.0f, 1.0f) : float4(0.0f, 0.0f, 0.0f, 1.0f);
+	binaryColor = (grayScale >= threshold) ? float4(0.0f, 0.0f, 0.0f, 1.0f) : float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+
 	
 	return binaryColor;
 	//return grayScale;
