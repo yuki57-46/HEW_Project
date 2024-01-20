@@ -1,8 +1,15 @@
 ﻿#include "ShadowP.h"
 #include "Input.h"
+#include <chrono>
+
 
 DirectX::XMFLOAT3 PMinBound = DirectX::XMFLOAT3(-0.15f, -0.1f, -0.3f);  //境界の最小値
 DirectX::XMFLOAT3 PMaxBound = DirectX::XMFLOAT3(0.2f, 0.1f, 0.5f);     //最大値
+
+std::chrono::steady_clock::time_point lastSoundPlayTimeSdPly;
+const std::chrono::milliseconds soundIntervalSd = std::chrono::milliseconds(1000);//再生時間三秒の時
+
+
 
 ShadowP::ShadowP()
 	: m_pos(3.5f, 0.2f, 0.0f)
@@ -15,6 +22,8 @@ ShadowP::ShadowP()
 	, m_JumpY(0.5f)
 	, m_rotationY(0.0f)
 	,m_animeWalk(NULL)
+	, m_pSVSESdPly(nullptr)//スピーカ
+	, m_pSDSESdPly(nullptr)//サウンドデータ
 {
 	m_pModel = new Model;
 	//if (!m_pModel->Load("Assets/Model/Golem//Golem.FBX"))
@@ -41,6 +50,9 @@ ShadowP::ShadowP()
 	//m_pModel->SetVertexShader(m_pVS);
 	m_animeWalk = m_pModel->AddAnimation("Assets/Animation/Walk.fbx");	//	ファイルパスを入れる
 
+	
+	m_pSDSESdPly = LoadSound("Assets/Sound/SE/Kageidouon_Oobayashi.wav");
+
 	minBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);
 	maxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
@@ -64,12 +76,23 @@ ShadowP::~ShadowP()
 
 void ShadowP::Update(float tick)
 {//編集
+	auto currentTime = std::chrono::steady_clock::now();
+	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTimeSdPly);
+
 
 	m_pModel->Step(tick);
 
 	if (m_IsAlterDir == true || m_IsAlterDir == false)
 	{
 		m_pModel->Play(m_animeWalk, true);
+		if (elapsedTime >= soundIntervalSd)
+		{
+			m_pSVSESdPly = PlaySound(m_pSDSESdPly);
+
+			// 最後のサウンド再生時間を更新
+			lastSoundPlayTimeSdPly = currentTime;
+		}
+
 	}
 
 	m_oldPos = m_pos;

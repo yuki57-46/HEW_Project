@@ -34,8 +34,10 @@ Player::Player()
 	}
 
 	// モデルにShaderListからVS,PSを読み込む
+	m_pPS= new PixelShader();
+	m_pPS = ShaderList::GetPS(ShaderList::PS_TOON);
 	m_pModel->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));
-	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_TOON));
+	m_pModel->SetPixelShader(m_pPS);
 
 	m_pVS = new VertexShader();
 
@@ -188,18 +190,46 @@ void Player::Update(float tick)
 		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
 		if (IsKeyPress('U'))
 		{
@@ -338,7 +368,7 @@ void Player::PlayerPos()
 void Player::HPlayerPos()
 {
 	// 12/29 pos.y = -100.0f → -0.3f
-	m_pos.y = -0.3f;
+	m_pos.y = -1.0f;
 }
 
 //リセット用（未実装）

@@ -176,11 +176,14 @@
     </ClCompile>
     <ClCompile Include="Goal.cpp">
       <Filter>ソース ファイル\UI</Filter>
-	</ClCompile>
-	  <ClCompile Include="Goal.cpp">
-		  <Filter>ソース ファイル\UI</Filter>
-	  </ClCompile>
+    </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
     <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Curtain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Fade.cpp">
@@ -299,10 +302,13 @@
     <ClInclude Include="Coin.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-	  <ClInclude Include="Goal.h">
-		  <Filter>ヘッダー ファイル\UI</Filter>
-	  </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
     <ClInclude Include="SceneManager.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Curtain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Fade.hpp">
@@ -312,6 +318,15 @@
   <ItemGroup>
     <FxCompile Include="VS_Model.hlsl">
       <Filter>リソース ファイル\VertexShader</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Binarization.hlsl">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Shadow.hlsl">
+      <Filter>リソース ファイル\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Sprite.hlsl">
+      <Filter>リソース ファイル\PixelShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

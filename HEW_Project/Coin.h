@@ -4,6 +4,7 @@
 
 #include "Texture.h"
 #include "Collision.h"
+#include "Shader.h"
 
 class Coin
 {
@@ -33,6 +34,8 @@ private:
 
 	DirectX::XMFLOAT3 m_CoinPos;							// コインの現在の位置
 	DirectX::XMFLOAT3 m_CoinSize;							//コインの大きさ
+
+	PixelShader* m_pPS;
 };
 
 

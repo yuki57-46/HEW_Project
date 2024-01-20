@@ -4,6 +4,7 @@
 
 #include "Texture.h"
 #include "Collision.h"
+#include "Shader.h"
 
 class Goal
 {
@@ -31,6 +32,8 @@ private:
 	
 	DirectX::XMFLOAT3 m_GoalPos;							// ゴールの現在の位置
 	DirectX::XMFLOAT3 m_GoalSize;							//ゴールの大きさ
+
+	PixelShader* m_pPS;
 };
 
 #endif

@@ -71,11 +71,13 @@ SceneGame::SceneGame()
 #endif
 
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // サウンドファイルの読み込み
+	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav", true); // サウンドファイルの読み込み
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	//m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
+	m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
+
+
 }
 
 SceneGame::~SceneGame()
@@ -89,7 +91,7 @@ SceneGame::~SceneGame()
 #endif
 	if (m_pScreen)
 	{
-		delete[] m_pScreen;
+		delete m_pScreen;
 		m_pScreen = nullptr;
 	}
 	if (m_pCurtainUI)
@@ -157,7 +159,7 @@ SceneGame::~SceneGame()
 		delete m_pBackShadow;
 		m_pBackShadow = nullptr;
 	}
-	//m_pSourceVoice->Stop();
+	m_pSourceVoice->Stop();
 }
 #include "Input.h"
 
@@ -171,6 +173,8 @@ void SceneGame::Update(float tick)
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	m_pCamera[CAM_OBJ]->Update();
+
+	
 
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);

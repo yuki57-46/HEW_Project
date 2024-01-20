@@ -1,11 +1,11 @@
-struct VS_IN {		//CPU‚©‚ç“n‚³‚ê‚Ä‚­‚é’¸“_ƒf[ƒ^
+struct VS_IN {		//CPUã‹ã‚‰æ¸¡ã•ã‚Œã¦ãã‚‹é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 	float3 pos : POSITION;
 	float3 normal : NORMAL;
 	float2 uv : TEXCOORD;
 	float4 color : COLOR;
 };
 
-struct VS_OUT {		//’¸“_ƒVƒF[ƒ_[‚©‚çƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚É“n‚·ƒf[ƒ^
+struct VS_OUT {		//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã«æ¸¡ã™ãƒ‡ãƒ¼ã‚¿
 	float4 pos : SV_POSITION;
 	float3 normal : NORMAL0;
 	float2 uv : TEXCOORD0;
@@ -13,24 +13,20 @@ struct VS_OUT {		//’¸“_ƒVƒF[ƒ_[‚©‚çƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚É“n‚·ƒf[ƒ^
 };
 
 cbuffer WVP : register(b0) {
-	float4x4 world;		//ƒ[ƒ‹ƒh•ÏŠ·s—ñ
-	float4x4 view;		//ƒrƒ…[•ÏŠ·s—ñ
-	float4x4 proj;		//ƒvƒƒWƒFƒNƒVƒ‡ƒ“•ÏŠ·s—ñ
+	float4x4 world;		//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
+	float4x4 view;		//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
+	float4x4 proj;		//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³å¤‰æ›è¡Œåˆ—
 };
 
 VS_OUT main(VS_IN vin) {
 	VS_OUT vout;
 	vout.pos = float4(vin.pos, 1.0f);
-	vout.pos = mul(vout.pos, world);	//ƒ[ƒJƒ‹À•W‚©‚çƒ[ƒ‹ƒhÀ•W‚Ö•ÏŠ·
-	vout.pos = mul(vout.pos, view);		//ƒ[ƒ‹ƒhÀ•W‚©‚çƒrƒ…[À•W‚Ö•ÏŠ·
-	vout.pos = mul(vout.pos, proj);		//ƒrƒ…[À•W‚©‚çƒvƒƒWƒFƒNƒVƒ‡ƒ“À•W‚Ö•ÏŠ·
-	//‚»‚Ì‚Ù‚©‚Ì’l“n‚µ
+	vout.pos = mul(vout.pos, world);	//ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™ã‹ã‚‰ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã¸å¤‰æ›
+	vout.pos = mul(vout.pos, view);		//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‹ã‚‰ãƒ“ãƒ¥ãƒ¼åº§æ¨™ã¸å¤‰æ›
+	vout.pos = mul(vout.pos, proj);		//ãƒ“ãƒ¥ãƒ¼åº§æ¨™ã‹ã‚‰ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³åº§æ¨™ã¸å¤‰æ›
+	//ãã®ã»ã‹ã®å€¤æ¸¡ã—
 	vout.normal = mul(vin.normal, (float3x3)world);
 	vout.uv = vin.uv;
 	vout.color = vin.color;
 	return vout;
 }
-//float4 main( float4 pos : POSITION ) : SV_POSITION
-//{
-//	return pos;
-//}

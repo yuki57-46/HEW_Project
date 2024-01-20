@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 // Player.h
 #include "Model.h"
 #include "Collision.h"
@@ -48,9 +48,10 @@ public:
 private:
 	Model* m_pModel;
 	VertexShader* m_pVS;
+	PixelShader* m_pPS;
 
-	Model::AnimeNo m_anime_Levitation;	// •q—p‚Ì•‚—V
-	Model::AnimeNo m_anime_possession;	// œßˆË‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+	Model::AnimeNo m_anime_Levitation;	// é»’å­ç”¨ã®æµ®éŠ
+	Model::AnimeNo m_anime_possession;	// æ†‘ä¾æ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
   
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_oldPos;
@@ -61,8 +62,8 @@ private:
 	bool IsUse;
 	bool ok;
 
-	IXAudio2SourceVoice* m_pSVSEPly; // ƒTƒEƒ“ƒhƒ\[ƒX
-	XAUDIO2_BUFFER* m_pSDSEPly; // ƒTƒEƒ“ƒhƒoƒbƒtƒ@
+	IXAudio2SourceVoice* m_pSVSEPly; // ã‚µã‚¦ãƒ³ãƒ‰ã‚½ãƒ¼ã‚¹
+	XAUDIO2_BUFFER* m_pSDSEPly; // ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡
 
 };
 

@@ -159,60 +159,60 @@ void Object::Update()
 		{
 			m_pos.z -= moveSpeed;
 
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
 		else if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.1f)
 			{
-				//if (elapsedTime >= soundInterval)
-				//{
-				//	m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				//	// 最後のサウンド再生時間を更新
-				//	lastSoundPlayTime = currentTime;
-				//}
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
 			}
 			xz = true;
 		}
