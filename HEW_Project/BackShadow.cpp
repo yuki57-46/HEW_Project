@@ -1,4 +1,4 @@
-#include "BackShadow.h"
+﻿#include "BackShadow.h"
 #include "Sprite.h"
 #include "Geometory.h"
 
@@ -347,7 +347,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	mat[1] = m_pCamera->GetShadowViewMatrix();
 	mat[2] = m_pCamera->GetShadowProjectionMatrix();
 
-	
+	SetSamplerState(SAMPLER_POINT);
 	//スプライトの設定
 	Sprite::SetPixelShader(m_pPS[1]);
 	Sprite::SetWorld(mat[0]);
