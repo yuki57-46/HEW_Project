@@ -21,7 +21,7 @@ Lever::Lever()
 	m_pLeverModel = new Model;
 
 
-	if (!m_pLeverModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip)) {
+	if (!m_pLeverModel->Load("Assets/lever/LeverM.fbx", Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー‗レバー", "Error", MB_OK);
 	}
 	m_pLeverVS = new VertexShader();
