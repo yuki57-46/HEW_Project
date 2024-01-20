@@ -178,18 +178,19 @@ void Lever::Create(float posX, float posY, float posZ, float scaleX, float scale
 
 
 
-//ブロック同士がぶつかった時に返す
 
-
-
-void Lever::Modelchg()
+void Lever::ModelchgUp()
 {
 	if (m_pLeverModel->Load("Assets/Model/test_model/test_block.fbx", Model::Flip::XFlip));
 }
 
-void Lever::Modelchg2()
+void Lever::ModelchgDown()
 {
 	if (m_pLeverModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip));
 }
 
 
+void Lever::ModelchgNormal()
+{
+	if (m_pLeverModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip));
+}
