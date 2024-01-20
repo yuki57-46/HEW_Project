@@ -1,4 +1,4 @@
-#include "BackShadow.h"
+﻿#include "BackShadow.h"
 #include "Sprite.h"
 #include "Geometory.h"
 
@@ -204,6 +204,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		//X軸をレンダーのウィンドウ座標に合わせて変換
 		m_SPposY = ((m_SPpos.y - 3.0f) / 6.0f) * (-1);		//Y軸をレンダーのウィンドウ座標に合わせて変換
 
+		//キャスト用
+		m_castPosX = static_cast<int>(m_SPposX * width);
+		m_castPosY = static_cast<int>(m_SPposY * height);
+
 		//ゴール
 		if (Goal->IsGoal == false)
 		{
@@ -250,10 +254,6 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_castCsizeX = static_cast<int>(m_Csize.x / 2.0f);
 		m_castCsizeY = static_cast<int>(m_Csize.y / 2.0f);
 
-		//キャスト用
-		m_castPosX = static_cast<int>(m_SPposX * width);
-		m_castPosY = static_cast<int>(m_SPposY * height);
-
 		//プレイヤーの位置とスクリーン左上の座標の差分を、スクリーンの横幅で割ると配列のインデックスが求められる
 		//影のプレイヤーはレンダーにのみ表示している->レンダー幅が影プレイヤーのウィンドウ幅
 		//ただし、今回のプレイヤーの位置とスクリーン左上の座標の差分はないためそのままで、かつ、元の値を0～1にしているため掛け算を使用
@@ -286,11 +286,11 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 					{
 						if (m_LRcheck == false)
 						{
-							m_alpha = pData[(m_indexY - j) * width + m_indexX + 7 + i].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
+							m_alpha = pData[(m_indexY - j) * width + m_indexX + 10 + i].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
 						}
 						else
 						{
-							m_alpha = pData[(m_indexY - j) * width + m_indexX - 7 - i].a;	//(プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+							m_alpha = pData[(m_indexY - j) * width + m_indexX - 10 - i].a;	//(プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 						}
 
 						if (m_alpha > 200)
@@ -318,8 +318,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 				}
 				else
 				{
-					m_alpha = pData[(m_indexY - 20) * width + m_indexX - 10].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
-					m_alpha2 = pData[(m_indexY - 1) * width + m_indexX - 10].a;
+					m_alpha = pData[(m_indexY - 50) * width + m_indexX - 10].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
+					m_alpha2 = pData[(m_indexY - 10) * width + m_indexX - 10].a;
 					//コイン
 					CoinCollection(Coin1, Coin2, Coin3, m_alpha, m_alpha2);
 				}
@@ -451,66 +451,56 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegA
 	// 影の座標
 	int shadowPosX = m_castPosX;
 	int shadowPosY = m_castPosY;
+	int shadowSizeX = 10;
+	int shadowSizeY = 50;
 
 	if (BodyAlpha > 240)
 	{
 		int a = 0;
 	}
 
-	//if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX &&
-	//	m_cast1CposX - m_castCsizeX / 2 < shadowPosX &&
-	//	m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&
-	//	m_cast1CposY - m_castCsizeY / 2 < shadowPosY)
-	//{
-	//	// 影とコインが重なったらコインを取得する
-	//	Coin1->SetCollect(true);
-	//}
-
-	//if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX &&
-	//	m_cast2CposX - m_castCsizeX / 2 < shadowPosX &&
-	//	m_cast2CposY + m_castCsizeY / 2 > shadowPosY &&
-	//	m_cast2CposY - m_castCsizeY / 2 < shadowPosY)
-	//{
-	//	// 影とコインが重なったらコインを取得する
-	//	Coin2->SetCollect(true);
-	//}
-
-	//if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX &&
-	//	m_cast3CposX - m_castCsizeX / 2 < shadowPosX &&
-	//	m_cast3CposY + m_castCsizeY / 2 > shadowPosY &&
-	//	m_cast3CposY - m_castCsizeY / 2 < shadowPosY)
-	//{
-	//	// 影とコインが重なったらコインを取得する
-	//	Coin3->SetCollect(true);
-	//}
-	if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX &&
-		m_cast1CposX - m_castCsizeX / 2 < shadowPosX &&
-		m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&
-		m_cast1CposY - m_castCsizeY / 2 < shadowPosY)
+	if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX + shadowSizeX &&		// コインの右側
+		m_cast1CposX - m_castCsizeX / 2 < shadowPosX - shadowSizeX &&		// コインの左側
+		m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&		// コインの下側
+		m_cast1CposY - m_castCsizeY / 2 < shadowPosY - shadowSizeY)		// コインの上側
 	{
 		// 影とコインが重なったらコインを取得する
-		Coin1->SetCollect(true);
-		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		if (RegAlpha > 240 || BodyAlpha > 240)
+		{
+			Coin1->SetCollect(true);
+			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		}
 	}
 
-	if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX &&
-		m_cast2CposX - m_castCsizeX / 2 < shadowPosX &&
+	if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX + shadowSizeX &&
+		m_cast2CposX - m_castCsizeX / 2 < shadowPosX - shadowSizeX &&
 		m_cast2CposY + m_castCsizeY / 2 > shadowPosY &&
-		m_cast2CposY - m_castCsizeY / 2 < shadowPosY)
+		m_cast2CposY - m_castCsizeY / 2 < shadowPosY - shadowSizeY)
 	{
 		// 影とコインが重なったらコインを取得する
-		Coin2->SetCollect(true);
-		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		if (RegAlpha > 240 || BodyAlpha > 240)
+		{
+			Coin2->SetCollect(true);
+			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		}
 	}
 
-	if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX &&
-		m_cast3CposX - m_castCsizeX / 2 < shadowPosX &&
+	if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX + shadowSizeX &&
+		m_cast3CposX - m_castCsizeX / 2 < shadowPosX - shadowSizeX &&
 		m_cast3CposY + m_castCsizeY / 2 > shadowPosY &&
-		m_cast3CposY - m_castCsizeY / 2 < shadowPosY)
+		m_cast3CposY - m_castCsizeY / 2 < shadowPosY - shadowSizeY)
 	{
 		// 影とコインが重なったらコインを取得する
-		Coin3->SetCollect(true);
-		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		if (RegAlpha > 240 || BodyAlpha > 240)
+		{
+			Coin3->SetCollect(true);
+			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		}
+	}
+
+	if (RegAlpha > 240)
+	{
+		int a = 0;
 	}
 }
 
