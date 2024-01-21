@@ -21,7 +21,7 @@
 std::chrono::steady_clock::time_point lastSoundPlayTime;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
 
-int frame = 25;
+int frame = 40;
 
 
 Object::Object()
@@ -238,7 +238,7 @@ void Object::Update()
 				frame -= moveSpeed * 0.01;
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
-				m_pos.y += frame * 0.003f;
+				m_pos.y += frame * 0.001f;
 
 				if (m_pos.y > 2.5f)
 				{
@@ -252,7 +252,7 @@ void Object::Update()
 			}
 			if (m_pos.y <= 0.0f)
 			{
-				frame = 25;
+				frame = 40;
 			}
 
 		}
@@ -276,9 +276,9 @@ void Object::Update()
 		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 
 
-		if (m_pos.x >= 4.0f || m_pos.x <= -4.0f
-			|| m_pos.z >= 3.35f || m_pos.z <= 0.0f
-			|| m_pos.y >= 4.0f)
+		if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
+			|| m_pos.z >= 7.0f || m_pos.z <= -5.0f
+			|| m_pos.y >= 7.0f)
 		{
 
 			OBJPos();
@@ -577,7 +577,7 @@ void Object::SetColgravityfalse()
 
 void Object::framepls()
 {
-	frame=25;
+	frame=40;
 }
 
 void Object::SetSlope()

@@ -18,7 +18,7 @@ Yuka::Yuka()
 {
 	m_pNoEntryModel = new Model;
 
-	if (!m_pNoEntryModel->Load("Assets/Stage/StageFloor.fbx", 0.5f, Model::Flip::XFlip)) {
+	if (!m_pNoEntryModel->Load("Assets/Stage/StageFloor.fbx", 0.1f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー_床", "Error", MB_OK);
 	}
 	m_pNoEntryVS = new VertexShader();

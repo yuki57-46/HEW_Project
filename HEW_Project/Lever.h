@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Model.h"
 #include "Shader.h"
 #include"Soundtest.h"
@@ -34,8 +34,11 @@ public:
 
 	void OBJPos();
 	void OBJPosy();
-	void Modelchg();
-	void Modelchg2();
+
+	void ModelchgUp();
+	void ModelchgDown();
+
+	void ModelchgNormal();
 
 	void Set1();
 

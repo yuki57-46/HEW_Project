@@ -176,7 +176,9 @@
     <ClCompile Include="BackShadow.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="CameraBase.cpp" />
-    <ClCompile Include="CameraDebug.cpp" />
+    <ClCompile Include="CameraDebug.cpp">
+      <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</MultiProcessorCompilation>
+    </ClCompile>
     <ClCompile Include="CameraObject.cpp" />
     <ClCompile Include="CameraShadow.cpp" />
     <ClCompile Include="Coin.cpp" />

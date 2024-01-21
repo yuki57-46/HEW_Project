@@ -9,7 +9,7 @@ CameraShadow::CameraShadow()
 {
 	m_look.x = 0.0f;
 	m_look.y = 0.0f;
-	m_look.z = 0.0f;
+	m_look.z = 2.0f;
 
 	m_pos.x = 0.0f;
 	m_pos.y = 0.0f;

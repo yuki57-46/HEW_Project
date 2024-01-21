@@ -2,10 +2,10 @@
 #include "Sprite.h"
 #include "Geometory.h"
 
-#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	//3D空間上のレンダーの表示サイズX
+#define RTV_3D_SIZE_WIDTH	(1400.0f / 1.5f)	//3D空間上のレンダーの表示サイズX
 #define RTV_3D_SIZE_HEIGHT	(-800.0f / 1.5f)	//3D空間上のレンダーの表示サイズY
 #define RTV_3D_POS_WIDTH	(640.0f)			//3D空間上のレンダー表示の原点X
-#define RTV_3D_POS_HEIGHT	(330.0f)			//3D空間上のレンダー表示の原点Y
+#define RTV_3D_POS_HEIGHT	(430.0f)			//3D空間上のレンダー表示の原点Y
 
 int testw = 10;
 int testh = 10;
