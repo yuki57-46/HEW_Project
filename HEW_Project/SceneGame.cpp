@@ -3,7 +3,7 @@
 #include <DirectXMath.h>
 
 SceneGame::SceneGame()
-:  m_pSound(nullptr)
+	:  m_pSound(nullptr)
 	,  m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
 	, m_pCamera{ nullptr, nullptr,nullptr }
@@ -11,7 +11,7 @@ SceneGame::SceneGame()
 	, m_pRTV(nullptr)
 	, m_pDSV(nullptr)
 	, m_pUI(nullptr)
-	,  m_pCurtainUI(nullptr)
+	, m_pCurtainUI(nullptr)
 , m_pScreen(nullptr)
 {
 

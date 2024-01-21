@@ -3,14 +3,14 @@
 #define __SCENE_MANAGER_H__
 
 // インクルード部
-#include "SceneGame.h"
-#include "SceneTutorial.h"
-#include "SceneResult.h"
+//#include "SceneGame.h"
+//#include "SceneTutorial.h"
+//#include "SceneResult.h"
 
 // クラス定義
-//class SceneGame;
-//class SceneTutorial;
-//class SceneResult;
+class SceneGame;
+class SceneTutorial;
+class SceneResult;
 
 
 class SceneManager
@@ -37,8 +37,8 @@ public:
 	void Draw();
 
 	void ChangeScene(SCENE next);	// シーンの切り替え
-	void EndGame();			// ゲームの終了
-	bool IsEndGame();			// ゲームが続いているか
+	void EndGame();					// ゲームの終了
+	bool IsEndGame();				// ゲームが続いているか
 
 private:
 	bool m_IsEndGame;	// 終了判定

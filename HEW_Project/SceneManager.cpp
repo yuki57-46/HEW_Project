@@ -1,5 +1,8 @@
 ﻿// インクルード部
 #include "SceneManager.hpp"
+#include "SceneGame.h"
+#include "SceneTutorial.h"
+#include "SceneResult.h"
 
 SceneManager::SceneManager()
 	: m_NowScene(SCENE_START)
@@ -9,7 +12,7 @@ SceneManager::SceneManager()
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
-		m_pSceneTutorial = new SceneTutorial();
+		m_pSceneTutorial = new SceneTutorial(this);
 
 		break;
 
@@ -55,7 +58,7 @@ void SceneManager::Update(float tick)
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
-		m_pSceneTutorial->Update(tick);
+		m_pSceneTutorial->Update();
 
 		break;
 
@@ -123,7 +126,7 @@ void SceneManager::ChangeScene(SCENE next)
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
-		m_pSceneTutorial = new SceneTutorial();
+		m_pSceneTutorial = new SceneTutorial(this);
 
 		break;
 

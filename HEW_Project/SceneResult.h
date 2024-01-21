@@ -19,13 +19,13 @@
 #include"CoinCntUI.h"
 #include"ItemUI.h"
 
-enum CameraKind
-{
-	CAM_OBJ,	//
-	CAM_SHADOW,	//レンダー用カメラ
-	CAM_DEBUG,	//でバック用のカメラ
-	MAX_CAMERA	//カメラ最大数
-};
+//enum CameraKind
+//{
+//	CAM_OBJ,	//
+//	CAM_SHADOW,	//レンダー用カメラ
+//	CAM_DEBUG,	//でバック用のカメラ
+//	MAX_CAMERA	//カメラ最大数
+//};
 
 
 class SceneResult
