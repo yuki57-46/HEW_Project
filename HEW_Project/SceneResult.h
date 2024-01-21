@@ -19,13 +19,13 @@
 #include"CoinCntUI.h"
 #include"ItemUI.h"
 
-//enum CameraKind
-//{
-//	CAM_OBJ,	//
-//	CAM_SHADOW,	//レンダー用カメラ
-//	CAM_DEBUG,	//でバック用のカメラ
-//	MAX_CAMERA	//カメラ最大数
-//};
+enum class CameraKindResult
+{
+	CAM_OBJ,	//
+	CAM_SHADOW,	//レンダー用カメラ
+	CAM_DEBUG,	//でバック用のカメラ
+	MAX_CAMERA	//カメラ最大数
+};
 
 
 class SceneResult
@@ -45,8 +45,8 @@ private:
 
 	ObjectCamera* m_pobjcamera;
 
-	CameraKind		m_mainCamera;
-	CameraBase*		m_pCamera[MAX_CAMERA];
+	CameraKindResult m_mainCamera;
+	CameraBase*		m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
 
 	BackShadow* m_pBackShadow;
 

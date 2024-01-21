@@ -7,6 +7,10 @@
 SceneManager::SceneManager()
 	: m_NowScene(SCENE_START)
 	, m_IsEndGame(false)
+	, m_pSceneGame(nullptr)
+	, m_pSceneTutorial(nullptr)
+	, m_pSceneResult(nullptr)
+	, m_NextScene(SCENE_START)
 {
 	// メモリ確保
 	switch (m_NowScene)
@@ -58,7 +62,7 @@ void SceneManager::Update(float tick)
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
-		m_pSceneTutorial->Update();
+		m_pSceneTutorial->Update(tick);
 
 		break;
 

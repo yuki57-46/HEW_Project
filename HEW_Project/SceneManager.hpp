@@ -1,16 +1,15 @@
-﻿#pragma once
-#ifndef __SCENE_MANAGER_H__
+﻿#ifndef __SCENE_MANAGER_H__
 #define __SCENE_MANAGER_H__
 
 // インクルード部
-//#include "SceneGame.h"
-//#include "SceneTutorial.h"
-//#include "SceneResult.h"
+#include "SceneGame.h"
+#include "SceneTutorial.h"
+#include "SceneResult.h"
 
 // クラス定義
-class SceneGame;
-class SceneTutorial;
-class SceneResult;
+//class SceneGame;
+//class SceneTutorial;
+//class SceneResult;
 
 
 class SceneManager
