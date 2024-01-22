@@ -21,6 +21,10 @@
 #include "Goal.h"
 #include "Curtain.h"
 
+#include "SceneManager.hpp"
+
+class SceneManager;
+
 enum CameraKind
 {
 	CAM_OBJ,	//
@@ -33,13 +37,12 @@ enum CameraKind
 class SceneGame
 {
 public:
-	SceneGame();
+	SceneGame(SceneManager* pSceneManager);
 	~SceneGame();
 	void Update(float tick);
 	void Draw();
 
 private:
-
 	Screen* m_pScreen;
 
 	ObjectMng* m_pObjectMng;
@@ -67,6 +70,8 @@ private:
 	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
 	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
 	//Sound m_Sound;
+
+	SceneManager* m_pSceneManager;
 };
 
 #endif // __SCENE_GAME_H__

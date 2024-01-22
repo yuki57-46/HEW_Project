@@ -7,9 +7,9 @@
 #include "SceneResult.h"
 
 // クラス定義
-//class SceneGame;
-//class SceneTutorial;
-//class SceneResult;
+class SceneGame;
+class SceneTutorial;
+class SceneResult;
 
 
 class SceneManager
@@ -25,7 +25,7 @@ public:
 
 		SCENE_MAX,			// シーンの数
 
-		SCENE_START = SCENE_TITLE	// 最初に出すシーンの画面
+		SCENE_START = SCENE_GAME	// 最初に出すシーンの画面
 	};
 
 public:

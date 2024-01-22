@@ -6,7 +6,6 @@
 
 #define FILENAME "Assets/Texture/Title.png"
 
-
 SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	: m_pTexture(nullptr)
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定

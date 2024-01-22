@@ -10,9 +10,11 @@
 #include "Gamepad.h"
 #include "LibEffekseer.h"
 #include "ShaderList.h"
+#include "SceneManager.hpp"
 
 //--- グローバル変数
 SceneGame* g_pGame;
+SceneManager* g_pSceneManager;
 
 //Sound* g_Sound;
 
@@ -34,7 +36,8 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 
 	InitSound();
 	// シーン作成
-	g_pGame = new SceneGame();
+	//g_pGame = new SceneGame();
+	g_pSceneManager = new SceneManager();
 
 	// ジオメトリ用カメラ初期化
 	DirectX::XMFLOAT4X4 mat[2];

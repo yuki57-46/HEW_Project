@@ -2,7 +2,7 @@
 #include "Geometory.h"
 #include <DirectXMath.h>
 
-SceneGame::SceneGame()
+SceneGame::SceneGame(SceneManager* pSceneManager)
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
@@ -13,12 +13,12 @@ SceneGame::SceneGame()
 	, m_pUI(nullptr)
 	, m_pCurtainUI(nullptr)
 	, m_pScreen(nullptr)
+	, m_pSceneManager(pSceneManager)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
 	//DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
 	//SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
-
 
 	//深度バッファ、レンダーターゲットの設定
 	m_pRTV = GetDefaultRTV();	//デフォルトで使用しているRender Target Viewの取得
