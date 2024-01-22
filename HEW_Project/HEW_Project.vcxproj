@@ -200,6 +200,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Select.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderList.cpp" />
     <ClCompile Include="ShadowP.cpp" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Startup.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="yuka.cpp" />
     <ClCompile Include="_geometory.cpp" />
     <ClCompile Include="_model.cpp" />
@@ -245,12 +247,14 @@
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Select.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderList.h" />
     <ClInclude Include="ShadowP.h" />
     <ClInclude Include="Soundtest.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="yuka.h" />
   </ItemGroup>
   <ItemGroup>
