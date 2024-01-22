@@ -78,6 +78,7 @@ void Goal::Draw(float x, float y, float z, float sizeX, float sizeY)
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(sizeX, -sizeY));
 	Sprite::SetTexture(m_pGoalTexture);
 	Sprite::Draw();

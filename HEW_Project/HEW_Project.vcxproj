@@ -187,6 +187,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Curtain.cpp" />
     <ClCompile Include="DirectX.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Goal.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="BackShadow.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="CoinCntUI.h" />
+    <ClInclude Include="Fade.hpp" />
     <ClInclude Include="Curtain.h" />
     <ClInclude Include="Goal.h" />
     <ClInclude Include="ItemUI.h" />

@@ -2,6 +2,8 @@
 #include "Geometory.h"
 #include <DirectXMath.h>
 
+#define FADE_TEST 1
+
 SceneGame::SceneGame()
 	:  m_pSound(nullptr)
 	,  m_pSourceVoice(nullptr)
@@ -13,6 +15,12 @@ SceneGame::SceneGame()
 	, m_pUI(nullptr)
 	, m_pCurtainUI(nullptr)
 , m_pScreen(nullptr)
+, m_pCoinCntUI(nullptr)
+, m_pCoin(nullptr)
+, m_pGoal(nullptr)
+, m_pBackShadow(nullptr)
+, m_pObjectMng(nullptr)
+, m_pFade(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -58,6 +66,10 @@ SceneGame::SceneGame()
 	m_pObjectMng = new ObjectMng();
 	//m_pDCamera = new CameraDebug();
 
+#if FADE_TEST
+	m_pFade = new Fade(m_pCurtainUI);
+#endif
+
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
 	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav", true); // サウンドファイルの読み込み
 
@@ -70,6 +82,13 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
+#if FADE_TEST
+	if (m_pFade)
+	{
+		delete m_pFade;
+		m_pFade = nullptr;
+	}
+#endif
 	if (m_pScreen)
 	{
 		delete m_pScreen;
@@ -142,6 +161,7 @@ SceneGame::~SceneGame()
 	}
 	m_pSourceVoice->Stop();
 }
+#include "Input.h"
 
 void SceneGame::Update(float tick)
 {
@@ -163,6 +183,14 @@ void SceneGame::Update(float tick)
 	m_pCoinCntUI->Update();
 	m_pCurtainUI->Update();
 
+#if FADE_TEST
+	m_pFade->Update();
+	if (IsKeyTrigger('O'))
+		m_pFade->Start(true, 1.0f);// フェードイン
+	if (IsKeyTrigger('P'))
+		m_pFade->Start(false, 1.0f);// フェードアウト
+#endif
+
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
 	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
 	DirectX::XMMATRIX mat = S * T;
@@ -182,8 +210,8 @@ void SceneGame::Draw()
 	DirectX::XMFLOAT4X4 mat[3];
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
-	//背景
 
+	//背景
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2], m_pGoal);
 
@@ -243,7 +271,6 @@ void SceneGame::Draw()
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
 
-
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
 
@@ -270,6 +297,13 @@ void SceneGame::Draw()
 	{
 		m_pCoinCntUI->GoalDraw();
 	}
+
+
+#if FADE_TEST
+	m_pFade->Draw();
+#endif // FADE_TEST
+	m_pCurtainUI->StageCurtainDraw();
+
 
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
