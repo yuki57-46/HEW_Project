@@ -3,8 +3,8 @@
 #include <DirectXMath.h>
 
 SceneGame::SceneGame()
-	:  m_pSound(nullptr)
-	,  m_pSourceVoice(nullptr)
+	: m_pSound(nullptr)
+	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
 	, m_pCamera{ nullptr, nullptr,nullptr }
 	, m_pobjcamera(nullptr)
@@ -12,7 +12,7 @@ SceneGame::SceneGame()
 	, m_pDSV(nullptr)
 	, m_pUI(nullptr)
 	, m_pCurtainUI(nullptr)
-, m_pScreen(nullptr)
+	, m_pScreen(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
