@@ -55,6 +55,12 @@
     <Filter Include="ヘッダー ファイル\UI">
       <UniqueIdentifier>{5e366096-b712-4958-8683-393e15dd78b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\SceneChange">
+      <UniqueIdentifier>{6469e79d-1332-4e58-9587-1d8cd2ba6999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\SceneChange">
+      <UniqueIdentifier>{592b75bc-314d-45dd-ba51-be6d9476ec85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -198,8 +204,20 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
-    <ClCompile Include="Fade.cpp">
+	  <ClCompile Include="Fade.cpp">
+		  <Filter>ソース ファイル</Filter>
+	  </ClCompile>
+    <ClCompile Include="Curtain.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="Select.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,8 +353,20 @@
     <ClInclude Include="SceneManager.hpp">
       <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
-    <ClInclude Include="Fade.hpp">
+	  <ClInclude Include="Fade.hpp">
+		  <Filter>ヘッダー ファイル</Filter>
+	  </ClInclude>	
+	<ClInclude Include="Curtain.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.hpp">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="Select.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
