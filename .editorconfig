@@ -18,7 +18,7 @@ indent_size = 4
 [*.{cpp,h,hpp}]
 indent_style = tab
 
-[*.hlsl]
+[*.{hlsl,hlsli}]
 indent_style = tab
 charset = utf-8
 trim_trailing_whitespace = false

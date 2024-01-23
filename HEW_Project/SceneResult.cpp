@@ -1,26 +1,17 @@
-﻿#include "SceneGame.h"
+﻿#include "SceneResult.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 
-#define FADE_TEST 1
-
-SceneGame::SceneGame()
-	:  m_pSound(nullptr)
-	,  m_pSourceVoice(nullptr)
+SceneResult::SceneResult()
+	: m_pSound(nullptr)
+	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
-	, m_pCamera{ nullptr, nullptr,nullptr }
+//	, m_pCamera{ nullptr, nullptr,nullptr }
 	, m_pobjcamera(nullptr)
 	, m_pRTV(nullptr)
 	, m_pDSV(nullptr)
 	, m_pUI(nullptr)
-	, m_pCurtainUI(nullptr)
-, m_pScreen(nullptr)
-, m_pCoinCntUI(nullptr)
-, m_pCoin(nullptr)
-, m_pGoal(nullptr)
-, m_pBackShadow(nullptr)
-, m_pObjectMng(nullptr)
-, m_pFade(nullptr)
+	, m_pScreen(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -43,12 +34,6 @@ SceneGame::SceneGame()
 	m_pCoinCntUI = new CoinCntUI();
 	m_pCoin = new Coin[3];
 
-	//ゴール
-	m_pGoal = new Goal();
-
-	//カーテン
-	m_pCurtainUI = new CurtainUI();
-
 	//スクリーン
 	m_pScreen = new Screen();
 
@@ -56,53 +41,31 @@ SceneGame::SceneGame()
 	{
 		MessageBox(nullptr, "VS_Model.cso", "ERROR", MB_OK);
 	}
+	
 
-	m_pCamera[CAM_OBJ] = new CameraObject(m_pobjcamera);
-	m_pCamera[CAM_DEBUG] = new CameraDebug();
-	m_pCamera[CAM_SHADOW] = new CameraShadow();
+	m_pCamera[CameraKind::CAM_OBJ] = new CameraObject(m_pobjcamera);
+	m_pCamera[CameraKind::CAM_DEBUG] = new CameraDebug();
+	m_pCamera[CameraKind::CAM_SHADOW] = new CameraShadow();
 
 	m_pBackShadow = new BackShadow;
 
 	m_pObjectMng = new ObjectMng();
 	//m_pDCamera = new CameraDebug();
 
-#if FADE_TEST
-	m_pFade = new Fade(m_pCurtainUI);
-#endif
-
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav", true); // サウンドファイルの読み込み
+	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // サウンドファイルの読み込み
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
-
-
+	//m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
 }
 
-SceneGame::~SceneGame()
+SceneResult::~SceneResult()
 {
-#if FADE_TEST
-	if (m_pFade)
-	{
-		delete m_pFade;
-		m_pFade = nullptr;
-	}
-#endif
 	if (m_pScreen)
 	{
-		delete m_pScreen;
+		delete[] m_pScreen;
 		m_pScreen = nullptr;
-	}
-	if (m_pCurtainUI)
-	{
-		delete m_pCurtainUI;
-		m_pCurtainUI = nullptr;
-	}
-	if (m_pGoal)
-	{
-		delete m_pGoal;
-		m_pGoal = nullptr;
 	}
 	if (m_pCoin)
 	{
@@ -159,11 +122,10 @@ SceneGame::~SceneGame()
 		delete m_pBackShadow;
 		m_pBackShadow = nullptr;
 	}
-	m_pSourceVoice->Stop();
+	//m_pSourceVoice->Stop();
 }
-#include "Input.h"
 
-void SceneGame::Update(float tick)
+void SceneResult::Update(float tick)
 {
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
@@ -174,22 +136,11 @@ void SceneGame::Update(float tick)
 
 	m_pCamera[CAM_OBJ]->Update();
 
-	
-
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
 	m_pObjectMng->Update(tick);
 	//m_pObject2D->Update();
 	m_pCoinCntUI->Update();
-	m_pCurtainUI->Update();
-
-#if FADE_TEST
-	m_pFade->Update();
-	if (IsKeyTrigger('O'))
-		m_pFade->Start(true, 1.0f);// フェードイン
-	if (IsKeyTrigger('P'))
-		m_pFade->Start(false, 1.0f);// フェードアウト
-#endif
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
 	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
@@ -200,7 +151,7 @@ void SceneGame::Update(float tick)
 	Geometory::SetWorld(fMat);
 }
 
-void SceneGame::Draw()
+void SceneResult::Draw()
 {
 
 	m_pDSV->Clear();
@@ -210,14 +161,10 @@ void SceneGame::Draw()
 	DirectX::XMFLOAT4X4 mat[3];
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
-
 	//背景
 	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
-	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2], m_pGoal);
+//	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2]);
 
-	//カーテン表示
-	m_pCurtainUI->LeftDraw();
-	m_pCurtainUI->RightDraw();
 
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
@@ -243,9 +190,8 @@ void SceneGame::Draw()
 
 	//m_pobjcamera->Draw();
 
-
 	//オブジェクト
-	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
+	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(), true);
 
 
 	//Geometry用の変更行列を計算
@@ -270,42 +216,27 @@ void SceneGame::Draw()
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
-
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
 
 
 	//コインが取得されていたら描画
-	if (m_pCoin[0].IsCoinCollected == true)
-	{
-		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
-	}
 
-	if (m_pCoin[1].IsCoinCollected == true)
-	{
-		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
-	}
+	//if (m_pCoin[0].IsFirstCollected == true)
+	//{
+	//	m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+	//}
 
-	if (m_pCoin[2].IsCoinCollected == true)
-	{
-		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
-	}
+	//if (m_pCoin[1].IsFirstCollected == true)
+	//{
+	//	m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+	//}
 
-	//ゴールしたら表示（仮）
-	//本当は画面遷移
-	if (m_pGoal->IsGoal == true)
-	{
-		m_pCoinCntUI->GoalDraw();
-	}
-
-
-#if FADE_TEST
-	m_pFade->Draw();
-#endif // FADE_TEST
-	m_pCurtainUI->StageCurtainDraw();
-
+	//if (m_pCoin[2].IsFirstCollected == true)
+	//{
+	//	m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+	//}
 
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
 }
-

@@ -4,14 +4,14 @@
 
 //InputManager imanagerOB = InputManager();
 
-DirectX::XMFLOAT3 objectMinBoundNot = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//プレイヤーとの当たり判定用
-DirectX::XMFLOAT3 objectMaxBoundNot = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
+//DirectX::XMFLOAT3 objectMinBoundNot = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//プレイヤーとの当たり判定用
+//DirectX::XMFLOAT3 objectMaxBoundNot = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
 
-DirectX::XMFLOAT3 hobjectMinBoundNot = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//憑依用
-DirectX::XMFLOAT3 hobjectMaxBoundNot = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
+//DirectX::XMFLOAT3 hobjectMinBoundNot = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//憑依用
+//DirectX::XMFLOAT3 hobjectMaxBoundNot = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
 
-DirectX::XMFLOAT3 cobjectMinBoundNot = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ブロック同士用
-DirectX::XMFLOAT3 cobjectMaxBoundNot = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
+//DirectX::XMFLOAT3 cobjectMinBoundNot = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ブロック同士用
+//DirectX::XMFLOAT3 cobjectMaxBoundNot = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
 
 
@@ -41,9 +41,9 @@ ObjectNot::ObjectNot()
 
 
 
-	SetBounds(minBound, maxBound);
-	HSetBounds(hminBound, hmaxBound);
-	CSetBounds(cminBound, cmaxBound);
+//	SetBounds(minBoundNot, maxBoundNot);
+//	HSetBounds(hminBound, hmaxBound);
+//	CSetBounds(cminBoundNot, cmaxBoundNot);
 
 }
 
@@ -126,10 +126,10 @@ void ObjectNot::Update()
 	}
 
 
-	SetBounds(objectMinBoundNot, objectMaxBoundNot);  //最小値と最大値をセット
+//	SetBounds(objectMinBoundNot, objectMaxBoundNot);  //最小値と最大値をセット
 
-	HSetBounds(hobjectMinBoundNot, hobjectMaxBoundNot);//憑依用の当たり判定
-	CSetBounds(cobjectMinBoundNot, cobjectMaxBoundNot);//ブロック同士の当たり判定
+//	HSetBounds(hobjectMinBoundNot, hobjectMaxBoundNot);//憑依用の当たり判定
+//	CSetBounds(cobjectMinBoundNot, cobjectMaxBoundNot);//ブロック同士の当たり判定
 
 
 }
@@ -154,21 +154,21 @@ void ObjectNot::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 }
 
 //
-void ObjectNot::SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
-{
-	minBound = Add(m_pos, min);
-	maxBound = Add(m_pos, max);
-}
-
-DirectX::XMFLOAT3 ObjectNot::GetminBounds()
-{
-	return minBound;
-}
-
-DirectX::XMFLOAT3 ObjectNot::GetmaxBounds()
-{
-	return maxBound;
-}
+//void ObjectNot::SetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
+//{
+//	minBoundNot = Add(m_pos, min);
+//	maxBoundNot = Add(m_pos, max);
+//}
+//
+//DirectX::XMFLOAT3 ObjectNot::GetminBounds()
+//{
+//	return minBoundNot;
+//}
+//
+//DirectX::XMFLOAT3 ObjectNot::GetmaxBounds()
+//{
+//	return maxBoundNot;
+//}
 
 DirectX::XMFLOAT3 ObjectNot::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
@@ -182,49 +182,48 @@ DirectX::XMFLOAT3 ObjectNot::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFL
 
 
 //憑依当たり判定
-void ObjectNot::HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
-{
-	hminBound = HAdd(m_pos, min);
-	hmaxBound = HAdd(m_pos, max);
-}
-
-DirectX::XMFLOAT3 ObjectNot::HGetminBounds()
-{
-	return hminBound;
-}
-
-DirectX::XMFLOAT3 ObjectNot::HGetmaxBounds()
-{
-	return hmaxBound;
-}
-
-DirectX::XMFLOAT3 ObjectNot::HAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
-{
-	DirectX::XMFLOAT3 result;
-	result.x = a.x + b.x;
-	result.y = a.y + b.y;
-	result.z = a.z + b.z;
-	return result;
-}
-//_
+//void ObjectNot::HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
+//{
+//	hminBound = HAdd(m_pos, min);
+//	hmaxBound = HAdd(m_pos, max);
+//}
+//
+//DirectX::XMFLOAT3 ObjectNot::HGetminBounds()
+//{
+//	return hminBound;
+//}
+//
+//DirectX::XMFLOAT3 ObjectNot::HGetmaxBounds()
+//{
+//	return hmaxBound;
+//}
+//
+//DirectX::XMFLOAT3 ObjectNot::HAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
+//{
+//	DirectX::XMFLOAT3 result;
+//	result.x = a.x + b.x;
+//	result.y = a.y + b.y;
+//	result.z = a.z + b.z;
+//	return result;
+//}
 
 
 //ブロック同士
-void ObjectNot::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
-{
-	cminBound = CAdd(m_pos, min);
-	cmaxBound = CAdd(m_pos, max);
-}
-
-DirectX::XMFLOAT3 ObjectNot::CGetminBounds()
-{
-	return cminBound;
-}
-
-DirectX::XMFLOAT3 ObjectNot::CGetmaxBounds()
-{
-	return cmaxBound;
-}
+//void ObjectNot::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
+//{
+//	cminBoundNot = CAdd(m_pos, min);
+//	cmaxBoundNot = CAdd(m_pos, max);
+//}
+//
+//DirectX::XMFLOAT3 ObjectNot::CGetminBounds()
+//{
+//	return cminBound;
+//}
+//
+//DirectX::XMFLOAT3 ObjectNot::CGetmaxBounds()
+//{
+//	return cmaxBound;
+//}
 
 DirectX::XMFLOAT3 ObjectNot::CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
@@ -244,9 +243,6 @@ void ObjectNot::CreateNot(float posX, float posY, float posZ, float scaleX, floa
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
 }
-//
-
-
 
 //憑依判定用
 void ObjectNot::Set()
@@ -264,14 +260,10 @@ bool ObjectNot::SetR()
 	return moveok;
 }
 
-
-
 //ブロック同士がぶつかった時に返す
 
 void ObjectNot::OBJPos()
 {
-
-
 	m_pos = m_oldPos;
 }
 

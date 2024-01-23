@@ -101,7 +101,9 @@ void Coin::Draw(float x, float y, float z, float sizeX, float sizeY, int num)
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	//Sprite::SetOffset({ 0.0f, 0.0f });
 	Sprite::SetSize(DirectX::XMFLOAT2(sizeX, -sizeY));
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 	switch (num)
 	{
