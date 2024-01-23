@@ -1,16 +1,16 @@
-#include "ObjectNot.h"
+ï»¿#include "ObjectNot.h"
 #include "Geometory.h"
 #include "Input.h"
 
 //InputManager imanagerOB = InputManager();
 
-//DirectX::XMFLOAT3 objectMinBoundNot = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è—p
+//DirectX::XMFLOAT3 objectMinBoundNot = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®å½“ãŸã‚Šåˆ¤å®šç”¨
 //DirectX::XMFLOAT3 objectMaxBoundNot = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
 
-//DirectX::XMFLOAT3 hobjectMinBoundNot = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//œßˆË—p
+//DirectX::XMFLOAT3 hobjectMinBoundNot = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//æ†‘ä¾ç”¨
 //DirectX::XMFLOAT3 hobjectMaxBoundNot = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
 
-//DirectX::XMFLOAT3 cobjectMinBoundNot = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ƒuƒƒbƒN“¯m—p
+//DirectX::XMFLOAT3 cobjectMinBoundNot = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ç”¨
 //DirectX::XMFLOAT3 cobjectMaxBoundNot = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
 
@@ -28,7 +28,7 @@ ObjectNot::ObjectNot()
 	m_pObjectModel = new Model;
 
 	if (!m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}
 	m_pObjectVS = new VertexShader();
 	if (FAILED(m_pObjectVS->Load("Assets/Shader/VS_Model.cso")))
@@ -74,11 +74,11 @@ void ObjectNot::Update()
 
 	imanagerOB.inspect();*/
 
-	float moveSpeed = 0.03f; // ˆÚ“®‘¬“x‚Ì’²®
+	float moveSpeed = 0.03f; // ç§»å‹•é€Ÿåº¦ã®èª¿æ•´
 
 	float rotationSpeed = 10.0f;
 
-	//// ¶ƒXƒeƒBƒbƒN‚ÌX²‚ÆY²•ûŒü‚Ì“ü—Í‚ğæ“¾
+	//// å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸ã¨Yè»¸æ–¹å‘ã®å…¥åŠ›ã‚’å–å¾—
 	//float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
 	//float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
 	//float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
@@ -86,20 +86,20 @@ void ObjectNot::Update()
 
 
 
-	// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğŒvZ
+	// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğ³‹K‰»i’·‚³‚ª1‚É‚È‚é‚æ‚¤‚Éj
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ï¼ˆé•·ã•ãŒ1ã«ãªã‚‹ã‚ˆã†ã«ï¼‰
 	//DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
 	//directionVector = DirectX::XMVector3Normalize(directionVector);
 	//DirectX::XMFLOAT3 normalizedDirection;
 	//DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚©‚ç‰ñ“]Šp“x‚ğŒvZ
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰å›è»¢è§’åº¦ã‚’è¨ˆç®—
 	//float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
 	//m_rotationY = rotationAngle;
 
-	//if (moveok == true)//œßˆË
+	//if (moveok == true)//æ†‘ä¾æ™‚
 	//{
 	//	m_pos.x -= moveSpeed * moveDirection.x;
 	//	m_pos.z -= moveSpeed * moveDirection.z;
@@ -126,10 +126,10 @@ void ObjectNot::Update()
 	}
 
 
-//	SetBounds(objectMinBoundNot, objectMaxBoundNot);  //Å¬’l‚ÆÅ‘å’l‚ğƒZƒbƒg
+//	SetBounds(objectMinBoundNot, objectMaxBoundNot);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
 
-//	HSetBounds(hobjectMinBoundNot, hobjectMaxBoundNot);//œßˆË—p‚Ì“–‚½‚è”»’è
-//	CSetBounds(cobjectMinBoundNot, cobjectMaxBoundNot);//ƒuƒƒbƒN“¯m‚Ì“–‚½‚è”»’è
+//	HSetBounds(hobjectMinBoundNot, hobjectMaxBoundNot);//æ†‘ä¾ç”¨ã®å½“ãŸã‚Šåˆ¤å®š
+//	CSetBounds(cobjectMinBoundNot, cobjectMaxBoundNot);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
 
 
 }
@@ -141,14 +141,14 @@ void ObjectNot::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚Ìİ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	mat[1] = viewMatrix; // —^‚¦‚ç‚ê‚½ viewMatrix ‚ğg‚¤
-	mat[2] = projectionMatrix; // —^‚¦‚ç‚ê‚½ projectionMatrix ‚ğg‚¤
+	mat[1] = viewMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ viewMatrix ã‚’ä½¿ã†
+	mat[2] = projectionMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ projectionMatrix ã‚’ä½¿ã†
 
-	m_pObjectVS->WriteBuffer(0, mat);    //”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ğw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ğ“n‚·
+	m_pObjectVS->WriteBuffer(0, mat);    //é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
 	m_pObjectModel->Draw();
 
 }
@@ -181,7 +181,7 @@ DirectX::XMFLOAT3 ObjectNot::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFL
 //_
 
 
-//œßˆË“–‚½‚è”»’è
+//æ†‘ä¾å½“ãŸã‚Šåˆ¤å®š
 //void ObjectNot::HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 //{
 //	hminBound = HAdd(m_pos, min);
@@ -208,7 +208,7 @@ DirectX::XMFLOAT3 ObjectNot::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFL
 //}
 
 
-//ƒuƒƒbƒN“¯m
+//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«
 //void ObjectNot::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 //{
 //	cminBoundNot = CAdd(m_pos, min);
@@ -244,7 +244,7 @@ void ObjectNot::CreateNot(float posX, float posY, float posZ, float scaleX, floa
 	m_scale.z = scaleZ;
 }
 
-//œßˆË”»’è—p
+//æ†‘ä¾åˆ¤å®šç”¨
 void ObjectNot::Set()
 {
 	moveok = true;
@@ -260,7 +260,7 @@ bool ObjectNot::SetR()
 	return moveok;
 }
 
-//ƒuƒƒbƒN“¯m‚ª‚Ô‚Â‚©‚Á‚½‚É•Ô‚·
+//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ãŒã¶ã¤ã‹ã£ãŸæ™‚ã«è¿”ã™
 
 void ObjectNot::OBJPos()
 {
@@ -276,6 +276,7 @@ void ObjectNot::Modelchg()
 
 void ObjectNot::Modelchg2()
 {
-	if (m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip));
+	//if (m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip));
+	if (m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", 0.05f, Model::Flip::XFlip));
 }
 

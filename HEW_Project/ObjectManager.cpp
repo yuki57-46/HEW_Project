@@ -15,7 +15,9 @@ ObjectMng::ObjectMng()
 	, m_num1(0)
 	, m_num2(0)
 	, m_num3(0)
-	,m_num4(0)
+	, m_num4(0)
+	, m_num5(0)
+	, m_num6(0)
 
 {
 	m_pObjectCamera = new CameraDebug();
@@ -25,11 +27,14 @@ ObjectMng::ObjectMng()
 
 	m_pPlayer = new Player();
 
-	//ブロック配置.スケール指定
+	//======各ブロックの配置======
+
+	//ブロック
 	struct Setting
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
+	//ブロック配置.スケール指定
 	Setting data[] = {
 		//==========stage1====================
 		//{2.5f, 0.0f, 0.0f, 0.49f, 1.0f, 0.5f},
@@ -84,8 +89,7 @@ ObjectMng::ObjectMng()
 		);
 	}
 
-
-//リフト
+	//リフト
 	struct Setting1
 	{
 		float x, y, z, scaleX, scaleY, scaleZ,lifth,liftl,lifts;
@@ -189,7 +193,6 @@ ObjectMng::ObjectMng()
 	}
 
 	//床
-
 	struct Setting4
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
@@ -214,6 +217,55 @@ ObjectMng::ObjectMng()
 		);
 	}
 
+	//動かないブロック
+	struct Setting5
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ブロック配置.スケール指定
+	Setting5 data5[] = {
+		{ 0.0f, -0.02f, 2.5f, 1.0f, 1.0f, 1.0f},
+
+	};
+
+	//配列の要素の数から必要なブロック数を計算
+	m_num5 = sizeof(data5) / sizeof(data5[0]);
+
+	//必要な数だけブロックを確保
+	m_pObjectsNot = new ObjectNot[m_num5];
+	//確保したブロックに初期データを設定
+	for (int i = 0; i < m_num5; i++)
+	{
+		m_pObjectsNot[i].CreateNot(
+			data5[i].x, data5[i].y, data5[i].z,
+			data5[i].scaleX, data5[i].scaleY, data5[i].scaleZ
+		);
+	}
+
+	//動くブロック
+	struct Setting6
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ブロック配置.スケール指定
+	Setting6 data6[] = {
+		{ 0.0f, -1.0f, 2.5f, 1.0f, 1.0f, 1.0f},
+
+	};
+
+	//配列の要素の数から必要なブロック数を計算
+	m_num6 = sizeof(data6) / sizeof(data6[0]);
+
+	//必要な数だけブロックを確保
+	m_pObjectsAuto = new ObjectAuto[m_num6];
+	//確保したブロックに初期データを設定
+	for (int i = 0; i < m_num6; i++)
+	{
+		m_pObjectsAuto[i].CreateAuto(
+			data6[i].x, data6[i].y, data6[i].z,
+			data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
+		);
+	}
 
 	// effect
 	m_Effect = LibEffekseer::Create("Assets/effect/BoxSet.efkefc");
@@ -223,6 +275,10 @@ ObjectMng::ObjectMng()
 ObjectMng::~ObjectMng()
 {
 	delete[] m_pObjects;
+
+	delete[] m_pObjectsNot;
+
+	delete[] m_pObjectsAuto;
 
 	delete[] m_pLift_obj;
 
@@ -876,21 +932,31 @@ void ObjectMng::Update(float tick)
 
 	m_pPlayer->Update(tick);
 
+	for (int t = 0; t < m_num6; t++)
+	{// 動くブロック
+		m_pObjectsAuto->Update();
+	}
+
+	for (int n = 0; n < m_num5; n++)
+	{// 動かないブロック
+		m_pObjectsNot->Update();
+	}
+
 	for (int y = 0; y < m_num4; y++)
-	{
+	{// 床
 		m_pYuka[y].Update();
 	}
 
 	for (int b = 0; b < m_num3; b++)
-	{
+	{// ゴール
 		m_pStair[b].Update();
 	}
+
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Update();
 		for (int b = 0; b < m_num3; b++)
 		{
-
 			for (int a = 0; a < m_num1; a++)
 			{
 				//m_pLift_obj[a].Update();
@@ -1874,11 +1940,13 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	LibEffekseer::SetViewPosition(m_pObjectCamera->GetPos());
 	LibEffekseer::SetCameraMatrix(effectmat[0], effectmat[1]);
 
+	// ブロック描画
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Draw(viewMatrix, projectionMatrix);
 
 	}
+	// リフト描画
 	for (int i = 0; i < m_num1; i++)
 	{
 		m_pLift_obj[i].Draw(viewMatrix, projectionMatrix);
@@ -1890,14 +1958,25 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 			m_pLever[i].Draw(viewMatrix, projectionMatrix);
 		}
 	}
-
+	// ゴール描画
 	for (int i = 0; i < m_num3; i++)
 	{
 		m_pStair[i].Draw(viewMatrix, projectionMatrix);
 	}
+	// 床描画
 	for (int i = 0; i < m_num4; i++)
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
+	}
+	// 動かないブロック描画
+	for (int i = 0; i < m_num5; i++)
+	{
+		m_pObjectsNot[i].Draw(viewMatrix, projectionMatrix);
+	}
+	// 動くブロック描画
+	for (int i = 0; i < m_num6; i++)
+	{
+		m_pObjectsAuto[i].Draw(viewMatrix, projectionMatrix);
 	}
 
 	DirectX::XMFLOAT4X4 mat[3];
@@ -1909,7 +1988,6 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pPlayer->Draw(viewMatrix, projectionMatrix);
 	}
-
 
 }
 

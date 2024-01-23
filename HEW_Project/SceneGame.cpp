@@ -14,13 +14,13 @@ SceneGame::SceneGame()
 	, m_pDSV(nullptr)
 	, m_pUI(nullptr)
 	, m_pCurtainUI(nullptr)
-, m_pScreen(nullptr)
-, m_pCoinCntUI(nullptr)
-, m_pCoin(nullptr)
-, m_pGoal(nullptr)
-, m_pBackShadow(nullptr)
-, m_pObjectMng(nullptr)
-, m_pFade(nullptr)
+	, m_pScreen(nullptr)
+	, m_pCoinCntUI(nullptr)
+	, m_pCoin(nullptr)
+	, m_pGoal(nullptr)
+	, m_pBackShadow(nullptr)
+	, m_pObjectMng(nullptr)
+	, m_pFade(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -186,7 +186,7 @@ void SceneGame::Update(float tick)
 #if FADE_TEST
 	m_pFade->Update();
 	if (IsKeyTrigger('O'))
-		m_pFade->Start(true, 1.0f);// フェードイン
+		m_pFade->Start(true, 2.0f);// フェードイン
 	if (IsKeyTrigger('P'))
 		m_pFade->Start(false, 1.0f);// フェードアウト
 #endif

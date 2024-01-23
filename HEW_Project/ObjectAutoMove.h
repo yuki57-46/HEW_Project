@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 #include "CameraBase.h"
 #include "GameObject.h"
 #include "Model.h"
 #include "Shader.h"
 
-class ObjectAutoMove : public GameObject
+class ObjectAuto : public GameObject
 {
 public:
-	ObjectAutoMove();
-	~ObjectAutoMove();
+	ObjectAuto();
+	~ObjectAuto();
 	void Update();
 	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
 
@@ -52,10 +52,10 @@ private:
 	float m_lastRotationY;
 	bool moveok;
 
-	float m_MaxPosX;	// X²‚ÌŒÀŠE”ÍˆÍ(‰E)
-	float m_MinPosX;	// X²‚ÌŒÀŠE”ÍˆÍ(¶)
+	float m_MaxPosX;	// Xè»¸ã®é™ç•Œç¯„å›²(å³)
+	float m_MinPosX;	// Xè»¸ã®é™ç•Œç¯„å›²(å·¦)
 
-	bool m_MoveX;	// ƒIƒuƒWƒFƒNƒg‚Ì©“®”»’è
+	bool m_MoveX;	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è‡ªå‹•åˆ¤å®š
 
 	bool m_isPossessed;
 };
