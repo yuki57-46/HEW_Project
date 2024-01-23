@@ -13,6 +13,7 @@ int testh = 10;
 BackShadow::Box BoxCoin1;
 BackShadow::Box BoxCoin2;
 BackShadow::Box BoxCoin3;
+BackShadow::Box BoxGool;
 BackShadow::Box BoxShadowPlayer;
 
 BackShadow::BackShadow()
@@ -283,6 +284,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		BoxCoin3.minX = m_cast3CposX - (m_castCsizeX - 5);	// 左辺
 		BoxCoin3.maxY = m_cast3CposY + (m_castCsizeX - 5);	// 下辺
 		BoxCoin3.minY = m_cast3CposY - (m_castCsizeX - 5);	// 上辺
+		BoxGool.maxX  = m_castGoalposX + (m_castGoalsizeX - 5);	// 右辺
+		BoxGool.minX  = m_castGoalposX - (m_castGoalsizeX - 5);	// 左辺
+		BoxGool.maxY  = m_castGoalposY + (m_castGoalsizeY - 5);	// 下辺
+		BoxGool.minY  = m_castGoalposY - (m_castGoalsizeY - 5);	// 上辺
 		BoxShadowPlayer.maxX = m_castPosX + shadowSizeX;	// 右辺
 		BoxShadowPlayer.minX = m_castPosX - shadowSizeX;	// 左辺
 		BoxShadowPlayer.maxY = m_castPosY;					// 下辺
@@ -522,14 +527,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegA
 //ゴールの当たり判定＆処理
 void BackShadow::GoalCollision(Goal* Goal)
 {
-	// 影の座標
-	int shadowPosX = m_castPosX;
-	int shadowPosY = m_castPosY;
-
-	if (m_castGoalposX + m_castGoalsizeX / 2 > shadowPosX &&
-		m_castGoalposX - m_castGoalsizeX / 2 < shadowPosX &&
-		m_castGoalposY + m_castGoalsizeY / 2 > shadowPosY &&
-		m_castGoalposY - m_castGoalsizeY / 2 < shadowPosY)
+	if (IsHit(BoxShadowPlayer, BoxGool))
 	{
 		// 影とダイヤ型が重なったらゴールする
 		Goal->SetGoal(true);
