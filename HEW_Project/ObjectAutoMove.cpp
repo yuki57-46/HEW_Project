@@ -1,16 +1,16 @@
-#include "ObjectAutoMove.h"
+ï»¿#include "ObjectAutoMove.h"
 #include "Geometory.h"
 #include "Input.h"
 
 //InputManager imanagerOB = InputManager();
 
-//DirectX::XMFLOAT3 objectMinBoundAuto = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//ƒvƒŒƒCƒ„[‚Æ‚Ì“–‚½‚è”»’è—p
+//DirectX::XMFLOAT3 objectMinBoundAuto = DirectX::XMFLOAT3(-0.1f, -0.5f, -0.1f);//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®å½“ãŸã‚Šåˆ¤å®šç”¨
 //DirectX::XMFLOAT3 objectMaxBoundAuto = DirectX::XMFLOAT3(0.2f, 0.5f, -0.05f);
 
-//DirectX::XMFLOAT3 hobjectMinBoundAuto = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//œßˆË—p
+//DirectX::XMFLOAT3 hobjectMinBoundAuto = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.1f);//æ†‘ä¾ç”¨
 //DirectX::XMFLOAT3 hobjectMaxBoundAuto = DirectX::XMFLOAT3(0.25f, 0.5f, 0.35f);
 
-//DirectX::XMFLOAT3 cobjectMinBoundAuto = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ƒuƒƒbƒN“¯m—p
+//DirectX::XMFLOAT3 cobjectMinBoundAuto = DirectX::XMFLOAT3(-0.3f, -0.5f, -0.3f);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ç”¨
 //DirectX::XMFLOAT3 cobjectMaxBoundAuto = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
 
@@ -31,7 +31,7 @@ ObjectAutoMove::ObjectAutoMove()
 	m_pObjectModel = new Model;
 
 	if (!m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İƒGƒ‰[", "Error", MB_OK);
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼", "Error", MB_OK);
 	}
 	m_pObjectVS = new VertexShader();
 	if (FAILED(m_pObjectVS->Load("Assets/Shader/VS_Model.cso")))
@@ -66,10 +66,10 @@ void ObjectAutoMove::Update()
 
 	m_oldPos = m_pos;
 
-	if (m_MoveX == true)	// ƒIƒuƒWƒFƒNƒg‚ÌˆÚ“®‚ªtrue‚È‚ç
+	if (m_MoveX == true)	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç§»å‹•ãŒtrueãªã‚‰
 	{
 		m_pos.x += 0.01f;
-		if (m_pos.x >= m_MaxPosX)	// w’è‚µ‚½”ÍˆÍ(‰E)‚Ü‚ÅˆÚ“®
+		if (m_pos.x >= m_MaxPosX)	// æŒ‡å®šã—ãŸç¯„å›²(å³)ã¾ã§ç§»å‹•
 		{
 			m_pos.x = m_MaxPosX;
 			m_MoveX = false;
@@ -78,7 +78,7 @@ void ObjectAutoMove::Update()
 	if (m_MoveX == false)
 	{
 		m_pos.x -= 0.01f;
-		if (m_pos.x <= m_MinPosX)	// w’è‚µ‚½”ÍˆÍ(¶)‚Ü‚ÅˆÚ“®
+		if (m_pos.x <= m_MinPosX)	// æŒ‡å®šã—ãŸç¯„å›²(å·¦)ã¾ã§ç§»å‹•
 		{
 			m_pos.x = m_MinPosX;
 			m_MoveX = true;
@@ -86,11 +86,11 @@ void ObjectAutoMove::Update()
 	}
 
 	// bool objmove = true;
-	//if (objmove = true)		// ƒIƒuƒWƒFƒNƒg‚ª‰E‚É“®‚­
+	//if (objmove = true)		// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå³ã«å‹•ã
 	//{
 	//	m_pos.x += 0.01f;
 	//}
-	//if (objmove = false)	// ƒIƒuƒWƒFƒNƒg‚ª¶‚É“®‚­
+	//if (objmove = false)	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå·¦ã«å‹•ã
 	//{
 	//	m_pos.x -= 0.01f;
 	//}
@@ -104,30 +104,30 @@ void ObjectAutoMove::Update()
 
 	imanagerOB.inspect();*/
 
-	float moveSpeed = 0.03f; // ˆÚ“®‘¬“x‚Ì’²®
+	float moveSpeed = 0.03f; // ç§»å‹•é€Ÿåº¦ã®èª¿æ•´
 
 	float rotationSpeed = 10.0f;
 
-	//// ¶ƒXƒeƒBƒbƒN‚ÌX²‚ÆY²•ûŒü‚Ì“ü—Í‚ğæ“¾
+	//// å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®Xè»¸ã¨Yè»¸æ–¹å‘ã®å…¥åŠ›ã‚’å–å¾—
 	//float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
 	//float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
 	//float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
 	//float leftStickZ2 = static_cast<float>(imanagerOB.getKey(3));
 
-	// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğŒvZ
+	// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚ğ³‹K‰»i’·‚³‚ª1‚É‚È‚é‚æ‚¤‚Éj
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–ï¼ˆé•·ã•ãŒ1ã«ãªã‚‹ã‚ˆã†ã«ï¼‰
 	//DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
 	//directionVector = DirectX::XMVector3Normalize(directionVector);
 	//DirectX::XMFLOAT3 normalizedDirection;
 	//DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	//// ˆÚ“®•ûŒüƒxƒNƒgƒ‹‚©‚ç‰ñ“]Šp“x‚ğŒvZ
+	//// ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰å›è»¢è§’åº¦ã‚’è¨ˆç®—
 	//float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
 	//m_rotationY = rotationAngle;
 
-	//if (moveok == true)//œßˆË
+	//if (moveok == true)//æ†‘ä¾æ™‚
 	//{
 	//	m_pos.x -= moveSpeed * moveDirection.x;
 	//	m_pos.z -= moveSpeed * moveDirection.z;
@@ -153,10 +153,10 @@ void ObjectAutoMove::Update()
 		}
 	}
 
-//	SetBounds(objectMinBoundAuto, objectMaxBoundAuto);  //Å¬’l‚ÆÅ‘å’l‚ğƒZƒbƒg
+//	SetBounds(objectMinBoundAuto, objectMaxBoundAuto);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
 
-	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//œßˆË—p‚Ì“–‚½‚è”»’è
-	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ƒuƒƒbƒN“¯m‚Ì“–‚½‚è”»’è
+//	HSetBounds(hobjectMinBoundAuto, hobjectMaxBoundAuto);//æ†‘ä¾ç”¨ã®å½“ãŸã‚Šåˆ¤å®š
+//	CSetBounds(cobjectMinBoundAuto, cobjectMaxBoundAuto);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
 
 //	time++;
 }
@@ -168,14 +168,14 @@ void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 pr
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚Ìİ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	mat[1] = viewMatrix; // —^‚¦‚ç‚ê‚½ viewMatrix ‚ğg‚¤
-	mat[2] = projectionMatrix; // —^‚¦‚ç‚ê‚½ projectionMatrix ‚ğg‚¤
+	mat[1] = viewMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ viewMatrix ã‚’ä½¿ã†
+	mat[2] = projectionMatrix; // ä¸ãˆã‚‰ã‚ŒãŸ projectionMatrix ã‚’ä½¿ã†
 
-	m_pObjectVS->WriteBuffer(0, mat);    //”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ğw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ğ“n‚·
+	m_pObjectVS->WriteBuffer(0, mat);    //é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
 	m_pObjectModel->Draw();
 
 }
@@ -208,7 +208,7 @@ DirectX::XMFLOAT3 ObjectAutoMove::Add(const DirectX::XMFLOAT3& a, const DirectX:
 //_
 
 
-//œßˆË“–‚½‚è”»’è
+//æ†‘ä¾å½“ãŸã‚Šåˆ¤å®š
 //void ObjectAutoMove::HSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 //{
 //	hminBound = HAdd(m_pos, min);
@@ -234,7 +234,7 @@ DirectX::XMFLOAT3 ObjectAutoMove::Add(const DirectX::XMFLOAT3& a, const DirectX:
 //}
 
 
-////ƒuƒƒbƒN“¯m
+////ãƒ–ãƒ­ãƒƒã‚¯åŒå£«
 //void ObjectAutoMove::CSetBounds(const DirectX::XMFLOAT3& min, const DirectX::XMFLOAT3& max)
 //{
 //	cminBoundAuto = CAdd(m_pos, min);
@@ -270,7 +270,7 @@ void ObjectAutoMove::CreateAuto(float posX, float posY, float posZ, float scaleX
 	m_scale.z = scaleZ;
 }
 
-//œßˆË”»’è—p
+//æ†‘ä¾åˆ¤å®šç”¨
 void ObjectAutoMove::Set()
 {
 	moveok = true;
@@ -286,7 +286,7 @@ bool ObjectAutoMove::SetR()
 	return moveok;
 }
 
-//ƒuƒƒbƒN“¯m‚ª‚Ô‚Â‚©‚Á‚½‚É•Ô‚·
+//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ãŒã¶ã¤ã‹ã£ãŸæ™‚ã«è¿”ã™
 
 void ObjectAutoMove::OBJPos()
 {
