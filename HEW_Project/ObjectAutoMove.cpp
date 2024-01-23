@@ -15,7 +15,7 @@
 
 
 
-ObjectAutoMove::ObjectAutoMove()
+ObjectAuto::ObjectAuto()
 	: m_pos(0.0f, 0.0f, 0.0f)
 	, m_scale(0.0f, 0.0f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
@@ -46,7 +46,7 @@ ObjectAutoMove::ObjectAutoMove()
 
 }
 
-ObjectAutoMove::~ObjectAutoMove()
+ObjectAuto::~ObjectAuto()
 {
 	if (m_pObjectModel)
 	{
@@ -60,10 +60,8 @@ ObjectAutoMove::~ObjectAutoMove()
 	}
 }
 
-void ObjectAutoMove::Update()
+void ObjectAuto::Update()
 {
-	
-
 	m_oldPos = m_pos;
 
 	if (m_MoveX == true)	// オブジェクトの移動がtrueなら
@@ -161,7 +159,7 @@ void ObjectAutoMove::Update()
 //	time++;
 }
 
-void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
+void ObjectAuto::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
@@ -197,7 +195,7 @@ void ObjectAutoMove::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 pr
 //	return maxBoundAuto;
 //}
 
-DirectX::XMFLOAT3 ObjectAutoMove::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
+DirectX::XMFLOAT3 ObjectAuto::Add(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
 	DirectX::XMFLOAT3 result;
 	result.x = a.x + b.x;
@@ -251,7 +249,7 @@ DirectX::XMFLOAT3 ObjectAutoMove::Add(const DirectX::XMFLOAT3& a, const DirectX:
 //	return cmaxBoundAuto;
 //}
 
-DirectX::XMFLOAT3 ObjectAutoMove::CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
+DirectX::XMFLOAT3 ObjectAuto::CAdd(const DirectX::XMFLOAT3& a, const DirectX::XMFLOAT3& b)
 {
 	DirectX::XMFLOAT3 result;
 	result.x = a.x + b.x;
@@ -260,7 +258,7 @@ DirectX::XMFLOAT3 ObjectAutoMove::CAdd(const DirectX::XMFLOAT3& a, const DirectX
 	return result;
 }
 
-void ObjectAutoMove::CreateAuto(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
+void ObjectAuto::CreateAuto(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
@@ -271,35 +269,36 @@ void ObjectAutoMove::CreateAuto(float posX, float posY, float posZ, float scaleX
 }
 
 //憑依判定用
-void ObjectAutoMove::Set()
+void ObjectAuto::Set()
 {
 	moveok = true;
 }
 
-void ObjectAutoMove::SetF()
+void ObjectAuto::SetF()
 {
 	moveok = false;
 }
 
-bool ObjectAutoMove::SetR()
+bool ObjectAuto::SetR()
 {
 	return moveok;
 }
 
 //ブロック同士がぶつかった時に返す
 
-void ObjectAutoMove::OBJPos()
+void ObjectAuto::OBJPos()
 {
 	m_pos = m_oldPos;
 }
 
-void ObjectAutoMove::Modelchg()
+void ObjectAuto::Modelchg()
 {
 	if (m_pObjectModel->Load("Assets/Model/test_model/test_block.fbx", 0.05f, Model::Flip::XFlip));
 }
 
-void ObjectAutoMove::Modelchg2()
+void ObjectAuto::Modelchg2()
 {
-	if (m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip));
+	//if (m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip));
+	if (m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", 0.05f, Model::Flip::XFlip));
 }
 
