@@ -21,7 +21,7 @@ SceneManager::SceneManager()
 		break;
 
 	case SceneManager::SCENE_GAME:
-		m_pSceneGame = new SceneGame();
+		m_pSceneGame = new SceneGame(this);
 
 		break;
 
@@ -135,7 +135,7 @@ void SceneManager::ChangeScene(SCENE next)
 		break;
 
 	case SceneManager::SCENE_GAME:
-		m_pSceneGame = new SceneGame();
+		m_pSceneGame = new SceneGame(this);
 
 		break;
 

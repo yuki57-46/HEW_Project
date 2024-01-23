@@ -4,9 +4,10 @@
 
 #define FADE_TEST 1
 
-SceneGame::SceneGame()
-	:  m_pSound(nullptr)
-	,  m_pSourceVoice(nullptr)
+
+SceneGame::SceneGame(SceneManager* pSceneManager)
+	: m_pSound(nullptr)
+	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
 	, m_pCamera{ nullptr, nullptr,nullptr }
 	, m_pobjcamera(nullptr)
@@ -14,19 +15,19 @@ SceneGame::SceneGame()
 	, m_pDSV(nullptr)
 	, m_pUI(nullptr)
 	, m_pCurtainUI(nullptr)
-, m_pScreen(nullptr)
-, m_pCoinCntUI(nullptr)
-, m_pCoin(nullptr)
-, m_pGoal(nullptr)
-, m_pBackShadow(nullptr)
-, m_pObjectMng(nullptr)
-, m_pFade(nullptr)
+	, m_pScreen(nullptr)
+	, m_pSceneManager(pSceneManager)
+	, m_pCoinCntUI(nullptr)
+	, m_pCoin(nullptr)
+	, m_pGoal(nullptr)
+	, m_pBackShadow(nullptr)
+	, m_pObjectMng(nullptr)
+	, m_pFade(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
 	//DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
 	//SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
-
 
 	//深度バッファ、レンダーターゲットの設定
 	m_pRTV = GetDefaultRTV();	//デフォルトで使用しているRender Target Viewの取得
@@ -174,7 +175,7 @@ void SceneGame::Update(float tick)
 
 	m_pCamera[CAM_OBJ]->Update();
 
-	
+
 
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);

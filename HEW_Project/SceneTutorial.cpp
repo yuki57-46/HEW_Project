@@ -4,8 +4,7 @@
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
 
-#define FILENAME "Assets/"
-
+#define FILENAME "Assets/Texture/Title.png"
 
 SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	: m_pTexture(nullptr)
