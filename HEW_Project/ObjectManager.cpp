@@ -102,8 +102,8 @@ ObjectMng::ObjectMng()
 		//{ -2.25f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
 
 		//=======================stage4=========================
-		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,4.0f,0.5f,0.1f},
-		{ 1.0f, 2.0f, 2.5f, 1.0f, 0.1f, 0.15f,4.0f,1.5f,0.1f},
+		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,4.0f,0.5f,0.01f},
+		{ 1.0f, 2.0f, 2.5f, 1.0f, 0.1f, 0.15f,4.0f,1.5f,0.01f},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -217,55 +217,55 @@ ObjectMng::ObjectMng()
 		);
 	}
 
-	//動かないブロック
-	struct Setting5
-	{
-		float x, y, z, scaleX, scaleY, scaleZ;
-	};
-	//ブロック配置.スケール指定
-	Setting5 data5[] = {
-		{ 0.0f, -0.02f, 2.5f, 1.0f, 1.0f, 1.0f},
+	////動かないブロック
+	//struct Setting5
+	//{
+	//	float x, y, z, scaleX, scaleY, scaleZ;
+	//};
+	////ブロック配置.スケール指定
+	//Setting5 data5[] = {
+	//	{ 0.0f, -0.02f, 2.5f, 1.0f, 1.0f, 1.0f},
 
-	};
+	//};
 
-	//配列の要素の数から必要なブロック数を計算
-	m_num5 = sizeof(data5) / sizeof(data5[0]);
+	////配列の要素の数から必要なブロック数を計算
+	//m_num5 = sizeof(data5) / sizeof(data5[0]);
 
-	//必要な数だけブロックを確保
-	m_pObjectsNot = new ObjectNot[m_num5];
-	//確保したブロックに初期データを設定
-	for (int i = 0; i < m_num5; i++)
-	{
-		m_pObjectsNot[i].CreateNot(
-			data5[i].x, data5[i].y, data5[i].z,
-			data5[i].scaleX, data5[i].scaleY, data5[i].scaleZ
-		);
-	}
+	////必要な数だけブロックを確保
+	//m_pObjectsNot = new ObjectNot[m_num5];
+	////確保したブロックに初期データを設定
+	//for (int i = 0; i < m_num5; i++)
+	//{
+	//	m_pObjectsNot[i].CreateNot(
+	//		data5[i].x, data5[i].y, data5[i].z,
+	//		data5[i].scaleX, data5[i].scaleY, data5[i].scaleZ
+	//	);
+	//}
 
-	//動くブロック
-	struct Setting6
-	{
-		float x, y, z, scaleX, scaleY, scaleZ;
-	};
-	//ブロック配置.スケール指定
-	Setting6 data6[] = {
-		{ 0.0f, -1.0f, 2.5f, 1.0f, 1.0f, 1.0f},
+	////動くブロック
+	//struct Setting6
+	//{
+	//	float x, y, z, scaleX, scaleY, scaleZ;
+	//};
+	////ブロック配置.スケール指定
+	//Setting6 data6[] = {
+	//	{ 0.0f, -1.0f, 2.5f, 1.0f, 1.0f, 1.0f},
 
-	};
+	//};
 
-	//配列の要素の数から必要なブロック数を計算
-	m_num6 = sizeof(data6) / sizeof(data6[0]);
+	////配列の要素の数から必要なブロック数を計算
+	//m_num6 = sizeof(data6) / sizeof(data6[0]);
 
-	//必要な数だけブロックを確保
-	m_pObjectsAuto = new ObjectAuto[m_num6];
-	//確保したブロックに初期データを設定
-	for (int i = 0; i < m_num6; i++)
-	{
-		m_pObjectsAuto[i].CreateAuto(
-			data6[i].x, data6[i].y, data6[i].z,
-			data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
-		);
-	}
+	////必要な数だけブロックを確保
+	//m_pObjectsAuto = new ObjectAuto[m_num6];
+	////確保したブロックに初期データを設定
+	//for (int i = 0; i < m_num6; i++)
+	//{
+	//	m_pObjectsAuto[i].CreateAuto(
+	//		data6[i].x, data6[i].y, data6[i].z,
+	//		data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
+	//	);
+	//}
 
 	// effect
 	m_Effect = LibEffekseer::Create("Assets/effect/BoxSet.efkefc");
@@ -1480,6 +1480,13 @@ void ObjectMng::Update(float tick)
 
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 						{
+							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
+
+							//移動させる時
+							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
+							EffecMat.Translation(0.0f, -1.0f, 0.0f);
+							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
 							m_pStair[b].Set();
@@ -1909,9 +1916,9 @@ void ObjectMng::Update(float tick)
 			}
 		}
 	}
+
+
 }
-
-
 void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix,bool draw)
 {
 	//行列の計算
@@ -1929,7 +1936,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	effekMat2 = XMMatrixTranspose(effekMat2);
 	XMStoreFloat4x4(&effectmat[1], effekMat2);
 
-	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.7f, 0.7f, 0.7);
+	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
 	LibEffekseer::SetViewPosition(m_pObjectCamera->GetPos());
 	LibEffekseer::SetCameraMatrix(effectmat[0], effectmat[1]);
 
@@ -1961,16 +1968,16 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
 	}
-	// 動かないブロック描画
-	for (int i = 0; i < m_num5; i++)
-	{
-		m_pObjectsNot[i].Draw(viewMatrix, projectionMatrix);
-	}
-	// 動くブロック描画
-	for (int i = 0; i < m_num6; i++)
-	{
-		m_pObjectsAuto[i].Draw(viewMatrix, projectionMatrix);
-	}
+	//// 動かないブロック描画
+	//for (int i = 0; i < m_num5; i++)
+	//{
+	//	m_pObjectsNot[i].Draw(viewMatrix, projectionMatrix);
+	//}
+	//// 動くブロック描画
+	//for (int i = 0; i < m_num6; i++)
+	//{
+	//	m_pObjectsAuto[i].Draw(viewMatrix, projectionMatrix);
+	//}
 
 	DirectX::XMFLOAT4X4 mat[3];
 

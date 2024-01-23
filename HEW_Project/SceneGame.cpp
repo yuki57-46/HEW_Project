@@ -298,14 +298,14 @@ void SceneGame::Draw()
 		m_pCoinCntUI->GoalDraw();
 	}
 
-
+	
 #if FADE_TEST
 	m_pFade->Draw();
 #endif // FADE_TEST
 	m_pCurtainUI->StageCurtainDraw();
 
-
-	SetRenderTargets(1, &m_pRTV, m_pDSV);
+	//SetRenderTargets(1, &m_pRTV, m_pDSV);
+	
 
 }
 

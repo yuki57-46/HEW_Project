@@ -124,7 +124,7 @@ void Stair::Update()
 	{
 		m_pos.y -= 0.05f;
 	}
-	float moveSpeed = 0.03f; // 移動速度の調整
+	float moveSpeed = 0.007f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -262,7 +262,7 @@ void Stair::Update()
 				frame -= moveSpeed * 0.01;
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
-				m_pos.y += frame * 0.003f;
+				m_pos.y += frame * 0.001f;
 
 				if (m_pos.y > 2.5f)
 				{
@@ -271,12 +271,12 @@ void Stair::Update()
 			}
 			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
 			{
-				m_pos.y -= 0.1f;
+				m_pos.y -= 0.05f;
 				gravity = true;
 			}
 			if (m_pos.y <= 0.0f&&frame <= 0)
 			{
-				frame = 50;
+				frame = 30;
 			}
 
 		}
@@ -618,7 +618,7 @@ void Stair::MoveStair(float y)
 
 void Stair::framepls()
 {
-	frame = 25;
+	frame = 30;
 }
 
 
