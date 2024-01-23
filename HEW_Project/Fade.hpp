@@ -2,6 +2,7 @@
 
 #include "Texture.h"
 #include "Curtain.h"
+#include "Shader.h"
 
 class Fade
 {
@@ -25,5 +26,7 @@ private:
 	float m_totalTime;
 
 	CurtainUI* m_pCurtain;
+
+	PixelShader* m_pPS;
 };
 
