@@ -13,7 +13,7 @@
 #include "SceneManager.hpp"
 
 //--- グローバル変数
-SceneGame* g_pGame;
+//SceneGame* g_pGame;
 SceneManager* g_pSceneManager;
 
 //Sound* g_Sound;
@@ -60,7 +60,8 @@ HRESULT Init(HWND hWnd, UINT width, UINT height)
 
 void Uninit()
 {
-	delete g_pGame;
+//  delete g_pGame;
+	delete g_pSceneManager;
 	LibEffekseer::Uninit();	// effekseer終了処理
 	UninitInput();
 	ShaderList::Uninit();
@@ -74,7 +75,7 @@ void Update(float tick)
 {
 	UpdateInput();
 	imanager.inspect();
-	g_pGame->Update(tick);
+	g_pSceneManager->Update(tick);
 }
 
 void Draw()
@@ -114,7 +115,7 @@ void Draw()
 
 #endif
 
-	g_pGame->Draw();
+	g_pSceneManager->Draw();
 
 	LibEffekseer::Draw();	// effekseer描画
 	EndDrawDirectX();

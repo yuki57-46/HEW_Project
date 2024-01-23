@@ -25,7 +25,7 @@ public:
 
 		SCENE_MAX,			// シーンの数
 
-		SCENE_START = SCENE_GAME	// 最初に出すシーンの画面
+		SCENE_START = SCENE_TITLE	// 最初に出すシーンの画面
 	};
 
 public:

@@ -143,8 +143,11 @@ SceneGame::~SceneGame()
 
 void SceneGame::Update(float tick)
 {
+	if (m_pobjcamera != nullptr)
+		{
+			m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);	// 例外スロー発生場所
+		}
 
-	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	m_pBackShadow->Update(tick);
 
 	//m_pObjectMng->SetPlayer(m_pPlayer);
@@ -270,4 +273,3 @@ void SceneGame::Draw()
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
 }
-
