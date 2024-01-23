@@ -416,7 +416,6 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
 
-
 	//
 	objectMinBound.x *= m_scale.x;
 	objectMinBound.y *= m_scale.y;
