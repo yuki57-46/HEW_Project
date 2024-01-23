@@ -8,7 +8,7 @@ Select::Select()
 	m_pTexture = new Texture();
 	if (FAILED(m_pTexture->Create("Assets/Texture/stageselect.png")))
 	{
-		MessageBox(NULL, "Title.png", "Error", MB_OK);
+		MessageBox(NULL, "stageselect.png", "Error", MB_OK);
 	}
 }
 
