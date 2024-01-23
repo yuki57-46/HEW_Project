@@ -101,7 +101,7 @@ private:
 	DirectX::XMFLOAT3 cStairMinBound;
 	DirectX::XMFLOAT3 cStairMaxBound;
 
-	int frame = 50;
+	int frame = 30;
 
 };
 

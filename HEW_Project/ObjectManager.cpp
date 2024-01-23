@@ -1414,6 +1414,13 @@ void ObjectMng::Update(float tick)
 
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 						{
+							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
+
+							//移動させる時
+							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
+							EffecMat.Translation(0.0f, -1.0f, 0.0f);
+							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
 							m_pStair[b].Set();
@@ -1843,9 +1850,9 @@ void ObjectMng::Update(float tick)
 			}
 		}
 	}
+
+
 }
-
-
 void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix,bool draw)
 {
 	//行列の計算
@@ -1863,7 +1870,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	effekMat2 = XMMatrixTranspose(effekMat2);
 	XMStoreFloat4x4(&effectmat[1], effekMat2);
 
-	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.7f, 0.7f, 0.7);
+	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
 	LibEffekseer::SetViewPosition(m_pObjectCamera->GetPos());
 	LibEffekseer::SetCameraMatrix(effectmat[0], effectmat[1]);
 

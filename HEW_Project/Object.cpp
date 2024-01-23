@@ -21,7 +21,6 @@
 std::chrono::steady_clock::time_point lastSoundPlayTime;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
 
-int frame = 40;
 
 #define Max_X (2.23f)
 #define Min_X (-2.23f)
@@ -104,7 +103,7 @@ void Object::Update()
 
 	m_oldPos = m_pos;
 
-	float moveSpeed = 0.01f; // 移動速度の調整
+	float moveSpeed = 0.007f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
 	if (colgravity == true)
@@ -254,12 +253,12 @@ void Object::Update()
 			}
 			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
 			{
-				m_pos.y -= 0.1f;
+				m_pos.y -= 0.05f;
 				gravity = true;
 			}
 			if (m_pos.y <= 0.0f)
 			{
-				frame = 40;
+				frame = 30;
 			}
 
 		}
@@ -583,7 +582,7 @@ void Object::SetColgravityfalse()
 
 void Object::framepls()
 {
-	frame=40;
+	frame=30;
 }
 
 void Object::SetSlope()
