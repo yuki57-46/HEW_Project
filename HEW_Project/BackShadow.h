@@ -16,6 +16,14 @@
 class BackShadow
 {
 public:
+	typedef struct {
+		int maxX;	// 最大サイズX
+		int minX;	// 最小サイズX
+		int maxY;	// 最大サイズY
+		int minY;	// 最小サイズY
+	}Box;			// 当たり判定BOX
+
+public:
 	BackShadow();
 	~BackShadow();
 
@@ -27,6 +35,7 @@ public:
 	bool ShadowEdgeCollision(int h, UINT width);
 	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegAlpha, BYTE bodyAlpha);//コインの所得処理
 	void GoalCollision(Goal* Goal);//ゴール
+	bool IsHit(Box Box1, Box Box2);
 private:
 	// カメラ
 	CameraBase* m_pCamera;	// レンダーのカメラ

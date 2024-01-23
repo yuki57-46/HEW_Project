@@ -199,6 +199,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			BYTE r, g, b, a;
 		};
 
+		// X軸は左が 0 右が 640
+		// Y軸は上が 0 下が 360
 		//レンダー当たり判定用変数更新
 		m_SPpos = m_pShadowPlayer->NowPos();				//影の座標を所得
 		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		//X軸をレンダーのウィンドウ座標に合わせて変換
@@ -449,20 +451,43 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegA
 {
 	// コインの取得処理
 	// 影の座標
-	int shadowPosX = m_castPosX;
-	int shadowPosY = m_castPosY;
 	int shadowSizeX = 10;
 	int shadowSizeY = 50;
+
+	Box BoxCoin1;
+	Box BoxCoin2;
+	Box BoxCoin3;
+	Box BoxShadowPlayer;
+
+	BoxCoin1.maxX = m_cast1CposX + m_castCsizeX;	// 右辺
+	BoxCoin1.minX = m_cast1CposX - m_castCsizeX;	// 左辺
+	BoxCoin1.maxY = m_cast1CposY + m_castCsizeY;	// 下辺
+	BoxCoin1.minY = m_cast1CposY - m_castCsizeY;	// 上辺
+
+	BoxCoin2.maxX = m_cast2CposX + m_castCsizeX;	// 右辺
+	BoxCoin2.minX = m_cast2CposX - m_castCsizeX;	// 左辺
+	BoxCoin2.maxY = m_cast2CposY + m_castCsizeY;	// 下辺
+	BoxCoin2.minY = m_cast2CposY - m_castCsizeY;	// 上辺
+
+	BoxCoin3.maxX = m_cast3CposX + m_castCsizeX;	// 右辺
+	BoxCoin3.minX = m_cast3CposX - m_castCsizeX;	// 左辺
+	BoxCoin3.maxY = m_cast3CposY + m_castCsizeY;	// 下辺
+	BoxCoin3.minY = m_cast3CposY - m_castCsizeY;	// 上辺
+
+	BoxShadowPlayer.maxX = m_castPosX + shadowSizeX;	// 右辺
+	BoxShadowPlayer.minX = m_castPosX - shadowSizeX;	// 左辺
+	BoxShadowPlayer.maxY = m_castPosY;					// 下辺
+	BoxShadowPlayer.minY = m_castPosY - shadowSizeY;	// 上辺
 
 	if (BodyAlpha > 240)
 	{
 		int a = 0;
 	}
 
-	if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX + shadowSizeX &&		// コインの右側
-		m_cast1CposX - m_castCsizeX / 2 < shadowPosX - shadowSizeX &&		// コインの左側
-		m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&		// コインの下側
-		m_cast1CposY - m_castCsizeY / 2 < shadowPosY - shadowSizeY)		// コインの上側
+	if (m_cast1CposX + m_castCsizeX / 2 > m_castPosX + shadowSizeX &&		// コインの右側
+		m_cast1CposX - m_castCsizeX / 2 < m_castPosX - shadowSizeX &&		// コインの左側
+		m_cast1CposY + m_castCsizeY / 2 > m_castPosY + shadowSizeY / 10 &&		// コインの下側
+		m_cast1CposY - m_castCsizeY / 2 < m_castPosY - shadowSizeY)		// コインの上側
 	{
 		// 影とコインが重なったらコインを取得する
 		if (RegAlpha > 240 || BodyAlpha > 240)
@@ -472,10 +497,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegA
 		}
 	}
 
-	if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX + shadowSizeX &&
-		m_cast2CposX - m_castCsizeX / 2 < shadowPosX - shadowSizeX &&
-		m_cast2CposY + m_castCsizeY / 2 > shadowPosY &&
-		m_cast2CposY - m_castCsizeY / 2 < shadowPosY - shadowSizeY)
+	if (IsHit(BoxShadowPlayer, BoxCoin2))
 	{
 		// 影とコインが重なったらコインを取得する
 		if (RegAlpha > 240 || BodyAlpha > 240)
@@ -485,10 +507,10 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegA
 		}
 	}
 
-	if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX + shadowSizeX &&
-		m_cast3CposX - m_castCsizeX / 2 < shadowPosX - shadowSizeX &&
-		m_cast3CposY + m_castCsizeY / 2 > shadowPosY &&
-		m_cast3CposY - m_castCsizeY / 2 < shadowPosY - shadowSizeY)
+	if (m_cast3CposX + m_castCsizeX / 2 > m_castPosX + shadowSizeX &&
+		m_cast3CposX - m_castCsizeX / 2 < m_castPosX - shadowSizeX &&
+		m_cast3CposY + m_castCsizeY / 2 > m_castPosY + shadowSizeY / 10 &&
+		m_cast3CposY - m_castCsizeY / 2 < m_castPosY - shadowSizeY)
 	{
 		// 影とコインが重なったらコインを取得する
 		if (RegAlpha > 240 || BodyAlpha > 240)
@@ -519,4 +541,16 @@ void BackShadow::GoalCollision(Goal* Goal)
 		// 影とダイヤ型が重なったらゴールする
 		Goal->SetGoal(true);
 	}
+}
+
+bool BackShadow::IsHit(Box Box1, Box Box2)
+{
+	// X軸
+	if (Box2.maxX < Box1.minX)	return false;
+	if (Box1.maxX < Box2.minX)	return false;
+	// Y軸
+	if (Box2.maxY < Box1.minY)	return false;
+	if (Box1.maxY < Box2.minY)	return false;
+
+	return true;
 }
