@@ -23,6 +23,13 @@ const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);
 
 int frame = 40;
 
+#define Max_X (2.23f)
+#define Min_X (-2.23f)
+
+#define Max_Z (3.36f)
+#define Min_Z (1.8f)
+
+
 
 Object::Object()
 	: m_pos(0.0f, 0.0f, 0.0f)
@@ -97,7 +104,7 @@ void Object::Update()
 
 	m_oldPos = m_pos;
 
-	float moveSpeed = 0.03f; // 移動速度の調整
+	float moveSpeed = 0.01f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
 	if (colgravity == true)
@@ -276,11 +283,10 @@ void Object::Update()
 		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 
 
-		if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
-			|| m_pos.z >= 7.0f || m_pos.z <= -5.0f
-			|| m_pos.y >= 7.0f)
+		if (m_pos.x >= Max_X || m_pos.x <= Min_X
+			|| m_pos.z >= Max_Z || m_pos.z <=Min_Z
+			|| m_pos.y >= 4.0f)
 		{
-
 			OBJPos();
 		}
 		if (m_pos.y <= 0.0f)

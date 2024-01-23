@@ -1241,7 +1241,7 @@ void ObjectMng::Update(float tick)
 											//}
 											else
 											{
-												m_pObjects[i].SetSlope();  //滑り落ちるようにする
+ 												m_pObjects[i].SetSlope();  //滑り落ちるようにする
 
 
 											}
