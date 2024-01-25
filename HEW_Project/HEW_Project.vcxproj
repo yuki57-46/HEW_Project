@@ -191,6 +191,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="Haikei.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="ItemUI.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="Fade.hpp" />
     <ClInclude Include="Curtain.h" />
     <ClInclude Include="Goal.h" />
+    <ClInclude Include="Haikei.h" />
     <ClInclude Include="ItemUI.h" />
     <ClInclude Include="ObjectAutoMove.h" />
     <ClInclude Include="Objectcamera.h" />

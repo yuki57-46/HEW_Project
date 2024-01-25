@@ -586,7 +586,7 @@ void Object::framepls()
 
 void Object::SetSlope()
 {
-	m_pos.x += 0.05;
+	m_pos.x += 0.0005;
 	//m_pos.y = m_oldPos.y;
 	//moveok = false;
 }

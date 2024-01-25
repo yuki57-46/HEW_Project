@@ -27,6 +27,8 @@ public:
 
 
 	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
+	void SetMoveTrue();
+	void SetMoveFalse();
 	void Set();
 	void SetF();
 	bool SetR();
@@ -40,11 +42,7 @@ public:
 
 	void ModelchgNormal();
 
-	void Set1();
 
-	void SetF1();
-
-	bool SetR1();
 
 
 private:
@@ -57,7 +55,7 @@ private:
 
 
 
-	
+	bool m_move;
 
 
 	bool ok;

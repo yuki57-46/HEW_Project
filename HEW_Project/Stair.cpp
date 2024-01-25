@@ -83,21 +83,21 @@ Stair::Stair()
 		{minBound.x, maxBound.y, maxBound.z},
 		{maxBound.x, minBound.y, minBound.z},  //左下
 		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y, minBound.z},
-		{maxBound.x - 0.25f, minBound.y, maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
 		{minBound.x, minBound.y, minBound.z},  //右下
 		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + 0.25f, minBound.z},
-		{minBound.x, minBound.y + 0.25f, maxBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
 
-		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
-		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, maxBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, minBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, maxBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, minBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
 	};
 }
 
@@ -325,26 +325,27 @@ void Stair::Update()
 	//// Add more points as needed
 	//};
 	points = {
-		{minBound.x, maxBound.y, minBound.z},  //右上
+			{minBound.x, maxBound.y, minBound.z},  //右上
 		{minBound.x, maxBound.y, maxBound.z},
 		{maxBound.x, minBound.y, minBound.z},  //左下
 		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y, minBound.z},
-		{maxBound.x - 0.25f, minBound.y, maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
 		{minBound.x, minBound.y, minBound.z},  //右下
 		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + 0.25f, minBound.z},
-		{minBound.x, minBound.y + 0.25f, maxBound.z},
-		
-		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
-		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, maxBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, minBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, maxBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, minBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, maxBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
 	};
+
 
 }
 void Stair::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -660,7 +661,7 @@ void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 
 void Stair::SetSlope()
 {
-	m_pos.x += 0.05;
+	m_pos.x += 0.005;
 }
 
 void Stair::SetSlopeY(float y)

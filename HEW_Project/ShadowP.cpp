@@ -98,7 +98,7 @@ void ShadowP::Update(float tick)
 	m_oldPos = m_pos;
 	if (m_IsAlterDir == true)
 	{
-		m_pos.x += 0.015;
+		m_pos.x += 0.01;
 		if (m_IsAlterDir == true || m_LastDir == false)
 		{
 			m_rotationY = 0.0f;
@@ -106,7 +106,7 @@ void ShadowP::Update(float tick)
 	}
 	else if (m_IsAlterDir == false)
 	{
-		m_pos.x -= 0.015;
+		m_pos.x -= 0.01;
 		if (m_IsAlterDir == false || m_LastDir == true)
 		{
 			m_rotationY = 180.0f;
