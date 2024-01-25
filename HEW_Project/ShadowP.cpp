@@ -232,7 +232,7 @@ void ShadowP::ShadowPPos()
 
 void ShadowP::ShadowPupY()
 {
-	m_pos.y += 0.02;
+	m_pos.y += 0.05;
 }
 
 void ShadowP::Use()
