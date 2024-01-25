@@ -20,6 +20,7 @@
 #include "ItemUI.h"
 #include "Goal.h"
 #include "Curtain.h"
+#include"Haikei.h"
 
 #include "Fade.hpp"
 
@@ -58,6 +59,8 @@ private:
 	Coin*			m_pCoin;
 	CoinCntUI*		m_pCoinCntUI;
 	CurtainUI*		m_pCurtainUI;
+	Haikei*         m_pHaikei;
+
 
 	//ゴール（仮状態の処理有）
 	Goal*			m_pGoal;

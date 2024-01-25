@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "GameObject.h"
 #include "Object.h"
@@ -43,7 +43,8 @@ public:
 	bool LiftUp();
 	float LiftMoveSpeed();
 
-
+	void SetPos();
+	void MoveLift(float y);
 
 private:
 	Model* m_pModel;	// モデル
