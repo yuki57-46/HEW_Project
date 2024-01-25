@@ -1098,7 +1098,8 @@ void ObjectMng::Update(float tick)
 
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 						{
-							//// effectこうしん
+							// effectこうしん
+							// エフェクトの描画処理
 							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
 
 							//移動させる時
