@@ -99,7 +99,7 @@ ObjectMng::ObjectMng()
 		//{ -2.25f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
 
 		//=======================stage4=========================
-		{ 0.5f, 0.7f, 2.5f, 2.0f, 0.06f, 0.15f,1.0f,0.5f,0.01f},
+		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,4.0f,0.5f,0.01f},
 		/*{ 1.0f, 2.0f, 2.5f, 1.0f, 0.1f, 0.15f,4.0f,1.5f,0.01f},*/
 	};
 
@@ -1059,7 +1059,7 @@ void ObjectMng::Update(float tick)
 				for (int l = 0; l < m_num2; l++)
 				{
 
-					m_pLever[l].Update();//＊LEVER　PLAY＊レバーとプレイヤー　
+					m_pLever[l].Update();//レバーとプレイヤー
 					if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
 					{
 						if (m_pPlayer->IsCollidingWith(*lever))
@@ -1093,7 +1093,6 @@ void ObjectMng::Update(float tick)
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 				{
 					//憑依のため・ブロックとプレイヤーが当たった場合
-					//＊■　PLAY＊
 					if (m_pPlayer->HIsCollidingWith(*gameObject))
 					{
 
@@ -1146,7 +1145,7 @@ void ObjectMng::Update(float tick)
 
 
 
-				if (m_pObjects[i].SetR() == true /*|| m_pObjects[i].SetR() == false*/)//＊■　■＊四角形同士
+				if (m_pObjects[i].SetR() == true /*|| m_pObjects[i].SetR() == false*/)  //四角形同士
 				{
 					for (int j = 0; j < m_num; j++)
 					{
@@ -1244,7 +1243,7 @@ void ObjectMng::Update(float tick)
 								//	}
 								//}
 							}
-							for (int h = 0; h < m_num3; h++)  //＊■▲＊　四角形と三角形　＊■▲＊
+							for (int h = 0; h < m_num3; h++)  //四角形と三角形
 							{
 								if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 								{
@@ -1341,7 +1340,7 @@ void ObjectMng::Update(float tick)
 						}
 					}
 				}
-				if (m_pObjects[i].SetR() == false)  //＊■　■＊四角形のmoveがfalseの場合 四角形同士
+				if (m_pObjects[i].SetR() == false)  //四角形のmoveがfalseの場合 四角形同士
 				{
 					for (int j = 0; j < m_num; j++)
 					{
@@ -1420,7 +1419,7 @@ void ObjectMng::Update(float tick)
 
 						}
 					}
-					for (int h = 0; h < m_num3; h++) //＊■　▲＊四角形と三角形
+					for (int h = 0; h < m_num3; h++) //四角形と三角形
 					{
 						if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 						{
@@ -1526,8 +1525,7 @@ void ObjectMng::Update(float tick)
 				}
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pStair[b]))  //三角形、憑依
 				{
-					//憑依のため・三角とプレイヤーが当たった場合
-					//＊▲　PLAY＊
+					//憑依のため・ブロックとプレイヤーが当たった場合
 					if (m_pPlayer->HIsCollidingWith(*gameObject))
 					{
 
@@ -1575,8 +1573,7 @@ void ObjectMng::Update(float tick)
 
 					//}
 				}
-				if (m_pStair[b].SetR() == true /*|| m_pObjects[i].SetR() == false*/)//三角形のmoveがtrue 三角形と四角形
-					//*▲　■*                                             
+				if (m_pStair[b].SetR() == true /*|| m_pObjects[i].SetR() == false*/)  //三角形のmoveがtrue 三角形と四角形
 				{
 					for (int j = 0; j < m_num; j++)
 					{
@@ -1680,7 +1677,7 @@ void ObjectMng::Update(float tick)
 
 
 					}
-					for (int j = 0; j < m_num3; j++)//＊▲　▲＊三角形のmoveがtrue 三角形と三角形
+					for (int j = 0; j < m_num3; j++)//三角形のmoveがtrue 三角形と三角形
 					{
 						if (j == b)
 						{
@@ -1824,7 +1821,7 @@ void ObjectMng::Update(float tick)
 					}
 				}
 
-				if (m_pStair[b].SetR() == false) //＊▲　■＊三角形のmoveがfalse 三角形と四角形
+				if (m_pStair[b].SetR() == false) //三角形のmoveがfalse 三角形と四角形
 				{
 					for (int j = 0; j < m_num; j++)
 					{
@@ -1914,7 +1911,7 @@ void ObjectMng::Update(float tick)
 							}
 						}
 					}
-					for (int h = 0; h < m_num3; h++) //＊▲　■＊三角形のmoveがfalse 三角形と四角形
+					for (int h = 0; h < m_num3; h++) //三角形のmoveがfalse 三角形と四角形
 					{
 						if (h == b)
 						{

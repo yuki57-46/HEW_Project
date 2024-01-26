@@ -6,21 +6,21 @@
 
 InputManager imanagerP = InputManager();
 
-DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.07f, -0.1f, -0.07f);  //境界の最小値
-DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.07f, 0.1f, 0.07f);     //最大値
+DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);  //境界の最小値
+DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);     //最大値
 
-DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.07f, -0.1f, -0.07f);  //境界の最小値
-DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.07f, 0.1f, 0.07f);     //最大値
+DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);  //境界の最小値
+DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);     //最大値
 
 std::chrono::steady_clock::time_point lastSoundPlayTimePly;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
+
 
 #define Max_X (2.23f)
 #define Min_X (-2.23f)
 
 #define Max_Z (3.36f)
 #define Min_Z (1.8f)
-
 
 Player::Player()
 	: m_pos(0.0f, 0.0f, 3.0f)
@@ -63,11 +63,11 @@ Player::Player()
 	m_anime_possession = m_pModel->AddAnimation("Assets/Animation/kuroko_hyoui.fbx");
 
 
-	minBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);
-	maxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);
+	minBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
+	maxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
 
-	hminBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);
-	hmaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);
+	hminBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
+	hmaxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
 
 	m_pSDSEPly= LoadSound("Assets/Sound/SE/yuurei idouonn_Arai_1.wav");
 }
@@ -252,8 +252,9 @@ void Player::Update(float tick)
 		HSetBounds(HMinBound, HMaxBound);
 
 
+
 		if (m_pos.x >= Max_X || m_pos.x <= Min_X
-			|| m_pos.z >= Max_Z || m_pos.z <=Min_Z
+			|| m_pos.z >= Max_Z || m_pos.z <= Min_Z
 			|| m_pos.y >= 4.0f)
 		{
 			PlayerPos();
@@ -375,7 +376,7 @@ void Player::PlayerPos()
 void Player::HPlayerPos()
 {
 	// 12/29 pos.y = -100.0f → -0.3f
-	m_pos.y = -0.5f;
+	m_pos.y = -1.0f;
 }
 
 //リセット用（未実装）
