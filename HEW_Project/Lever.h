@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Model.h"
 #include "Shader.h"
 #include"Soundtest.h"
@@ -27,6 +27,8 @@ public:
 
 
 	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
+	void SetMoveTrue();
+	void SetMoveFalse();
 	void Set();
 	void SetF();
 	bool SetR();
@@ -34,14 +36,13 @@ public:
 
 	void OBJPos();
 	void OBJPosy();
-	void Modelchg();
-	void Modelchg2();
 
-	void Set1();
+	void ModelchgUp();
+	void ModelchgDown();
 
-	void SetF1();
+	void ModelchgNormal();
 
-	bool SetR1();
+
 
 
 private:
@@ -54,7 +55,7 @@ private:
 
 
 
-	
+	bool m_move;
 
 
 	bool ok;

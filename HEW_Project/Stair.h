@@ -47,6 +47,7 @@ public:
 	void Set1();
 	void SetF1();
 	void SetColgravity();
+	void SetColgravityfalse();
 	void SetStairTop();
 
 	void MoveStair(float y);
@@ -60,7 +61,9 @@ public:
 	void ExtractSlopeVertexCoordinates(Model& slopeModel);
 
 	void SetSlope();
+	void SetSlopeY(float y);
 
+	
 private:
 	Model* m_pStairModel;
 	VertexShader* m_pStairVS;
@@ -98,7 +101,7 @@ private:
 	DirectX::XMFLOAT3 cStairMinBound;
 	DirectX::XMFLOAT3 cStairMaxBound;
 
-	int frame = 50;
+	int frame = 30;
 
 };
 

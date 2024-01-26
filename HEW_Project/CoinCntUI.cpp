@@ -71,6 +71,7 @@ void CoinCntUI::Draw()
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetSize(DirectX::XMFLOAT2(300.0f, -75.0f));
 	Sprite::SetTexture(m_pTexture);
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	Sprite::Draw();
 }
 
@@ -96,6 +97,7 @@ void CoinCntUI::GoalDraw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(300.0f, -75.0f));
 	Sprite::SetTexture(m_pGT);
 	Sprite::Draw();

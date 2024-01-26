@@ -1,5 +1,6 @@
 ﻿#include "CameraShadow.h"
 #include "Input.h"
+#include "DirectX.h"
 
 CameraShadow::CameraShadow()
 	: m_radXZ(0.0f)
@@ -8,11 +9,16 @@ CameraShadow::CameraShadow()
 {
 	m_look.x = 0.0f;
 	m_look.y = 0.0f;
-	m_look.z = 0.0f;
+	m_look.z = 2.0f;
 
 	m_pos.x = 0.0f;
 	m_pos.y = 0.0f;
 	m_pos.z = 5.0f;
+
+	ID3D11DeviceContext* pContext = GetContext();
+	m_pPS = new PixelShader();
+	m_pPS->Load("Assets/Shader/PS_Shadow.cso");
+
 }
 
 CameraShadow::~CameraShadow()

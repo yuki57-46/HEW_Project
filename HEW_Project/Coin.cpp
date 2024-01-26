@@ -32,11 +32,22 @@ Coin::Coin()
 	}
 
 	SetCollect(false);
+
+	m_pPS = new PixelShader();
+	if (m_pPS->Load("Assets/Shader/PS_Sprite.cso"))
+	{
+		MessageBox(NULL, "[Coin.cpp] Failed to load Pixcel Shader", "Error", MB_OK);
+	}
 }
 
 //デストラクタ
 Coin::~Coin()
 {
+	if (m_pPS)
+	{
+		delete m_pPS;
+		m_pPS = nullptr;
+	}
 	if (m_pCFirstTexture)
 	{
 		delete m_pCFirstTexture;
@@ -86,10 +97,13 @@ void Coin::Draw(float x, float y, float z, float sizeX, float sizeY, int num)
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
 	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	//Sprite::SetOffset({ 0.0f, 0.0f });
 	Sprite::SetSize(DirectX::XMFLOAT2(sizeX, -sizeY));
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 	switch (num)
 	{

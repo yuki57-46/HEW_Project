@@ -6,11 +6,11 @@
 
 InputManager imanagerP = InputManager();
 
-DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);  //境界の最小値
-DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);     //最大値
+DirectX::XMFLOAT3 MinBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);  //境界の最小値
+DirectX::XMFLOAT3 MaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);     //最大値
 
-DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.15f);  //境界の最小値
-DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.15f, 0.1f, 0.15f);     //最大値
+DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);  //境界の最小値
+DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);     //最大値
 
 std::chrono::steady_clock::time_point lastSoundPlayTimePly;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
@@ -29,13 +29,15 @@ Player::Player()
 {
 	m_pModel = new Model;
 	 //モデルの読み込み処理
-	if (!m_pModel->Load("Assets/Model/Player/kuroko.fbx", 0.2f, Model::Flip::XFlip)) {
+	if (!m_pModel->Load("Assets/Model/Player/kuroko.fbx", 0.1f, Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}
 
 	// モデルにShaderListからVS,PSを読み込む
+	m_pPS= new PixelShader();
+	m_pPS = ShaderList::GetPS(ShaderList::PS_TOON);
 	m_pModel->SetVertexShader(ShaderList::GetVS(ShaderList::VS_ANIME));
-	m_pModel->SetPixelShader(ShaderList::GetPS(ShaderList::PS_TOON));
+	m_pModel->SetPixelShader(m_pPS);
 
 	m_pVS = new VertexShader();
 
@@ -84,7 +86,7 @@ void Player::Update(float tick)
 	{
 		m_oldPos = m_pos;
 	}
-	float moveSpeed = 0.03f; // 移動速度の調整
+	float moveSpeed = 0.015f; // 移動速度の調整
 
 	float rotationSpeed = 1.0f;
 

@@ -1,5 +1,4 @@
-﻿//侵入禁止エリア　床 
-
+﻿
 #include"Screen.h"
 #include "Geometory.h"
 #include "Input.h"

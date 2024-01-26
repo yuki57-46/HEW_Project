@@ -21,7 +21,13 @@
 std::chrono::steady_clock::time_point lastSoundPlayTime;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
 
-int frame = 25;
+
+#define Max_X (2.23f)
+#define Min_X (-2.23f)
+
+#define Max_Z (3.36f)
+#define Min_Z (1.8f)
+
 
 
 Object::Object()
@@ -97,7 +103,7 @@ void Object::Update()
 
 	m_oldPos = m_pos;
 
-	float moveSpeed = 0.03f; // 移動速度の調整
+	float moveSpeed = 0.007f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
 	if (colgravity == true)
@@ -238,7 +244,7 @@ void Object::Update()
 				frame -= moveSpeed * 0.01;
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
-				m_pos.y += frame * 0.003f;
+				m_pos.y += frame * 0.001f;
 
 				if (m_pos.y > 2.5f)
 				{
@@ -247,12 +253,12 @@ void Object::Update()
 			}
 			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
 			{
-				m_pos.y -= 0.1f;
+				m_pos.y -= 0.05f;
 				gravity = true;
 			}
 			if (m_pos.y <= 0.0f)
 			{
-				frame = 25;
+				frame = 30;
 			}
 
 		}
@@ -276,11 +282,10 @@ void Object::Update()
 		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
 
 
-		if (m_pos.x >= 4.0f || m_pos.x <= -4.0f
-			|| m_pos.z >= 3.35f || m_pos.z <= 0.0f
+		if (m_pos.x >= Max_X || m_pos.x <= Min_X
+			|| m_pos.z >= Max_Z || m_pos.z <=Min_Z
 			|| m_pos.y >= 4.0f)
 		{
-
 			OBJPos();
 		}
 		if (m_pos.y <= 0.0f)
@@ -409,7 +414,6 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	m_scale.x = scaleX;
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
-
 
 	//
 	objectMinBound.x *= m_scale.x;
@@ -577,12 +581,12 @@ void Object::SetColgravityfalse()
 
 void Object::framepls()
 {
-	frame=25;
+	frame=30;
 }
 
 void Object::SetSlope()
 {
-	m_pos.x += 0.05;
+	m_pos.x += 0.0005;
 	//m_pos.y = m_oldPos.y;
 	//moveok = false;
 }
