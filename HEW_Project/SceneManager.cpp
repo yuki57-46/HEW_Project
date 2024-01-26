@@ -1,5 +1,6 @@
 ﻿// インクルード部
 #include "SceneManager.hpp"
+#include "TitleScene.h"
 #include "SceneGame.h"
 #include "SceneTutorial.h"
 #include "SceneResult.h"
@@ -7,6 +8,7 @@
 SceneManager::SceneManager()
 	: m_NowScene(SCENE_START)
 	, m_IsEndGame(false)
+	, m_pSceneTitle(nullptr)
 	, m_pSceneGame(nullptr)
 	, m_pSceneTutorial(nullptr)
 	, m_pSceneResult(nullptr)
@@ -16,6 +18,10 @@ SceneManager::SceneManager()
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
+		m_pSceneTitle = new SceneTitle(this);
+		break;
+
+	case SceneManager::SCENE_TUTORIAL:
 		m_pSceneTutorial = new SceneTutorial(this);
 
 		break;
@@ -38,6 +44,10 @@ SceneManager::~SceneManager()
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
+		delete m_pSceneTitle;
+		m_pSceneTitle = nullptr;
+
+	case SceneManager::SCENE_TUTORIAL:
 		delete m_pSceneTutorial;
 		m_pSceneTutorial = nullptr;
 
@@ -62,7 +72,11 @@ void SceneManager::Update(float tick)
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
-		m_pSceneTutorial->Update(tick);
+		m_pSceneTitle->Update();
+		break;
+
+	case SceneManager::SCENE_TUTORIAL:
+		m_pSceneTutorial->Update();
 
 		break;
 
@@ -83,18 +97,19 @@ void SceneManager::Draw()
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
-		m_pSceneTutorial->Draw();
+		m_pSceneTitle->Draw();
+		break;
 
+	case SceneManager::SCENE_TUTORIAL:
+		m_pSceneTutorial->Draw();
 		break;
 
 	case SceneManager::SCENE_GAME:
 		m_pSceneGame->Draw();
-
 		break;
 
 	case SceneManager::SCENE_RESULT:
 		m_pSceneResult->Draw();
-
 		break;
 	}
 }
@@ -106,21 +121,23 @@ void SceneManager::ChangeScene(SCENE next)
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
+		delete m_pSceneTitle;
+		m_pSceneTitle = nullptr;
+		break;
+
+	case SceneManager::SCENE_TUTORIAL:
 		delete m_pSceneTutorial;
 		m_pSceneTutorial = nullptr;
-
 		break;
 
 	case SceneManager::SCENE_GAME:
 		delete m_pSceneGame;
 		m_pSceneGame = nullptr;
-
 		break;
 
 	case SceneManager::SCENE_RESULT:
 		delete m_pSceneResult;
 		m_pSceneResult = nullptr;
-
 		break;
 	}
 
@@ -130,18 +147,19 @@ void SceneManager::ChangeScene(SCENE next)
 	switch (m_NowScene)
 	{
 	case SceneManager::SCENE_TITLE:
-		m_pSceneTutorial = new SceneTutorial(this);
+		m_pSceneTitle = new SceneTitle(this);
+		break;
 
+	case SceneManager::SCENE_TUTORIAL:
+		m_pSceneTutorial = new SceneTutorial(this);
 		break;
 
 	case SceneManager::SCENE_GAME:
 		m_pSceneGame = new SceneGame(this);
-
 		break;
 
 	case SceneManager::SCENE_RESULT:
 		m_pSceneResult = new SceneResult();
-
 		break;
 	}
 }

@@ -5,11 +5,13 @@
 #include "SceneGame.h"
 #include "SceneTutorial.h"
 #include "SceneResult.h"
+#include "TitleScene.h"
 
 // クラス定義
 class SceneGame;
 class SceneTutorial;
 class SceneResult;
+class SceneTitle;
 
 
 class SceneManager
@@ -18,6 +20,7 @@ public:
 	enum SCENE
 	{
 		SCENE_TITLE = 0,	// タイトル
+		SCENE_TUTORIAL,		// チュートリアル(操作説明)
 		SCENE_GAME,			// ゲーム
 		SCENE_RESULT,		// リザルト
 //		SCENE_CLEAR,		// リザルト（ゲームクリア）
@@ -43,8 +46,9 @@ private:
 	bool m_IsEndGame;	// 終了判定
 
 	// シーン
-	SceneGame*		m_pSceneGame;
+	SceneTitle*		m_pSceneTitle;
 	SceneTutorial*	m_pSceneTutorial;
+	SceneGame*		m_pSceneGame;
 	SceneResult*	m_pSceneResult;
 
 

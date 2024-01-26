@@ -186,12 +186,6 @@
     <ClCompile Include="Curtain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneTutorial.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneResult.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
     <ClCompile Include="Curtain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -221,6 +215,12 @@
     </ClCompile>
     <ClCompile Include="Haikei.cpp">
       <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTutorial.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneResult.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,18 +341,12 @@
     <ClInclude Include="Curtain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SceneTutorial.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneResult.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
     <ClInclude Include="Curtain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-	<ClInclude Include="SceneManager.hpp">
-		<Filter>ヘッダー ファイル\App</Filter>
-	</ClInclude>
+    <ClInclude Include="SceneManager.hpp">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
     <ClInclude Include="Select.h">
       <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
@@ -371,9 +365,14 @@
     <ClInclude Include="ObjectAutoMove.h">
       <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
-
     <ClInclude Include="Haikei.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneResult.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTutorial.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

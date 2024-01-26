@@ -4,9 +4,9 @@
 
 #define FADE_TEST 1
 
-SceneGame::SceneGame()
-	:  m_pSound(nullptr)
-	,  m_pSourceVoice(nullptr)
+SceneGame::SceneGame(SceneManager* pSceneManager)
+	: m_pSound(nullptr)
+	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
 	, m_pCamera{ nullptr, nullptr,nullptr }
 	, m_pobjcamera(nullptr)
