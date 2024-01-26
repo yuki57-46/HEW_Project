@@ -185,8 +185,10 @@ void Player::Update(float tick)
 		m_lastFacingDirection = m_rotationY;
 	}
 
+	//非憑依時プレイヤー移動
 	if (ok == false)
 	{
+
 		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
