@@ -172,13 +172,13 @@ void Object::Update()
 		if (IsKeyPress('Y'))
 		{
 			char y[256];
-			snprintf(y, sizeof(y), "x座標 %f", m_pos.y);
+			snprintf(y, sizeof(y), "y座標 %f", m_pos.y);
 			MessageBox(0, y, "憑依中のオブジェクトの座標", MB_OK);
 		}
 		if (IsKeyPress('Z'))
 		{
 			char z[256];
-			snprintf(z, sizeof(z), "x座標 %f", m_pos.z);
+			snprintf(z, sizeof(z), "z座標 %f", m_pos.z);
 			MessageBox(0, z, "憑依中のオブジェクトの座標", MB_OK);
 		}
 		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
