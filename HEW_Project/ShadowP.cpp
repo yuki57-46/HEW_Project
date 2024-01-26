@@ -57,6 +57,12 @@ ShadowP::ShadowP()
 	maxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
 
 	SetBounds(minBound, maxBound);
+
+	//進行方向に対する影君の向きの初期化
+	if (m_IsAlterDir == false)
+	{
+		m_rotationY = 180.0f;
+	}
 }
 
 
@@ -99,18 +105,10 @@ void ShadowP::Update(float tick)
 	if (m_IsAlterDir == true)
 	{
 		m_pos.x += 0.01;
-		if (m_IsAlterDir == true || m_LastDir == false)
-		{
-			m_rotationY = 0.0f;
-		}
 	}
 	else if (m_IsAlterDir == false)
 	{
 		m_pos.x -= 0.01;
-		if (m_IsAlterDir == false || m_LastDir == true)
-		{
-			m_rotationY = 180.0f;
-		}
 	}
 
 	//重力
@@ -135,7 +133,6 @@ void ShadowP::Update(float tick)
 
 
 	SetBounds(PMinBound, PMaxBound);  //最小値と最大値をセット
-	m_LastDir = m_IsAlterDir;
 }
 
 void ShadowP::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -232,7 +229,7 @@ void ShadowP::ShadowPPos()
 
 void ShadowP::ShadowPupY()
 {
-	m_pos.y += 0.02;
+	m_pos.y += 0.05;
 }
 
 void ShadowP::Use()
@@ -240,10 +237,12 @@ void ShadowP::Use()
 	if (m_IsAlterDir == false)
 	{
 		m_IsAlterDir = true;
+		m_rotationY = 0.0f;
 	}
 	else
 	{
 		m_IsAlterDir = false;
+		m_rotationY = 180.0f;
 	}
 }
 
