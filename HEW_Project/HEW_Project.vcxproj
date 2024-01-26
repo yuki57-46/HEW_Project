@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{71F577BF-3A8E-4D29-89E0-ED7A1DA17788}</ProjectGuid>
+    <ProjectGuid>{D90E9305-071E-4685-A79B-5D1E03D69DD9}</ProjectGuid>
     <RootNamespace>My09ShaderBase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
