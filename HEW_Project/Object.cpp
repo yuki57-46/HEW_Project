@@ -461,7 +461,7 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	hobjectMaxBound.z *= m_scale.z;
 
 
-	if (cobjectMinBound.y < 0)
+	if (hobjectMinBound.y < 0)
 	{
 		a = hobjectMinBound.y *= -1;
 		hobjectMaxBound.y += a;
