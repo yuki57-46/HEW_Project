@@ -35,14 +35,9 @@ BackShadow::BackShadow()
 	, m_SPposY(0.0f)
 	, m_SPpos(0.0f, 0.0f, 0.0f)
 	, m_alpha{0}
-	, m_alpha2{0}
 	, m_underAlpha{0}
 	, m_underAlpha2{0}
 	, m_PleyerSenter{0}
-	, m_Player_a{0}
-	, m_sumAlpha(0)
-	, m_alphaData(0)
-	, m_noAlphaData(0)
 	, m_nFeetAlpha(0)
 	, m_nBodyAlpha(0)
 	, m_nHeadAlpha(0)
@@ -63,7 +58,6 @@ BackShadow::BackShadow()
 	, m_castGoalsizeX(0)			// ゴールのXサイズ
 	, m_castGoalsizeY(0)			// ゴールのYサイズ
 	, m_collisionFlag(false)
-	, m_upFlag(false)
 	, m_LRcheck(false)
 	,m_pSDSESdCoin(nullptr)
 	,m_pSVSESdCoin(nullptr)
@@ -193,8 +187,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		// Y軸は上が 0 下が 360
 
 		// 当たり判定用変数初期化
-		int shadowSizeX = 5;
-		int shadowSizeY = 40;
+		int shadowSizeX = SHADOWPLAYER_SIZE_X;
+		int shadowSizeY = SHADOWPLAYER_SIZE_Y;
 		// レンダー当たり判定用変数更新
 		m_SPpos = m_pShadowPlayer->NowPos();				// 影の座標を所得
 		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		// X軸をレンダーのウィンドウ座標に合わせて変換
@@ -341,9 +335,6 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		ShadowUnderCollision(m_underAlpha, m_underAlpha2);
 
 		// 必要αデータ初期化
-		m_alphaData = 1;
-		m_noAlphaData = 1;
-		m_sumAlpha = 0;
 		m_nFeetAlpha = 0;
 		m_nBodyAlpha = 0;
 		m_nHeadAlpha = 0;
@@ -378,35 +369,13 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 				{// 頭のα値
 					m_nHeadAlpha++;
 				}
-				m_sumAlpha += m_alpha;
-				m_alphaData++;
-			}
-			if (m_alpha < 230)
-			{
-				m_noAlphaData++;
+
+				// コイン当たり判定
+				CoinCollection(Coin1, Coin2, Coin3);
 			}
 		}
 		// 壁、階段当たり判定(関数)
 		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
-
-		if (!(m_indexY - 41 < 1))
-		{
-			// コイン当たり判定
-			if (m_LRcheck == false)
-			{
-				m_alpha = pData[(m_indexY - 40) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-				m_alpha2 = pData[(m_indexY - 5) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-				// コイン判定
-				CoinCollection(Coin1, Coin2, Coin3, m_alpha, m_alpha2);
-			}
-			else
-			{
-				m_alpha = pData[(m_indexY - 40) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-				m_alpha2 = pData[(m_indexY - 5) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-				// コイン判定
-				CoinCollection(Coin1, Coin2, Coin3, m_alpha2, m_alpha);
-			}
-		}
 	});
 
 
@@ -511,43 +480,26 @@ bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 }
 
 //コインの当たり判定＆処理
-void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegAlpha, BYTE BodyAlpha)
+void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 {
 	// コインの取得処理
 	// コイン1
 	if (IsHit(BoxShadowPlayer, BoxCoin1))
 	{
-		// 影とコインが重なったらコインを取得する
-		if (RegAlpha > 240 || BodyAlpha > 240)
-		{
-			Coin1->SetCollect(true);
-			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
-		}
+		Coin1->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
 	// コイン2
 	if (IsHit(BoxShadowPlayer, BoxCoin2))
 	{
-		// 影とコインが重なったらコインを取得する
-		if (RegAlpha > 240 || BodyAlpha > 240)
-		{
-			Coin2->SetCollect(true);
-			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
-		}
+		Coin2->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
 	// コイン3
 	if (IsHit(BoxShadowPlayer, BoxCoin3))
 	{
-		// 影とコインが重なったらコインを取得する
-		if (RegAlpha > 240 || BodyAlpha > 240)
-		{
-			Coin3->SetCollect(true);
-			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
-		}
-	}
-
-	if (RegAlpha > 240)
-	{
-		int a = 0;
+		Coin3->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
 }
 

@@ -33,7 +33,7 @@ public:
 	void ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha);
 	void ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2);
 	bool ShadowEdgeCollision(int h, UINT width);
-	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegAlpha, BYTE bodyAlpha);//コインの所得処理
+	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3);//コインの所得処理
 	void GoalCollision(Goal* Goal);//ゴール
 	bool IsHit(Box Box1, Box Box2);
 private:
@@ -54,23 +54,14 @@ private:
 	float m_SPposX;				// 影プレイヤーの位置のXの値
 	float m_SPposY;				// 影プレイヤーの位置のYの値
 	BYTE m_alpha;				// レンダーウィンドウのα値
-	BYTE m_alpha2;				// レンダーウィンドウのα値
 	BYTE m_underAlpha;			// 足元のα値
 	BYTE m_underAlpha2;			// 足元のめり込み解消
 	BYTE m_PleyerSenter;		// 影君のデス判定用
-	BYTE m_Player_a;			// プレイヤーの位置のα値
 	bool m_collisionFlag;		// 当たり判定をとったらtrueになる
-	bool m_upFlag;				// 斜面かどうか
-	bool m_underFlag;			// 足場があるかどうか
-	int m_sumAlpha;				// α値の合計
-	int m_alphaData;			// スキャン範囲にα値のある場所の数
-	int m_noAlphaData;			// スキャン範囲にα値のない場所の数
 	int m_nFeetAlpha;			// 足元のα値の個数
 	int m_nBodyAlpha;			// 胴体のα値の個数
 	int m_nHeadAlpha;			// 頭のα値の個数
 	bool m_LRcheck;				// 進行方向確認
-
-	bool m_draw;
 
 	//影のみに描きたい物
 	ShadowP* m_pShadowPlayer;	// 影プレイヤー
