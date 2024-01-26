@@ -42,7 +42,10 @@ public:
 	void Draw();
 
 private:
-	Texture*		m_pTexture;
+	Texture*		m_pTexture1;
+	Texture*		m_pTexture2;
+	Texture*		m_pTexture3;
+
 	SceneManager*	m_pSceneManager;
 
 	Screen* m_pScreen;

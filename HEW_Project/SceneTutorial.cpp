@@ -4,25 +4,49 @@
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
 
-#define FILENAME "Assets/Texture/gameover.png"	// 確認用のテクスチャ
+#define FILENAME1 "Assets/Texture/gametutorial.png"	// 操作画面
+#define FILENAME2 "Assets/Texture/enter.png"		// start push Enter文字
+#define FILENAME3 "Assets/Texture/message.png"		// 操作一覧の文字
 
 SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
-	: m_pTexture(nullptr)
+	: m_pTexture1(nullptr)
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 {
-	m_pTexture = new Texture();
-	if (FAILED(m_pTexture->Create(FILENAME)))
+	m_pTexture1 = new Texture();
+	if (FAILED(m_pTexture1->Create(FILENAME1)))
 	{
 		MessageBox(NULL, "Title", "Error", MB_OK);
+	}
+
+	m_pTexture2 = new Texture();
+	if (FAILED(m_pTexture2->Create(FILENAME2)))
+	{
+		MessageBox(NULL, "Enter message", "Error", MB_OK);
+	}
+
+	m_pTexture3 = new Texture();
+	if (FAILED(m_pTexture3->Create(FILENAME3)))
+	{
+		MessageBox(NULL, "Enter message", "Error", MB_OK);
 	}
 }
 
 SceneTutorial::~SceneTutorial()
 {
-	if (m_pTexture)
+	if (m_pTexture1)
 	{
-		delete m_pTexture;
-		m_pTexture = nullptr;
+		delete m_pTexture1;
+		m_pTexture1 = nullptr;
+	}
+	if (m_pTexture2)
+	{
+		delete m_pTexture2;
+		m_pTexture2 = nullptr;
+	}
+	if (m_pTexture3)
+	{
+		delete m_pTexture3;
+		m_pTexture3 = nullptr;
 	}
 }
 
@@ -38,28 +62,54 @@ void SceneTutorial::Draw()
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
-	// ワールド行列はXとYのみを考慮して作成
-	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(
-		0.8f, 0.8f, 0.0f);		// ワールド行列(必要に応じて変数を増やしたり、複数処理したり)
+	// XとYのみ考慮したワールド行列
+	DirectX::XMMATRIX world =
+		DirectX::XMMatrixTranslation(
+			640.0f, 360.0f, 0.0f);
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
-	// ビュー行列は2Dカメラだとカメラの位置があまり関係ないので、単位行列を設定
+	// 2D用のビュー行列（単位行列）
 	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
-	// プロジェクション行列には2Dとして表示するための行列を設定する
-	//	この行列で2Dのスクリーンの大きさが決まる
-	DirectX::XMMATRIX proj =
-		DirectX::XMMatrixOrthographicOffCenterLH(
-			//			-400.0f, 400.0f, 180.0f, -150.0f, 0.1f, 10.0f);// 平行投影を設定
-			-150.0f, 150.0f, 120.0f, -90.0f, 0.1f, 10.0f
-			/*0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f*/);// 平行投影を設定
+	// 2D表示のためのプロジェクション行列
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f);
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
 	// スプライトの設定
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
-	Sprite::SetSize(DirectX::XMFLOAT2(300.0f, -300.0f));
-	Sprite::SetTexture(m_pTexture);
-	Sprite::Draw();
+//	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
+
+	// テクスチャ1の描画
+	{
+		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
+		Sprite::SetTexture(m_pTexture1);
+		Sprite::Draw();
+	}
+
+	// テクスチャ2の描画
+	world = DirectX::XMMatrixTranslation(
+		360.0f, 600.0f, 0.0f);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
+	Sprite::SetWorld(mat[0]);
+
+	{
+		Sprite::SetSize(DirectX::XMFLOAT2(360.0f, -120.0f));
+		Sprite::SetTexture(m_pTexture2);
+		Sprite::Draw();
+	}
+
+	// テクスチャ3の描画
+	world = DirectX::XMMatrixTranslation(
+		1200.0f, 40.0f, 0.0f);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
+	Sprite::SetWorld(mat[0]);
+
+	{
+		Sprite::SetSize(DirectX::XMFLOAT2(140.0f, -60.0f));
+		Sprite::SetTexture(m_pTexture3);
+		Sprite::Draw();
+	}
 }
