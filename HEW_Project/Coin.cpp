@@ -124,15 +124,11 @@ void Coin::Draw(float x, float y, float z, float sizeX, float sizeY, int num)
 }
 
 
-float Coin::SetPosition(float x, float y, float z)
+void Coin::SetPosition(float x, float y, float z)
 {
 	m_CoinPos.x = x;
 	m_CoinPos.y = y;
 	m_CoinPos.z = z;
-
-	return m_CoinPos.x;
-	return m_CoinPos.y;
-	return m_CoinPos.z;
 }
 
 DirectX::XMFLOAT3 Coin::GetPosition() const
