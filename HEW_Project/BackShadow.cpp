@@ -114,16 +114,6 @@ BackShadow::~BackShadow()
 		delete m_pRTVTexture;
 		m_pRTVTexture = nullptr;
 	}
-	if (m_pRTV_BS)
-	{
-		delete m_pRTV_BS;
-		m_pRTV_BS = nullptr;
-	}
-	if (m_pDSV_BS)
-	{
-		delete m_pDSV_BS;
-		m_pDSV_BS = nullptr;
-	}
 	if (m_pShadowPlayer)
 	{
 		delete m_pShadowPlayer;
@@ -210,6 +200,15 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_castPosY = static_cast<int>(m_SPposY * height);
 		m_indexX = m_castPosX;
 		m_indexY = m_castPosY;
+
+		if (m_indexY < 0)
+		{
+			m_indexY = 1;
+		}
+		if (m_indexY > 360)
+		{
+			m_indexY = 1;
+		}
 
 		// ゴール
 		if (Goal->IsGoal == false)
@@ -319,6 +318,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		// 壁、階段当たり判定(ループ)
 		for (int j = 0; j < SHADOWPLAYER_SIZE_Y; j++)
 		{
+			if (m_indexY - j <= 0 || m_indexY - j > 360)
+			{
+				break;
+			}
 			if (m_LRcheck == false)
 			{
 				m_alpha = pData[(m_indexY - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
@@ -329,12 +332,12 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			}
 
 			// 平均
-			if (m_alpha > 200)
+			if (m_alpha > 240)
 			{
 				m_sumAlpha += m_alpha;
 				m_alphaData++;
 			}
-			if (m_alpha < 100)
+			if (m_alpha < 230)
 			{
 				m_noAlphaData++;
 			}
@@ -345,15 +348,15 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		// コイン当たり判定
 		if (m_LRcheck == false)
 		{
-			m_alpha		= pData[(m_indexY - 40) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			m_alpha2	= pData[(m_indexY - 5) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+//			m_alpha		= pData[(m_indexY - 40) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+//			m_alpha2	= pData[(m_indexY - 5) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			// コイン判定
 			CoinCollection(Coin1, Coin2, Coin3, m_alpha, m_alpha2);
 		}
 		else
 		{
-			m_alpha		= pData[(m_indexY - 40) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			m_alpha2	= pData[(m_indexY - 5) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+//			m_alpha		= pData[(m_indexY - 40) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+//			m_alpha2	= pData[(m_indexY - 5) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			// コイン判定
 			CoinCollection(Coin1, Coin2, Coin3, m_alpha2, m_alpha);
 		}
@@ -449,7 +452,7 @@ void BackShadow::ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2)
 // 画面端(左右)判定
 bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 {
-	if (h * width + 15== m_indexY * width + m_indexX)
+	if (h * width + 15 == m_indexY * width + m_indexX)
 	{// 左の画面端
 		return true;
 	}
