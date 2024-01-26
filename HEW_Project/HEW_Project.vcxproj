@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d90e9305-071e-4685-a79b-5d1e03d69dd9}</ProjectGuid>
+    <ProjectGuid>{D90E9305-071E-4685-A79B-5D1E03D69DD9}</ProjectGuid>
     <RootNamespace>My09ShaderBase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -191,6 +191,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gamepad.cpp" />
     <ClCompile Include="Goal.cpp" />
+    <ClCompile Include="Haikei.cpp" />
     <ClCompile Include="HCollision.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="ItemUI.cpp" />
@@ -202,7 +203,9 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="ObjectAutoMove.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="ObjectNot.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneResult.cpp" />
@@ -230,7 +233,9 @@
     <ClInclude Include="Fade.hpp" />
     <ClInclude Include="Curtain.h" />
     <ClInclude Include="Goal.h" />
+    <ClInclude Include="Haikei.h" />
     <ClInclude Include="ItemUI.h" />
+    <ClInclude Include="ObjectAutoMove.h" />
     <ClInclude Include="Objectcamera.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CameraDebug.h" />
@@ -253,6 +258,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="ObjectNot.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneManager.hpp" />

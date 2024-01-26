@@ -16,12 +16,13 @@ Lever::Lever()
 	, LeverMaxBound(0.5f, 0.5f, 0.5f)
 	, hLeverMinBound(-0.5f, -0.5f, -0.5f)
 	, hLeverMaxBound(0.5f, 0.5f, 0.5f)
+	, m_move(false)
 	
 {
 	m_pLeverModel = new Model;
 
 
-	if (!m_pLeverModel->Load("Assets/lever/LeverM.fbx", Model::Flip::XFlip)) {
+	if (!m_pLeverModel->Load("Assets/Model/Block/LeverM.fbx", Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー‗レバー", "Error", MB_OK);
 	}
 	m_pLeverVS = new VertexShader();
@@ -55,9 +56,20 @@ Lever::~Lever()
 
 void Lever::Update()
 {
-
 	
 
+	if (m_move == true)
+	{
+		if (IsKeyTrigger(VK_UP))
+		{
+				ModelchgUp();
+		}
+		if (IsKeyTrigger(VK_DOWN))
+		{
+			ModelchgDown();
+		}
+	}
+	
 	SetBounds(LeverMinBound, LeverMaxBound);  //最小値と最大値をセット
 	HSetBounds(hLeverMinBound, hLeverMaxBound);//憑依用の当たり判定
 	
@@ -175,22 +187,32 @@ void Lever::Create(float posX, float posY, float posZ, float scaleX, float scale
 
 }
 
+void Lever::SetMoveTrue()
+{
+	m_move = true;
+}
+
+void Lever::SetMoveFalse()
+{
+	m_move = false;
+}
+
 
 
 
 
 void Lever::ModelchgUp()
 {
-	if (m_pLeverModel->Load("Assets/Model/test_model/test_block.fbx", Model::Flip::XFlip));
+	 (m_pLeverModel->Load("Assets/Model/Block/LeverU.fbx", Model::Flip::XFlip));
 }
 
 void Lever::ModelchgDown()
 {
-	if (m_pLeverModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip));
+	(m_pLeverModel->Load("Assets/Model/Block/LeverD.fbx", Model::Flip::XFlip));
 }
 
 
 void Lever::ModelchgNormal()
 {
-	if (m_pLeverModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip));
+	(m_pLeverModel->Load("Assets/Model/Block/LeverM.fbx", Model::Flip::XFlip));
 }

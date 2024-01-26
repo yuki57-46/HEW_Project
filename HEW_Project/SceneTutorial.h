@@ -38,7 +38,7 @@ class SceneTutorial
 public:
 	SceneTutorial(SceneManager *pSceneManager);
 	~SceneTutorial();
-	void Update(float tick);
+	void Update();
 	void Draw();
 
 private:

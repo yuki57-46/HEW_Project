@@ -18,6 +18,14 @@
 //DirectX::XMFLOAT3 cStairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ブロック同士用
 //DirectX::XMFLOAT3 cStairMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 
+#define Max_X (2.23f)
+#define Min_X (-2.23f)
+
+#define Max_Z (3.36f)
+#define Min_Z (1.8f)
+
+
+
 std::chrono::steady_clock::time_point lastSoundPlayTimeStair;
 const std::chrono::milliseconds soundIntervalStair = std::chrono::milliseconds(3000);//再生時間三秒の時
 Stair::Stair()
@@ -75,21 +83,21 @@ Stair::Stair()
 		{minBound.x, maxBound.y, maxBound.z},
 		{maxBound.x, minBound.y, minBound.z},  //左下
 		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y, minBound.z},
-		{maxBound.x - 0.25f, minBound.y, maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
 		{minBound.x, minBound.y, minBound.z},  //右下
 		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + 0.25f, minBound.z},
-		{minBound.x, minBound.y + 0.25f, maxBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
 
-		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
-		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, maxBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, minBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, maxBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, minBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
 	};
 }
 
@@ -116,7 +124,7 @@ void Stair::Update()
 	{
 		m_pos.y -= 0.05f;
 	}
-	float moveSpeed = 0.03f; // 移動速度の調整
+	float moveSpeed = 0.007f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
 	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -254,7 +262,7 @@ void Stair::Update()
 				frame -= moveSpeed * 0.01;
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
-				m_pos.y += frame * 0.003f;
+				m_pos.y += frame * 0.001f;
 
 				if (m_pos.y > 2.5f)
 				{
@@ -263,12 +271,12 @@ void Stair::Update()
 			}
 			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
 			{
-				m_pos.y -= 0.1f;
+				m_pos.y -= 0.05f;
 				gravity = true;
 			}
 			if (m_pos.y <= 0.0f&&frame <= 0)
 			{
-				frame = 50;
+				frame = 30;
 			}
 
 		}
@@ -285,9 +293,9 @@ void Stair::Update()
 	CSetBounds(cStairMinBound, cStairMaxBound);//ブロック同士の当たり判定
 
 
-	if (m_pos.x >= 7.0f || m_pos.x <= -7.0f
-		|| m_pos.z >= 7.0f || m_pos.z <= -5.0f
-		|| m_pos.y >= 7.0f)
+	if (m_pos.x >= Max_X || m_pos.x <= Min_X
+		|| m_pos.z >= Max_Z || m_pos.z <= Min_Z
+		|| m_pos.y >= 4.0f)
 	{
 
 		OBJPos();
@@ -317,26 +325,27 @@ void Stair::Update()
 	//// Add more points as needed
 	//};
 	points = {
-		{minBound.x, maxBound.y, minBound.z},  //右上
+			{minBound.x, maxBound.y, minBound.z},  //右上
 		{minBound.x, maxBound.y, maxBound.z},
 		{maxBound.x, minBound.y, minBound.z},  //左下
 		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y, minBound.z},
-		{maxBound.x - 0.25f, minBound.y, maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
 		{minBound.x, minBound.y, minBound.z},  //右下
 		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + 0.25f, minBound.z},
-		{minBound.x, minBound.y + 0.25f, maxBound.z},
-		
-		{maxBound.x - 0.375f, minBound.y + 0.375f, minBound.z},
-		{maxBound.x - 0.375f, minBound.y + 0.375f, maxBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, minBound.z},
-		{maxBound.x - 0.25f, minBound.y + 0.25f, maxBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, minBound.z},
-		{maxBound.x - 0.125f, minBound.y + 0.125f, maxBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, minBound.z},
-		{maxBound.x - 0.075f, minBound.y + 0.075f, maxBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
 	};
+
 
 }
 void Stair::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -610,7 +619,7 @@ void Stair::MoveStair(float y)
 
 void Stair::framepls()
 {
-	frame = 25;
+	frame = 30;
 }
 
 
@@ -652,7 +661,7 @@ void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 
 void Stair::SetSlope()
 {
-	m_pos.x += 0.05;
+	m_pos.x += 0.005;
 }
 
 void Stair::SetSlopeY(float y)

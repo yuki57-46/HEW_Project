@@ -4,7 +4,7 @@
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
 
-#define FILENAME "Assets/Texture/Title.png"
+#define FILENAME "Assets/Texture/gameover.png"	// 確認用のテクスチャ
 
 SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	: m_pTexture(nullptr)
@@ -26,7 +26,7 @@ SceneTutorial::~SceneTutorial()
 	}
 }
 
-void SceneTutorial::Update(float tick)
+void SceneTutorial::Update()
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
@@ -51,7 +51,8 @@ void SceneTutorial::Draw()
 	DirectX::XMMATRIX proj =
 		DirectX::XMMatrixOrthographicOffCenterLH(
 			//			-400.0f, 400.0f, 180.0f, -150.0f, 0.1f, 10.0f);// 平行投影を設定
-			-150.0f, 150.0f, 120.0f, -90.0f, 0.1f, 10.0f);// 平行投影を設定
+			-150.0f, 150.0f, 120.0f, -90.0f, 0.1f, 10.0f
+			/*0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f*/);// 平行投影を設定
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
 	// スプライトの設定

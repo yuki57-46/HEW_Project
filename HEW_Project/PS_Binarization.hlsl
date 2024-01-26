@@ -47,6 +47,11 @@ float4 main(PS_IN pin) : SV_TARGET
 		return color;
 	}
 	
+	if (0.31f <= color.r && color.r <= 0.35f || 0.0f <= color.g && color.g <= 0.0f || 0.25 <= color.b && color.b <= 0.30f)
+	{
+		return color;
+	}
+	
 	//// RGB値を平均化
 	float gray = (color.r + color.g + color.b) / 3.0f;
 	////color = float4(gray, gray, gray, 1.0f);

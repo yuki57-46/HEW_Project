@@ -8,6 +8,9 @@ Fade::Fade(CurtainUI* curtain)
 	, m_time(0.0f)
 	, m_totalTime(0.0f)
 	, m_pCurtain(curtain)
+	, m_isIn(false)
+	, m_pTex(nullptr)
+	, m_pPS(nullptr)
 {
 	m_pTex = new Texture();
 	if (FAILED(m_pTex->Create("./Assets/Texture/Black.png")))
@@ -15,7 +18,12 @@ Fade::Fade(CurtainUI* curtain)
 		MessageBox(NULL, "[Fade.cpp] Failed to Load Texture", "Error", MB_OK);
 		return;
 	}
-
+	m_pPS = new PixelShader();
+	if (FAILED(m_pPS->Load("Assets/Shader/PS_Sprite.cso")))
+	{
+		MessageBox(nullptr, "PS_Sprite.cso", "Error", MB_OK);
+		return;
+	}
 	
 }
 
@@ -26,6 +34,11 @@ Fade::~Fade()
 	//	delete m_pCurtain;
 	//	m_pCurtain = nullptr;
 	//}
+	if (m_pPS)
+	{
+		delete m_pPS;
+		m_pPS = nullptr;
+	}
 	if (m_pTex)
 	{
 		delete m_pTex;
@@ -52,7 +65,17 @@ void Fade::Update()
 	{
 		rate = 1.0f - rate;
 	}
-	m_alpha = rate;
+	// 透明度を設定
+	// lerp(開始値, 終了値, 割合)
+	if (m_isIn == false)
+	{
+		m_alpha = rate;
+	}
+	else
+	{
+		m_alpha = 1.0f - cosf((rate * DirectX::XM_PI) / 2.0f);
+	}
+	
 
 	if ((GetAlpha() >= 0.5f && GetAlpha() <= 0.6f)&& m_isIn == false)
 	{
@@ -60,7 +83,7 @@ void Fade::Update()
 	}
 	if ((GetAlpha() >= 0.9f && GetAlpha() <= 1.0f) && m_isIn == true)
 	{
-		m_pCurtain->Start(true, m_time - 0.5f);
+		m_pCurtain->Start(true, m_time - 0.4f);
 	}
 }
 
@@ -90,6 +113,7 @@ void Fade::Draw()
 	//DrawVertexBuffer(m_pVtx, 4);
 
 	// スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
