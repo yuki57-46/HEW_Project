@@ -245,9 +245,6 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_indexX = m_castPosX;
 		m_indexY = m_castPosY;
 
-		//コイン
-		CoinCollection(Coin1, Coin2, Coin3);
-
 		const Color* pData = reinterpret_cast<const Color*>(colorData);
 		//m_Player_a = pData[m_indexY * width + m_indexX].a;	//プレイヤーの位置のα値を見たい
 		//m_alpha[0] = pData[m_indexY * width + m_indexX + 11].a;
@@ -273,11 +270,11 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 					{
 						if (m_LRcheck == false)
 						{
-							m_alpha = pData[(m_indexY - j) * width + m_indexX + 10 + i].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
+							m_alpha = pData[(m_indexY - j) * width + m_indexX + 7 + i].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
 						}
 						else
 						{
-							m_alpha = pData[(m_indexY - j) * width + m_indexX - 10 - i].a;
+							m_alpha = pData[(m_indexY - j) * width + m_indexX - 7 - i].a;	//(プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 						}
 
 						if (m_alpha > 200)
@@ -291,11 +288,24 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 						}
 					}
 				}
-
 				if (ShadowCollision(m_sumAlpha, m_alphaData, m_noAlphaData) || ShadowEdgeCollision(h, width))
 				{
 					m_collisionFlag = true;
 					break;
+				}
+				if (m_LRcheck == false)
+				{
+					m_alpha = pData[(m_indexY - 50) * width + m_indexX + 10].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
+					m_alpha2 = pData[(m_indexY - 10) * width + m_indexX + 10].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
+					//コイン
+					CoinCollection(Coin1, Coin2, Coin3, m_alpha, m_alpha2);
+				}
+				else
+				{
+					m_alpha = pData[(m_indexY - 20) * width + m_indexX - 10].a;	//レンダーウィンドウのα値を左上から一つずつ見てる
+					m_alpha2 = pData[(m_indexY - 1) * width + m_indexX - 10].a;
+					//コイン
+					CoinCollection(Coin1, Coin2, Coin3, m_alpha, m_alpha2);
 				}
 			}
 			if (m_collisionFlag)
@@ -410,14 +420,44 @@ bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 }
 
 //コインの当たり判定＆処理
-void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
+void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegAlpha, BYTE BodyAlpha)
 {
 	// コインの取得処理
 	// 影の座標
 	int shadowPosX = m_castPosX;
 	int shadowPosY = m_castPosY;
 
+	if (BodyAlpha > 240)
+	{
+		int a = 0;
+	}
 
+	//if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX &&
+	//	m_cast1CposX - m_castCsizeX / 2 < shadowPosX &&
+	//	m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&
+	//	m_cast1CposY - m_castCsizeY / 2 < shadowPosY)
+	//{
+	//	// 影とコインが重なったらコインを取得する
+	//	Coin1->SetCollect(true);
+	//}
+
+	//if (m_cast2CposX + m_castCsizeX / 2 > shadowPosX &&
+	//	m_cast2CposX - m_castCsizeX / 2 < shadowPosX &&
+	//	m_cast2CposY + m_castCsizeY / 2 > shadowPosY &&
+	//	m_cast2CposY - m_castCsizeY / 2 < shadowPosY)
+	//{
+	//	// 影とコインが重なったらコインを取得する
+	//	Coin2->SetCollect(true);
+	//}
+
+	//if (m_cast3CposX + m_castCsizeX / 2 > shadowPosX &&
+	//	m_cast3CposX - m_castCsizeX / 2 < shadowPosX &&
+	//	m_cast3CposY + m_castCsizeY / 2 > shadowPosY &&
+	//	m_cast3CposY - m_castCsizeY / 2 < shadowPosY)
+	//{
+	//	// 影とコインが重なったらコインを取得する
+	//	Coin3->SetCollect(true);
+	//}
 	if (m_cast1CposX + m_castCsizeX / 2 > shadowPosX &&
 		m_cast1CposX - m_castCsizeX / 2 < shadowPosX &&
 		m_cast1CposY + m_castCsizeY / 2 > shadowPosY &&
