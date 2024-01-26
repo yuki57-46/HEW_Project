@@ -257,7 +257,7 @@ void  ShadowP::NotUse()
 
 void ShadowP::Jump()
 {
-	m_moveY = 0.10f;
+	m_moveY = 0.05f;
 	m_pos.y += m_moveY;
 }
 

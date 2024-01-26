@@ -131,8 +131,10 @@ void ObjectAuto::Update()
 	//	m_pos.z -= moveSpeed * moveDirection.z;
 	//}
 
-	if (moveok == true)
+		if (moveok == true)
 	{
+			
+
 		if (IsKeyPress(VK_UP))
 		{
 			m_pos.z += moveSpeed;

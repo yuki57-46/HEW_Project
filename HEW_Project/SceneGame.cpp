@@ -123,21 +123,6 @@ SceneGame::~SceneGame()
 		delete m_pUI;
 		m_pUI = nullptr;
 	}
-	/*if (m_pPlayer)
-	{
-		delete m_pPlayer;
-		m_pPlayer = nullptr;
-	}*/
-	if (m_pRTV)
-	{
-		delete m_pRTV;
-		m_pRTV = nullptr;
-	}
-	if (m_pDSV)
-	{
-		delete m_pDSV;
-		m_pDSV = nullptr;
-	}
 	if (m_pCamera)
 	{
 		for (int i = 0; i < MAX_CAMERA; i++)

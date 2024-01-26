@@ -1098,13 +1098,17 @@ void ObjectMng::Update(float tick)
 
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 						{
-							//// effectこうしん
+							// effectこうしん
+							// エフェクトの描画処理
 							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
-
+							
 							//移動させる時
 							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
 							EffecMat.Translation(0.0f, -1.0f, 0.0f);
 							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
+
+
 
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
@@ -1537,6 +1541,9 @@ void ObjectMng::Update(float tick)
 							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
 							EffecMat.Translation(0.0f, -1.0f, 0.0f);
 							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+
+							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
+							
 
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
@@ -2041,7 +2048,8 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pPlayer->Draw(viewMatrix, projectionMatrix);
 	}
-
+	
+	//m_Effect.Reset();
 }
 
 

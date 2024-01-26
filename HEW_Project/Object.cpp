@@ -159,8 +159,36 @@ void Object::Update()
 
 	//m_jmp = m_pos;
 
+	//憑依時移動
 	if (moveok == true)
 	{
+#if _DEBUG
+		//現在の座標を表示
+		if (IsKeyPress('X'))
+		{
+			char x[256];
+			snprintf(x, sizeof(x), "x座標 %f", m_pos.x);
+			MessageBox(0, x, "憑依中のオブジェクトの座標", MB_OK);
+		}
+		if (IsKeyPress('Y'))
+		{
+			char y[256];
+			snprintf(y, sizeof(y), "y座標 %f", m_pos.y);
+			MessageBox(0, y, "憑依中のオブジェクトの座標", MB_OK);
+		}
+		if (IsKeyPress('Z'))
+		{
+			char z[256];
+			snprintf(z, sizeof(z), "z座標 %f", m_pos.z);
+			MessageBox(0, z, "憑依中のオブジェクトの座標", MB_OK);
+		}
+		if (IsKeyTrigger('C'))
+		{
+			char c[256];
+			sprintf(c,"x座標 %f \n y座標 %f\n z座標 %f", m_pos.x, m_pos.y, m_pos.z);
+			MessageBox(0, c, "憑依中のオブジェクトの座標", MB_OK);
+		}
+#endif
 		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
