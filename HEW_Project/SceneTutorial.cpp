@@ -103,7 +103,7 @@ void SceneTutorial::Draw()
 
 	// テクスチャ3の描画
 	world = DirectX::XMMatrixTranslation(
-		1200.0f, 40.0f, 0.0f);
+		100.0f, 40.0f, 0.0f);
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 	Sprite::SetWorld(mat[0]);
 
