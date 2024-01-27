@@ -585,14 +585,14 @@ bool Stair::SetR1()
 
 void Stair::SetColgravity()
 {
-	if (colgravity == true)
-	{
-		colgravity = false;
-	}
-	else/* if (colgravity == false)*/
-	{
+	//if (colgravity == true)
+	//{
+	//	colgravity = false;
+	//}
+	//else/* if (colgravity == false)*/
+	//{
 		colgravity = true;
-	}
+	//}
 }
 
 void Stair::SetColgravityfalse()

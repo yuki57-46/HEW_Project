@@ -99,7 +99,7 @@ ObjectMng::ObjectMng()
 		//{ -2.25f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
 
 		//=======================stage4=========================
-		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,1.0f,0.7f,0.01f},
+		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,4.0f,0.5f,0.01f},
 		/*{ 1.0f, 2.0f, 2.5f, 1.0f, 0.1f, 0.15f,4.0f,1.5f,0.01f},*/
 	};
 
@@ -948,10 +948,13 @@ void ObjectMng::Update(float tick)
 	{// ゴール
 		m_pStair[b].Update();
 	}
-
 	for (int i = 0; i < m_num; i++)
 	{
 		m_pObjects[i].Update();
+	}
+	for (int i = 0; i < m_num; i++)
+	{
+		
 		for (int b = 0; b < m_num3; b++)
 		{
 			for (int a = 0; a < m_num1; a++)
@@ -1005,7 +1008,7 @@ void ObjectMng::Update(float tick)
 							}
 							else if (gameObject->GetCMinBounds().y + 0.03 <= lift->GetMaxBounds().y)
 							{
-								//m_pObjects[i].OBJPos();
+								m_pObjects[i].OBJPos();
 
 							}
 							else if (m_pObjects[i].IsXZ())
@@ -1018,11 +1021,15 @@ void ObjectMng::Update(float tick)
 							}
 							if (gameObject->GetMaxBounds().y >= lift->GetCMinBounds().y)
 							{
-								//if(m_pLift_obj[a].IsMove()==true)
-								//{
-								//	//m_pObjects[i].OBJPosy();
-								//	//m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y);
-								//}
+								if(m_pLift_obj[a].IsMove()==true)
+								{
+									if (m_pObjects[i].IsMove() == false)
+									{
+										m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y + 0.03f);
+									}
+									//m_pObjects[i].OBJPosy();
+									
+								}
 							}
 						}
 					}
@@ -1052,6 +1059,18 @@ void ObjectMng::Update(float tick)
 							if (m_pLift_obj[a].IsMove())
 							{
 								m_pStair[b].MoveStair(liftposY);
+							}
+							if (gameObject->GetMaxBounds().y >= lift->GetCMinBounds().y)
+							{
+								if (m_pLift_obj[a].IsMove() == true)
+								{
+									if (m_pStair[b].IsMove() == false)
+									{
+										m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y + 0.03f);
+									}
+									//m_pObjects[i].OBJPosy();
+
+								}
 							}
 						}
 					}
@@ -1098,17 +1117,13 @@ void ObjectMng::Update(float tick)
 
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 						{
-							// effectこうしん
-							// エフェクトの描画処理
+							//// effectこうしん
 							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
-							
+
 							//移動させる時
 							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
 							EffecMat.Translation(0.0f, -1.0f, 0.0f);
 							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
-							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
-
-
 
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
@@ -1173,14 +1188,24 @@ void ObjectMng::Update(float tick)
 										{
 											//m_pObjects[i].OBJPosy();  //y以外過去座標へ
 											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05);
-											m_pObjects[i].SetF1();
-											m_pObjects[i].framepls();
+											
+											if (m_pObjects[j].IsMove() == true)
+											{
+												m_pObjects[i].Set1();
+											}
+											else
+											{
+												m_pObjects[i].SetF1();
+												m_pObjects[i].framepls();
+											}
+											
 										}
 										else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)  //すり抜け防止
 										{
 											/*m_pObjects[j].SetObjectTop();
 											m_pObjects[j].Set();*/
 											m_pObjects[j].OBJPosy();
+											//m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.02);
 										}
 										else if (m_pObjects[i].IsXZ())  //x,z軸から当たった場合
 										{
@@ -1272,8 +1297,15 @@ void ObjectMng::Update(float tick)
 													m_pStair[h].Set1();
 													m_pStair[h].Set();*/
 													m_pObjects[i].MoveObject(gameObject1->GetMaxBounds().y + 0.05);
-													m_pObjects[i].SetF1();
-													m_pObjects[i].framepls();
+													if (m_pStair[h].IsMove() == true)
+													{
+														m_pObjects[i].Set1();
+													}
+													else
+													{
+														m_pObjects[i].SetF1();
+														m_pObjects[i].framepls();
+													}
 												}
 												//else if (gameObject->GetMaxBounds().y >= gameObject1->GetCMinBounds().y)
 												//{
@@ -1370,26 +1402,63 @@ void ObjectMng::Update(float tick)
 										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05);
 										if (m_pObjects[j].IsMove())
 										{
+											m_pObjects[i].Set1();
+											m_pObjects[j].Set1();
 											m_pObjects[i].Set();  //下のブロックのmoveがtrueだった場合連動
 										}
 									}
-									else if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)
+									else if (gameObject->GetCMinBounds().y + 0.07 >= gameObject2->GetMaxBounds().y)
 									{
 										//m_pObjects[i].OBJPosy();
-										m_pObjects[i].OBJPosy();
+										//m_pObjects[i].OBJPosy();
+										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.07);
 										if (m_pObjects[j].IsMove())
 										{
+											m_pObjects[i].Set1();
+											m_pObjects[j].Set1();
 											m_pObjects[i].Set();  //下のブロックのmoveがtrueだった場合連動
 										}
 									}
 									else if (m_pObjects[j].IsXZ())  //連動時にブロック同士が衝突した場合の乗っているブロックの処理
 									{
-										for (int h = 0; h < m_num; h++)
+										if (gameObject2->GetCMinBounds().y + 0.05 >= gameObject->GetMaxBounds().y)
 										{
-											if (h == i || h == j)
+											//m_pObjects[i].OBJPosy();
+											//m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05);
+											//if (m_pObjects[j].IsMove())
+											//{
+											//	m_pObjects[i].Set();  //下のブロックのmoveがtrueだった場合連動
+											//}
+											//m_pObjects[j].OBJPos();
+											for (int h = 0; h < m_num; h++)
 											{
-												h++;
-											}
+												if (h == i)
+												{
+													h++;
+												}
+												if (h == j)
+												{
+													h++;
+												}
+												if (h > m_num)
+												{
+													continue;
+												}
+												if (GameObject* gameObject3 = dynamic_cast<GameObject*>(&m_pObjects[h]))
+												{
+													if (m_pObjects[j].col(*gameObject3))
+													{
+														if (m_pObjects[j].IsXZ())
+														{
+															if (m_pObjects[h].GetPos().y > gameObject2->GetCMinBounds().y && m_pObjects[h].GetPos().y < gameObject2->GetMaxBounds().y)
+															{
+																m_pObjects[j].OBJPos();
+															}
+														}
+													}
+												}
+										}
+										
 											//m_pObjects[j].OBJPos();
 											for (int l = 0; l < m_num3; l++)
 											{
@@ -1542,9 +1611,6 @@ void ObjectMng::Update(float tick)
 							EffecMat.Translation(0.0f, -1.0f, 0.0f);
 							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
 
-							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
-							
-
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
 							m_pStair[b].Set();
@@ -1601,9 +1667,15 @@ void ObjectMng::Update(float tick)
 										{
 
 											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05);
-											m_pStair[b].SetF1();
-											m_pStair[b].framepls();
-
+											if (m_pObjects[j].IsMove() == true)
+											{
+												m_pStair[b].Set1();
+											}
+											else
+											{
+												m_pStair[b].SetF1();
+												m_pStair[b].framepls();
+											}
 										}
 										else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)
 										{
@@ -1708,9 +1780,15 @@ void ObjectMng::Update(float tick)
 
 											//m_pStair[b].OBJPosy();
 											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05);
-											m_pStair[b].SetF1();
-											m_pStair[b].framepls();
-
+											if (m_pStair[b].IsMove() == true)
+											{
+												m_pStair[i].Set1();
+											}
+											else
+											{
+												m_pStair[b].SetF1();
+												m_pStair[b].framepls();
+											}
 										}
 										//else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)
 										//{
@@ -1899,6 +1977,7 @@ void ObjectMng::Update(float tick)
 										{
 											m_pStair[b].Set();
 											m_pStair[b].Set1();
+
 										}
 									}
 									if (gameObject->GetCMinBounds().y + 0.15 >= gameObject1->GetMaxBounds().y)
@@ -1944,7 +2023,20 @@ void ObjectMng::Update(float tick)
 										{
 											m_pStair[b].Set();
 											m_pStair[b].Set1();
+											m_pStair[h].Set1();
 										}
+									}
+									else if (gameObject->GetCMinBounds().y + 0.07 >= gameObject2->GetMaxBounds().y)
+									{
+
+										//m_pStair[b].OBJPosy();
+										m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.07);
+									/*	if (m_pStair[h].IsMove())
+										{
+											m_pStair[b].Set();
+											m_pStair[b].Set1();
+											m_pStair[h].Set1();
+										}*/
 									}
 									else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)
 									{
@@ -2048,8 +2140,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pPlayer->Draw(viewMatrix, projectionMatrix);
 	}
-	
-	//m_Effect.Reset();
+
 }
 
 
