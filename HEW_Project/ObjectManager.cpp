@@ -61,15 +61,20 @@ ObjectMng::ObjectMng()
 		//{-2.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f},
 
 		//=============stage4===================
-		{2.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f},
-		{0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f},
-		{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f},
-		{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f},
-		{-0.25f, 0.0f, 3.0f, 0.5f, 0.25f, 0.25f},
-		{-1.0f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f},
-		{-2.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f},
+		{3.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
+		{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
+		{1.0f, 2.0f, 0.0f, 0.5f, 0.5f, 0.5f},
+		{0.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.5f},
+		{-1.25f, 0.0f, 0.0f, 2.0f, 0.5f, 0.5f},
+		{-2.0f, 0.0f, 1.0f, 0.5f, 0.5f, 0.5f},
+		{-3.5f, 0.0f, 1.0f, 0.5f, 0.5f, 0.5f},
 
-
+		//=============stage5===================
+		{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},	//前後移動
+		{-0.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},	//左右移動
+		{-2.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.5f},
+		{-2.5f, 0.0f, 0.0f, 0.5f, 1.5f, 0.5f},
+		{-3.0f, 0.0f, 0.0f, 0.5f, 1.5f, 0.5f},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -99,8 +104,8 @@ ObjectMng::ObjectMng()
 		//{ -2.25f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
 
 		//=======================stage4=========================
-		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,4.0f,0.5f,0.01f},
-		/*{ 1.0f, 2.0f, 2.5f, 1.0f, 0.1f, 0.15f,4.0f,1.5f,0.01f},*/
+		{ 1.5f, 2.0f, 0.0f, 5.0f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
+		{ 2.0f, 3.0f, 0.0f, 2.0f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -168,11 +173,11 @@ ObjectMng::ObjectMng()
 		//{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
 
 		//===============stage4===============
-		{1.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,},
-		{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,},//逆向き
-		{0.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,},//逆向き
-		{-0.5f, 0.0f, 3.3f, 0.25f, 0.25f,0.25f},//逆向き
-		{-2.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,},
+		{2.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f,},
+		{2.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f,},//逆向き
+		{0.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f,},//逆向き
+		{-0.5f, 0.0f, 1.0f, 0.5f, 0.5f, 0.5f,},//逆向き
+		{-3.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f,},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -954,7 +959,7 @@ void ObjectMng::Update(float tick)
 	}
 	for (int i = 0; i < m_num; i++)
 	{
-		
+
 		for (int b = 0; b < m_num3; b++)
 		{
 			for (int a = 0; a < m_num1; a++)
@@ -1028,7 +1033,7 @@ void ObjectMng::Update(float tick)
 										m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y + 0.03f);
 									}
 									//m_pObjects[i].OBJPosy();
-									
+
 								}
 							}
 						}
@@ -1188,7 +1193,7 @@ void ObjectMng::Update(float tick)
 										{
 											//m_pObjects[i].OBJPosy();  //y以外過去座標へ
 											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05);
-											
+
 											if (m_pObjects[j].IsMove() == true)
 											{
 												m_pObjects[i].Set1();
@@ -1198,7 +1203,7 @@ void ObjectMng::Update(float tick)
 												m_pObjects[i].SetF1();
 												m_pObjects[i].framepls();
 											}
-											
+
 										}
 										else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)  //すり抜け防止
 										{
@@ -1458,7 +1463,7 @@ void ObjectMng::Update(float tick)
 													}
 												}
 										}
-										
+
 											//m_pObjects[j].OBJPos();
 											for (int l = 0; l < m_num3; l++)
 											{
@@ -2250,7 +2255,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 //
 //		//=======================stage4=========================
 //		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,1.3f,0.5f,0.008f},
-//		
+//
 //	};
 //
 //	//配列の要素の数から必要なブロック数を計算
