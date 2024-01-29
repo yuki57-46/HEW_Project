@@ -1,8 +1,9 @@
-#pragma once
+ï»¿#pragma once
 //#ifndef ___CAMERA_SHADOW_H___
 //#define ___CAMERA_SHADOW_H___
 #include "CameraBase.h"
 #include "BackShadow.h"
+#include "Shader.h"
 
 class CameraShadow
 	: public CameraBase
@@ -15,10 +16,12 @@ public:
 
 private:
 	//BackShadow* m_pBS;
-	//ƒJƒƒ‰‚Ìƒpƒ‰ƒ[ƒ^
+	//ã‚«ãƒ¡ãƒ©ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	float m_radXZ;
 	float m_radY;
 	float m_radius;
+
+	PixelShader* m_pPS;
 };
 
 //#endif // !___CAMERA_SHADOW_H___

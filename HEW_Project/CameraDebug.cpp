@@ -1,4 +1,4 @@
-#include "CameraDebug.h"
+ï»¿#include "CameraDebug.h"
 #include "Input.h"
 
 
@@ -21,7 +21,7 @@ void CameraDebug::Update()
 {
 	float Speed = 0.1f;
 
-	////©,ª,«,¨,Shift,Ctrl‚ÅƒJƒƒ‰‚Ì’‹“_‚ğ“®‚©‚·
+	////â†,â†‘,â†“,â†’,Shift,Ctrlã§ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’å‹•ã‹ã™
 	if (IsKeyPress('H'))
 	{
 		m_look.z += Speed;
@@ -47,8 +47,8 @@ void CameraDebug::Update()
 		m_look.y -= Speed;
 	}
 
-	//W,A,S,D,Q,E‚ÅƒJƒƒ‰‚Ì‹“_‚ğ“®‚©‚·
-	//‰ñ“]
+	//W,A,S,D,Q,Eã§ã‚«ãƒ¡ãƒ©ã®è¦–ç‚¹ã‚’å‹•ã‹ã™
+	//å›è»¢
 	if (IsKeyPress('W'))
 	{
 		m_radY -= Speed;
@@ -65,7 +65,7 @@ void CameraDebug::Update()
 	{
 		m_radXZ -= Speed;
 	}
-	//‹——£
+	//è·é›¢
 	if (IsKeyPress('Q'))
 	{
 		m_radius += Speed;

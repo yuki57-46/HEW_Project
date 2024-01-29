@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Model.h"
 #include "Shader.h"
 #include"Soundtest.h"
@@ -27,6 +27,8 @@ public:
 
 
 	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
+	void SetMoveTrue();
+	void SetMoveFalse();
 	void Set();
 	void SetF();
 	bool SetR();
@@ -34,18 +36,17 @@ public:
 
 	void OBJPos();
 	void OBJPosy();
-	void Modelchg();
-	void Modelchg2();
 
-	void Set1();
 
-	void SetF1();
 
-	bool SetR1();
+
 
 
 private:
-	Model* m_pLeverModel;
+	Model* m_pLeverModelN;
+	Model* m_pLeverModelUP;
+	Model* m_pLeverModelDown;
+
 	VertexShader* m_pLeverVS;
 	DirectX::XMFLOAT3 m_oldPos;
 	DirectX::XMFLOAT3 m_pos;
@@ -54,7 +55,7 @@ private:
 
 
 
-	
+	bool m_move;
 
 
 	bool ok;

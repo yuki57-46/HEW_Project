@@ -1,10 +1,10 @@
-#include "Lever.h"
+ï»¿#include "Lever.h"
 #include "Geometory.h"
 #include "Input.h"
 #include <chrono>
 
-//minbound maxbound‚ðƒƒ“ƒo•Ï”‚É
-//create•”•ª‚ÉƒXƒP[ƒ‹‚Æ“–‚½‚è”»’è‚ð‚©‚¯‡‚í‚¹‚éˆ—‚ð’Ç‰Á@y‚Í’Ç‰Á‚ÅŒvŽZ•K—v
+//minbound maxboundã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã«
+//createéƒ¨åˆ†ã«ã‚¹ã‚±ãƒ¼ãƒ«ã¨å½“ãŸã‚Šåˆ¤å®šã‚’ã‹ã‘åˆã‚ã›ã‚‹å‡¦ç†ã‚’è¿½åŠ ã€€yã¯è¿½åŠ ã§è¨ˆç®—å¿…è¦
 
 
 
@@ -12,24 +12,35 @@ Lever::Lever()
 	: m_pos(0.0f, 0.0f, 0.0f)
 	, m_scale(0.0f, 0.0f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
-	, LeverMinBound(-0.5f, -0.5f, -0.5f)//“–‚½‚è”»’è—p
+	, LeverMinBound(-0.5f, -0.5f, -0.5f)//å½“ãŸã‚Šåˆ¤å®šç”¨
 	, LeverMaxBound(0.5f, 0.5f, 0.5f)
 	, hLeverMinBound(-0.5f, -0.5f, -0.5f)
 	, hLeverMaxBound(0.5f, 0.5f, 0.5f)
+	, m_move(false)
 	
 {
-	m_pLeverModel = new Model;
+	m_pLeverModelN = new Model;
+	m_pLeverModelUP = new Model;
+	m_pLeverModelDown = new Model;
 
+	if (!m_pLeverModelN->Load("Assets/Model/Block/LeverM.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼â€—ãƒ¬ãƒãƒ¼", "Error", MB_OK);
+	}
 
-	if (!m_pLeverModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚ÝƒGƒ‰[", "Error", MB_OK);
+	if (!m_pLeverModelUP->Load("Assets/Model/Block/LeverU.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼â€—ãƒ¬ãƒãƒ¼", "Error", MB_OK);
+	}
+	if (!m_pLeverModelDown->Load("Assets/Model/Block/LeverD.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼â€—ãƒ¬ãƒãƒ¼", "Error", MB_OK);
 	}
 	m_pLeverVS = new VertexShader();
 	if (FAILED(m_pLeverVS->Load("Assets/Shader/VS_Model.cso")))
 	{
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
-	m_pLeverModel->SetVertexShader(m_pLeverVS);
+	m_pLeverModelN->SetVertexShader(m_pLeverVS);
+	m_pLeverModelUP->SetVertexShader(m_pLeverVS);
+	m_pLeverModelDown->SetVertexShader(m_pLeverVS);
 
 
 	SetBounds(minBound, maxBound);
@@ -40,10 +51,20 @@ Lever::Lever()
 
 Lever::~Lever()
 {
-	if (m_pLeverModel)
+	if (m_pLeverModelN)
 	{
-		delete m_pLeverModel;
-		m_pLeverModel = nullptr;
+		delete m_pLeverModelN;
+		m_pLeverModelN = nullptr;
+	}
+	if (m_pLeverModelUP)
+	{
+		delete m_pLeverModelUP;
+		m_pLeverModelUP = nullptr;
+	}
+	if (m_pLeverModelDown)
+	{
+		delete m_pLeverModelDown;
+		m_pLeverModelDown = nullptr;
 	}
 	if (m_pLeverVS)
 	{
@@ -55,11 +76,22 @@ Lever::~Lever()
 
 void Lever::Update()
 {
-
 	
 
-	SetBounds(LeverMinBound, LeverMaxBound);  //Å¬’l‚ÆÅ‘å’l‚ðƒZƒbƒg
-	HSetBounds(hLeverMinBound, hLeverMaxBound);//œßˆË—p‚Ì“–‚½‚è”»’è
+	if (m_move == true)
+	{
+		if (IsKeyTrigger(VK_UP))
+		{
+			
+		}
+		if (IsKeyTrigger(VK_DOWN))
+		{
+		
+		}
+	}
+	
+	SetBounds(LeverMinBound, LeverMaxBound);  //æœ€å°å€¤ã¨æœ€å¤§å€¤ã‚’ã‚»ãƒƒãƒˆ
+	HSetBounds(hLeverMinBound, hLeverMaxBound);//æ†‘ä¾ç”¨ã®å½“ãŸã‚Šåˆ¤å®š
 	
 
 }
@@ -70,16 +102,35 @@ void Lever::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionM
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚ÌÝ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	mat[1] = viewMatrix; // —^‚¦‚ç‚ê‚½ viewMatrix ‚ðŽg‚¤
-	mat[2] = projectionMatrix; // —^‚¦‚ç‚ê‚½ projectionMatrix ‚ðŽg‚¤
+	mat[1] = viewMatrix; // ä¸Žãˆã‚‰ã‚ŒãŸ viewMatrix ã‚’ä½¿ã†
+	mat[2] = projectionMatrix; // ä¸Žãˆã‚‰ã‚ŒãŸ projectionMatrix ã‚’ä½¿ã†
 
-	m_pLeverVS->WriteBuffer(0, mat);    //”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ðŽw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ð“n‚·
-	m_pLeverModel->Draw();
+	m_pLeverVS->WriteBuffer(0, mat);    //é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
+	if (m_move==false)
+	{
+		m_pLeverModelN->Draw();
+	}
 
+
+	if (m_move == true)
+	{
+		if (IsKeyPress(VK_UP))
+		{
+			m_pLeverModelUP->Draw();
+		}
+		else if (IsKeyPress(VK_DOWN))
+		{
+			m_pLeverModelDown->Draw();
+		}
+		else
+		{
+			m_pLeverModelN->Draw();
+		}
+	}
 }
 
 
@@ -110,7 +161,7 @@ DirectX::XMFLOAT3 Lever::Add(const DirectX::XMFLOAT3 & a, const DirectX::XMFLOAT
 //_
 
 
-//œßˆË“–‚½‚è”»’è
+//æ†‘ä¾å½“ãŸã‚Šåˆ¤å®š
 void Lever::HSetBounds(const DirectX::XMFLOAT3 & min, const DirectX::XMFLOAT3 & max)
 {
 	hminBound = HAdd(m_pos, min);
@@ -175,21 +226,17 @@ void Lever::Create(float posX, float posY, float posZ, float scaleX, float scale
 
 }
 
-
-
-
-//ƒuƒƒbƒN“¯Žm‚ª‚Ô‚Â‚©‚Á‚½Žž‚É•Ô‚·
-
-
-
-void Lever::Modelchg()
+void Lever::SetMoveTrue()
 {
-	if (m_pLeverModel->Load("Assets/Model/test_model/test_block.fbx", Model::Flip::XFlip));
+	m_move = true;
 }
 
-void Lever::Modelchg2()
+void Lever::SetMoveFalse()
 {
-	if (m_pLeverModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip));
+	m_move = false;
 }
+
+
+
 
 

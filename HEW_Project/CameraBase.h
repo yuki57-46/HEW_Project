@@ -1,4 +1,4 @@
-//#pragma once
+ï»¿//#pragma once
 #ifndef ___CAMERA_BASE_H___
 #define ___CAMERA_BASE_H___
 
@@ -12,19 +12,19 @@ public:
 
 	virtual void Update() = 0;
 
-	DirectX::XMFLOAT4X4 GetViewMatrix();		//“]’uÏ‚İƒrƒ…[s—ñ‚Ìæ“¾
-	DirectX::XMFLOAT4X4 GetProjectionMatrix();	//“]’uÏ‚İƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚Ìæ“¾
+	DirectX::XMFLOAT4X4 GetViewMatrix();		//è»¢ç½®æ¸ˆã¿ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®å–å¾—
+	DirectX::XMFLOAT4X4 GetProjectionMatrix();	//è»¢ç½®æ¸ˆã¿ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã®å–å¾—
 
-	DirectX::XMFLOAT4X4 GetShadowViewMatrix();			//‰e‚Ì“]’uÏ‚İƒrƒ…[s—ñ‚Ìæ“¾
-	DirectX::XMFLOAT4X4 GetShadowProjectionMatrix();	//‰e‚Ì“]’uÏ‚İƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚Ìæ“¾
+	DirectX::XMFLOAT4X4 GetShadowViewMatrix();			//å½±ã®è»¢ç½®æ¸ˆã¿ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®å–å¾—
+	DirectX::XMFLOAT4X4 GetShadowProjectionMatrix();	//å½±ã®è»¢ç½®æ¸ˆã¿ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã®å–å¾—
 
 	DirectX::XMFLOAT3 GetPos();
 	DirectX::XMFLOAT3 GetLook();
 
 protected:
-	DirectX::XMFLOAT3 m_pos, m_look, m_up;	//ƒrƒ…[s—ñ‚Ìİ’è‚É•K—v‚È•Ï”
-	DirectX::XMFLOAT3 m_Spos, m_Slook, m_Sup;	//ƒrƒ…[s—ñ‚Ìİ’è‚É•K—v‚È•Ï”
-	float m_fovy, m_aspect, m_near, m_far;	//ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚Ìİ’è‚É•K—v‚È•Ï”
+	DirectX::XMFLOAT3 m_pos, m_look, m_up;	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®è¨­å®šã«å¿…è¦ãªå¤‰æ•°
+	DirectX::XMFLOAT3 m_Spos, m_Slook, m_Sup;	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®è¨­å®šã«å¿…è¦ãªå¤‰æ•°
+	float m_fovy, m_aspect, m_near, m_far;	//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã®è¨­å®šã«å¿…è¦ãªå¤‰æ•°
 
 };
 

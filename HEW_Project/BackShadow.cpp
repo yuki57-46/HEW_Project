@@ -1,14 +1,24 @@
-#include "BackShadow.h"
+ï»¿#include "BackShadow.h"
 #include "Sprite.h"
 #include "Geometory.h"
 
-#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[‚Ì•\¦ƒTƒCƒYX
-#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.5f)	//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[‚Ì•\¦ƒTƒCƒYY
-#define RTV_3D_POS_WIDTH	(640.0f)			//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[•\¦‚ÌŒ´“_X
-#define RTV_3D_POS_HEIGHT	(360.0f)			//3D‹óŠÔã‚ÌƒŒƒ“ƒ_[•\¦‚ÌŒ´“_Y
+#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	// 3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è¡¨ç¤ºã‚µã‚¤ã‚ºX
+#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.5f)	// 3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è¡¨ç¤ºã‚µã‚¤ã‚ºY
+#define RTV_3D_POS_WIDTH	(640.0f)			// 3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼è¡¨ç¤ºã®åŸç‚¹X
+#define RTV_3D_POS_HEIGHT	(430.0f)			// 3Dç©ºé–“ä¸Šã®ãƒ¬ãƒ³ãƒ€ãƒ¼è¡¨ç¤ºã®åŸç‚¹Y
+#define SHADOWPLAYER_SIZE_Y	(55)				// å½±Playerã®ç¸¦å¹…
+#define SHADOWPLAYER_SIZE_X	(15)				// å½±Playerã®æ¨ªå¹…ã®åŠåˆ†
+#define RESET_POSISHION	(2000)				// å½±Playerã®æ¨ªå¹…ã®åŠåˆ†
+
 
 int testw = 10;
 int testh = 10;
+
+BackShadow::Box BoxCoin1;
+BackShadow::Box BoxCoin2;
+BackShadow::Box BoxCoin3;
+BackShadow::Box BoxGool;
+BackShadow::Box BoxShadowPlayer;
 
 BackShadow::BackShadow()
 	: m_pRTVTexture(nullptr)
@@ -16,6 +26,7 @@ BackShadow::BackShadow()
 	, m_pDSV_BS(nullptr)
 	, m_pCamera(nullptr)
 	, m_pShadowPlayer(nullptr)
+	,m_pScreen(nullptr)//27
 	, m_indexX(0)
 	, m_indexY(0)
 	, m_castPosX(0)
@@ -25,53 +36,81 @@ BackShadow::BackShadow()
 	, m_SPpos(0.0f, 0.0f, 0.0f)
 	, m_alpha{0}
 	, m_underAlpha{0}
-	, m_Player_a{0}
-	, m_sumAlpha(0)
-	, m_alphaData(0)
-	, m_noAlphaData(0)
+	, m_underAlpha2{0}
+	, m_PleyerSenter{0}
+	, m_nFeetAlpha(0)
+	, m_nBodyAlpha(0)
+	, m_nHeadAlpha(0)
+	, m_1Cpos(0.0f, 0.0f, 0.0f)		// ã‚³ã‚¤ãƒ³1ã®åº§æ¨™
+	, m_cast1CposX(0)				// ã‚³ã‚¤ãƒ³1ã®Xå¤‰æ›åº§æ¨™ç”¨
+	, m_cast1CposY(0)				// ã‚³ã‚¤ãƒ³1ã®Yå¤‰æ›åº§æ¨™ç”¨
+	, m_2Cpos(0.0f, 0.0f, 0.0f)		// ã‚³ã‚¤ãƒ³2ã®åº§æ¨™
+	, m_cast2CposX(0)		   		// ã‚³ã‚¤ãƒ³2ã®Xå¤‰æ›åº§æ¨™ç”¨
+	, m_cast2CposY(0)		   		// ã‚³ã‚¤ãƒ³2ã®Yå¤‰æ›åº§æ¨™ç”¨
+	, m_3Cpos(0.0f, 0.0f, 0.0f)		// ã‚³ã‚¤ãƒ³3ã®åº§æ¨™
+	, m_cast3CposX(0)				// ã‚³ã‚¤ãƒ³3ã®Xå¤‰æ›åº§æ¨™ç”¨
+	, m_cast3CposY(0)				// ã‚³ã‚¤ãƒ³3ã®Yå¤‰æ›åº§æ¨™ç”¨
+	, m_castCsizeX(0)				// ã‚³ã‚¤ãƒ³ã®Xã‚µã‚¤ã‚º
+	, m_castCsizeY(0)				// ã‚³ã‚¤ãƒ³ã®Yã‚µã‚¤ã‚º
+	, m_Goalpos(0.0f,0.0f,0.0f)		// ã‚´ãƒ¼ãƒ«ã®åº§æ¨™
+	, m_castGoalposX(0)
+	, m_castGoalposY(0)
+	, m_castGoalsizeX(0)			// ã‚´ãƒ¼ãƒ«ã®Xã‚µã‚¤ã‚º
+	, m_castGoalsizeY(0)			// ã‚´ãƒ¼ãƒ«ã®Yã‚µã‚¤ã‚º
 	, m_collisionFlag(false)
-	, m_upFlag(false)
 	, m_LRcheck(false)
+	,m_pSDSESdCoin(nullptr)
+	,m_pSVSESdCoin(nullptr)
+
 {
-	//ƒŒƒ“ƒ_[•\¦ŠÖ˜A‚ÌŠm•Û
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼è¡¨ç¤ºé–¢é€£ã®ç¢ºä¿
 	m_pRTVTexture = new Texture;
 	m_pRTV_BS = new RenderTarget;
 	m_pDSV_BS = new DepthStencil;
 
-	//ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg§ì
-	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280 / 2, 720 / 2);//ƒŒƒ“ƒ_[“à‚Ì‘å‚«‚³
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆåˆ¶ä½œ
+	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280 / 2, 720 / 2);// ãƒ¬ãƒ³ãƒ€ãƒ¼å†…ã®å¤§ãã•
 	m_pDSV_BS->Create(m_pRTV_BS->GetWidth(), m_pRTV_BS->GetHeight(), true);
 	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);
 
-	//‰e‚Ì‚İ‚É•\¦‚·‚é‚à‚Ì‚ÌŠm•Û
-	m_pShadowPlayer = new ShadowP;
+	// å½±ã®ã¿ã«è¡¨ç¤ºã™ã‚‹ã‚‚ã®ã®ç¢ºä¿
+	m_pShadowPlayer = new ShadowP();
+	m_pScreen = new Screen();//27
 
-	//ƒRƒs[—pƒtƒH[ƒ}ƒbƒgì¬
+	// ã‚³ãƒ”ãƒ¼ç”¨ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆä½œæˆ
 	m_pRTV_BS->CreateReadBuffer();
 
-	//‰e‚Ì“–‚½‚è”»’è—p•Ï”‰Šú‰»
+	// å½±ã®å½“ãŸã‚Šåˆ¤å®šç”¨å¤‰æ•°åˆæœŸåŒ–
 	m_SPpos = m_pShadowPlayer->NowPos();
 
-	//is•ûŒü‰Šú‰»
+	// é€²è¡Œæ–¹å‘åˆæœŸåŒ–
 	m_LRcheck = m_pShadowPlayer->isUse();
+
+	m_pSDSESdCoin = LoadSound("Assets/Sound/SE/Coinkaisyuu_Oobayashi.wav");
+
+	// PixelShader
+	m_pPS[0] = new PixelShader;
+	m_pPS[1] = new PixelShader;
+	m_pPS[2] = new PixelShader;
+	m_pPS[0]->Load("Assets/Shader/PS_Shadow.cso");
+	m_pPS[1]->Load("Assets/Shader/PS_Binarization.cso");
+	m_pPS[2]->Load("Assets/Shader/PS_Sprite.cso");
 }
 
 BackShadow::~BackShadow()
 {
+	for (int i = 0; i < 2; i++)
+	{
+		if (m_pPS[i])
+		{
+			delete m_pPS[i];
+			m_pPS[i] = nullptr;
+		}
+	}
 	if (m_pRTVTexture)
 	{
 		delete m_pRTVTexture;
 		m_pRTVTexture = nullptr;
-	}
-	if (m_pRTV_BS)
-	{
-		delete m_pRTV_BS;
-		m_pRTV_BS = nullptr;
-	}
-	if (m_pDSV_BS)
-	{
-		delete m_pDSV_BS;
-		m_pDSV_BS = nullptr;
 	}
 	if (m_pShadowPlayer)
 	{
@@ -82,116 +121,202 @@ BackShadow::~BackShadow()
 
 /**
  * @fn
- * ‰e(ƒŒƒ“ƒ_[)‚ÌXV
- * ‰eƒvƒŒƒCƒ„[‚ÌXV
+ * å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®æ›´æ–°
+ * å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ›´æ–°
  */
-void BackShadow::Update()
+void BackShadow::Update(float tick)
 {
-	m_pShadowPlayer->Update();
+
+	m_pShadowPlayer->Update(tick);
+
+	
 }
 
 /**
  * @fn
- * Šî–{“®ì@@‰e(ƒŒƒ“ƒ_[)‚Ì•`‰æ
- * Šî–{ˆÈŠO@@‰e‚ÌƒeƒNƒXƒ`ƒƒî•ñ‚ğæ“¾A“–‚½‚è”»’è—p•Ï”‚ÌXV
- * @brief ‰e(ƒŒƒ“ƒ_[)‚Ì•`‰æ
- * @param (Player* Player) ƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^
- * @param (ObjectMng* Obj) ƒIƒuƒWƒF‚Ìƒ|ƒCƒ“ƒ^
- * @sa QÆ‚·‚×‚«ŠÖ”‚ğ‘‚¯‚ÎƒŠƒ“ƒN‚ª“\‚ê‚é
- * @detail 3D‹óŠÔ‚É‚ ‚é‚à‚Ì‚ğ•\¦‚µ‚½‚¢‚Æ‚«‚Íuˆø”‚ğ‘‚â‚·v‚±‚Æ
+ * åŸºæœ¬å‹•ä½œã€€ï¼ã€€å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®æç”»
+ * åŸºæœ¬ä»¥å¤–ã€€ï¼ã€€å½±ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±ã‚’å–å¾—ã€å½“ãŸã‚Šåˆ¤å®šç”¨å¤‰æ•°ã®æ›´æ–°
+ * @brief å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®æç”»
+ * @param (Player* Player) ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿
+ * @param (ObjectMng* Obj) ã‚ªãƒ–ã‚¸ã‚§ã®ãƒã‚¤ãƒ³ã‚¿
+ * @sa å‚ç…§ã™ã¹ãé–¢æ•°ã‚’æ›¸ã‘ã°ãƒªãƒ³ã‚¯ãŒè²¼ã‚Œã‚‹
+ * @detail 3Dç©ºé–“ã«ã‚ã‚‹ã‚‚ã®ã‚’è¡¨ç¤ºã—ãŸã„ã¨ãã¯ã€Œå¼•æ•°ã‚’å¢—ã‚„ã™ã€ã“ã¨
  */
-void BackShadow::Draw(ObjectMng* Obj)
+void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3, Goal* Goal)
 {
-	//[“xƒoƒbƒtƒ@‚ÌƒNƒŠƒA
-	//m_pDSV_BS->Clear();
-
-	//ƒŒƒ“ƒ_[‚ÌFİ’è‚µA‚»‚ÌF‚Å‰æ–ÊƒNƒŠƒA
-	float color[4] = { 1.0f, 0.5f, 1.0f, 0.1f };
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è‰²è¨­å®šã—ã€ãã®è‰²ã§ç”»é¢ã‚¯ãƒªã‚¢
+	float color[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
 	m_pRTV_BS->Clear(color);
 	//m_pRTV_BS->Clear();
 
-	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);//ƒŒƒ“ƒ_[‚Ìİ’è
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã®è¨­å®š
+	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);
 
-	//‚±‚±‚É•\¦‚µ‚½‚¢‚à‚Ì‚ğ‚Á‚Ä‚­‚é
+	// ã“ã“ã«è¡¨ç¤ºã—ãŸã„ã‚‚ã®ã‚’æŒã£ã¦ãã‚‹
+
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
-	Obj->Draw(viewMatrix, projectionMatrix);
+    Obj->Draw(viewMatrix, projectionMatrix,false);
 	m_pShadowPlayer->Draw(viewMatrix, projectionMatrix);
 
+	// ã‚´ãƒ¼ãƒ«ã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸Šã«è¡¨ç¤º
+	if (Goal->IsGoal == false)
+	{	Goal->Draw(1230.0f, 70.0f, 0.0f, 60.0f, 60.0f);	}
+
+	// ã‚³ã‚¤ãƒ³ã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸Šã«è¡¨ç¤º
+	// Drawã®ï¼‘,ï¼’å€‹ç›®ã®æ•°å€¤ã‚’ã„ã˜ã‚Œã°ã‚³ã‚¤ãƒ³æç”»åº§æ¨™ãŒå¤‰ã‚ã‚‹
+	if (Coin1->IsCoinCollected == false)
+	{	Coin1->Draw(270.0f, 20.0f, 0.0f,40.0f, 40.0f, 1);	}	// å·¦ y=120.0f
+	if (Coin2->IsCoinCollected == false)
+	{	Coin2->Draw(500.0f, 320.0f, 0.0f, 40.0f, 40.0f, 2);	}	// çœŸã‚“ä¸­
+	if (Coin3->IsCoinCollected == false)
+	{	Coin3->Draw(1200.0f, 300.0f, 0.0f, 40.0f, 40.0f, 3);}	// å³
 
 	RenderTarget* pRTV;
 	pRTV = GetDefaultRTV();
+	SetRenderTargets(1, &pRTV, nullptr); 
 
-	SetRenderTargets(1, &pRTV, nullptr);
-
-	//ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚ÌFî•ñ“Ç‚İæ‚è
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®è‰²æƒ…å ±èª­ã¿å–ã‚Š
 	m_pRTV_BS->Read([&](const void* colorData, UINT width, UINT height) {
 		struct Color {
 			BYTE r, g, b, a;
 		};
 
-		//ƒŒƒ“ƒ_[“–‚½‚è”»’è—p•Ï”XV
-		m_SPpos = m_pShadowPlayer->NowPos();				//‰e‚ÌÀ•W‚ğŠ“¾
-		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		//X²‚ğƒŒƒ“ƒ_[‚ÌƒEƒBƒ“ƒhƒEÀ•W‚É‡‚í‚¹‚Ä•ÏŠ·
-		m_SPposY = ((m_SPpos.y - 3.0f) / 6.0f) * (-1);		//Y²‚ğƒŒƒ“ƒ_[‚ÌƒEƒBƒ“ƒhƒEÀ•W‚É‡‚í‚¹‚Ä•ÏŠ·
-		
-		//ƒLƒƒƒXƒg—p
+		// ãƒ¬ãƒ³ãƒ€ãƒ¼	ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºæƒ…å ±
+		// Xè»¸ã¯å·¦ãŒ 0 å³ãŒ 640
+		// Yè»¸ã¯ä¸ŠãŒ 0 ä¸‹ãŒ 360
+
+		// å½“ãŸã‚Šåˆ¤å®šç”¨å¤‰æ•°åˆæœŸåŒ–
+		int shadowSizeX = SHADOWPLAYER_SIZE_X;
+		int shadowSizeY = SHADOWPLAYER_SIZE_Y;
+		// ãƒ¬ãƒ³ãƒ€ãƒ¼å½“ãŸã‚Šåˆ¤å®šç”¨å¤‰æ•°æ›´æ–°
+		m_SPpos = m_pShadowPlayer->NowPos();				// å½±ã®åº§æ¨™ã‚’æ‰€å¾—
+		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		// Xè»¸ã‚’ãƒ¬ãƒ³ãƒ€ãƒ¼ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åº§æ¨™ã«åˆã‚ã›ã¦å¤‰æ›
+		m_SPposY = ((m_SPpos.y - 3.0f) / 6.0f) * (-1);		// Yè»¸ã‚’ãƒ¬ãƒ³ãƒ€ãƒ¼ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦åº§æ¨™ã«åˆã‚ã›ã¦å¤‰æ›
+		// ã‚­ãƒ£ã‚¹ãƒˆ
 		m_castPosX = static_cast<int>(m_SPposX * width);
 		m_castPosY = static_cast<int>(m_SPposY * height);
-
-		//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÆƒXƒNƒŠ[ƒ“¶ã‚ÌÀ•W‚Ì·•ª‚ğAƒXƒNƒŠ[ƒ“‚Ì‰¡•‚ÅŠ„‚é‚Æ”z—ñ‚ÌƒCƒ“ƒfƒbƒNƒX‚ª‹‚ß‚ç‚ê‚é
-		//‰e‚ÌƒvƒŒƒCƒ„[‚ÍƒŒƒ“ƒ_[‚É‚Ì‚İ•\¦‚µ‚Ä‚¢‚é->ƒŒƒ“ƒ_[•‚ª‰eƒvƒŒƒCƒ„[‚ÌƒEƒBƒ“ƒhƒE•
-		//‚½‚¾‚µA¡‰ñ‚ÌƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÆƒXƒNƒŠ[ƒ“¶ã‚ÌÀ•W‚Ì·•ª‚Í‚È‚¢‚½‚ß‚»‚Ì‚Ü‚Ü‚ÅA‚©‚ÂAŒ³‚Ì’l‚ğ0`1‚É‚µ‚Ä‚¢‚é‚½‚ßŠ|‚¯Z‚ğg—p
-		//(—á)(int)((m_pos.x - screenPos.x) / screenWidth)
 		m_indexX = m_castPosX;
 		m_indexY = m_castPosY;
 
+		if (m_indexY < 0)
+		{
+			m_indexY = 1;
+		}
+		if (m_indexY > 360)
+		{
+			m_indexY = 1;
+		}
+
+		// ã‚´ãƒ¼ãƒ«
+		if (Goal->IsGoal == false)
+		{	m_Goalpos = Goal->GetPosition();}
+		m_Goalsize = Goal->GetSize();
+
+		// ã‚³ã‚¤ãƒ³1
+		if (Coin1->IsCoinCollected == false)
+		{	m_1Cpos = Coin1->GetPosition();	}
+		m_Csize = Coin1->GetSize();
+		// ã‚³ã‚¤ãƒ³2
+		if (Coin2->IsCoinCollected == false)
+		{	m_2Cpos = Coin2->GetPosition();	}
+		m_Csize = Coin2->GetSize();
+		// ã‚³ã‚¤ãƒ³3
+		if (Coin3->IsCoinCollected == false)
+		{	m_3Cpos = Coin3->GetPosition();	}
+		m_Csize = Coin3->GetSize();
+
+		// ã‚´ãƒ¼ãƒ«ã®åº§æ¨™å¤‰æ›
+		m_castGoalposX = static_cast<int>(m_Goalpos.x / 2.0f);
+		m_castGoalposY = static_cast<int>(m_Goalpos.y / 2.0f);
+		// ã‚´ãƒ¼ãƒ«ã®ã‚µã‚¤ã‚ºå¤‰æ›
+		m_castGoalsizeX = static_cast<int>(m_Goalsize.x / 2.0f);
+		m_castGoalsizeY = static_cast<int>(m_Goalsize.y / 2.0f);
+
+		// ã‚³ã‚¤ãƒ³ã®åº§æ¨™å¤‰æ›
+		// ã‚³ã‚¤ãƒ³1
+		m_cast1CposX = static_cast<int>(m_1Cpos.x / 2.0f);
+		m_cast1CposY = static_cast<int>(m_1Cpos.y / 2.0f);
+		// ã‚³ã‚¤ãƒ³2
+		m_cast2CposX = static_cast<int>(m_2Cpos.x / 2.0f);
+		m_cast2CposY = static_cast<int>(m_2Cpos.y / 2.0f);
+		// ã‚³ã‚¤ãƒ³3
+		m_cast3CposX = static_cast<int>(m_3Cpos.x / 2.0f);
+		m_cast3CposY = static_cast<int>(m_3Cpos.y / 2.0f);
+		// ã‚³ã‚¤ãƒ³ã®ã‚µã‚¤ã‚ºå¤‰æ›
+		m_castCsizeX = static_cast<int>(m_Csize.x / 2.0f);
+		m_castCsizeY = static_cast<int>(m_Csize.y / 2.0f);
+
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã¨ã‚¹ã‚¯ãƒªãƒ¼ãƒ³å·¦ä¸Šã®åº§æ¨™ã®å·®åˆ†ã‚’ã€ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®æ¨ªå¹…ã§å‰²ã‚‹ã¨é…åˆ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒæ±‚ã‚ã‚‰ã‚Œã‚‹
+		// å½±ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯ãƒ¬ãƒ³ãƒ€ãƒ¼ã«ã®ã¿è¡¨ç¤ºã—ã¦ã„ã‚‹->ãƒ¬ãƒ³ãƒ€ãƒ¼å¹…ãŒå½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å¹…
+		// ãŸã ã—ã€ä»Šå›ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã¨ã‚¹ã‚¯ãƒªãƒ¼ãƒ³å·¦ä¸Šã®åº§æ¨™ã®å·®åˆ†ã¯ãªã„ãŸã‚ãã®ã¾ã¾ã§ã€ã‹ã¤ã€å…ƒã®å€¤ã‚’0ï½1ã«ã—ã¦ã„ã‚‹ãŸã‚æ›ã‘ç®—ã‚’ä½¿ç”¨
+		// (ä¾‹)(int)((m_pos.x - screenPos.x) / screenWidth)
+
+		// ã‚³ã‚¤ãƒ³1
+		BoxCoin1.maxX = m_cast1CposX + (m_castCsizeX - 5);	// å³è¾º
+		BoxCoin1.minX = m_cast1CposX - (m_castCsizeX - 5);	// å·¦è¾º
+		BoxCoin1.maxY = m_cast1CposY + (m_castCsizeX - 5);	// ä¸‹è¾º
+		BoxCoin1.minY = m_cast1CposY - (m_castCsizeX - 5);	// ä¸Šè¾º
+		// ã‚³ã‚¤ãƒ³2
+		BoxCoin2.maxX = m_cast2CposX + (m_castCsizeX - 5);	// å³è¾º
+		BoxCoin2.minX = m_cast2CposX - (m_castCsizeX - 5);	// å·¦è¾º
+		BoxCoin2.maxY = m_cast2CposY + (m_castCsizeX - 5);	// ä¸‹è¾º
+		BoxCoin2.minY = m_cast2CposY - (m_castCsizeX - 5);	// ä¸Šè¾º
+		// ã‚³ã‚¤ãƒ³3
+		BoxCoin3.maxX = m_cast3CposX + (m_castCsizeX - 5);	// å³è¾º
+		BoxCoin3.minX = m_cast3CposX - (m_castCsizeX - 5);	// å·¦è¾º
+		BoxCoin3.maxY = m_cast3CposY + (m_castCsizeX - 5);	// ä¸‹è¾º
+		BoxCoin3.minY = m_cast3CposY - (m_castCsizeX - 5);	// ä¸Šè¾º
+		// ã‚´ãƒ¼ãƒ«
+		BoxGool.maxX  = m_castGoalposX + (m_castGoalsizeX);	// å³è¾º
+		BoxGool.minX  = m_castGoalposX - (m_castGoalsizeX);	// å·¦è¾º
+		BoxGool.maxY  = m_castGoalposY + (m_castGoalsizeY);	// ä¸‹è¾º
+		BoxGool.minY  = m_castGoalposY - (m_castGoalsizeY);	// ä¸Šè¾º
+		// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+		BoxShadowPlayer.maxX = m_castPosX + shadowSizeX;	// å³è¾º
+		BoxShadowPlayer.minX = m_castPosX - shadowSizeX;	// å·¦è¾º
+		BoxShadowPlayer.maxY = m_castPosY;					// ä¸‹è¾º
+		BoxShadowPlayer.minY = m_castPosY - shadowSizeY;	// ä¸Šè¾º
+
+
+		// ã‚³ã‚¤ãƒ³1
+		if (Coin1->IsCoinCollected == true)
+		{
+			BoxCoin1.maxX = RESET_POSISHION;	// å³è¾º
+			BoxCoin1.minX = RESET_POSISHION;	// å·¦è¾º
+			BoxCoin1.maxY = RESET_POSISHION;	// ä¸‹è¾º
+			BoxCoin1.minY = RESET_POSISHION;	// ä¸Šè¾º
+		}
+		// ã‚³ã‚¤ãƒ³2
+		if (Coin2->IsCoinCollected == true)
+		{
+			BoxCoin2.maxX = RESET_POSISHION;	// å³è¾º
+			BoxCoin2.minX = RESET_POSISHION;	// å·¦è¾º
+			BoxCoin2.maxY = RESET_POSISHION;	// ä¸‹è¾º
+			BoxCoin2.minY = RESET_POSISHION;	// ä¸Šè¾º
+		}
+		// ã‚³ã‚¤ãƒ³3
+		if (Coin3->IsCoinCollected == true)
+		{
+			BoxCoin3.maxX = RESET_POSISHION;	// å³è¾º
+			BoxCoin3.minX = RESET_POSISHION;	// å·¦è¾º
+			BoxCoin3.maxY = RESET_POSISHION;	// ä¸‹è¾º
+			BoxCoin3.minY = RESET_POSISHION;	// ä¸Šè¾º
+		}
+
 		const Color* pData = reinterpret_cast<const Color*>(colorData);
-		//m_Player_a = pData[m_indexY * width + m_indexX].a;	//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Ìƒ¿’l‚ğŒ©‚½‚¢
-		//m_alpha[0] = pData[m_indexY * width + m_indexX + 11].a;
 
-		//if (m_alpha[0] > 128)
-		//{
-		//	m_pShadowPlayer->Use();//ƒGƒ‰[237-392
-		//}
-
-		//is•ûŒüƒ`ƒFƒbƒN
+		// é€²è¡Œæ–¹å‘ãƒã‚§ãƒƒã‚¯
 		m_LRcheck = m_pShadowPlayer->isUse();
 
+		// ç”»é¢ç«¯åˆ¤å®š(å·¦å³)
 		for (int h = 0; h < height; ++h)
 		{
 			for (int w = 0; w < width; ++w)
 			{
-				m_alphaData = 1;
-				m_noAlphaData = 1;
-				m_sumAlpha = 0;
-				for (int j = 0; j < 5; j++)
+				if (ShadowEdgeCollision(h, width))
 				{
-					for (int i = 0; i < 5; i++)
-					{
-						if (m_LRcheck == false)
-						{
-							m_alpha = pData[(m_indexY - j) * width + m_indexX + 10 + i].a;	//ƒŒƒ“ƒ_[ƒEƒBƒ“ƒhƒE‚Ìƒ¿’l‚ğ¶ã‚©‚çˆê‚Â‚¸‚ÂŒ©‚Ä‚é
-						}
-						else
-						{
-							m_alpha = pData[(m_indexY - j) * width + m_indexX - 10 - i].a;
-						}
-
-						if (m_alpha > 200)
-						{
-							m_sumAlpha += m_alpha;
-							m_alphaData++;
-						}
-						if (m_alpha < 100)
-						{
-							m_noAlphaData++;
-						}
-					}
-				}
-				
-				if (ShadowCollision(m_sumAlpha, m_alphaData, m_noAlphaData) || ShadowEdgeCollision(h, width))
-				{
+					m_pShadowPlayer->Use();
 					m_collisionFlag = true;
 					break;
 				}
@@ -202,13 +327,63 @@ void BackShadow::Draw(ObjectMng* Obj)
 				break;
 			}
 		}
-		m_underAlpha = pData[(m_indexY + 2) * width + m_indexX + 10].a;
-		ShadowUnderCollision(m_underAlpha);
+
+		// è¶³å…ƒå½“ãŸã‚Šåˆ¤å®š
+		m_underAlpha	= pData[(m_indexY + 3) * width + m_indexX].a;						// (ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posY - é«˜ã•) * æ¨ªå¹… + ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posX - ã‚µã‚¤ã‚º - è¦‹ãŸã„æ¨ªå¹…
+		m_underAlpha2	= pData[(m_indexY + 1) * width + m_indexX].a;						// (ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posY - é«˜ã•) * æ¨ªå¹… + ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posX - ã‚µã‚¤ã‚º - è¦‹ãŸã„æ¨ªå¹…
+		// è¶³å…ƒåˆ¤å®š
+		ShadowUnderCollision(m_underAlpha, m_underAlpha2);
+
+		// å¿…è¦Î±ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–
+		m_nFeetAlpha = 0;
+		m_nBodyAlpha = 0;
+		m_nHeadAlpha = 0;
+
+		// å£ã€éšæ®µå½“ãŸã‚Šåˆ¤å®š(ãƒ«ãƒ¼ãƒ—)
+		for (int j = 0; j < SHADOWPLAYER_SIZE_Y; j++)
+		{
+			if (m_indexY - j <= 0 || m_indexY - j > 360)
+			{
+				break;
+			}
+			if (m_LRcheck == false)
+			{
+				m_alpha = pData[(m_indexY - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posY - é«˜ã•) * æ¨ªå¹… + ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posX - ã‚µã‚¤ã‚º - è¦‹ãŸã„æ¨ªå¹…
+			}
+			else
+			{
+				m_alpha = pData[(m_indexY - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posY - é«˜ã•) * æ¨ªå¹… + ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼posX - ã‚µã‚¤ã‚º - è¦‹ãŸã„æ¨ªå¹…
+			}
+			// Î±å€¤ã®å†…è¨³
+			if (m_alpha > 240)
+			{
+				if (j <= SHADOWPLAYER_SIZE_Y - 50)
+				{// è¶³å…ƒã®Î±å€¤
+					m_nFeetAlpha++;
+				}
+				else if (j > SHADOWPLAYER_SIZE_Y - 50 && j < SHADOWPLAYER_SIZE_Y - 5)
+				{// èƒ´ä½“ã®Î±å€¤
+					m_nBodyAlpha++;
+				}
+				else if (j >= SHADOWPLAYER_SIZE_Y - 5)
+				{// é ­ã®Î±å€¤
+					m_nHeadAlpha++;
+				}
+
+				// ã‚³ã‚¤ãƒ³å½“ãŸã‚Šåˆ¤å®š
+				CoinCollection(Coin1, Coin2, Coin3);
+			}
+		}
+		GoalCollision(Goal);
+		// å£ã€éšæ®µå½“ãŸã‚Šåˆ¤å®š(é–¢æ•°)
+		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
 	});
+
+
 
 	DirectX::XMFLOAT4X4 mat[3];
 
-	//ƒ[ƒ‹ƒhs—ñ‚ÍX‚ÆY‚Ì‚İl—¶
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã¯Xã¨Yã®ã¿è€ƒæ…®
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(RTV_3D_POS_WIDTH, RTV_3D_POS_HEIGHT, 0.0f);
 
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
@@ -216,18 +391,29 @@ void BackShadow::Draw(ObjectMng* Obj)
 	mat[1] = m_pCamera->GetShadowViewMatrix();
 	mat[2] = m_pCamera->GetShadowProjectionMatrix();
 
-	//ƒXƒvƒ‰ƒCƒg‚Ìİ’è
+	SetSamplerState(SAMPLER_POINT);
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®è¨­å®š
+	Sprite::SetPixelShader(m_pPS[1]);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	Sprite::SetOffset({ 0.0f, 0.0f });
 	Sprite::SetSize(DirectX::XMFLOAT2(RTV_3D_SIZE_WIDTH, RTV_3D_SIZE_HEIGHT));
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	Sprite::SetTexture(m_pRTV_BS);
 	Sprite::Draw();
+	
+
+	//m_pPS[0]->Bind();
+	//m_pPS[0]->WriteBuffer(0, mat);
+
+	Sprite::SetPixelShader(m_pPS[2]);
+	SetSamplerState(SAMPLER_LINEAR);
 }
 
 /**
  * @fn
- * ƒŒƒ“ƒ_[—pƒJƒƒ‰‚ÌƒZƒbƒg
+ * ãƒ¬ãƒ³ãƒ€ãƒ¼ç”¨ã‚«ãƒ¡ãƒ©ã®ã‚»ãƒƒãƒˆ
  */
 void BackShadow::SetShadowCamera(CameraBase* pCamera)
 {
@@ -236,65 +422,108 @@ void BackShadow::SetShadowCamera(CameraBase* pCamera)
 
 /**
  * @fn
- * ƒ¿’l‚ğg‚Á‚½“–‚½‚è”»’è
- * @brief ‰e(ƒŒƒ“ƒ_[)‚Ì“–‚½‚è”»’è
- * @param (BYTE alpha)	ƒŒƒ“ƒ_[‰æ–Ê‚Ìƒ¿’l(ˆêƒsƒNƒZƒ‹•ª)
- * @param (int h)@		ƒŒƒ“ƒ_[‰æ–Ê‚Ì‚‚³‚ÌQÆ’l(ˆêƒsƒNƒZƒ‹‚²‚Æ)
- * @param (int w)@		ƒŒƒ“ƒ_[‰æ–Ê‚Ì•‚ÌQÆ’l(ˆêƒsƒNƒZƒ‹‚²‚Æ)
- * @param (UINT width)	ƒŒƒ“ƒ_[‰æ–Ê‚Ì•
- * @return true or false(‰½‚à‚È‚¢‚È‚çfalse‚Å•Ô‚·)
- * @detail ¡‚Í‚Ü‚¾•`‰æ‚ª‚ ‚é‚©Œ©‚Ä‚é‚¾‚¯
+ * Î±å€¤ã‚’ä½¿ã£ãŸå½“ãŸã‚Šåˆ¤å®š
+ * @brief å½±(ãƒ¬ãƒ³ãƒ€ãƒ¼)ã®å½“ãŸã‚Šåˆ¤å®š
+ * @param (BYTE alpha)	ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®Î±å€¤(ä¸€ãƒ”ã‚¯ã‚»ãƒ«åˆ†)
+ * @param (int h)ã€€		ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®é«˜ã•ã®å‚ç…§å€¤(ä¸€ãƒ”ã‚¯ã‚»ãƒ«ã”ã¨)
+ * @param (int w)ã€€		ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®å¹…ã®å‚ç…§å€¤(ä¸€ãƒ”ã‚¯ã‚»ãƒ«ã”ã¨)
+ * @param (UINT width)	ãƒ¬ãƒ³ãƒ€ãƒ¼ç”»é¢ã®å¹…
+ * @return true or false(ä½•ã‚‚ãªã„ãªã‚‰falseã§è¿”ã™)
+ * @detail ä»Šã¯ã¾ã æç”»ãŒã‚ã‚‹ã‹è¦‹ã¦ã‚‹ã ã‘
  */
-bool BackShadow::ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha)
+void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 {
-	//•Ï”Šm”FƒvƒƒOƒ‰ƒ€
-	//if (cntAlpha > 13 && noAlpha > 10)
-	//{
-	//	int a = sumAlpha / (cntAlpha + noAlpha);
-	//	int b = 0;
-	//}
-
-	// ¶‰E‚Ìƒ¿’l‚ÌQÆ
-	if (sumAlpha / cntAlpha > 240 && cntAlpha > 25)
-	{// •Ç
+	// å·¦å³ã®Î±å€¤ã®å‚ç…§
+	if (nHeadAlpha >= 5)
+	{// å¤©äº•
 		m_pShadowPlayer->Use();
-		return true;
 	}
-	if (sumAlpha / (cntAlpha + noAlpha) > 128 && cntAlpha > 13 && noAlpha > 10)
-	{// ŠK’i
+	if (nBodyAlpha > 10)
+	{// å£
+		m_pShadowPlayer->Use();
+	}
+	if (nFeetAlpha >= 3)
+	{// éšæ®µ
 		m_pShadowPlayer->Jump();
-		return true;
 	}
-
-	return false;
 }
 
-bool BackShadow::ShadowUnderCollision(BYTE underAlpha)
+// å½±ã®è¶³å…ƒåˆ¤å®š
+void BackShadow::ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2)
 {
-	// ‘«Œ³‚Ìƒ¿’lQÆ
+	// è¶³å…ƒã®Î±å€¤å‚ç…§
 	if (underAlpha > 240)
 	{
 		m_pShadowPlayer->SetFooting(true);
-		return true;
 	}
 	else
 	{
 		m_pShadowPlayer->SetFooting(false);
 	}
+	if (underAlpha2 > 240)
+	{
+		m_pShadowPlayer->ShadowPupY();
+	}
+}
+
+// ç”»é¢ç«¯(å·¦å³)åˆ¤å®š
+bool BackShadow::ShadowEdgeCollision(int h, UINT width)
+{
+	if (h * width + 15 == m_indexY * width + m_indexX)
+	{// å·¦ã®ç”»é¢ç«¯
+		return true;
+	}
+	if (h * width + width - 4 == m_indexY * width + m_indexX)
+	{// å³ã®ç”»é¢ç«¯
+		return true;
+	}
 	return false;
 }
 
-bool BackShadow::ShadowEdgeCollision(int h, UINT width)
+//ã‚³ã‚¤ãƒ³ã®å½“ãŸã‚Šåˆ¤å®šï¼†å‡¦ç†
+void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 {
-	if (h * width + 2 == m_indexY * width + m_indexX)
-	{// ¶‚Ì‰æ–Ê’[
-		m_pShadowPlayer->Use();
-		return true;
+	// ã‚³ã‚¤ãƒ³ã®å–å¾—å‡¦ç†
+	// ã‚³ã‚¤ãƒ³1
+	if (IsHit(BoxShadowPlayer, BoxCoin1))
+	{
+		Coin1->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
-	if (h * width + width - 1 == m_indexY * width + m_indexX)
-	{// ‰E‚Ì‰æ–Ê’[
-		m_pShadowPlayer->Use();
-		return true;
+	// ã‚³ã‚¤ãƒ³2
+	if (IsHit(BoxShadowPlayer, BoxCoin2))
+	{
+		Coin2->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 	}
-	return false;
+	// ã‚³ã‚¤ãƒ³3
+	if (IsHit(BoxShadowPlayer, BoxCoin3))
+	{
+		Coin3->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+	}
+}
+
+// ã‚´ãƒ¼ãƒ«ã®å½“ãŸã‚Šåˆ¤å®šï¼†å‡¦ç†
+void BackShadow::GoalCollision(Goal* Goal)
+{
+	if (IsHit(BoxShadowPlayer, BoxGool))
+	{
+		// å½±ã¨ãƒ€ã‚¤ãƒ¤å‹ãŒé‡ãªã£ãŸã‚‰ã‚´ãƒ¼ãƒ«ã™ã‚‹
+		Goal->SetGoal(true);
+	}
+}
+
+// çŸ­å¾„åŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
+// åŸç†â†’å¤–ã«ã„ã‚‹ãªã‚‰falseã‚’è¿”ã™
+bool BackShadow::IsHit(Box Box1, Box Box2)
+{
+	// Xè»¸
+	if (Box2.maxX < Box1.minX)	return false;
+	if (Box1.maxX < Box2.minX)	return false;
+	// Yè»¸
+	if (Box2.maxY < Box1.minY)	return false;
+	if (Box1.maxY < Box2.minY)	return false;
+
+	return true;
 }

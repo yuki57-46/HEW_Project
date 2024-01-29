@@ -1,4 +1,4 @@
-//N“ü‹ÖŽ~ƒGƒŠƒA@° 
+ï»¿//ä¾µå…¥ç¦æ­¢ã‚¨ãƒªã‚¢ã€€åºŠ 
 
 #include"yuka.h"
 #include "Geometory.h"
@@ -18,8 +18,8 @@ Yuka::Yuka()
 {
 	m_pNoEntryModel = new Model;
 
-	if (!m_pNoEntryModel->Load("Assets/Model/Block/BoxS.fbx", 0.5f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚ÝƒGƒ‰[", "Error", MB_OK);
+	if (!m_pNoEntryModel->Load("Assets/Stage/StageFloor.fbx", 0.1f, Model::Flip::XFlip)) {
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼_åºŠ", "Error", MB_OK);
 	}
 	m_pNoEntryVS = new VertexShader();
 	if (FAILED(m_pNoEntryVS->Load("Assets/Shader/VS_Model.cso")))
@@ -51,7 +51,7 @@ void Yuka::Update()
 {
 	SetBounds(NoEntryMinBound, NoEntryMaxBound);
 
-	CSetBounds(cNoEntryMinBound, cNoEntryMaxBound);//ƒuƒƒbƒN“¯Žm‚Ì“–‚½‚è”»’è
+	CSetBounds(cNoEntryMinBound, cNoEntryMaxBound);//ãƒ–ãƒ­ãƒƒã‚¯åŒå£«ã®å½“ãŸã‚Šåˆ¤å®š
 }
 
 void Yuka::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -61,14 +61,14 @@ void Yuka::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMa
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	DirectX::XMMATRIX MoS = DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z);
 	DirectX::XMMATRIX world = MoS * MoT;
-	//world = [ƒ[ƒ‹ƒhs—ñ‚ÌÝ’è];
+	//world = [ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨­å®š];
 	world = DirectX::XMMatrixTranspose(world);
 	DirectX::XMStoreFloat4x4(&mat[0], world);
 
-	mat[1] = viewMatrix; // —^‚¦‚ç‚ê‚½ viewMatrix ‚ðŽg‚¤
-	mat[2] = projectionMatrix; // —^‚¦‚ç‚ê‚½ projectionMatrix ‚ðŽg‚¤
+	mat[1] = viewMatrix; // ä¸Žãˆã‚‰ã‚ŒãŸ viewMatrix ã‚’ä½¿ã†
+	mat[2] = projectionMatrix; // ä¸Žãˆã‚‰ã‚ŒãŸ projectionMatrix ã‚’ä½¿ã†
 
-	m_pNoEntryVS->WriteBuffer(0, mat);    //”z—ñ‚Ìæ“ªƒAƒhƒŒƒX‚ðŽw’è‚µ‚ÄA‚Ü‚Æ‚ß‚Ä•ÏŠ·s—ñ‚ð“n‚·
+	m_pNoEntryVS->WriteBuffer(0, mat);    //é…åˆ—ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ã€ã¾ã¨ã‚ã¦å¤‰æ›è¡Œåˆ—ã‚’æ¸¡ã™
 	m_pNoEntryModel->Draw();
 
 }

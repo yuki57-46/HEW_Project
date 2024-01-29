@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 //#ifndef ___BACK_SHADOW_H___
 //#define ___BACK_SHADOW_H___
 
@@ -8,51 +8,104 @@
 #include "Player.h"
 #include "ObjectManager.h"
 #include "ShadowP.h"
+#include "Screen.h"
+
+#include "Coin.h"
+#include "Goal.h"
 
 class BackShadow
 {
 public:
+	typedef struct {
+		int maxX;	// æœ€å¤§ã‚µã‚¤ã‚ºX
+		int minX;	// æœ€å°ã‚µã‚¤ã‚ºX
+		int maxY;	// æœ€å¤§ã‚µã‚¤ã‚ºY
+		int minY;	// æœ€å°ã‚µã‚¤ã‚ºY
+	}Box;			// å½“ãŸã‚Šåˆ¤å®šBOX
+
+public:
 	BackShadow();
 	~BackShadow();
 
-	void Update();
-	void Draw(ObjectMng* Obj);
+	void Update(float tick);
+	void Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3, Goal* Goal);
 	void SetShadowCamera(CameraBase* pCamera);
-	bool ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha);
-	bool ShadowUnderCollision(BYTE underAlpha);
+	void ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha);
+	void ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2);
 	bool ShadowEdgeCollision(int h, UINT width);
-
+	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3);//ã‚³ã‚¤ãƒ³ã®æ‰€å¾—å‡¦ç†
+	void GoalCollision(Goal* Goal);//ã‚´ãƒ¼ãƒ«
+	bool IsHit(Box Box1, Box Box2);
 private:
-	// ƒJƒƒ‰
-	CameraBase* m_pCamera;	// ƒŒƒ“ƒ_[‚ÌƒJƒƒ‰
+	// ã‚«ãƒ¡ãƒ©
+	CameraBase* m_pCamera;	// ãƒ¬ãƒ³ãƒ€ãƒ¼ã®ã‚«ãƒ¡ãƒ©
 
-	// ƒŒƒ“ƒ_[
-	Texture* m_pRTVTexture;	// ƒŒƒ“ƒ_[ƒeƒNƒXƒ`ƒƒ[
-	RenderTarget* m_pRTV_BS;// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg
-	DepthStencil* m_pDSV_BS;// [“xƒoƒbƒtƒ@
+	// ãƒ¬ãƒ³ãƒ€ãƒ¼
+	Texture* m_pRTVTexture;	// ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¼
+	RenderTarget* m_pRTV_BS;// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
+	DepthStencil* m_pDSV_BS;// æ·±åº¦ãƒãƒƒãƒ•ã‚¡
 
-	//‰e‚Ì“–‚½‚è”»’è—p
-	DirectX::XMFLOAT3 m_SPpos;	// ‰eƒvƒŒƒCƒ„[‚ÌˆÊ’uXYZ
-	int m_indexX;				// ‰eƒvƒŒƒCƒ„[‚Ì”z—ñ‚ÌƒCƒ“ƒfƒbƒNƒXX
-	int m_indexY;				// ‰eƒvƒŒƒCƒ„[‚Ì”z—ñ‚ÌƒCƒ“ƒfƒbƒNƒXY
-	int m_castPosX;				// ‰eƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Ì•Ï”X‚Ìfloat‚ğint‚Écast‚·‚é—p
-	int m_castPosY;				// ‰eƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Ì•Ï”Y‚Ìfloat‚ğint‚Écast‚·‚é—p
-	float m_SPposX;				// ‰eƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÌX‚Ì’l
-	float m_SPposY;				// ‰eƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÌY‚Ì’l
-	BYTE m_alpha;				// ƒŒƒ“ƒ_[ƒEƒBƒ“ƒhƒE‚Ìƒ¿’l
-	BYTE m_underAlpha;			// ‘«Œ³‚Ìƒ¿’l
-	BYTE m_Player_a;			// ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Ìƒ¿’l
-	bool m_collisionFlag;		// “–‚½‚è”»’è‚ğ‚Æ‚Á‚½‚çtrue‚É‚È‚é
-	bool m_upFlag;				// Î–Ê‚©‚Ç‚¤‚©
-	bool m_underFlag;			// ‘«ê‚ª‚ ‚é‚©‚Ç‚¤‚©
-	int m_sumAlpha;				// ƒ¿’l‚Ì‡Œv
-	int m_alphaData;			// ƒXƒLƒƒƒ“”ÍˆÍ‚Éƒ¿’l‚Ì‚ ‚éêŠ‚Ì”
-	int m_noAlphaData;			// ƒXƒLƒƒƒ“”ÍˆÍ‚Éƒ¿’l‚Ì‚È‚¢êŠ‚Ì”
-	bool m_LRcheck;				// is•ûŒüŠm”F
+	//å½±ã®å½“ãŸã‚Šåˆ¤å®šç”¨
+	DirectX::XMFLOAT3 m_SPpos;	// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®XYZ
+	int m_indexX;				// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é…åˆ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹X
+	int m_indexY;				// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é…åˆ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹Y
+	int m_castPosX;				// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã®å¤‰æ•°Xã®floatã‚’intã«castã™ã‚‹ç”¨
+	int m_castPosY;				// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã®å¤‰æ•°Yã®floatã‚’intã«castã™ã‚‹ç”¨
+	float m_SPposX;				// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã®Xã®å€¤
+	float m_SPposY;				// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã®Yã®å€¤
+	BYTE m_alpha;				// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®Î±å€¤
+	BYTE m_underAlpha;			// è¶³å…ƒã®Î±å€¤
+	BYTE m_underAlpha2;			// è¶³å…ƒã®ã‚ã‚Šè¾¼ã¿è§£æ¶ˆ
+	BYTE m_PleyerSenter;		// å½±å›ã®ãƒ‡ã‚¹åˆ¤å®šç”¨
+	bool m_collisionFlag;		// å½“ãŸã‚Šåˆ¤å®šã‚’ã¨ã£ãŸã‚‰trueã«ãªã‚‹
+	int m_nFeetAlpha;			// è¶³å…ƒã®Î±å€¤ã®å€‹æ•°
+	int m_nBodyAlpha;			// èƒ´ä½“ã®Î±å€¤ã®å€‹æ•°
+	int m_nHeadAlpha;			// é ­ã®Î±å€¤ã®å€‹æ•°
+	bool m_LRcheck;				// é€²è¡Œæ–¹å‘ç¢ºèª
 
-	//‰e‚Ì‚İ‚É•`‚«‚½‚¢•¨
-	ShadowP* m_pShadowPlayer;	// ‰eƒvƒŒƒCƒ„[
+	//å½±ã®ã¿ã«æããŸã„ç‰©
+	ShadowP* m_pShadowPlayer;	// å½±ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 
+	//1ã‚³ã‚¤ãƒ³
+	DirectX::XMFLOAT3 m_1Cpos;
+	int m_cast1CposX;
+	int m_cast1CposY;
+
+	//2ã‚³ã‚¤ãƒ³
+	DirectX::XMFLOAT3 m_2Cpos;
+	int m_cast2CposX;
+	int m_cast2CposY;
+
+	//3ã‚³ã‚¤ãƒ³
+	DirectX::XMFLOAT3 m_3Cpos;
+	int m_cast3CposX;
+	int m_cast3CposY;
+
+	//ã‚³ã‚¤ãƒ³ã®ã‚µã‚¤ã‚º
+	DirectX::XMFLOAT3 m_Csize;
+	int m_castCsizeX;
+	int m_castCsizeY;
+
+	//ã‚´ãƒ¼ãƒ«
+	DirectX::XMFLOAT3 m_Goalpos;
+	int m_castGoalposX;
+	int m_castGoalposY;
+
+	//ã‚´ãƒ¼ãƒ«ã®ã‚µã‚¤ã‚º
+	DirectX::XMFLOAT3 m_Goalsize;
+	int m_castGoalsizeX;
+	int m_castGoalsizeY;
+
+	//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³
+	Screen* m_pScreen;
+
+
+	//sound
+	IXAudio2SourceVoice* m_pSVSESdCoin; // ã‚µã‚¦ãƒ³ãƒ‰ã‚½ãƒ¼ã‚¹
+	XAUDIO2_BUFFER* m_pSDSESdCoin; // ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡
+
+
+	PixelShader* m_pPS[3];
 };
 
 //#endif // !___BACK_SHADOW_H___

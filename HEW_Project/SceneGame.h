@@ -1,27 +1,35 @@
-#ifndef __SCENE_GAME_H__
+ï»¿#ifndef __SCENE_GAME_H__
 #define __SCENE_GAME_H__
 
 #include "Model.h"
 #include "Shader.h"
 
 #include "CameraBase.h"
-#include"Objectcamera.h"
+#include "Objectcamera.h"
 #include "Player.h"
 #include "ObjectManager.h"
 #include "Object.h"
 //#include"CameraObject.h"
 
-#include"BackShadow.h"
+#include "BackShadow.h"
 
 #include "Soundtest.h"
 
+#include "Coin.h"
+#include "CoinCntUI.h"
+#include "ItemUI.h"
+#include "Goal.h"
+#include "Curtain.h"
+#include"Haikei.h"
+
+#include "Fade.hpp"
 
 enum CameraKind
 {
 	CAM_OBJ,	//
-	CAM_SHADOW,	//ƒŒƒ“ƒ_[—pƒJƒƒ‰
-	CAM_DEBUG,	//‚ÅƒoƒbƒN—p‚ÌƒJƒƒ‰
-	MAX_CAMERA	//ƒJƒƒ‰Å‘å”
+	CAM_SHADOW,	//ãƒ¬ãƒ³ãƒ€ãƒ¼ç”¨ã‚«ãƒ¡ãƒ©
+	CAM_DEBUG,	//ã§ãƒãƒƒã‚¯ç”¨ã®ã‚«ãƒ¡ãƒ©
+	MAX_CAMERA	//ã‚«ãƒ¡ãƒ©æœ€å¤§æ•°
 };
 
 
@@ -35,6 +43,8 @@ public:
 
 private:
 
+	Screen* m_pScreen;
+
 	ObjectMng* m_pObjectMng;
 	VertexShader* m_pVS;
 
@@ -45,15 +55,24 @@ private:
 
 	BackShadow*		m_pBackShadow;
 
-	
-	
+	ItemUI*			m_pUI;
+	Coin*			m_pCoin;
+	CoinCntUI*		m_pCoinCntUI;
+	CurtainUI*		m_pCurtainUI;
+	Haikei*         m_pHaikei;
 
+
+	//ã‚´ãƒ¼ãƒ«ï¼ˆä»®çŠ¶æ…‹ã®å‡¦ç†æœ‰ï¼‰
+	Goal*			m_pGoal;
+
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ãƒ»ã‚¢ã‚¦ãƒˆ
+	Fade* 		m_pFade;
 
 	RenderTarget*	m_pRTV;
 	DepthStencil*	m_pDSV;
 
-	IXAudio2SourceVoice* m_pSourceVoice; // ƒTƒEƒ“ƒhƒ\[ƒX
-	XAUDIO2_BUFFER* m_pSound; // ƒTƒEƒ“ƒhƒoƒbƒtƒ@
+	IXAudio2SourceVoice* m_pSourceVoice; // ã‚µã‚¦ãƒ³ãƒ‰ã‚½ãƒ¼ã‚¹
+	XAUDIO2_BUFFER* m_pSound; // ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒƒãƒ•ã‚¡
 	//Sound m_Sound;
 };
 
