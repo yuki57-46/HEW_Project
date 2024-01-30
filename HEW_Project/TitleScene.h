@@ -5,6 +5,8 @@
 #include <DirectXMath.h>
 #include "Texture.h"
 #include "Sprite.h"
+#include "Fade.hpp"
+#include "Curtain.h"
 
 class SceneManager;
 //#include "SceneManager.hpp"
@@ -42,25 +44,24 @@ public:
 	void Draw();
 
 private:
-	Texture* m_pTexture;
-	SceneManager* m_pSceneManager;
+	Texture*		m_pTexture;
+	SceneManager*	m_pSceneManager;
+	Fade*			m_pFade;
+	Screen*			m_pScreen;
 
-	Screen* m_pScreen;
+	ObjectMng*		m_pObjectMng;
+	VertexShader*	m_pVS;
 
-	ObjectMng* m_pObjectMng;
-	VertexShader* m_pVS;
-
-	ObjectCamera* m_pobjcamera;
-
+	ObjectCamera*	m_pobjcamera;
 	CameraKindTitle	m_mainCamera;
-	CameraBase* m_pCamera[static_cast<int>(CameraKindTitle::MAX_CAMERA)];
+	CameraBase*		m_pCamera[static_cast<int>(CameraKindTitle::MAX_CAMERA)];
 
-	BackShadow* m_pBackShadow;
+	BackShadow*		m_pBackShadow;
 
-	ItemUI* m_pUI;
-	Coin* m_pCoin;
-	CoinCntUI* m_pCoinCntUI;
-
+	ItemUI*			m_pUI;
+	Coin*			m_pCoin;
+	CoinCntUI*		m_pCoinCntUI;
+	CurtainUI*		m_pCurtainUI;
 
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;

@@ -190,7 +190,6 @@ void SceneGame::Update(float tick)
 
 void SceneGame::Draw()
 {
-
 	m_pDSV->Clear();
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
@@ -232,10 +231,8 @@ void SceneGame::Draw()
 
 	//m_pobjcamera->Draw();
 
-
 	//オブジェクト
 	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
-
 
 	//Geometry用の変更行列を計算
 	//ワールド行列の再計算
@@ -258,7 +255,6 @@ void SceneGame::Draw()
 
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
-
 
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
@@ -294,6 +290,5 @@ void SceneGame::Draw()
 	m_pCurtainUI->StageCurtainDraw();
 
 	//SetRenderTargets(1, &m_pRTV, m_pDSV);
-	
 
 }

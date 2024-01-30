@@ -8,6 +8,8 @@
 
 SceneTitle::SceneTitle(SceneManager* pSceneManager)
 	: m_pTexture(nullptr)
+	, m_pFade(nullptr)
+	, m_pCurtainUI(nullptr)
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 {
 	m_pTexture = new Texture();
@@ -15,10 +17,27 @@ SceneTitle::SceneTitle(SceneManager* pSceneManager)
 	{
 		MessageBox(NULL, "Title", "Error", MB_OK);
 	}
+
+	// カーテンフェードの取得
+	m_pFade = new Fade(m_pCurtainUI);
+
+	m_pCurtainUI = new CurtainUI();
 }
 
 SceneTitle::~SceneTitle()
 {
+	if (m_pFade)
+	{
+		delete m_pFade;
+		m_pFade = nullptr;
+	}
+
+	if (m_pCurtainUI)
+	{
+		delete m_pCurtainUI;
+		m_pCurtainUI = nullptr;
+	}
+
 	if (m_pTexture)
 	{
 		delete m_pTexture;
@@ -28,8 +47,19 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Update()
 {
+	m_pCurtainUI->Update();
+	//m_pFade->Update();
+	//m_pFade->Start(true, 2.0f);// フェードイン
+
+	m_pFade->Update();
+	if (IsKeyTrigger('O'))
+		m_pFade->Start(true, 2.0f);// フェードイン
+	if (IsKeyTrigger('P'))
+		m_pFade->Start(false, 1.0f);// フェードアウト
+
 	if (IsKeyTrigger(VK_RETURN))
 	{
+//		m_pFade->Start(true, 2.0f);// フェードイン
 		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
 	}
 }
@@ -62,6 +92,9 @@ void SceneTitle::Draw()
 	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
+
+	m_pFade->Draw();
+	m_pCurtainUI->StageCurtainDraw();
 }
 
 

@@ -22,7 +22,6 @@
 #include "Curtain.h"
 #include"Haikei.h"
 
-
 #include "Fade.hpp"
 
 #include "SceneManager.hpp"
