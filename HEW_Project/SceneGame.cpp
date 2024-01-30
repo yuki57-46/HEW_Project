@@ -1,6 +1,7 @@
 ﻿#include "SceneGame.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
+#include "Input.h"
 
 #define FADE_TEST 1
 
@@ -21,6 +22,7 @@ SceneGame::SceneGame()
 	, m_pBackShadow(nullptr)
 	, m_pObjectMng(nullptr)
 	, m_pFade(nullptr)
+	, m_pCurtain(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -50,7 +52,7 @@ SceneGame::SceneGame()
 
 	//カーテン
 	m_pCurtainUI = new CurtainUI();
-
+	m_pCurtain = new Curtain();
 	
 
 
@@ -146,9 +148,13 @@ SceneGame::~SceneGame()
 		delete m_pBackShadow;
 		m_pBackShadow = nullptr;
 	}
+	if (m_pCurtain)
+	{
+		delete m_pCurtain;
+		m_pCurtain = nullptr;
+	}
 	m_pSourceVoice->Stop();
 }
-#include "Input.h"
 
 void SceneGame::Update(float tick)
 {
@@ -207,6 +213,7 @@ void SceneGame::Draw()
 	m_pCurtainUI->LeftDraw();
 	m_pCurtainUI->RightDraw();
 
+	
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
@@ -231,10 +238,11 @@ void SceneGame::Draw()
 
 	//m_pobjcamera->Draw();
 
-
+	
 	//オブジェクト
 	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
-
+	//カーテン
+	//m_pCurtain->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
 
 	//Geometry用の変更行列を計算
 	//ワールド行列の再計算
