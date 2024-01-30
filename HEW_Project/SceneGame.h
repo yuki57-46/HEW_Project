@@ -65,7 +65,6 @@ private:
 	CurtainUI*		m_pCurtainUI;
 	Haikei*         m_pHaikei;
 
-
 	//ゴール（仮状態の処理有）
 	Goal*			m_pGoal;
 

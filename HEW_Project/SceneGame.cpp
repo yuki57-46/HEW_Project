@@ -1,5 +1,6 @@
 ﻿#include "SceneGame.h"
 #include "Geometory.h"
+#include "Input.h"
 #include <DirectXMath.h>
 
 #define FADE_TEST 1
@@ -50,9 +51,6 @@ SceneGame::SceneGame(SceneManager* pSceneManager)
 	//カーテン
 	m_pCurtainUI = new CurtainUI();
 
-	
-
-
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
 	{
 		MessageBox(nullptr, "VS_Model.cso", "ERROR", MB_OK);
@@ -77,8 +75,6 @@ SceneGame::SceneGame(SceneManager* pSceneManager)
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
 	m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
-
-
 }
 
 SceneGame::~SceneGame()
@@ -163,8 +159,6 @@ void SceneGame::Update(float tick)
 
 	m_pCamera[CAM_OBJ]->Update();
 
-
-
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
 	m_pObjectMng->Update(tick);
@@ -178,6 +172,11 @@ void SceneGame::Update(float tick)
 		m_pFade->Start(true, 2.0f);// フェードイン
 	if (IsKeyTrigger('P'))
 		m_pFade->Start(false, 1.0f);// フェードアウト
+
+	//if (IsKeyTrigger(VK_RETURN))
+	//{
+	//	m_pSceneManager->ChangeScene(SceneManager::SCENE_RESULT);	// タイトルに戻る
+	//}
 #endif
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);

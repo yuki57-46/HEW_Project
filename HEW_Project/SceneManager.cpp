@@ -23,17 +23,14 @@ SceneManager::SceneManager()
 
 	case SceneManager::SCENE_TUTORIAL:
 		m_pSceneTutorial = new SceneTutorial(this);
-
 		break;
 
 	case SceneManager::SCENE_GAME:
 		m_pSceneGame = new SceneGame(this);
-
 		break;
 
 	case SceneManager::SCENE_RESULT:
-		m_pSceneResult = new SceneResult();
-
+		m_pSceneResult = new SceneResult(this);
 		break;
 	}
 }
@@ -77,17 +74,14 @@ void SceneManager::Update(float tick)
 
 	case SceneManager::SCENE_TUTORIAL:
 		m_pSceneTutorial->Update();
-
 		break;
 
 	case SceneManager::SCENE_GAME:
 		m_pSceneGame->Update(tick);
-
 		break;
 
 	case SceneManager::SCENE_RESULT:
-		m_pSceneResult->Update(tick);
-
+		m_pSceneResult->Update();
 		break;
 	}
 }
@@ -159,7 +153,7 @@ void SceneManager::ChangeScene(SCENE next)
 		break;
 
 	case SceneManager::SCENE_RESULT:
-		m_pSceneResult = new SceneResult();
+		m_pSceneResult = new SceneResult(this);
 		break;
 	}
 }

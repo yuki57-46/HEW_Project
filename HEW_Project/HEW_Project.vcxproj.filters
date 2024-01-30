@@ -84,9 +84,6 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
-    <ClCompile Include="SceneGame.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
     <ClCompile Include="_geometory.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
@@ -222,6 +219,9 @@
     <ClCompile Include="SceneResult.cpp">
       <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
+    <ClCompile Include="SceneGame.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -250,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneGame.h">
-      <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>ヘッダー ファイル\System</Filter>
@@ -338,7 +335,6 @@
     <ClInclude Include="Goal.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-
     <ClInclude Include="Curtain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -370,6 +366,9 @@
       <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
     <ClInclude Include="SceneTutorial.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGame.h">
       <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
   </ItemGroup>
