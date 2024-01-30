@@ -268,10 +268,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		BoxCoin3.maxY = m_cast3CposY + (m_castCsizeX - 5);	// 下辺
 		BoxCoin3.minY = m_cast3CposY - (m_castCsizeX - 5);	// 上辺
 		// ゴール
-		BoxGool.maxX  = m_castGoalposX + (m_castGoalsizeX);	// 右辺
-		BoxGool.minX  = m_castGoalposX - (m_castGoalsizeX);	// 左辺
-		BoxGool.maxY  = m_castGoalposY + (m_castGoalsizeY);	// 下辺
-		BoxGool.minY  = m_castGoalposY - (m_castGoalsizeY);	// 上辺
+		BoxGool.maxX  = m_castGoalposX + (m_castGoalsizeX - 5);	// 右辺
+		BoxGool.minX  = m_castGoalposX - (m_castGoalsizeX - 5);	// 左辺
+		BoxGool.maxY  = m_castGoalposY + (m_castGoalsizeY - 5);	// 下辺
+		BoxGool.minY  = m_castGoalposY - (m_castGoalsizeY - 5);	// 上辺
 		// 影プレイヤー
 		BoxShadowPlayer.maxX = m_castPosX + shadowSizeX;	// 右辺
 		BoxShadowPlayer.minX = m_castPosX - shadowSizeX;	// 左辺
