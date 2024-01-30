@@ -618,3 +618,8 @@ void Object::SetSlope()
 	//m_pos.y = m_oldPos.y;
 	//moveok = false;
 }
+
+void Object::SetReverseSlope()
+{
+	m_pos.x -= 0.0005;
+}

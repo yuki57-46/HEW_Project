@@ -32,7 +32,7 @@ public:
 	DirectX::XMFLOAT3 GetStairMaxBounds();
 	DirectX::XMFLOAT3 GetPos();
 
-	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
+	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool reverse);
 	void Set();
 	void SetF();
 	bool SetR();
@@ -58,9 +58,11 @@ public:
 	bool IsXZ();
 	bool IsStairTop();
 	bool IsMove();
+	bool IsReverse();
 	void ExtractSlopeVertexCoordinates(Model& slopeModel);
 
 	void SetSlope();
+	void SetReverseSlope();
 	void SetSlopeY(float y);
 
 	
@@ -85,6 +87,7 @@ private:
 	bool colgravity;
 	bool xz;
 	bool StairTop;
+	bool m_reverse;
 	float a = 0.0f;
 
 
