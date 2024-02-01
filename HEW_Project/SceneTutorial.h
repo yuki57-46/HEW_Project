@@ -68,6 +68,8 @@ private:
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
 
+	PixelShader* m_pPS;
+
 	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
 	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
 	//Sound m_Sound;

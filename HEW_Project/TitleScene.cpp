@@ -97,7 +97,6 @@ void SceneTitle::Draw()
 	m_pCurtainUI->StageCurtainDraw();
 }
 
-
 //TitleScene.cpp
 //#include "TitleScene.h"
 //#include "SceneManager.hpp"

@@ -12,7 +12,6 @@ Select::Select()
 	}
 }
 
-
 Select::~Select()
 {
 	if (m_pTexture)
