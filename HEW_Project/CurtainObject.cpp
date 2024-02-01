@@ -4,7 +4,7 @@
 #include "GameObject.h"
 
 Curtain::Curtain()
-	: m_pos(0.0f, -0.5f, 0.0f),
+	: m_pos(0.0f, -0.5f, 2.0f),
 	 m_scale(0.4f, 0.4f, 0.4f)
 {
 	m_pModel = new Model();
@@ -38,8 +38,11 @@ void Curtain::Update()
 {
 }
 
-void Curtain::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
+void Curtain::RightDraw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
+	m_pos.x = -4.1f;
+	m_pos.y = -0.3f;
+	m_pos.z = 2.0f;
 	DirectX::XMFLOAT4X4 mat[3];
 
 	// ワールド行列の設定
@@ -55,7 +58,26 @@ void Curtain::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectio
 	m_pVS->WriteBuffer(0, mat);
 	m_pModel->Draw();
 }
+void Curtain::LeftDraw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
+{
+	m_pos.x = 4.1f;
+	m_pos.y = -0.3f;
+	m_pos.z = 2.0f;
+	DirectX::XMFLOAT4X4 mat[3];
 
+	// ワールド行列の設定
+	DirectX::XMMATRIX world = DirectX::XMMatrixTranspose(
+		DirectX::XMMatrixScaling(m_scale.x, m_scale.y, m_scale.z) *
+		DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z)
+	);
+	DirectX::XMStoreFloat4x4(&mat[0], world);
+
+	mat[1] = viewMatrix; // 引数の `viewMatrix` を利用
+	mat[2] = projectionMatrix; // 引数の `projectionMatrix` を利用
+
+	m_pVS->WriteBuffer(0, mat);
+	m_pModel->Draw();
+}
 
 void Curtain::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
 {

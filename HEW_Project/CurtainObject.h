@@ -10,7 +10,8 @@ public:
 	~Curtain();
 
 	void Update();
-	void Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
+	void RightDraw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
+	void LeftDraw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix);
 
 	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
 
