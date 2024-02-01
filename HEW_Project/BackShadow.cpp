@@ -2,13 +2,13 @@
 #include "Sprite.h"
 #include "Geometory.h"
 
-#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	// 3D空間上のレンダーの表示サイズX
-#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.5f)	// 3D空間上のレンダーの表示サイズY
+#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.3f)	// 3D空間上のレンダーの表示サイズX
+#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.3f)	// 3D空間上のレンダーの表示サイズY
 #define RTV_3D_POS_WIDTH	(640.0f)			// 3D空間上のレンダー表示の原点X
-#define RTV_3D_POS_HEIGHT	(430.0f)			// 3D空間上のレンダー表示の原点Y
-#define SHADOWPLAYER_SIZE_Y	(55)				// 影Playerの縦幅
-#define SHADOWPLAYER_SIZE_X	(15)				// 影Playerの横幅の半分
-#define RESET_POSISHION	(2000)				// 影Playerの横幅の半分
+#define RTV_3D_POS_HEIGHT	(400.0f)			// 3D空間上のレンダー表示の原点Y
+#define SHADOWPLAYER_SIZE_Y	(110)				// 影Playerの縦幅
+#define SHADOWPLAYER_SIZE_X	(30)				// 影Playerの横幅の半分
+#define RESET_POSISHION		(2000)				// 影コインの取得後のポジション
 
 
 int testw = 10;
@@ -26,7 +26,7 @@ BackShadow::BackShadow()
 	, m_pDSV_BS(nullptr)
 	, m_pCamera(nullptr)
 	, m_pShadowPlayer(nullptr)
-	,m_pScreen(nullptr)//27
+	, m_pScreen(nullptr)//27
 	, m_indexX(0)
 	, m_indexY(0)
 	, m_castPosX(0)
@@ -69,7 +69,7 @@ BackShadow::BackShadow()
 	m_pDSV_BS = new DepthStencil;
 
 	// レンダーターゲット制作
-	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280 / 2, 720 / 2);// レンダー内の大きさ
+	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280/* / 2*/, 720/* / 2*/);// レンダー内の大きさ
 	m_pDSV_BS->Create(m_pRTV_BS->GetWidth(), m_pRTV_BS->GetHeight(), true);
 	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);
 
@@ -227,25 +227,25 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_Csize = Coin3->GetSize();
 
 		// ゴールの座標変換
-		m_castGoalposX = static_cast<int>(m_Goalpos.x / 2.0f);
-		m_castGoalposY = static_cast<int>(m_Goalpos.y / 2.0f);
+		m_castGoalposX = static_cast<int>(m_Goalpos.x);
+		m_castGoalposY = static_cast<int>(m_Goalpos.y);
 		// ゴールのサイズ変換
-		m_castGoalsizeX = static_cast<int>(m_Goalsize.x / 2.0f);
-		m_castGoalsizeY = static_cast<int>(m_Goalsize.y / 2.0f);
+		m_castGoalsizeX = static_cast<int>(m_Goalsize.x);
+		m_castGoalsizeY = static_cast<int>(m_Goalsize.y);
 
 		// コインの座標変換
 		// コイン1
-		m_cast1CposX = static_cast<int>(m_1Cpos.x / 2.0f);
-		m_cast1CposY = static_cast<int>(m_1Cpos.y / 2.0f);
+		m_cast1CposX = static_cast<int>(m_1Cpos.x);
+		m_cast1CposY = static_cast<int>(m_1Cpos.y);
 		// コイン2
-		m_cast2CposX = static_cast<int>(m_2Cpos.x / 2.0f);
-		m_cast2CposY = static_cast<int>(m_2Cpos.y / 2.0f);
+		m_cast2CposX = static_cast<int>(m_2Cpos.x);
+		m_cast2CposY = static_cast<int>(m_2Cpos.y);
 		// コイン3
-		m_cast3CposX = static_cast<int>(m_3Cpos.x / 2.0f);
-		m_cast3CposY = static_cast<int>(m_3Cpos.y / 2.0f);
+		m_cast3CposX = static_cast<int>(m_3Cpos.x);
+		m_cast3CposY = static_cast<int>(m_3Cpos.y);
 		// コインのサイズ変換
-		m_castCsizeX = static_cast<int>(m_Csize.x / 2.0f);
-		m_castCsizeY = static_cast<int>(m_Csize.y / 2.0f);
+		m_castCsizeX = static_cast<int>(m_Csize.x);
+		m_castCsizeY = static_cast<int>(m_Csize.y);
 
 		// プレイヤーの位置とスクリーン左上の座標の差分を、スクリーンの横幅で割ると配列のインデックスが求められる
 		// 影のプレイヤーはレンダーにのみ表示している->レンダー幅が影プレイヤーのウィンドウ幅
@@ -329,10 +329,14 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		}
 
 		// 足元当たり判定
-		m_underAlpha	= pData[(m_indexY + 3) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-		m_underAlpha2	= pData[(m_indexY + 1) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-		// 足元判定
-		ShadowUnderCollision(m_underAlpha, m_underAlpha2);
+		m_underAlpha = pData[(m_indexY + 6) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+		for (int i = 1; i < 6; i++)
+		{
+			m_underAlpha2 = pData[(m_indexY + i) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			// 足元判定
+			ShadowUnderCollision(m_underAlpha, m_underAlpha2);
+		}
+		
 
 		// 必要αデータ初期化
 		m_nFeetAlpha = 0;
@@ -348,24 +352,24 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			}
 			if (m_LRcheck == false)
 			{
-				m_alpha = pData[(m_indexY - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			}
 			else
 			{
-				m_alpha = pData[(m_indexY - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			}
 			// α値の内訳
 			if (m_alpha > 240)
 			{
-				if (j <= SHADOWPLAYER_SIZE_Y - 50)
+				if (j <= SHADOWPLAYER_SIZE_Y - 100)
 				{// 足元のα値
 					m_nFeetAlpha++;
 				}
-				else if (j > SHADOWPLAYER_SIZE_Y - 50 && j < SHADOWPLAYER_SIZE_Y - 5)
+				else if (j > SHADOWPLAYER_SIZE_Y - 100 && j < SHADOWPLAYER_SIZE_Y - 10)
 				{// 胴体のα値
 					m_nBodyAlpha++;
 				}
-				else if (j >= SHADOWPLAYER_SIZE_Y - 5)
+				else if (j >= SHADOWPLAYER_SIZE_Y - 10)
 				{// 頭のα値
 					m_nHeadAlpha++;
 				}
@@ -434,11 +438,11 @@ void BackShadow::SetShadowCamera(CameraBase* pCamera)
 void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 {
 	// 左右のα値の参照
-	if (nHeadAlpha >= 5)
+	if (nHeadAlpha >= 10)
 	{// 天井
 		m_pShadowPlayer->Use();
 	}
-	if (nBodyAlpha > 10)
+	if (nBodyAlpha > 30)
 	{// 壁
 		m_pShadowPlayer->Use();
 	}
@@ -469,11 +473,11 @@ void BackShadow::ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2)
 // 画面端(左右)判定
 bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 {
-	if (h * width + 15 == m_indexY * width + m_indexX)
+	if (h * width + 30 == m_indexY * width + m_indexX)
 	{// 左の画面端
 		return true;
 	}
-	if (h * width + width - 4 == m_indexY * width + m_indexX)
+	if (h * width + width - 8 == m_indexY * width + m_indexX)
 	{// 右の画面端
 		return true;
 	}
