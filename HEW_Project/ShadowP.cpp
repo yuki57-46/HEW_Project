@@ -12,7 +12,7 @@ const std::chrono::milliseconds soundIntervalSd = std::chrono::milliseconds(1000
 
 
 ShadowP::ShadowP()
-	: m_pos(3.5f, 0.2f, 0.0f)
+	: m_pos(3.5f, 0.5f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 10.0f)
 	, m_IsAlterDir(false)
 	, m_LastDir(false)
