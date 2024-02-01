@@ -5,7 +5,7 @@
 
 Curtain::Curtain()
 	: m_pos(0.0f, -0.5f, 2.0f),
-	 m_scale(0.4f, 0.4f, 0.4f)
+	 m_scale(0.4f, 0.4f, -0.4f)
 {
 	m_pModel = new Model();
 	if (!m_pModel->Load("Assets/Model/Block/Curtain.fbx", Model::Flip::XFlip))
