@@ -329,7 +329,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		}
 
 		// 足元当たり判定
-		m_underAlpha	= pData[(m_indexY + 6) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+		m_underAlpha = pData[(m_indexY + 6) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 		for (int i = 1; i < 6; i++)
 		{
 			m_underAlpha2 = pData[(m_indexY + i) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
@@ -352,11 +352,11 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			}
 			if (m_LRcheck == false)
 			{
-				m_alpha = pData[(m_indexY - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			}
 			else
 			{
-				m_alpha = pData[(m_indexY - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			}
 			// α値の内訳
 			if (m_alpha > 240)
@@ -442,11 +442,11 @@ void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 	{// 天井
 		m_pShadowPlayer->Use();
 	}
-	if (nBodyAlpha > 20)
+	if (nBodyAlpha > 30)
 	{// 壁
 		m_pShadowPlayer->Use();
 	}
-	if (nFeetAlpha >= 6)
+	if (nFeetAlpha >= 3)
 	{// 階段
 		m_pShadowPlayer->Jump();
 	}
