@@ -211,7 +211,7 @@
     <ClCompile Include="SceneResult.cpp" />
     <ClCompile Include="SceneTutorial.cpp" />
     <ClCompile Include="Screen.cpp" />
-    <ClCompile Include="Select.cpp" />
+    <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderList.cpp" />
     <ClCompile Include="ShadowP.cpp" />
@@ -265,7 +265,7 @@
     <ClInclude Include="SceneResult.h" />
     <ClInclude Include="SceneTutorial.h" />
     <ClInclude Include="Screen.h" />
-    <ClInclude Include="Select.h" />
+    <ClInclude Include="SelectScene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderList.h" />
     <ClInclude Include="ShadowP.h" />

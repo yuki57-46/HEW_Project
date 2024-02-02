@@ -13,6 +13,7 @@ SceneManager::SceneManager()
 	, m_pSceneTutorial(nullptr)
 	, m_pSceneResult(nullptr)
 	, m_NextScene(SCENE_START)
+	, m_pSceneSelect(nullptr)
 {
 	// メモリ確保
 	switch (m_NowScene)
@@ -23,6 +24,10 @@ SceneManager::SceneManager()
 
 	case SceneManager::SCENE_TUTORIAL:
 		m_pSceneTutorial = new SceneTutorial(this);
+		break;
+
+	case SceneManager::SCENE_SELECT:
+		m_pSceneSelect = new SelectScene(this);
 		break;
 
 	case SceneManager::SCENE_GAME:
@@ -48,6 +53,11 @@ SceneManager::~SceneManager()
 		delete m_pSceneTutorial;
 		m_pSceneTutorial = nullptr;
 
+		break;
+
+	case SceneManager::SCENE_SELECT:
+		delete m_pSceneSelect;
+		m_pSceneSelect = nullptr;
 		break;
 
 	case SceneManager::SCENE_GAME:
@@ -76,6 +86,10 @@ void SceneManager::Update(float tick)
 		m_pSceneTutorial->Update();
 		break;
 
+	case SceneManager::SCENE_SELECT:
+		m_pSceneSelect->Update();
+		break;
+
 	case SceneManager::SCENE_GAME:
 		m_pSceneGame->Update(tick);
 		break;
@@ -96,6 +110,10 @@ void SceneManager::Draw()
 
 	case SceneManager::SCENE_TUTORIAL:
 		m_pSceneTutorial->Draw();
+		break;
+
+	case SceneManager::SCENE_SELECT:
+		m_pSceneSelect->Draw();
 		break;
 
 	case SceneManager::SCENE_GAME:
@@ -124,6 +142,11 @@ void SceneManager::ChangeScene(SCENE next)
 		m_pSceneTutorial = nullptr;
 		break;
 
+	case SceneManager::SCENE_SELECT:
+		delete m_pSceneSelect;
+		m_pSceneSelect = nullptr;
+		break;
+
 	case SceneManager::SCENE_GAME:
 		delete m_pSceneGame;
 		m_pSceneGame = nullptr;
@@ -146,6 +169,10 @@ void SceneManager::ChangeScene(SCENE next)
 
 	case SceneManager::SCENE_TUTORIAL:
 		m_pSceneTutorial = new SceneTutorial(this);
+		break;
+
+	case SceneManager::SCENE_SELECT:
+		m_pSceneSelect = new SelectScene(this);
 		break;
 
 	case SceneManager::SCENE_GAME:

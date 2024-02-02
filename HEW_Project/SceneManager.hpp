@@ -6,13 +6,14 @@
 #include "SceneTutorial.h"
 #include "SceneResult.h"
 #include "TitleScene.h"
+#include "SelectScene.h"
 
 // クラス定義
 class SceneGame;
 class SceneTutorial;
 class SceneResult;
 class SceneTitle;
-
+class SelectScene;
 
 class SceneManager
 {
@@ -21,14 +22,21 @@ public:
 	{
 		SCENE_TITLE = 0,	// タイトル
 		SCENE_TUTORIAL,		// チュートリアル(操作説明)
-		SCENE_GAME,			// ゲーム
+
+		SCENE_SELECT,		// ステージ選択
+
+		SCENE_GAME,			// ゲーム、第１ステージ
+		//SCENE_STAGE2,		// 第２ステージ
+		//SCENE_STAGE3,		// 第３ステージ
+		//SCENE_STAGE4,		// 第４ステージ
+
 		SCENE_RESULT,		// リザルト
 //		SCENE_CLEAR,		// リザルト（ゲームクリア）
 //		SCENE_GAMEOVER,		// リザルト（ゲームオーバー）
 
 		SCENE_MAX,			// シーンの数
 
-		SCENE_START = SCENE_TITLE	// 最初に出すシーンの画面
+		SCENE_START = SCENE_SELECT	// 最初に出すシーンの画面
 	};
 
 public:
@@ -48,7 +56,11 @@ private:
 	// シーン
 	SceneTitle*		m_pSceneTitle;
 	SceneTutorial*	m_pSceneTutorial;
+	SelectScene*	m_pSceneSelect;
 	SceneGame*		m_pSceneGame;
+
+
+
 	SceneResult*	m_pSceneResult;
 
 
