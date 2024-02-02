@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Object.h"
 // 1/23 追加オブジェクト
-#include "ObjectNot.h"
+
 #include "ObjectAutoMove.h"
 
 #include "yuka.h"
@@ -30,7 +30,7 @@ public:
 	
 private:
 	Object*			m_pObjects;
-	ObjectNot*		m_pObjectsNot;
+	
 	ObjectAuto*		m_pObjectsAuto;
 
 	Yuka*		m_pYuka;
@@ -52,6 +52,6 @@ private:
 	int m_num2;	// レバー
 	int m_num3;	// ゴール
 	int m_num4;	// 床
-	int m_num5;	// 動かないブロック
+
 	int m_num6;	// 動くブロック
 };

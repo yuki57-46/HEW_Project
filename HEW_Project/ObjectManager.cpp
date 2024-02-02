@@ -13,7 +13,6 @@ ObjectMng::ObjectMng()
 	, m_num2(0)
 	, m_num3(0)
 	, m_num4(0)
-	, m_num5(0)
 	, m_num6(0)
 
 {
@@ -29,7 +28,7 @@ ObjectMng::ObjectMng()
 	//ブロック
 	struct Setting
 	{
-		float x, y, z, scaleX, scaleY, scaleZ;
+		float x, y, z, scaleX, scaleY, scaleZ,hyoui,Auto;
 	};
 	//ブロック配置.スケール指定
 	Setting data[] = {
@@ -59,15 +58,16 @@ ObjectMng::ObjectMng()
 		//{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
 		//{-1.0f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f},
 		//{-2.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f},
-
+		//ポジション、スケール、憑依判定(trueで憑依)、
+		//自動ムーブ判定(trueで自動、自動ブロックは否憑依(false)にして下さい[false,true])
 		//=============stage4===================
-		{2.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f},
-		{0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f},
-		{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f},
-		{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f},
-		{-0.25f, 0.0f, 3.0f, 0.5f, 0.25f, 0.25f},
-		{-1.0f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f},
-		{-2.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f},
+		{2.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		{0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,false,false},
+		{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,true},
+		{-0.25f, 0.0f, 3.0f, 0.5f, 0.25f, 0.25f,true,false},
+		{-1.0f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
+		{-2.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,false,true},
 
 
 	};
@@ -82,7 +82,7 @@ ObjectMng::ObjectMng()
 	{
 		m_pObjects[i].Create(
 			data[i].x, data[i].y, data[i].z,
-			data[i].scaleX, data[i].scaleY, data[i].scaleZ
+			data[i].scaleX, data[i].scaleY, data[i].scaleZ,data[i].hyoui,data[i].Auto
 		);
 	}
 
@@ -198,7 +198,7 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting3 data4[] = {
-		{ 0.0f, -0.02f, 2.3f, 1.45f, 0.1f, 0.7f},
+		{ 0.0f, 0.0f, 2.3f, 1.45f, 1.0f, 0.7f},
 
 	};
 
@@ -216,31 +216,7 @@ ObjectMng::ObjectMng()
 		);
 	}
 
-	////動かないブロック
-	//struct Setting5
-	//{
-	//	float x, y, z, scaleX, scaleY, scaleZ;
-	//};
-	////ブロック配置.スケール指定
-	//Setting5 data5[] = {
-	//	{ 0.0f, -0.02f, 2.5f, 1.0f, 1.0f, 1.0f},
-
-	//};
-
-	////配列の要素の数から必要なブロック数を計算
-	//m_num5 = sizeof(data5) / sizeof(data5[0]);
-
-	////必要な数だけブロックを確保
-	//m_pObjectsNot = new ObjectNot[m_num5];
-	////確保したブロックに初期データを設定
-	//for (int i = 0; i < m_num5; i++)
-	//{
-	//	m_pObjectsNot[i].CreateNot(
-	//		data5[i].x, data5[i].y, data5[i].z,
-	//		data5[i].scaleX, data5[i].scaleY, data5[i].scaleZ
-	//	);
-	//}
-
+	
 	////動くブロック
 	//struct Setting6
 	//{
@@ -275,7 +251,7 @@ ObjectMng::~ObjectMng()
 {
 	delete[] m_pObjects;
 
-	//delete[] m_pObjectsNot;
+	
 
 	//delete[] m_pObjectsAuto;
 
@@ -338,10 +314,7 @@ void ObjectMng::Update(float tick)
 		m_pObjectsAuto->Update();
 	}
 
-	for (int n = 0; n < m_num5; n++)
-	{// 動かないブロック
-		m_pObjectsNot->Update();
-	}
+
 
 	for (int y = 0; y < m_num4; y++)
 	{// 床
@@ -516,7 +489,7 @@ void ObjectMng::Update(float tick)
 				if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pObjects[i]))
 				{
 					//憑依のため・ブロックとプレイヤーが当たった場合
-					if (m_pPlayer->HIsCollidingWith(*gameObject))
+					if ((m_pPlayer->HIsCollidingWith(*gameObject))&&m_pObjects[i].possessionok()==true)
 					{
 
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
@@ -1549,11 +1522,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
 	}
-	//// 動かないブロック描画
-	//for (int i = 0; i < m_num5; i++)
-	//{
-	//	m_pObjectsNot[i].Draw(viewMatrix, projectionMatrix);
-	//}
+	
 	//// 動くブロック描画
 	//for (int i = 0; i < m_num6; i++)
 	//{

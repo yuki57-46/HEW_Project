@@ -28,7 +28,8 @@ const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);
 #define Max_Z (3.36f)
 #define Min_Z (1.8f)
 
-
+#define MaxPosX (2.0f)
+#define MinPosX (-2.0f)
 
 Object::Object()
 	: m_pos(0.0f, 0.0f, 0.0f)
@@ -52,16 +53,21 @@ Object::Object()
 	, xz(false)
 	, colgravity(true)
 	, objectTop(false)
+	, possession(true)
+	, Automove(false)
+	, MoveX(true)
 {
 	m_pObjectModel = new Model;
+	m_pObjectModelH = new Model;
 
-	/*if (!m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
-	}*/
+	
 	/*if (!m_pObjectModel->Load("Assets/Model/Block/Slope.fbx",0.1,  Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}*/
 	if (!m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "モデルの読み込みエラー_box", "Error", MB_OK);
+	}
+	if (!m_pObjectModelH->Load("Assets/Model/Block/HyouiBox.fbx", Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー_box", "Error", MB_OK);
 	}
 	/*if (!m_pObjectModel->Load("Assets/Stage/Butai.fbx", Model::Flip::XFlip)) {
@@ -73,7 +79,7 @@ Object::Object()
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
 	m_pObjectModel->SetVertexShader(m_pObjectVS);
-
+	m_pObjectModelH->SetVertexShader(m_pObjectVS);
 
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
@@ -89,6 +95,11 @@ Object::~Object()
 	{
 		delete m_pObjectModel;
 		m_pObjectModel = nullptr;
+	}
+	if (m_pObjectModelH)
+	{
+		delete m_pObjectModelH;
+		m_pObjectModelH = nullptr;
 	}
 	if (m_pObjectVS)
 	{
@@ -289,6 +300,8 @@ void Object::Update()
 				frame = 30;
 			}
 
+
+
 		}
 		else if (ok == true)
 		{
@@ -321,7 +334,43 @@ void Object::Update()
 			SetF1();
 			OBJPosy();
 			gravity = false;
-		}	
+		}
+
+		float amoveSpeed = 0.002f;
+
+		if (Automove == true&&possession==false)
+		{
+
+			if (MoveX == true)	// オブジェクトの移動がtrueなら
+			{
+				m_pos.x += amoveSpeed;
+				if (m_pos.x >= MaxPosX)	// 指定した範囲(右)まで移動
+				{
+					m_pos.x = MaxPosX;
+					MoveX = false;
+				}
+				xz = true;
+			}
+			if (MoveX == false)
+			{
+				m_pos.x -= amoveSpeed;
+				if (m_pos.x <= MinPosX)	// 指定した範囲(左)まで移動
+				{
+					m_pos.x = MinPosX;
+					MoveX = true;
+				}
+				xz = true;
+			}
+			xz = true;
+		}
+
+
+
+
+
+
+
+
 }
 void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
@@ -338,7 +387,15 @@ void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
 	
 	m_pObjectVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
-	m_pObjectModel->Draw();
+	if (moveok==false)
+	{
+		m_pObjectModel->Draw();
+	}
+	
+	if (moveok==true)
+	{
+		m_pObjectModelH->Draw();
+	}
 
 }
 
@@ -434,7 +491,8 @@ DirectX::XMFLOAT3 Object::GetPos()
 	return m_pos;
 }
 
-void Object::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
+void Object::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ,bool hyoui
+,bool Auto)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
@@ -443,6 +501,9 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
 
+	possession = hyoui;
+
+	Automove = Auto;
 	//
 	objectMinBound.x *= m_scale.x;
 	objectMinBound.y *= m_scale.y;
@@ -623,3 +684,9 @@ void Object::SetReverseSlope()
 {
 	m_pos.x -= 0.0005;
 }
+
+bool Object::possessionok()
+{
+	return possession;
+}
+

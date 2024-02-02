@@ -32,7 +32,11 @@ public:
 	DirectX::XMFLOAT3 GetObjectMaxBounds();
 	DirectX::XMFLOAT3 GetPos();
 
-	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
+	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool hyoui, bool Auto);
+
+	//void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool hyoui);
+
+	
 	void Set();
 	void SetF();
 	bool SetR();
@@ -54,13 +58,18 @@ public:
 	void SetSlope();
 	void SetReverseSlope();
 
+
+
 	bool SetR1();
 	bool IsGravity();
 	bool IsXZ();
 	bool IsObjectTop();
 	bool IsMove();
+	bool possessionok();
+
 private:
 	Model* m_pObjectModel;
+	Model* m_pObjectModelH;
 	VertexShader* m_pObjectVS;
 	DirectX::XMFLOAT3 m_oldPos;
 	DirectX::XMFLOAT3 m_pos;
@@ -80,6 +89,9 @@ private:
 	bool xz;
 	bool objectTop;
 	bool colgravity;
+	bool possession;
+	bool Automove;
+	bool MoveX;
 	float a = 0.0f;
 
 	
