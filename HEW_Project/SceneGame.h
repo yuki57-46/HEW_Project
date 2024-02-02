@@ -23,7 +23,7 @@
 #include"Haikei.h"
 
 #include "Fade.hpp"
-
+#include"CurtainObject.h"
 enum CameraKind
 {
 	CAM_OBJ,	//
@@ -61,7 +61,7 @@ private:
 	CurtainUI*		m_pCurtainUI;
 	Haikei*         m_pHaikei;
 
-
+	Curtain*		m_pCurtain;
 	//ゴール（仮状態の処理有）
 	Goal*			m_pGoal;
 
