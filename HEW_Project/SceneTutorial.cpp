@@ -4,12 +4,15 @@
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
 
+// ファイルパス
 #define FILENAME1 "Assets/Texture/gametutorial.png"	// 操作画面
 #define FILENAME2 "Assets/Texture/enter.png"		// start push Enter文字
 #define FILENAME3 "Assets/Texture/message.png"		// 操作一覧の文字
 
 SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	: m_pTexture1(nullptr)
+	, m_pTexture2(nullptr)
+	, m_pTexture3(nullptr)
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 	, m_pPS(nullptr)
 {
@@ -32,9 +35,9 @@ SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	}
 
 	m_pPS = new PixelShader();
-	if (FAILED(m_pPS->Load("/Assets/Shader/PS_Sprite.cso")))
+	if (FAILED(m_pPS->Load("./Assets/Shader/PS_Sprite.cso")))
 	{
-		MessageBox(NULL, "Pixel Shader", "Error", MB_OK);
+		MessageBox(NULL, "Tutorial Pixel Shader", "Error", MB_OK);
 	}
 }
 
@@ -89,6 +92,7 @@ void SceneTutorial::Draw()
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
 	// スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);

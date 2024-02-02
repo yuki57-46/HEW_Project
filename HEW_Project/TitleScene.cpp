@@ -11,32 +11,45 @@ SceneTitle::SceneTitle(SceneManager* pSceneManager)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
+	, m_pPS(nullptr)
 {
+	m_pCurtainUI = new CurtainUI();
+
 	m_pTexture = new Texture();
 	if (FAILED(m_pTexture->Create(FILENAME)))
 	{
 		MessageBox(NULL, "Title", "Error", MB_OK);
 	}
 
+	m_pPS = new PixelShader();
+	if (FAILED(m_pPS->Load("./Assets/Shader/PS_Sprite.cso")))
+	{
+		MessageBox(NULL, "Title Pixel Shader", "Error", MB_OK);
+	}
+
 	// カーテンフェードの取得
 	m_pFade = new Fade(m_pCurtainUI);
-
-	m_pCurtainUI = new CurtainUI();
 }
 
 SceneTitle::~SceneTitle()
 {
-	if (m_pFade)
+	if (m_pPS)
 	{
-		delete m_pFade;
-		m_pFade = nullptr;
+		delete m_pPS;
+		m_pPS = nullptr;
 	}
 
-	if (m_pCurtainUI)
-	{
-		delete m_pCurtainUI;
-		m_pCurtainUI = nullptr;
-	}
+	//if (m_pFade)
+	//{
+	//	delete m_pFade;
+	//	m_pFade = nullptr;
+	//}
+
+	//if (m_pCurtainUI)
+	//{
+	//	delete m_pCurtainUI;
+	//	m_pCurtainUI = nullptr;
+	//}
 
 	if (m_pTexture)
 	{
@@ -47,20 +60,16 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Update()
 {
-	m_pCurtainUI->Update();
-	//m_pFade->Update();
-	//m_pFade->Start(true, 2.0f);// フェードイン
-
-	m_pFade->Update();
-	if (IsKeyTrigger('O'))
-		m_pFade->Start(true, 2.0f);// フェードイン
-	if (IsKeyTrigger('P'))
-		m_pFade->Start(false, 1.0f);// フェードアウト
+//	m_pCurtainUI->Update();
+//	m_pFade->Update();
+	//if (IsKeyTrigger('O'))
+	//	m_pFade->Start(true, 2.0f);// フェードイン
+	//if (IsKeyTrigger('P'))
+	//	m_pFade->Start(false, 1.0f);// フェードアウト
 
 	if (IsKeyTrigger(VK_RETURN))
 	{
-//		m_pFade->Start(true, 2.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
+		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// 操作説明シーンに移る
 	}
 }
 
@@ -86,15 +95,14 @@ void SceneTitle::Draw()
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 	
 	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
-
-	m_pFade->Draw();
-	m_pCurtainUI->StageCurtainDraw();
 }
 
 //TitleScene.cpp

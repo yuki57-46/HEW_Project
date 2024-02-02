@@ -42,12 +42,10 @@ SceneGame::SceneGame(SceneManager* pSceneManager)
 	m_pUI = new ItemUI();
 	m_pCoinCntUI = new CoinCntUI();
 	m_pCoin = new Coin[3];
-
 	m_pHaikei = new Haikei();
 
 	//ゴール
 	m_pGoal = new Goal();
-
 	//カーテン
 	m_pCurtainUI = new CurtainUI();
 
@@ -258,7 +256,6 @@ void SceneGame::Draw()
 
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
-
 
 	//コインが取得されていたら描画
 	if (m_pCoin[0].IsCoinCollected == true)

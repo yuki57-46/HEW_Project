@@ -7,12 +7,15 @@
 #include "SceneResult.h"
 #include "TitleScene.h"
 
+// フェード関連インクルード部
+#include "Fade.hpp"
+#include "Curtain.h"
+
 // クラス定義
 class SceneGame;
 class SceneTutorial;
 class SceneResult;
 class SceneTitle;
-
 
 class SceneManager
 {
@@ -39,6 +42,7 @@ public:
 	void Draw();
 
 	void ChangeScene(SCENE next);	// シーンの切り替え
+//	void NextScene()
 	void EndGame();					// ゲームの終了
 	bool IsEndGame();				// ゲームが続いているか
 
@@ -51,6 +55,9 @@ private:
 	SceneGame*		m_pSceneGame;
 	SceneResult*	m_pSceneResult;
 
+	// フェード関連
+	Fade*		m_pFade;
+	CurtainUI*	m_pCurtainUI;
 
 	SCENE m_NowScene;	// 現在のシーン
 	SCENE m_NextScene;	// 次のシーン

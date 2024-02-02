@@ -48,7 +48,8 @@ private:
 	Screen* m_pScreen;
 
 	ObjectMng* m_pObjectMng;
-	VertexShader* m_pVS;
+	VertexShader*	m_pVS;
+	PixelShader*	m_pPS;
 
 	ObjectCamera* m_pobjcamera;
 	CameraKindResult	m_mainCamera;

@@ -63,6 +63,8 @@ private:
 	CoinCntUI*		m_pCoinCntUI;
 	CurtainUI*		m_pCurtainUI;
 
+	PixelShader*	m_pPS;
+
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
 

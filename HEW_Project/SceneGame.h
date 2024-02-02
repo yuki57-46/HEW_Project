@@ -20,7 +20,7 @@
 #include "ItemUI.h"
 #include "Goal.h"
 #include "Curtain.h"
-#include"Haikei.h"
+#include "Haikei.h"
 
 #include "Fade.hpp"
 

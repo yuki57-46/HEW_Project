@@ -9,16 +9,29 @@
 SceneResult::SceneResult(SceneManager* pSceneManager)
 	: m_pTexture(nullptr)
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
+	, m_pPS(nullptr)
 {
 	m_pTexture = new Texture();
 	if (FAILED(m_pTexture->Create(FILENAME)))
 	{
 		MessageBox(NULL, "Title", "Error", MB_OK);
 	}
+
+	m_pPS = new PixelShader();
+	if (FAILED(m_pPS->Load("Assets/Shader/VS_Model.cso")))
+	{
+		MessageBox(NULL, "Result Pixel Shader", "Error", MB_OK);
+	}
 }
 
 SceneResult::~SceneResult()
 {
+	if (m_pPS)
+	{
+		delete m_pPS;
+		m_pPS = nullptr;
+	}
+
 	if (m_pTexture)
 	{
 		delete m_pTexture;

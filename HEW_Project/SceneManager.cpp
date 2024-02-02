@@ -12,8 +12,13 @@ SceneManager::SceneManager()
 	, m_pSceneGame(nullptr)
 	, m_pSceneTutorial(nullptr)
 	, m_pSceneResult(nullptr)
+	, m_pFade(nullptr)
+	, m_pCurtainUI(nullptr)
 	, m_NextScene(SCENE_START)
 {
+	m_pCurtainUI = new CurtainUI();
+	m_pFade	= new Fade(m_pCurtainUI);
+
 	// メモリ確保
 	switch (m_NowScene)
 	{
@@ -59,7 +64,12 @@ SceneManager::~SceneManager()
 		delete m_pSceneResult;
 		m_pSceneResult = nullptr;
 		break;
+
+	default:
+		break;
 	}
+	if (m_pFade)		{ delete m_pFade; }
+	if (m_pCurtainUI)	{ delete m_pCurtainUI;	m_pCurtainUI = nullptr; }
 }
 
 void SceneManager::Update(float tick)
@@ -82,6 +92,8 @@ void SceneManager::Update(float tick)
 		m_pSceneResult->Update();
 		break;
 	}
+	m_pFade->Update();
+	m_pCurtainUI->Update();
 }
 
 void SceneManager::Draw()
@@ -104,6 +116,8 @@ void SceneManager::Draw()
 		m_pSceneResult->Draw();
 		break;
 	}
+	m_pFade->Draw();	// フェードの描画
+	m_pCurtainUI->StageCurtainDraw();	// カーテンの描画
 }
 
 // シーン切り替え
@@ -134,6 +148,7 @@ void SceneManager::ChangeScene(SCENE next)
 	}
 
 	m_NowScene = next;	// 次のシーンへ
+	m_pFade->Start(true, 3.0f);	// フェードイン
 
 	// メモリ確保
 	switch (m_NowScene)

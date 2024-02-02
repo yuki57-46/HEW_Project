@@ -178,5 +178,5 @@ void CurtainUI::Start(bool isUp, float Time)
 bool CurtainUI::IsPlay()
 {
 	// 緞帳が移動中かどうか
-	return m_fTime > 0.0f;
+	return m_fTime > 0.0f;	// 例外スロー箇所
 }

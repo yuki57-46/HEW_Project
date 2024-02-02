@@ -7,6 +7,7 @@
 #define __Haikei_UI_H__
 
 #include "Texture.h"		//Texture.hの導入
+#include "Shader.h"
 
 class Haikei				//カーテンクラス
 {
@@ -21,6 +22,7 @@ public:
 private:
 	Texture* m_pTexture;	//テクスチャ
 
+	PixelShader* m_pPS;
 	
 
 };

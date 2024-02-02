@@ -14,7 +14,7 @@ public:
 	~CurtainUI();			//デストラクタ
 
 	void Update();			//更新
-	void LeftDraw();			//描画
+	void LeftDraw();		//描画
 	void RightDraw();
 
 	void StageCurtainDraw();	//ステージカーテン描画
