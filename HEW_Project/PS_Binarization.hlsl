@@ -26,6 +26,11 @@ float4 main(PS_IN pin) : SV_TARGET
 	{
 		return float4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
+
+	if (color.g == 1.0f)
+	{
+		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 	
 	//if (color.r == 1.0f && color.g == 1.0f && color.b == 1.0f)
 	//{
