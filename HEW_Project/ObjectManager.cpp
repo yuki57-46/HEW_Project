@@ -309,10 +309,10 @@ void ObjectMng::Update(float tick)
 
 	m_pPlayer->Update(tick);
 
-	for (int t = 0; t < m_num6; t++)
-	{// 動くブロック
-		m_pObjectsAuto->Update();
-	}
+	//for (int t = 0; t < m_num6; t++)
+	//{// 動くブロック
+	//	m_pObjectsAuto->Update();
+	//}
 
 
 
@@ -624,6 +624,18 @@ void ObjectMng::Update(float tick)
 										}
 										//m_pObjects[i].SetF();
 									}
+									else if (m_pObjects[j].IsXZ() && m_pObjects[j].IsAutoMove() == true)  //x,z軸から当たった場合
+									{
+										/*m_pObjects[i].OBJPos();
+										m_pObjects[j].OBJPos();*/
+										/*for (int h = 0; h < m_num; h++)
+										{
+											m_pObjects[h].OBJPos();
+										}*/
+										//m_pObjects[i].SetF();
+										m_pObjects[i].OBJPos();
+										m_pObjects[j].OBJPos();
+									}
 									else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)
 									{
 										/*m_pObjects[j].SetObjectTop();
@@ -874,6 +886,10 @@ void ObjectMng::Update(float tick)
 											}
 
 										}
+										if (m_pObjects[j].IsAutoMove() == true)
+										{
+											m_pObjects[j].OBJPos();
+										}
 									}
 
 								}
@@ -1093,6 +1109,19 @@ void ObjectMng::Update(float tick)
 										//m_pObjects[j].SetObjectTop();
 										m_pObjects[j].Set();
 										m_pObjects[j].OBJPosy();
+										
+									}
+									else if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.5)
+									{
+										//for (int h = 0; h < m_num; h++)
+										//{
+										//	m_pObjects[h].Set1();
+										//	m_pStair[h].Set1();
+										//}
+										////m_pObjects[j].SetObjectTop();
+										//m_pObjects[j].Set();
+										//m_pObjects[j].OBJPosy();
+										m_pStair[b].OBJPos();
 									}
 
 									else if (m_pStair[b].IsXZ())

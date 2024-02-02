@@ -201,9 +201,6 @@
     <ClCompile Include="ObjectNot.cpp">
       <Filter>ソース ファイル\object</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectAutoMove.cpp">
-      <Filter>ソース ファイル\object</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
@@ -345,9 +342,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ObjectNot.h">
-      <Filter>ヘッダー ファイル\object</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectAutoMove.h">
       <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.hpp">

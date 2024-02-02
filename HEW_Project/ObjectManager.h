@@ -2,7 +2,7 @@
 #include "Object.h"
 // 1/23 追加オブジェクト
 
-#include "ObjectAutoMove.h"
+//#include "ObjectAutoMove.h"
 
 #include "yuka.h"
 #include "CameraBase.h"
@@ -31,7 +31,7 @@ public:
 private:
 	Object*			m_pObjects;
 	
-	ObjectAuto*		m_pObjectsAuto;
+	//ObjectAuto*		m_pObjectsAuto;
 
 	Yuka*		m_pYuka;
 	Lift_Obj*	m_pLift_obj;

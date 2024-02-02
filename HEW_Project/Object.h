@@ -66,6 +66,7 @@ public:
 	bool IsObjectTop();
 	bool IsMove();
 	bool possessionok();
+	bool IsAutoMove();
 
 private:
 	Model* m_pObjectModel;
