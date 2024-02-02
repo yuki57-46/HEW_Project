@@ -338,7 +338,7 @@ void Object::Update()
 
 		float amoveSpeed = 0.002f;
 
-		if (Automove == true&&possession==false)
+		if (Automove == true && possession == false)
 		{
 
 			if (MoveX == true)	// オブジェクトの移動がtrueなら
@@ -688,5 +688,10 @@ void Object::SetReverseSlope()
 bool Object::possessionok()
 {
 	return possession;
+}
+
+bool Object::IsAutoMove()
+{
+	return Automove;
 }
 
