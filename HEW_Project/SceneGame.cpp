@@ -175,6 +175,7 @@ void SceneGame::Update(float tick)
 	//m_pObject2D->Update();
 	m_pCoinCntUI->Update();
 	m_pCurtainUI->Update();
+
 #if FADE_TEST
 	m_pFade->Update();
 	if (IsKeyTrigger('O'))
