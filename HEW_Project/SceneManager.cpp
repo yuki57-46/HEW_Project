@@ -48,11 +48,11 @@ SceneManager::~SceneManager()
 	case SceneManager::SCENE_TITLE:
 		delete m_pSceneTitle;
 		m_pSceneTitle = nullptr;
+		break;
 
 	case SceneManager::SCENE_TUTORIAL:
 		delete m_pSceneTutorial;
 		m_pSceneTutorial = nullptr;
-
 		break;
 
 	case SceneManager::SCENE_SELECT:
@@ -63,13 +63,11 @@ SceneManager::~SceneManager()
 	case SceneManager::SCENE_GAME:
 		delete m_pSceneGame;
 		m_pSceneGame = nullptr;
-
 		break;
 
 	case SceneManager::SCENE_RESULT:
 		delete m_pSceneResult;
 		m_pSceneResult = nullptr;
-
 		break;
 	}
 }

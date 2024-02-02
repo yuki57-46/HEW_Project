@@ -11,6 +11,7 @@
 SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	: m_pTexture1(nullptr)
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
+	, m_pPS(nullptr)
 {
 	m_pTexture1 = new Texture();
 	if (FAILED(m_pTexture1->Create(FILENAME1)))
@@ -27,12 +28,23 @@ SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	m_pTexture3 = new Texture();
 	if (FAILED(m_pTexture3->Create(FILENAME3)))
 	{
-		MessageBox(NULL, "Enter message", "Error", MB_OK);
+		MessageBox(NULL, "Message", "Error", MB_OK);
+	}
+
+	m_pPS = new PixelShader();
+	if (FAILED(m_pPS->Load("/Assets/Shader/PS_Sprite.cso")))
+	{
+		MessageBox(NULL, "Pixel Shader", "Error", MB_OK);
 	}
 }
 
 SceneTutorial::~SceneTutorial()
 {
+	if (m_pPS)
+	{
+		delete m_pPS;
+		m_pPS = nullptr;
+	}
 	if (m_pTexture1)
 	{
 		delete m_pTexture1;
@@ -80,6 +92,7 @@ void SceneTutorial::Draw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	Sprite::SetPixelShader(m_pPS);
 //	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
 
 	// テクスチャ1の描画
