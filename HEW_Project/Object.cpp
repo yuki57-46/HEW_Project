@@ -54,7 +54,7 @@ Object::Object()
 	, colgravity(true)
 	, objectTop(false)
 	, possession(true)
-	, Automove(false)
+	, Automove(true)
 	, MoveX(true)
 {
 	m_pObjectModel = new Model;
@@ -325,7 +325,7 @@ void Object::Update()
 
 		if (m_pos.x >= Max_X || m_pos.x <= Min_X
 			|| m_pos.z >= Max_Z || m_pos.z <=Min_Z
-			|| m_pos.y >= 4.0f)
+			|| m_pos.y >= 2.0f)
 		{
 			OBJPos();
 		}
@@ -343,7 +343,10 @@ void Object::Update()
 
 			if (MoveX == true)	// オブジェクトの移動がtrueなら
 			{
+				
 				m_pos.x += amoveSpeed;
+
+				
 				if (m_pos.x >= MaxPosX)	// 指定した範囲(右)まで移動
 				{
 					m_pos.x = MaxPosX;
@@ -351,7 +354,7 @@ void Object::Update()
 				}
 				xz = true;
 			}
-			if (MoveX == false)
+			else
 			{
 				m_pos.x -= amoveSpeed;
 				if (m_pos.x <= MinPosX)	// 指定した範囲(左)まで移動
@@ -363,11 +366,6 @@ void Object::Update()
 			}
 			xz = true;
 		}
-
-
-
-
-
 
 
 
@@ -695,3 +693,17 @@ bool Object::IsAutoMove()
 	return Automove;
 }
 
+bool Object::MVX()
+{
+	return MoveX;
+}
+
+void Object::MoveXfalse()
+{
+	MoveX = false;
+}
+
+void Object::MoveXtrue()
+{
+	MoveX = true;
+}

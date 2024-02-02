@@ -2,6 +2,15 @@
 #include"Input.h"
 
 
+#define EFFECT_MAX_POS_X		(4.0f)	// 微調整必要 エフェクトが出るXの最大値
+#define EFFECT_PLAYER_MAX_POS_X (2.23f)	// playerの移動できるXの最大値
+
+#define EFFECT_MAX_POS_Z		(3.1f)	// エフェクトが出るZの最大値
+#define EFFECT_MIN_POS_Z		(0.38f)	// エフェクトが出るZの最小値
+#define EFFECT_PLAYER_MAX_POS_Z (3.36f)	// playerが移動できるZの最大値
+#define EFFECT_PLAYER_MIN_POS_Z (1.8f)	// playerが移動できるZの最小値
+
+
 ObjectMng::ObjectMng()
 	: m_pObjects(nullptr)
 	, m_pYuka(nullptr)
@@ -99,7 +108,7 @@ ObjectMng::ObjectMng()
 		//{ -2.25f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
 
 		//=======================stage4=========================
-		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,4.0f,0.5f,0.01f},
+		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,1.5f,0.5f,0.01f},
 		/*{ 1.0f, 2.0f, 2.5f, 1.0f, 0.1f, 0.15f,4.0f,1.5f,0.01f},*/
 	};
 
@@ -495,13 +504,21 @@ void ObjectMng::Update(float tick)
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 						{
 							//// effectこうしん
-							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
+							// effectこうしん
+							float X = m_pPlayer->GetPosX() / EFFECT_PLAYER_MAX_POS_X * EFFECT_MAX_POS_X;
+
+							float Y = m_pPlayer->GetPosY() - 0.4f;
+
+							float Z = (m_pPlayer->GetPosZ() - EFFECT_PLAYER_MIN_POS_Z) /
+								(EFFECT_PLAYER_MAX_POS_Z - EFFECT_PLAYER_MIN_POS_Z) *
+								EFFECT_MAX_POS_Z + EFFECT_MIN_POS_Z;
+							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
 
 							//移動させる時
 							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
 							EffecMat.Translation(0.0f, -1.0f, 0.0f);
 							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
-							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
+							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.15f, 0.15f, 0.15f);
 
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
@@ -624,7 +641,7 @@ void ObjectMng::Update(float tick)
 										}
 										//m_pObjects[i].SetF();
 									}
-									else if (m_pObjects[j].IsXZ() && m_pObjects[j].IsAutoMove() == true)  //x,z軸から当たった場合
+									else if (m_pObjects[j].IsXZ() && m_pObjects[j].IsAutoMove() == true)  //x,z軸から当たった場合 j automove
 									{
 										/*m_pObjects[i].OBJPos();
 										m_pObjects[j].OBJPos();*/
@@ -889,6 +906,16 @@ void ObjectMng::Update(float tick)
 										if (m_pObjects[j].IsAutoMove() == true)
 										{
 											m_pObjects[j].OBJPos();
+
+											if (m_pObjects[j].MVX() == true)
+											{
+												m_pObjects[j].MoveXfalse();
+											}
+											else if (m_pObjects[j].MVX() == false)
+											{
+												m_pObjects[j].MoveXtrue();
+											}
+											
 										}
 									}
 
@@ -1009,13 +1036,20 @@ void ObjectMng::Update(float tick)
 
 						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
 						{
-							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, m_pPlayer->GetPosX(), m_pPlayer->GetPosY(), m_pPlayer->GetPosZ());
+							// effectこうしん
+							float X = m_pPlayer->GetPosX() / EFFECT_PLAYER_MAX_POS_X * EFFECT_MAX_POS_X;
 
+							float Y = m_pPlayer->GetPosY() - 0.4f;
+
+							float Z = (m_pPlayer->GetPosZ() - EFFECT_PLAYER_MIN_POS_Z) /
+								(EFFECT_PLAYER_MAX_POS_Z - EFFECT_PLAYER_MIN_POS_Z) *
+								EFFECT_MAX_POS_Z + EFFECT_MIN_POS_Z;
+							m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
 							//移動させる時
 							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
 							EffecMat.Translation(0.0f, -1.0f, 0.0f);
 							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
-							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.1f, 0.1f, 0.1f);
+							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.15f, 0.15f, 0.15f);
 
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();

@@ -58,6 +58,8 @@ public:
 	void SetSlope();
 	void SetReverseSlope();
 
+	void MoveXfalse();
+	void MoveXtrue();
 
 
 	bool SetR1();
@@ -67,6 +69,8 @@ public:
 	bool IsMove();
 	bool possessionok();
 	bool IsAutoMove();
+
+	bool MVX();
 
 private:
 	Model* m_pObjectModel;
