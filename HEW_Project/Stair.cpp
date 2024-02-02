@@ -48,6 +48,7 @@ Stair::Stair()
 	, colgravity(true)
 	, xz(false)
 	, StairTop(false)
+	, m_reverse(false)
 	, m_pSVSEBlk(nullptr)
 	, m_pSDSEBlk(nullptr)
 {
@@ -77,28 +78,52 @@ Stair::Stair()
 
 	m_pSDSEBlk = LoadSound("Assets/Sound/SE/Blockgaugokuoto_Oobayashi.wav");
 
-
-	points = {
-		{minBound.x, maxBound.y, minBound.z},  //右上
-		{minBound.x, maxBound.y, maxBound.z},
-		{maxBound.x, minBound.y, minBound.z},  //左下
-		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
-		{minBound.x, minBound.y, minBound.z},  //右下
-		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-	};
+	if (m_reverse == false)
+	{
+		points = {
+			{minBound.x, maxBound.y, minBound.z},  //右上
+			{minBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	}
+	else if (m_reverse == true)
+	{
+		points = {
+			{maxBound.x, maxBound.y, minBound.z},  //左上
+			{maxBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{maxBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	}
 }
 
 Stair::~Stair()
@@ -355,27 +380,54 @@ void Stair::Update()
 	//{ 0.0f, 0.5f, 3.0f},
 	//// Add more points as needed
 	//};
-	points = {
+	if (m_reverse == false)
+	{
+		points = {
 			{minBound.x, maxBound.y, minBound.z},  //右上
-		{minBound.x, maxBound.y, maxBound.z},
-		{maxBound.x, minBound.y, minBound.z},  //左下
-		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
-		{minBound.x, minBound.y, minBound.z},  //右下
-		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
 
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-	};
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	}
+	else if (m_reverse == true)
+	{
+		points = {
+			{maxBound.x, maxBound.y, minBound.z},  //左上
+			{maxBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x + (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x + (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y - (1.0f * m_scale.x * 0.75f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y - (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y - (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y - (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y - (1.0f * m_scale.x * 0.25f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y - (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y - (1.0f * m_scale.x * 0.15f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y - (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	
+	}
 
 
 }
@@ -490,7 +542,7 @@ DirectX::XMFLOAT3 Stair::GetPos()
 	return m_pos;
 }
 
-void Stair::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
+void Stair::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool reverse)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
@@ -498,15 +550,27 @@ void Stair::Create(float posX, float posY, float posZ, float scaleX, float scale
 	m_scale.x = scaleX;
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
-
+	m_reverse = reverse;
 
 	//
-	StairMinBound.x *= m_scale.x;
-	StairMinBound.y *= m_scale.y;
-	StairMinBound.z *= m_scale.z;
-	StairMaxBound.x *= m_scale.x;
-	StairMaxBound.y *= m_scale.y;
-	StairMaxBound.z *= m_scale.z;
+	if (reverse == false)
+	{
+		StairMinBound.x *= m_scale.x;
+		StairMinBound.y *= m_scale.y;
+		StairMinBound.z *= m_scale.z;
+		StairMaxBound.x *= m_scale.x;
+		StairMaxBound.y *= m_scale.y;
+		StairMaxBound.z *= m_scale.z;
+	}
+	else if (reverse == true)
+	{
+		StairMinBound.x *= m_scale.x * -1;
+		StairMinBound.y *= m_scale.y;
+		StairMinBound.z *= m_scale.z * -1;
+		StairMaxBound.x *= m_scale.x * -1;
+		StairMaxBound.y *= m_scale.y;
+		StairMaxBound.z *= m_scale.z * -1;
+	}
 
 	if (StairMinBound.y < 0)
 	{
@@ -675,6 +739,11 @@ bool Stair::IsMove()
 	return moveok;
 }
 
+bool Stair::IsReverse()
+{
+	return m_reverse;
+}
+
 void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 {
 	const Model::Mesh* slopeMesh = slopeModel.GetMesh(0); // Slope.fbxが1つのメッシュしか持たないと仮定
@@ -693,6 +762,11 @@ void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 void Stair::SetSlope()
 {
 	m_pos.x += 0.005;
+}
+
+void Stair::SetReverseSlope()
+{
+	m_pos.x -= 0.005;
 }
 
 void Stair::SetSlopeY(float y)

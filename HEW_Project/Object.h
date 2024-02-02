@@ -52,6 +52,7 @@ public:
 	void SetObjectTop();
 	void MoveObject(float y);
 	void SetSlope();
+	void SetReverseSlope();
 
 	bool SetR1();
 	bool IsGravity();
