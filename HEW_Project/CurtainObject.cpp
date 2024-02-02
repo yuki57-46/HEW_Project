@@ -3,9 +3,14 @@
 #include "Input.h"
 #include "GameObject.h"
 
+#define CURTAIN_POS_X	4.0f
+#define CURTAIN_POS_Y	-0.3f
+#define CURTAIN_POS_Z	2.2f
+#define CURTAIN_SCALE	0.4f
+
 Curtain::Curtain()
 	: m_pos(0.0f, -0.5f, 2.0f),
-	 m_scale(0.4f, 0.4f, -0.4f)
+	 m_scale(CURTAIN_SCALE, CURTAIN_SCALE, CURTAIN_SCALE)
 {
 	m_pModel = new Model();
 	if (!m_pModel->Load("Assets/Model/Block/Curtain.fbx", Model::Flip::XFlip))
@@ -40,9 +45,12 @@ void Curtain::Update()
 
 void Curtain::RightDraw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
-	m_pos.x = -4.1f;
-	m_pos.y = -0.3f;
-	m_pos.z = 2.0f;
+	
+	
+	m_pos.x = -CURTAIN_POS_X;
+	m_pos.y = CURTAIN_POS_Y;
+	m_pos.z = CURTAIN_POS_Z;
+
 	DirectX::XMFLOAT4X4 mat[3];
 
 	// ワールド行列の設定
@@ -60,9 +68,9 @@ void Curtain::RightDraw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 proj
 }
 void Curtain::LeftDraw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
-	m_pos.x = 4.1f;
-	m_pos.y = -0.3f;
-	m_pos.z = 2.0f;
+	m_pos.x = CURTAIN_POS_X;
+	m_pos.y = CURTAIN_POS_Y;
+	m_pos.z = CURTAIN_POS_Z;
 	DirectX::XMFLOAT4X4 mat[3];
 
 	// ワールド行列の設定
