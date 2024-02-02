@@ -210,6 +210,9 @@
     <ClCompile Include="Haikei.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="CurtainObject.cpp">
+      <Filter>ソース ファイル\object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -355,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="Haikei.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CurtainObject.h">
+      <Filter>ヘッダー ファイル\object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
