@@ -40,7 +40,7 @@ public:
 
 		SCENE_MAX,			// シーンの数
 
-		SCENE_START = SCENE_SELECT	// 最初に出すシーンの画面
+		SCENE_START = SCENE_TITLE	// 最初に出すシーンの画面
 	};
 
 public:
@@ -54,6 +54,7 @@ public:
 //	void NextScene()
 	void EndGame();					// ゲームの終了
 	bool IsEndGame();				// ゲームが続いているか
+	bool m_bIsButton;				// シーン切り替え用のボタン
 
 private:
 	bool m_IsEndGame;	// 終了判定
@@ -63,8 +64,6 @@ private:
 	SceneTutorial*	m_pSceneTutorial;
 	SelectScene*	m_pSceneSelect;
 	SceneGame*		m_pSceneGame;
-
-
 
 	SceneResult*	m_pSceneResult;
 

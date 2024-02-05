@@ -16,6 +16,7 @@ SceneManager::SceneManager()
 	, m_pCurtainUI(nullptr)
 	, m_NextScene(SCENE_START)
 	, m_pSceneSelect(nullptr)
+	, m_bIsButton(false)
 {
 	m_pCurtainUI = new CurtainUI();
 	m_pFade	= new Fade(m_pCurtainUI);
@@ -108,6 +109,15 @@ void SceneManager::Update(float tick)
 	}
 	m_pFade->Update();
 	m_pCurtainUI->Update();
+
+	//if (m_bIsButton == true)
+	//{
+	//	if (!m_pFade->IsPlay())
+	//	{
+	//		m_NowScene = next;	// 次のシーンへ
+	//		m_bIsButton = false;
+	//	}
+	//}
 }
 
 void SceneManager::Draw()
@@ -169,9 +179,17 @@ void SceneManager::ChangeScene(SCENE next)
 		m_pSceneResult = nullptr;
 		break;
 	}
-
-	m_NowScene = next;	// 次のシーンへ
-	m_pFade->Start(true, 3.0f);	// フェードイン
+//	m_pFade->Start(false, 1.0f); // フェードアウト
+	//if (IsB == true)
+	//{
+	//	if (!m_pFade->IsPlay())
+	//	{
+	//		m_NowScene = next;	// 次のシーンへ
+	//		IsB = false;
+	//	}
+	//}
+	m_NowScene = next;
+	m_pFade->Start(true, 2.0f);	// フェードイン
 
 	// メモリ確保
 	switch (m_NowScene)

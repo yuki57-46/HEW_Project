@@ -66,9 +66,9 @@ void SceneTitle::Update()
 	//	m_pFade->Start(true, 2.0f);// フェードイン
 	//if (IsKeyTrigger('P'))
 	//	m_pFade->Start(false, 1.0f);// フェードアウト
-
 	if (IsKeyTrigger(VK_RETURN))
 	{
+		m_pFade->Start(true, 1.0f);	// フェードイン
 		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// 操作説明シーンに移る
 	}
 }
