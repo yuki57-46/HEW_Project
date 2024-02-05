@@ -189,7 +189,8 @@ void SceneManager::ChangeScene(SCENE next)
 	//	}
 	//}
 	m_NowScene = next;
-	m_pFade->Start(true, 2.0f);	// フェードイン
+	// 間隔は0.5秒で統一させる
+	m_pFade->Start(true, 0.5f);	// フェードイン
 
 	// メモリ確保
 	switch (m_NowScene)
