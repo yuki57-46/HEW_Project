@@ -271,7 +271,7 @@ void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 	DirectX::XMMATRIX MT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	//DirectX::XMMATRIX MR = DirectX::XMMatrixRotationY(m_rotationY); // Y軸回転
 	DirectX::XMMATRIX MS = DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f);
-	DirectX::XMMATRIX world = MS  * MT;//MR* MT; // 回転を適用
+	DirectX::XMMATRIX world = MS  * MT;//MR*  // 回転を適用//
 
 
 	world = DirectX::XMMatrixTranspose(world);
