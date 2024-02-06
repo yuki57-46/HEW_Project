@@ -35,7 +35,7 @@ Lift_Obj::Lift_Obj()
 	
 	if (!m_pModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip))
 	{
-		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました‗リフト", "エラー", MB_OK | MB_ICONWARNING);
+		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました_リフト", "エラー", MB_OK | MB_ICONWARNING);
 	}
 	m_pVS = new VertexShader();
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))

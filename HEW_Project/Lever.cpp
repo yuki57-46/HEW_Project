@@ -24,14 +24,14 @@ Lever::Lever()
 	m_pLeverModelDown = new Model;
 
 	if (!m_pLeverModelN->Load("Assets/Model/Block/LeverM.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー‗レバー", "Error", MB_OK);
+		MessageBox(NULL, "モデルの読み込みエラー_レバー", "Error", MB_OK);
 	}
 
 	if (!m_pLeverModelUP->Load("Assets/Model/Block/LeverU.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー‗レバー", "Error", MB_OK);
+		MessageBox(NULL, "モデルの読み込みエラー_レバー", "Error", MB_OK);
 	}
 	if (!m_pLeverModelDown->Load("Assets/Model/Block/LeverD.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー‗レバー", "Error", MB_OK);
+		MessageBox(NULL, "モデルの読み込みエラー_レバー", "Error", MB_OK);
 	}
 	m_pLeverVS = new VertexShader();
 	if (FAILED(m_pLeverVS->Load("Assets/Shader/VS_Model.cso")))

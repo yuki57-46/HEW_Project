@@ -1,3 +1,5 @@
+#pragma warning(disable:3570)
+
 struct PS_IN
 {
 	float4 pos : SV_POSITION;
@@ -88,6 +90,7 @@ float4 main(PS_IN pin) : SV_TARGET
 
 	
 	// フィルター処理
+	float4 neighbor = 0.0f;
 	for (int i = -FILTER_SIZE; i <= FILTER_SIZE; i++)
 	{
 		for (int j = -FILTER_SIZE; j <= FILTER_SIZE; j++)
@@ -97,7 +100,6 @@ float4 main(PS_IN pin) : SV_TARGET
 			
 			// フィルタ内のピクセルの色
 			// 前回のサンプリングと比較して、色が変わっていなければ、再度サンプリングを行わない
-			float4 neighbor = 0.0f;
 			if (all(neighbor == center))
 			{
 				neighbor = tex.Sample(samp, pin.uv + offset);
