@@ -582,7 +582,7 @@ void ObjectMng::Update(float tick)
 										if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)  //上辺の当たり判定
 										{
 											//m_pObjects[i].OBJPosy();  //y以外過去座標へ
-											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05);
+											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05f);
 											
 											if (m_pObjects[j].IsMove() == true)
 											{
@@ -703,7 +703,7 @@ void ObjectMng::Update(float tick)
 													m_pObjects[i].Set1();
 													m_pStair[h].Set1();
 													m_pStair[h].Set();*/
- 													m_pObjects[i].MoveObject(gameObject1->GetMaxBounds().y + 0.05);
+ 													m_pObjects[i].MoveObject(gameObject1->GetMaxBounds().y + 0.05f);
 													if (m_pStair[h].IsMove() == true)
 													{
 														m_pObjects[i].Set1();
@@ -817,7 +817,7 @@ void ObjectMng::Update(float tick)
 									if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)
 									{
 										//m_pObjects[i].OBJPosy();
-										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05);
+										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05f);
 										if (m_pObjects[j].IsMove())
 										{
 											m_pObjects[i].Set1();
@@ -829,7 +829,7 @@ void ObjectMng::Update(float tick)
 									{
 										//m_pObjects[i].OBJPosy();
 										//m_pObjects[i].OBJPosy();
-										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.07);
+										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.07f);
 										if (m_pObjects[j].IsMove())
 										{
 											m_pObjects[i].Set1();
@@ -946,7 +946,7 @@ void ObjectMng::Update(float tick)
 									}
 									if (gameObject->GetCMinBounds().y + 0.1 >= gameObject1->GetMaxBounds().y)
 									{
-										m_pObjects[i].MoveObject(gameObject->GetMaxBounds().y + 0.05);
+										m_pObjects[i].MoveObject(gameObject->GetMaxBounds().y + 0.05f);
 										if (m_pStair[h].IsMove())  //下のブロックのmoveがtrueだった場合連動
 										{
 											m_pObjects[i].Set();
@@ -1106,7 +1106,7 @@ void ObjectMng::Update(float tick)
 										if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)
 										{
 
-											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05);
+											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05f);
 											if (m_pObjects[j].IsMove() == true)
 											{
 												m_pStair[b].Set1();
@@ -1232,7 +1232,7 @@ void ObjectMng::Update(float tick)
 										{
 
 											//m_pStair[b].OBJPosy();
-											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05);
+											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05f);
 											if (m_pStair[b].IsMove() == true)
 											{
 												m_pStair[i].Set1();
@@ -1386,10 +1386,10 @@ void ObjectMng::Update(float tick)
 									if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)
 									{
 
-										m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05);
+										m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05f);
 
 									}
-									if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y /*+ 0.05*/)
+									if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y /*+ 0.05f*/)
 									{
 										m_pObjects[j].OBJPosy();
 									}
@@ -1483,7 +1483,7 @@ void ObjectMng::Update(float tick)
 									{
 
 										//m_pStair[b].OBJPosy();
-										m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05);
+										m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05f);
 										if (m_pStair[h].IsMove())
 										{
 											m_pStair[b].Set();
@@ -1495,7 +1495,7 @@ void ObjectMng::Update(float tick)
 									{
 
 										//m_pStair[b].OBJPosy();
-										m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.07);
+										m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.07f);
 									/*	if (m_pStair[h].IsMove())
 										{
 											m_pStair[b].Set();

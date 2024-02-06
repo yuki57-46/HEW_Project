@@ -310,9 +310,9 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_LRcheck = m_pShadowPlayer->isUse();
 
 		// 画面端判定(左右)
-		for (int h = 0; h < height; ++h)
+		for (UINT h = 0; h < height; ++h)
 		{
-			for (int w = 0; w < width; ++w)
+			for (UINT w = 0; w < width; ++w)
 			{
 				if (ShadowEdgeCollision(h, width))
 				{
