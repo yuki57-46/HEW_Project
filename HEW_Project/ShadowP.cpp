@@ -104,11 +104,11 @@ void ShadowP::Update(float tick)
 	m_oldPos = m_pos;
 	if (m_IsAlterDir == true)
 	{
-		m_pos.x += 0.01;
+		m_pos.x += 0.01f;
 	}
 	else if (m_IsAlterDir == false)
 	{
-		m_pos.x -= 0.01;
+		m_pos.x -= 0.01f;
 	}
 
 	//重力
@@ -117,7 +117,7 @@ void ShadowP::Update(float tick)
 		m_pos.y -= m_moveY;
 		if (m_moveY < 0.5f && m_moveY >= 0.0f)
 		{
-			m_moveY += 0.001;
+			m_moveY += 0.001f;
 		}
 	}
 
@@ -229,7 +229,7 @@ void ShadowP::ShadowPPos()
 
 void ShadowP::ShadowPupY()
 {
-	m_pos.y += 0.05;
+	m_pos.y += 0.05f;
 }
 
 void ShadowP::Use()

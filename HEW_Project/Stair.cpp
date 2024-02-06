@@ -227,7 +227,7 @@ void Stair::Update()
 		if (IsKeyTrigger('C'))
 		{
 			char c[256];
-			sprintf(c, "x座標 %f \n y座標 %f\n z座標 %f", m_pos.x, m_pos.y, m_pos.z);
+			sprintf_s(c, "x座標 %f \n y座標 %f\n z座標 %f", m_pos.x, m_pos.y, m_pos.z);
 			MessageBox(0, c, "憑依中のオブジェクトの座標", MB_OK);
 		}
 
@@ -315,7 +315,7 @@ void Stair::Update()
 
 			if (IsKeyPress(VK_SPACE))
 			{
-				frame -= moveSpeed * 0.01;
+				frame -= (int)(moveSpeed * 0.01f);
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
 				m_pos.y += frame * 0.001f;
@@ -761,12 +761,12 @@ void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 
 void Stair::SetSlope()
 {
-	m_pos.x += 0.005;
+	m_pos.x += 0.005f;
 }
 
 void Stair::SetReverseSlope()
 {
-	m_pos.x -= 0.005;
+	m_pos.x -= 0.005f;
 }
 
 void Stair::SetSlopeY(float y)

@@ -75,8 +75,8 @@ void CameraDebug::Update()
 	//	m_radius -= Speed;
 	//}
 
-	m_pos.x = cos(m_radY) * sin(m_radXZ) * m_radius + m_look.x;
-	m_pos.y = sin(m_radY) * m_radius + m_look.y;
-	m_pos.z = cos(m_radY) * cos(m_radXZ) * m_radius + m_look.z;
+	m_pos.x = cosf(m_radY) * sinf(m_radXZ) * m_radius + m_look.x;
+	m_pos.y = sinf(m_radY) * m_radius + m_look.y;
+	m_pos.z = cosf(m_radY) * cosf(m_radXZ) * m_radius + m_look.z;
 }
 
