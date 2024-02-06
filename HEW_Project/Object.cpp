@@ -280,7 +280,7 @@ void Object::Update()
 		{
 			if (IsKeyPress(VK_SPACE))
 			{
-				frame -= (int)(moveSpeed * 0.01f);
+				frame -= (moveSpeed * 0.01f);
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
 				m_pos.y += frame * 0.001f;
@@ -297,7 +297,7 @@ void Object::Update()
 			}
 			if (m_pos.y <= 0.0f)
 			{
-				frame = 30;
+				frame = 30.0f;
 			}
 
 
@@ -594,15 +594,7 @@ void Object::OBJPosy()
 	m_pos.y = m_oldPos.y;
 }
 
-void Object::Modelchg()
-{
-	if (m_pObjectModel->Load("Assets/Model/test_model/test_block.fbx",  Model::Flip::XFlip));
-}
 
-void Object::Modelchg2()
-{
-	if (m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx",  Model::Flip::XFlip));
-}
 
 void Object::Set1()
 {
@@ -668,7 +660,7 @@ void Object::SetColgravityfalse()
 
 void Object::framepls()
 {
-	frame=30;
+	frame=30.0f;
 }
 
 void Object::SetSlope()

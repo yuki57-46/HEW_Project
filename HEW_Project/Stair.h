@@ -40,9 +40,7 @@ public:
 
 	void OBJPos();
 	void OBJPosy();
-	void Modelchg();
-	void Modelchg2();
-
+	
 
 	void Set1();
 	void SetF1();
@@ -104,7 +102,7 @@ private:
 	DirectX::XMFLOAT3 cStairMinBound;
 	DirectX::XMFLOAT3 cStairMaxBound;
 
-	int frame = 30;
+	float  frame = 30.0f;
 
 };
 

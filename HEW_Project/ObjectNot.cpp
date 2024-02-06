@@ -269,14 +269,3 @@ void ObjectNot::OBJPos()
 
 
 
-void ObjectNot::Modelchg()
-{
-	if (m_pObjectModel->Load("Assets/Model/test_model/test_block.fbx", 0.05f, Model::Flip::XFlip));
-}
-
-void ObjectNot::Modelchg2()
-{
-	//if (m_pObjectModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip));
-	if (m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", 0.05f, Model::Flip::XFlip));
-}
-

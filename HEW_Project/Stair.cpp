@@ -315,7 +315,7 @@ void Stair::Update()
 
 			if (IsKeyPress(VK_SPACE))
 			{
-				frame -= (int)(moveSpeed * 0.01f);
+				frame -= (moveSpeed * 0.01f);
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
 				m_pos.y += frame * 0.001f;
@@ -332,7 +332,7 @@ void Stair::Update()
 			}
 			if (m_pos.y <= 0.0f&&frame <= 0)
 			{
-				frame = 30;
+				frame = 30.0f;
 			}
 
 		}
@@ -653,15 +653,8 @@ void Stair::OBJPosy()
 	m_pos.y = m_oldPos.y;
 }
 
-void Stair::Modelchg()
-{
-	if (m_pStairModel->Load("Assets/Model/test_model/test_block.fbx", Model::Flip::XFlip));
-}
 
-void Stair::Modelchg2()
-{
-	if (m_pStairModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip));
-}
+
 
 void Stair::Set1()
 {
@@ -714,7 +707,7 @@ void Stair::MoveStair(float y)
 
 void Stair::framepls()
 {
-	frame = 30;
+	frame = 30.0f;
 }
 
 
