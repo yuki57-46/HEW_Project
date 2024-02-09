@@ -1,6 +1,7 @@
 ﻿#include "BackShadow.h"
 #include "Sprite.h"
 #include "Geometory.h"
+#include "Input.h"
 
 #define RTV_3D_SIZE_WIDTH	(1280.0f / 1.3f)	// 3D空間上のレンダーの表示サイズX
 #define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.3f)	// 3D空間上のレンダーの表示サイズY
@@ -61,6 +62,7 @@ BackShadow::BackShadow()
 	, m_LRcheck(false)
 	,m_pSDSESdCoin(nullptr)
 	,m_pSVSESdCoin(nullptr)
+	,m_PS(1)
 
 {
 	// レンダー表示関連の確保
@@ -397,7 +399,20 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 	SetSamplerState(SAMPLER_POINT);
 	// スプライトの設定
-	Sprite::SetPixelShader(m_pPS[1]);
+
+	if (IsKeyPress('1'))
+	{
+		m_PS = 0;
+	}
+	if (IsKeyPress('2'))
+	{
+		m_PS = 1;
+	}
+	if (IsKeyPress('3'))
+	{
+		m_PS = 2;
+	}
+	Sprite::SetPixelShader(m_pPS[m_PS]);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
