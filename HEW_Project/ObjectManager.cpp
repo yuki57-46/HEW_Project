@@ -22,7 +22,8 @@ ObjectMng::ObjectMng()
 	, m_num2(0)
 	, m_num3(0)
 	, m_num4(0)
-	, m_num6(0)
+	, m_num5(0)
+	
 
 {
 	m_pObjectCamera = new CameraDebug();
@@ -37,7 +38,7 @@ ObjectMng::ObjectMng()
 	//ブロック
 	struct Setting
 	{
-		float x, y, z, scaleX, scaleY, scaleZ,hyoui,Auto;
+		float x, y, z, scaleX, scaleY, scaleZ,hyoui,Auto,XZM;
 	};
 	//ブロック配置.スケール指定
 	Setting data[] = {
@@ -67,18 +68,18 @@ ObjectMng::ObjectMng()
 		//{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
 		//{-1.0f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f},
 		//{-2.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f},
-		//ポジション、スケール、憑依判定(trueで憑依)、
+		
+		//{ポジション、スケール、憑依判定(trueで憑依)、移動、XZ軸}
 		//自動ムーブ判定(trueで自動、自動ブロックは否憑依(false)にして下さい[false,true])
+		//三個目のtrueがX軸、falseZ軸で移動します
 		//=============stage4===================
 		{2.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 		{0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-		{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,false,false},
-		{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,true},
+		{0.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,false},
+		{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,true,true},
 		{-0.25f, 0.0f, 3.0f, 0.5f, 0.25f, 0.25f,true,false},
 		{-1.0f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
-		{-2.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,false,true},
-
-
+		{-2.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,false,true,false},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -91,7 +92,7 @@ ObjectMng::ObjectMng()
 	{
 		m_pObjects[i].Create(
 			data[i].x, data[i].y, data[i].z,
-			data[i].scaleX, data[i].scaleY, data[i].scaleZ,data[i].hyoui,data[i].Auto
+			data[i].scaleX, data[i].scaleY, data[i].scaleZ,data[i].hyoui,data[i].Auto,data[i].XZM
 		);
 	}
 
@@ -206,8 +207,8 @@ ObjectMng::ObjectMng()
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
 	//ブロック配置.スケール指定
-	Setting3 data4[] = {
-		{ 0.0f, 0.0f, 2.3f, 1.45f, 1.0f, 0.7f},
+	Setting4 data4[] = {
+		{ 0.0f, 0.0f, 2.3f, 1.45f, 1.2f, 0.7f},
 
 	};
 
@@ -225,31 +226,36 @@ ObjectMng::ObjectMng()
 		);
 	}
 
+
+
+	//留め具
+	struct Setting5
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ブロック配置.スケール指定
+	Setting5 data5[] = {
+		{ 0.0f, 0.0f, 2.3f, 1.0f, 1.0f, 0.0f},
 	
-	////動くブロック
-	//struct Setting6
-	//{
-	//	float x, y, z, scaleX, scaleY, scaleZ;
-	//};
-	////ブロック配置.スケール指定
-	//Setting6 data6[] = {
-	//	{ 0.0f, -1.0f, 2.5f, 1.0f, 1.0f, 1.0f},
 
-	//};
+	};
 
-	////配列の要素の数から必要なブロック数を計算
-	//m_num6 = sizeof(data6) / sizeof(data6[0]);
+	//配列の要素の数から必要なブロック数を計算
+	m_num5 = sizeof(data5) / sizeof(data5[0]);
 
-	////必要な数だけブロックを確保
-	//m_pObjectsAuto = new ObjectAuto[m_num6];
-	////確保したブロックに初期データを設定
-	//for (int i = 0; i < m_num6; i++)
-	//{
-	//	m_pObjectsAuto[i].CreateAuto(
-	//		data6[i].x, data6[i].y, data6[i].z,
-	//		data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
-	//	);
-	//}
+	//必要な数だけブロックを確保
+	m_pTomegu = new Tomegu[m_num5];
+	//確保したブロックに初期データを設定
+	for (int i = 0; i < m_num5; i++)
+	{
+		m_pTomegu[i].Create(
+			data5[i].x, data5[i].y, data5[i].z,
+			data5[i].scaleX, data5[i].scaleY, data5[i].scaleZ
+		);
+	}
+
+	
+	
 
 	// effect
 	m_Effect = LibEffekseer::Create("Assets/effect/BoxSet.efkefc");
@@ -272,6 +278,7 @@ ObjectMng::~ObjectMng()
 
 	delete[] m_pStair;
 
+	delete[] m_pTomegu;
 
 	if (m_pObjectCamera)
 	{
@@ -323,6 +330,10 @@ void ObjectMng::Update(float tick)
 	//	m_pObjectsAuto->Update();
 	//}
 
+	for (int t = 0;t < m_num4; t++)
+	{// 床
+		m_pTomegu[t].Update();
+	}
 
 
 	for (int y = 0; y < m_num4; y++)
@@ -403,7 +414,10 @@ void ObjectMng::Update(float tick)
 							}
 							if (m_pLift_obj[a].IsMove())
 							{
-								m_pObjects[i].MoveObject(liftposY);
+								if (gameObject->GetCMinBounds().y > lift->GetMaxBounds().y)
+								{
+									m_pObjects[i].MoveObject(liftposY);
+								}
 							}
 							if (gameObject->GetMaxBounds().y >= lift->GetCMinBounds().y)
 							{
@@ -411,7 +425,7 @@ void ObjectMng::Update(float tick)
 								{
 									if (m_pObjects[i].IsMove() == false)
 									{
-										m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y + 0.03f);
+										m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y + 0.1f);
 									}
 									//m_pObjects[i].OBJPosy();
 									
@@ -452,7 +466,7 @@ void ObjectMng::Update(float tick)
 								{
 									if (m_pStair[b].IsMove() == false)
 									{
-										m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y + 0.03f);
+										m_pLift_obj[a].MoveLift(gameObject->GetMaxBounds().y + 0.1f);
 									}
 									//m_pObjects[i].OBJPosy();
 
@@ -507,7 +521,7 @@ void ObjectMng::Update(float tick)
 							// effectこうしん
 							float X = m_pPlayer->GetPosX() / EFFECT_PLAYER_MAX_POS_X * EFFECT_MAX_POS_X;
 
-							float Y = m_pPlayer->GetPosY() - 0.4f;
+							float Y = m_pPlayer->GetPosY() -0.9f;
 
 							float Z = (m_pPlayer->GetPosZ() - EFFECT_PLAYER_MIN_POS_Z) /
 								(EFFECT_PLAYER_MAX_POS_Z - EFFECT_PLAYER_MIN_POS_Z) *
@@ -518,7 +532,7 @@ void ObjectMng::Update(float tick)
 							Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
 							EffecMat.Translation(0.0f, -1.0f, 0.0f);
 							LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
-							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.15f, 0.15f, 0.15f);
+							LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.2f, 0.2f, 0.2f);
 
 							m_pPlayer->SetOk();
 							m_pPlayer->HPlayerPos();
@@ -582,7 +596,7 @@ void ObjectMng::Update(float tick)
 										if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)  //上辺の当たり判定
 										{
 											//m_pObjects[i].OBJPosy();  //y以外過去座標へ
-											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05f);
+											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.01f);
 											
 											if (m_pObjects[j].IsMove() == true)
 											{
@@ -817,7 +831,7 @@ void ObjectMng::Update(float tick)
 									if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)
 									{
 										//m_pObjects[i].OBJPosy();
-										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.05f);
+										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y);
 										if (m_pObjects[j].IsMove())
 										{
 											m_pObjects[i].Set1();
@@ -869,6 +883,10 @@ void ObjectMng::Update(float tick)
 														if (m_pObjects[j].IsXZ())
 														{
 															if (m_pObjects[h].GetPos().y > gameObject2->GetCMinBounds().y && m_pObjects[h].GetPos().y < gameObject2->GetMaxBounds().y)
+															{
+																m_pObjects[j].OBJPos();
+															}
+															else if(gameObject3->GetMaxBounds().y-0.05f>gameObject2->GetCMinBounds().y)
 															{
 																m_pObjects[j].OBJPos();
 															}
@@ -1219,7 +1237,7 @@ void ObjectMng::Update(float tick)
 						{
 							continue;
 						}
-						else if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pStair[b]))
+						if (GameObject* gameObject = dynamic_cast<GameObject*>(&m_pStair[b]))
 						{
 							if (GameObject* gameObject2 = dynamic_cast<GameObject*>(&m_pStair[j]))
 							{
@@ -1585,7 +1603,14 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
 	}
-	
+	/*if (draw == true)
+	{*/
+		for (int i = 0; i < m_num5; i++)
+		{
+			m_pTomegu->Draw(viewMatrix, projectionMatrix);
+		}
+	//}
+
 	//// 動くブロック描画
 	//for (int i = 0; i < m_num6; i++)
 	//{
@@ -1601,7 +1626,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pPlayer->Draw(viewMatrix, projectionMatrix);
 	}
-
+	
 }
 
 

@@ -65,7 +65,11 @@ public:
 
 	
 private:
-	Model* m_pStairModel;
+	Model* m_pStairModelL;
+	Model* m_pStairModelHL;
+	Model* m_pStairModelR;
+	Model* m_pStairModelHR;
+
 	VertexShader* m_pStairVS;
 	DirectX::XMFLOAT3 m_oldPos;
 	DirectX::XMFLOAT3 m_pos;
@@ -102,7 +106,7 @@ private:
 	DirectX::XMFLOAT3 cStairMinBound;
 	DirectX::XMFLOAT3 cStairMaxBound;
 
-	float  frame = 30.0f;
+	int  frame = 30;
 
 };
 

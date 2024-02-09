@@ -15,6 +15,7 @@
 #include "Lift_Obj.hpp"
 #include "Lever.h"
 #include "Stair.h"
+#include "ObjectTomegu.h"
 #include "LibEffekseer.h"
 #include "Effekseer/Effekseer.h"
 
@@ -37,6 +38,9 @@ private:
 	Lift_Obj*	m_pLift_obj;
 	Lever*		m_pLever;
 	Stair*		m_pStair;
+	Tomegu*     m_pTomegu;
+
+
 
 	CameraDebug* m_pObjectCamera;
 
@@ -52,6 +56,6 @@ private:
 	int m_num2;	// レバー
 	int m_num3;	// ゴール
 	int m_num4;	// 床
+	int m_num5;	// 留め具
 
-	int m_num6;	// 動くブロック
 };

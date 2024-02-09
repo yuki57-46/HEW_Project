@@ -52,25 +52,42 @@ Stair::Stair()
 	, m_pSVSEBlk(nullptr)
 	, m_pSDSEBlk(nullptr)
 {
-	m_pStairModel = new Model;
+	m_pStairModelL = new Model;
+	m_pStairModelR = new Model;
 
-	/*if (!m_pStairModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
-	}*/
-	/*if (!m_pStairModel->Load("Assets/Model/Block/Slope.fbx",0.1,  Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
-	}*/
-	if (!m_pStairModel->Load("Assets/Model/Block/SlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+	m_pStairModelHL = new Model;
+	m_pStairModelHR = new Model;
+
+
+	if (!m_pStairModelL->Load("Assets/Model/Block/SlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープL", "Error", MB_OK);
 	}
-	ExtractSlopeVertexCoordinates(*m_pStairModel);
+	if (!m_pStairModelR->Load("Assets/Model/Block/SlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープR", "Error", MB_OK);
+	}
+	if (!m_pStairModelHL->Load("Assets/Model/Block/HyouiSlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープHL", "Error", MB_OK);
+	}
+	if (!m_pStairModelHR->Load("Assets/Model/Block/HyouiSlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープHR", "Error", MB_OK);
+	}
+
+
+	ExtractSlopeVertexCoordinates(*m_pStairModelL);
+	ExtractSlopeVertexCoordinates(*m_pStairModelR);
+	ExtractSlopeVertexCoordinates(*m_pStairModelHL);
+	ExtractSlopeVertexCoordinates(*m_pStairModelHR);
+
+
 	m_pStairVS = new VertexShader();
 	if (FAILED(m_pStairVS->Load("Assets/Shader/VS_Model.cso")))
 	{
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
-	m_pStairModel->SetVertexShader(m_pStairVS);
-
+	m_pStairModelL->SetVertexShader(m_pStairVS);
+	m_pStairModelR->SetVertexShader(m_pStairVS);
+	m_pStairModelHL->SetVertexShader(m_pStairVS);
+	m_pStairModelHR->SetVertexShader(m_pStairVS);
 
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
@@ -128,10 +145,25 @@ Stair::Stair()
 
 Stair::~Stair()
 {
-	if (m_pStairModel)
+	if (m_pStairModelR)
 	{
-		delete m_pStairModel;
-		m_pStairModel = nullptr;
+		delete m_pStairModelR;
+		m_pStairModelR = nullptr;
+	}
+	if (m_pStairModelHR)
+	{
+		delete m_pStairModelHR;
+		m_pStairModelHR = nullptr;
+	}
+	if (m_pStairModelHL)
+	{
+		delete m_pStairModelHL;
+		m_pStairModelHL = nullptr;
+	}
+	if (m_pStairModelL)
+	{
+		delete m_pStairModelL;
+		m_pStairModelL = nullptr;
 	}
 	if (m_pStairVS)
 	{
@@ -315,7 +347,7 @@ void Stair::Update()
 
 			if (IsKeyPress(VK_SPACE))
 			{
-				frame -= (moveSpeed * 0.01f);
+				frame -= moveSpeed * 0.01;
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
 				m_pos.y += frame * 0.001f;
@@ -325,14 +357,14 @@ void Stair::Update()
 					m_pos.y = m_oldPos.y;
 				}
 			}
-			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
+			if (frame <= 0.0f || !(IsKeyPress(VK_SPACE)))
 			{
 				m_pos.y -= 0.05f;
 				gravity = true;
 			}
 			if (m_pos.y <= 0.0f&&frame <= 0)
 			{
-				frame = 30.0f;
+				frame = 30;
 			}
 
 		}
@@ -367,6 +399,7 @@ void Stair::Update()
 	{
 		SetF1();
 		OBJPosy();
+		//m_pos.y = 0.001f;
 		//m_pos.y = 0.0f;
 		gravity = false;
 	}
@@ -393,7 +426,6 @@ void Stair::Update()
 			{minBound.x, minBound.y, maxBound.z},
 			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
 			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-
 			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
 			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
 			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
@@ -415,8 +447,8 @@ void Stair::Update()
 			{maxBound.x + (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
 			{minBound.x, minBound.y, minBound.z},  //右下
 			{minBound.x, minBound.y, maxBound.z},
-			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x, minBound.y - (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x, minBound.y - (1.0f * m_scale.x * 0.5f), maxBound.z},
 			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y - (1.0f * m_scale.x * 0.75f), minBound.z},
 			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y - (1.0f * m_scale.x * 0.75f), maxBound.z},
 			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y - (1.0f * m_scale.x * 0.5f), minBound.z},
@@ -446,7 +478,32 @@ void Stair::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionM
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
 
 	m_pStairVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
-	m_pStairModel->Draw();
+	if (moveok==true)
+	{
+		if (m_reverse == false)
+		{
+			m_pStairModelHL->Draw();
+		}
+		else
+		{
+			m_pStairModelHR->Draw();
+		}
+	}
+	if (moveok==false)
+	{
+		if (m_reverse == false)
+		{
+			m_pStairModelL->Draw();
+
+		}
+		else
+		{
+			m_pStairModelR->Draw();
+		}
+
+	}
+	
+	
 
 }
 
@@ -707,7 +764,7 @@ void Stair::MoveStair(float y)
 
 void Stair::framepls()
 {
-	frame = 30.0f;
+	frame = 30;
 }
 
 

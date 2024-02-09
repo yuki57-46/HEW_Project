@@ -31,6 +31,9 @@ const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);
 #define MaxPosX (2.0f)
 #define MinPosX (-2.0f)
 
+#define MaxPosZ (3.0f)
+#define MinPosZ (1.5f)
+
 Object::Object()
 	: m_pos(0.0f, 0.0f, 0.0f)
 	, m_mmovespeed(0.0f, 0.0f, 0.0f)
@@ -56,20 +59,31 @@ Object::Object()
 	, possession(true)
 	, Automove(true)
 	, MoveX(true)
+	, XZMOVE(true)
 {
 	m_pObjectModel = new Model;
 	m_pObjectModelH = new Model;
+	m_pObjectModelMoveX = new Model;
+	m_pObjectModelMoveZ = new Model;
 
-	
 	/*if (!m_pObjectModel->Load("Assets/Model/Block/Slope.fbx",0.1,  Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}*/
 	if (!m_pObjectModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー_box", "Error", MB_OK);
+		MessageBox(NULL, "モデルの読み込みエラー_boxBoxS", "Error", MB_OK);
 	}
 	if (!m_pObjectModelH->Load("Assets/Model/Block/HyouiBox.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー_box", "Error", MB_OK);
+		MessageBox(NULL, "モデルの読み込みエラー_boxHyouiBox", "Error", MB_OK);
 	}
+	if (!m_pObjectModelMoveX->Load("Assets/Model/Block/WaruBox1.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "モデルの読み込みエラー_boxWaruBox1", "Error", MB_OK);
+	}
+	if (!m_pObjectModelMoveZ->Load("Assets/Model/Block/WaruBox2.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "モデルの読み込みエラー_boxWaruBox2", "Error", MB_OK);
+	}
+
+
+
 	/*if (!m_pObjectModel->Load("Assets/Stage/Butai.fbx", Model::Flip::XFlip)) {
 		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 	}*/
@@ -80,6 +94,9 @@ Object::Object()
 	}
 	m_pObjectModel->SetVertexShader(m_pObjectVS);
 	m_pObjectModelH->SetVertexShader(m_pObjectVS);
+	m_pObjectModelMoveX->SetVertexShader(m_pObjectVS);
+	m_pObjectModelMoveZ->SetVertexShader(m_pObjectVS);
+
 
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
@@ -101,6 +118,17 @@ Object::~Object()
 		delete m_pObjectModelH;
 		m_pObjectModelH = nullptr;
 	}
+	if (m_pObjectModelMoveX)
+	{
+		delete m_pObjectModelMoveX;
+		m_pObjectModelMoveX = nullptr;
+	}
+	if (m_pObjectModelMoveZ)
+	{
+		delete m_pObjectModelMoveZ;
+		m_pObjectModelMoveZ = nullptr;
+	}
+
 	if (m_pObjectVS)
 	{
 		delete m_pObjectVS;
@@ -119,7 +147,7 @@ void Object::Update()
 
 	if (colgravity == true)
 	{
-		m_pos.y -= 0.05f;
+		m_pos.y -= 0.005f;
 	}
 
 	if (m_pos.y <= 0.0f)
@@ -280,24 +308,24 @@ void Object::Update()
 		{
 			if (IsKeyPress(VK_SPACE))
 			{
-				frame -= (moveSpeed * 0.01f);
+				frame -= moveSpeed * 0.01;
 				// スペースキーが押されたら上昇を実行.ゲージを減少
 			   //m_pos.y += 0.07f;
-				m_pos.y += frame * 0.001f;
+ 				m_pos.y += frame * 0.001f;
 
 				if (m_pos.y > 2.5f)
 				{
 					m_pos.y = m_oldPos.y;
 				}
 			}
-			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
+			if (frame <= 0.0f || !(IsKeyPress(VK_SPACE)))
 			{
 				m_pos.y -= 0.05f;
 				gravity = true;
 			}
-			if (m_pos.y <= 0.0f)
+			if (m_pos.y <= 0.0f&&frame <= 0)
 			{
-				frame = 30.0f;
+				frame = 30;
 			}
 
 
@@ -332,20 +360,20 @@ void Object::Update()
 		if (m_pos.y <= 0.0f)
 		{
 			SetF1();
-			OBJPosy();
+			m_pos.y = 0.001f;
 			gravity = false;
 		}
 
 		float amoveSpeed = 0.002f;
 
-		if (Automove == true && possession == false)
+		if (Automove == true && possession == false && XZMOVE == true)
 		{
 
 			if (MoveX == true)	// オブジェクトの移動がtrueなら
 			{
 				
 				m_pos.x += amoveSpeed;
-
+				//X軸
 				
 				if (m_pos.x >= MaxPosX)	// 指定した範囲(右)まで移動
 				{
@@ -367,7 +395,34 @@ void Object::Update()
 			xz = true;
 		}
 
+		if (Automove == true && possession == false && XZMOVE == false)
+		{
 
+			if (MoveX == true)	// オブジェクトの移動がtrueなら
+			{
+
+				m_pos.z += amoveSpeed;
+
+				//Z軸
+				if (m_pos.z >= MaxPosZ)	//指定した範囲(奥)まで移動
+				{
+					m_pos.z = MaxPosZ;
+					MoveX = false;
+				}
+				xz = true;
+			}
+			else
+			{
+				m_pos.z -= amoveSpeed;//Z軸
+				if (m_pos.z <= MinPosZ)	// 指定した範囲(奥)まで移動
+				{
+					m_pos.z = MinPosZ;
+					MoveX = true;
+				}
+				xz = true;
+			}
+			xz = true;
+		}
 
 }
 void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
@@ -385,16 +440,26 @@ void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
 	
 	m_pObjectVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
-	if (moveok==false)
+	if (moveok==false&&Automove==false)
 	{
 		m_pObjectModel->Draw();
+		
+	}
+	if (Automove == true && possession == false && XZMOVE==true)
+	{
+		m_pObjectModelMoveX->Draw();
 	}
 	
+	if (Automove == true && possession == false && XZMOVE == false)
+	{
+		m_pObjectModelMoveZ->Draw();
+	}
+
 	if (moveok==true)
 	{
 		m_pObjectModelH->Draw();
 	}
-
+	
 }
 
 
@@ -490,7 +555,7 @@ DirectX::XMFLOAT3 Object::GetPos()
 }
 
 void Object::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ,bool hyoui
-,bool Auto)
+,bool Auto, bool XZM)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
@@ -502,6 +567,8 @@ void Object::Create(float posX, float posY, float posZ, float scaleX, float scal
 	possession = hyoui;
 
 	Automove = Auto;
+
+	XZMOVE = XZM;
 	//
 	objectMinBound.x *= m_scale.x;
 	objectMinBound.y *= m_scale.y;
@@ -660,7 +727,7 @@ void Object::SetColgravityfalse()
 
 void Object::framepls()
 {
-	frame=30.0f;
+	frame=30;
 }
 
 void Object::SetSlope()
