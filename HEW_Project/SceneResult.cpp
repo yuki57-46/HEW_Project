@@ -4,14 +4,13 @@
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
 
-#define FILENAME "Assets/Texture/anmaku_usiro.png"
+#define FILENAME "Assets/Texture/backgroundandcoin.png"
 
 SceneResult::SceneResult(SceneManager* pSceneManager)
 	: m_pTexture(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
 	//, m_pCoin
-	//, m_pCoinCntUI
 	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 	, m_pPS(nullptr)
 {

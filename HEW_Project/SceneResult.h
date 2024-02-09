@@ -51,7 +51,6 @@ private:
 	CameraBase*		 m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
 
 	//Coin*			 m_pCoin;
-	//CoinCntUI*		 m_pCoinCntUI;
 	CurtainUI*		 m_pCurtainUI;
 
 	RenderTarget* m_pRTV;
