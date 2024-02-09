@@ -31,6 +31,7 @@ public:
 	void Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3, Goal* Goal);
 	void SetShadowCamera(CameraBase* pCamera);
 	void ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha);
+	bool ShadowDeathCollision(int nLeftAlpha, int nRightAlpha);
 	void ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2);
 	bool ShadowEdgeCollision(int h, UINT width);
 	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3);//コインの所得処理
@@ -61,6 +62,8 @@ private:
 	int m_nFeetAlpha;			// 足元のα値の個数
 	int m_nBodyAlpha;			// 胴体のα値の個数
 	int m_nHeadAlpha;			// 頭のα値の個数
+	int m_nDeathRAlpha;			// 死亡判定右側のα値の個数
+	int m_nDeathLAlpha;			// 死亡判定左側のα値の個数
 	bool m_LRcheck;				// 進行方向確認
 
 	//影のみに描きたい物
