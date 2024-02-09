@@ -16,11 +16,13 @@ SceneManager::SceneManager()
 	, m_pCurtainUI(nullptr)
 	, m_NextScene(SCENE_START)
 	, m_pSceneSelect(nullptr)
-	, m_bIsButton(false)
+	, m_IsFade(false)
 {
-	m_pCurtainUI = new CurtainUI();
-	m_pFade	= new Fade(m_pCurtainUI);
+	m_pCurtainUI	= new CurtainUI();
+	m_pFade			= new Fade(m_pCurtainUI);
 
+	m_pFade->Start(false, 0.5f);	// フェードイン
+// 
 	// メモリ確保
 	switch (m_NowScene)
 	{
@@ -85,39 +87,33 @@ SceneManager::~SceneManager()
 
 void SceneManager::Update(float tick)
 {
-	switch (m_NowScene)
+	if (!m_pFade->IsPlay())
 	{
-	case SceneManager::SCENE_TITLE:
-		m_pSceneTitle->Update();
-		break;
+		switch (m_NowScene)
+		{
+		case SceneManager::SCENE_TITLE:
+			m_pSceneTitle->Update();
+			break;
 
-	case SceneManager::SCENE_TUTORIAL:
-		m_pSceneTutorial->Update();
-		break;
+		case SceneManager::SCENE_TUTORIAL:
+			m_pSceneTutorial->Update();
+			break;
 
-	case SceneManager::SCENE_SELECT:
-		m_pSceneSelect->Update();
-		break;
+		case SceneManager::SCENE_SELECT:
+			m_pSceneSelect->Update();
+			break;
 
-	case SceneManager::SCENE_GAME:
-		m_pSceneGame->Update(tick);
-		break;
+		case SceneManager::SCENE_GAME:
+			m_pSceneGame->Update(tick);
+			break;
 
-	case SceneManager::SCENE_RESULT:
-		m_pSceneResult->Update();
-		break;
+		case SceneManager::SCENE_RESULT:
+			m_pSceneResult->Update();
+			break;
+		}
 	}
 	m_pFade->Update();
-	m_pCurtainUI->Update();
-
-	//if (m_bIsButton == true)
-	//{
-	//	if (!m_pFade->IsPlay())
-	//	{
-	//		m_NowScene = next;	// 次のシーンへ
-	//		m_bIsButton = false;
-	//	}
-	//}
+	m_pCurtainUI->Update();	
 }
 
 void SceneManager::Draw()
@@ -144,7 +140,8 @@ void SceneManager::Draw()
 		m_pSceneResult->Draw();
 		break;
 	}
-	m_pFade->Draw();	// フェードの描画
+
+	m_pFade->Draw();					// フェードの描画
 	m_pCurtainUI->StageCurtainDraw();	// カーテンの描画
 }
 
@@ -179,19 +176,17 @@ void SceneManager::ChangeScene(SCENE next)
 		m_pSceneResult = nullptr;
 		break;
 	}
-//	m_pFade->Start(false, 1.0f); // フェードアウト
-	//if (IsB == true)
-	//{
-	//	if (!m_pFade->IsPlay())
-	//	{
-	//		m_NowScene = next;	// 次のシーンへ
-	//		IsB = false;
-	//	}
-	//}
-	m_NowScene = next;
+
 	// 間隔は0.5秒で統一させる
 	m_pFade->Start(true, 0.5f);	// フェードイン
+	m_NowScene = next;
 
+//	if (m_IsFade == true)
+//	{
+//		m_pFade->Start(true, 0.5f); // フェードイン
+//		m_NowScene = next;
+//	}
+	
 	// メモリ確保
 	switch (m_NowScene)
 	{
@@ -215,6 +210,27 @@ void SceneManager::ChangeScene(SCENE next)
 		m_pSceneResult = new SceneResult(this);
 		break;
 	}
+}
+
+bool SceneManager::IsFade()
+{
+	// フェードが続いているかどうか
+	if (m_IsFade && m_pFade->IsPlay())
+	{
+		m_pFade->Start(false, 0.5f);  // フェードアウト
+		return true;
+	}
+	return false;
+}
+
+void SceneManager::NextScene()
+{
+	//if (!m_pFade->IsPlay())
+	//{
+	//	// フェードアウト
+	//	m_pFade->Start(false, 0.5f);
+	//	m_NowScene = next;
+	//}
 }
 
 // ゲームの終了

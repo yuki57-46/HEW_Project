@@ -30,6 +30,7 @@ public:
 		SCENE_SELECT,		// ステージ選択
 
 		SCENE_GAME,			// ゲーム、第１ステージ
+
 		//SCENE_STAGE2,		// 第２ステージ
 		//SCENE_STAGE3,		// 第３ステージ
 		//SCENE_STAGE4,		// 第４ステージ
@@ -51,20 +52,21 @@ public:
 	void Draw();
 
 	void ChangeScene(SCENE next);	// シーンの切り替え
-//	void NextScene()
+	void NextScene();				// フェード用
 	void EndGame();					// ゲームの終了
 	bool IsEndGame();				// ゲームが続いているか
-	bool m_bIsButton;				// シーン切り替え用のボタン
+	bool IsFade();					// フェードが続いているか
+
 
 private:
 	bool m_IsEndGame;	// 終了判定
+	bool m_IsFade;		// シーン切り替え用
 
 	// シーン
 	SceneTitle*		m_pSceneTitle;
 	SceneTutorial*	m_pSceneTutorial;
 	SelectScene*	m_pSceneSelect;
 	SceneGame*		m_pSceneGame;
-
 	SceneResult*	m_pSceneResult;
 
 	// フェード関連

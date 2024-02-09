@@ -38,19 +38,6 @@ SceneTitle::~SceneTitle()
 		delete m_pPS;
 		m_pPS = nullptr;
 	}
-
-	//if (m_pFade)
-	//{
-	//	delete m_pFade;
-	//	m_pFade = nullptr;
-	//}
-
-	//if (m_pCurtainUI)
-	//{
-	//	delete m_pCurtainUI;
-	//	m_pCurtainUI = nullptr;
-	//}
-
 	if (m_pTexture)
 	{
 		delete m_pTexture;
@@ -60,15 +47,9 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Update()
 {
-//	m_pCurtainUI->Update();
-//	m_pFade->Update();
-	//if (IsKeyTrigger('O'))
-	//	m_pFade->Start(true, 2.0f);// フェードイン
-	//if (IsKeyTrigger('P'))
-	//	m_pFade->Start(false, 1.0f);// フェードアウト
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pFade->Start(true, 1.0f);	// フェードイン
+		m_pFade->Start(false, 0.5f);	// フェードアウト
 		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// 操作説明シーンに移る
 	}
 }

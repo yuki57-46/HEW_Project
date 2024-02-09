@@ -22,7 +22,7 @@ CurtainUI::CurtainUI()
 	m_pStageCurtainTex = new Texture();
 
 	// 画像ファイルが開けなかったら表示
-	if (FAILED(m_pStageCurtainTex->Create("Assets/Texture/Stage_Curtain.png")))
+	if (FAILED(m_pStageCurtainTex->Create("Assets/Texture/Stage_Curtain_V2.png")))
 	{
 		MessageBox(NULL, "StageCurtain.png", "Error", MB_OK);
 	}
