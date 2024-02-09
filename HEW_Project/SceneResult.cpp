@@ -6,9 +6,8 @@
 
 #define FILENAME "Assets/Texture/Title.png"
 
-SceneResult::SceneResult(SceneManager* pSceneManager)
+SceneResult::SceneResult()
 	: m_pTexture(nullptr)
-	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 	, m_pPS(nullptr)
 {
 	m_pTexture = new Texture();
@@ -39,11 +38,12 @@ SceneResult::~SceneResult()
 	}
 }
 
-void SceneResult::Update()
+void SceneResult::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TITLE);	// タイトルに戻る
+		pSceneManager->SetNextScene(SCENE_TITLE);
+//		m_pSceneManager->ChangeScene(SceneManager::SCENE_TITLE);	// タイトルに戻る
 	}
 }
 

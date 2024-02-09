@@ -5,7 +5,7 @@
 
 #define FADE_TEST 1
 
-SceneGame::SceneGame(SceneManager* pSceneManager)
+SceneGame::SceneGame()
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
@@ -143,7 +143,7 @@ SceneGame::~SceneGame()
 }
 #include "Input.h"
 
-void SceneGame::Update(float tick)
+void SceneGame::Update(SceneManager* pSceneManager, float tick)
 {
 	if (m_pobjcamera != nullptr)
 		{

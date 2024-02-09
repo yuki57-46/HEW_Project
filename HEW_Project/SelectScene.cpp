@@ -6,11 +6,10 @@
 
 #define FILENAME "Assets/Texture/stageselect.png"
 
-SelectScene::SelectScene(SceneManager* pSceneManager)
+SelectScene::SelectScene()
 	: m_pTexture(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
-	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 {
 	m_pTexture = new Texture();
 	if (FAILED(m_pTexture->Create(FILENAME)))
@@ -47,29 +46,29 @@ SelectScene::~SelectScene()
 
 void SelectScene::Update()
 {
-	m_pCurtainUI->Update();
+	//m_pCurtainUI->Update();
 
-	m_pFade->Update();
-	if (IsKeyTrigger('O'))
-		m_pFade->Start(true, 2.0f);// フェードイン
-	if (IsKeyTrigger('P'))
-		m_pFade->Start(false, 1.0f);// フェードアウト
+	//m_pFade->Update();
+	//if (IsKeyTrigger('O'))
+	//	m_pFade->Start(true, 2.0f);// フェードイン
+	//if (IsKeyTrigger('P'))
+	//	m_pFade->Start(false, 1.0f);// フェードアウト
 
-	if (IsKeyTrigger('1'))
-	{
-		//		m_pFade->Start(true, 2.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
-	}
-	if (IsKeyTrigger('2'))
-	{
-		//		m_pFade->Start(true, 2.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
-	}
-	if (IsKeyTrigger('3'))
-	{
-		//		m_pFade->Start(true, 2.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
-	}
+	//if (IsKeyTrigger('1'))
+	//{
+	//	//		m_pFade->Start(true, 2.0f);// フェードイン
+	//	m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
+	//}
+	//if (IsKeyTrigger('2'))
+	//{
+	//	//		m_pFade->Start(true, 2.0f);// フェードイン
+	//	m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
+	//}
+	//if (IsKeyTrigger('3'))
+	//{
+	//	//		m_pFade->Start(true, 2.0f);// フェードイン
+	//	m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
+	//}
 }
 
 void SelectScene::Draw()
@@ -100,7 +99,4 @@ void SelectScene::Draw()
 	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -670.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
-
-	m_pFade->Draw();
-	m_pCurtainUI->StageCurtainDraw();
 }

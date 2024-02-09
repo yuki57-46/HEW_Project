@@ -30,14 +30,13 @@ enum class CameraKindSelect
 class SelectScene
 {
 public:
-	SelectScene(SceneManager* pSceneManager);
+	SelectScene();
 	~SelectScene();
 	void Update();
 	void Draw();
 
 private:
 	Texture*		m_pTexture;
-	SceneManager*	m_pSceneManager;
 	Fade*			m_pFade;
 	Screen*			m_pScreen;
 

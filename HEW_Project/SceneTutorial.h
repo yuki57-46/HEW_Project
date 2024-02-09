@@ -36,17 +36,15 @@ enum class CameraKindTutorial
 class SceneTutorial
 {
 public:
-	SceneTutorial(SceneManager *pSceneManager);
+	SceneTutorial();
 	~SceneTutorial();
-	void Update();
+	void Update(SceneManager* pSceneManager);
 	void Draw();
 
 private:
 	Texture*		m_pTexture1;
 	Texture*		m_pTexture2;
 	Texture*		m_pTexture3;
-
-	SceneManager*	m_pSceneManager;
 
 	Screen* m_pScreen;
 

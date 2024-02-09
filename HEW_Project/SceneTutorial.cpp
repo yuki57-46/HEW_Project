@@ -9,11 +9,10 @@
 #define FILENAME2 "Assets/Texture/enter.png"		// start push Enter文字
 #define FILENAME3 "Assets/Texture/message.png"		// 操作一覧の文字
 
-SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
+SceneTutorial::SceneTutorial()
 	: m_pTexture1(nullptr)
 	, m_pTexture2(nullptr)
 	, m_pTexture3(nullptr)
-	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 	, m_pPS(nullptr)
 {
 	m_pTexture1 = new Texture();
@@ -65,11 +64,13 @@ SceneTutorial::~SceneTutorial()
 	}
 }
 
-void SceneTutorial::Update()
+void SceneTutorial::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_GAME);	// ゲームシーンに移る
+		
+		pSceneManager->SetNextScene(SCENE_GAME);
+//		m_pSceneManager->ChangeScene(SceneManager::SCENE_GAME);	// ゲームシーンに移る
 	}
 }
 

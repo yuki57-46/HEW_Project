@@ -6,11 +6,10 @@
 
 #define FILENAME "Assets/Texture/Title.png"
 
-SceneTitle::SceneTitle(SceneManager* pSceneManager)
+SceneTitle::SceneTitle()
 	: m_pTexture(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
-	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 	, m_pPS(nullptr)
 {
 	m_pCurtainUI = new CurtainUI();
@@ -45,12 +44,14 @@ SceneTitle::~SceneTitle()
 	}
 }
 
-void SceneTitle::Update()
+void SceneTitle::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pFade->Start(false, 0.5f);	// フェードアウト
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// 操作説明シーンに移る
+		m_pFade->Start(true, 1.0f);
+		pSceneManager->SetNextScene(SCENE_TUTORIAL);
+//		m_pFade->Start(false, 0.5f);	// フェードアウト
+//		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// 操作説明シーンに移る
 	}
 }
 
