@@ -46,6 +46,8 @@ public:
 private:
 	Texture*		m_pTexture;
 	Fade*			m_pFade;
+	CurtainUI*		m_pCurtainUI;
+
 	Screen*			m_pScreen;
 
 	ObjectMng*		m_pObjectMng;
@@ -60,7 +62,6 @@ private:
 	ItemUI*			m_pUI;
 	Coin*			m_pCoin;
 	CoinCntUI*		m_pCoinCntUI;
-	CurtainUI*		m_pCurtainUI;
 
 	PixelShader*	m_pPS;
 

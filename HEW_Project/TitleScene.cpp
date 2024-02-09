@@ -32,6 +32,18 @@ SceneTitle::SceneTitle()
 
 SceneTitle::~SceneTitle()
 {
+	if (m_pFade)
+	{
+		delete m_pFade;
+		m_pFade = nullptr;
+	}
+
+	if (m_pCurtainUI)
+	{
+		delete m_pCurtainUI;
+		m_pCurtainUI = nullptr;
+	}
+
 	if (m_pPS)
 	{
 		delete m_pPS;
@@ -48,8 +60,9 @@ void SceneTitle::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pFade->Start(true, 1.0f);
+//		m_pFade->Start(false, 1.0f);
 		pSceneManager->SetNextScene(SCENE_TUTORIAL);
+
 //		m_pFade->Start(false, 0.5f);	// フェードアウト
 //		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// 操作説明シーンに移る
 	}
@@ -85,6 +98,9 @@ void SceneTitle::Draw()
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
+
+	//m_pFade->Draw();
+	//m_pCurtainUI->StageCurtainDraw();
 }
 
 //TitleScene.cpp

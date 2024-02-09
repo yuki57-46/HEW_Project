@@ -345,8 +345,12 @@ void SceneManager::Draw()
 
 void SceneManager::SetNextScene(SceneKind scene)
 {
-	//m_pFade->Start(false, 1.0f);	// フェードアウト
+	m_pFade->Start(false, 1.0f);	// フェードアウト
 	// フェード中は次のシーンを予約しない
-	m_NextScene = scene;	
-
+	if (m_pFade->IsPlay())
+	{
+		m_NextScene = scene;
+		return;
+	}
+	
 }

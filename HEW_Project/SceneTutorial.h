@@ -6,6 +6,9 @@
 #include "Texture.h"
 #include "Sprite.h"
 
+#include "Fade.hpp"
+#include "Curtain.h"
+
 class SceneManager;
 //#include "SceneManager.hpp"
 
@@ -45,6 +48,9 @@ private:
 	Texture*		m_pTexture1;
 	Texture*		m_pTexture2;
 	Texture*		m_pTexture3;
+
+	Fade*		m_pFade;
+	CurtainUI*	m_pCurtainUI;
 
 	Screen* m_pScreen;
 
