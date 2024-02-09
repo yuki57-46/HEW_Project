@@ -106,6 +106,9 @@ private:
 
 
 	PixelShader* m_pPS[3];
+
+	int m_PS; // ピクセルシェーダーの選択
+
 };
 
 //#endif // !___BACK_SHADOW_H___
