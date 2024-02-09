@@ -69,7 +69,7 @@ void SceneTutorial::Update()
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_GAME);	// ゲームシーンに移る
+		m_pSceneManager->ChangeScene(SceneManager::SCENE_SELECT);	// ゲームシーンに移る
 	}
 }
 

@@ -5,24 +5,20 @@
 #include <DirectXMath.h>
 #include "Texture.h"
 #include "Sprite.h"
+#include "Fade.hpp"
 
 class SceneManager;
-//#include "SceneManager.hpp"
 
-#include "Model.h"
 #include "Shader.h"
 #include "CameraBase.h"
 #include "Objectcamera.h"
-#include "Player.h"
-#include "ObjectManager.h"
-#include "Object.h"
 #include "CameraObject.h"
+
+//#include "Coin.h"
+//#include "CoinCntUI.h"
 
 #include "BackShadow.h"
 #include "Soundtest.h"
-#include "Coin.h"
-#include "CoinCntUI.h"
-#include "ItemUI.h"
 
 enum class CameraKindResult
 {
@@ -42,30 +38,27 @@ public:
 	void Draw();
 
 private:
-	Texture* m_pTexture;
-	SceneManager* m_pSceneManager;
+	Texture*		 m_pTexture;
+	SceneManager*	 m_pSceneManager;
+	Fade*			 m_pFade;
+	Screen*			 m_pScreen;
 
-	Screen* m_pScreen;
+	VertexShader*	 m_pVS;
+	PixelShader*	 m_pPS;
 
-	ObjectMng* m_pObjectMng;
-	VertexShader*	m_pVS;
-	PixelShader*	m_pPS;
+	ObjectCamera*	 m_pobjcamera;
+	CameraKindResult m_mainCamera;
+	CameraBase*		 m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
 
-	ObjectCamera* m_pobjcamera;
-	CameraKindResult	m_mainCamera;
-	CameraBase* m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
-
-	BackShadow* m_pBackShadow;
-
-	ItemUI* m_pUI;
-	Coin* m_pCoin;
-	CoinCntUI* m_pCoinCntUI;
+	//Coin*			 m_pCoin;
+	//CoinCntUI*		 m_pCoinCntUI;
+	CurtainUI*		 m_pCurtainUI;
 
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
 
 	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
-	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
+	XAUDIO2_BUFFER*		 m_pSound; // サウンドバッファ
 	//Sound m_Sound;
 };
 
