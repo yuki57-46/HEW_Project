@@ -141,7 +141,10 @@ void SceneManager::Draw()
 		break;
 
 	case SceneManager::SCENE_RESULT:
-		m_pSceneResult->Draw();
+		m_pSceneResult->BGDraw();
+		m_pSceneResult->ClearDraw();
+		m_pSceneResult->FPDraw();
+		m_pSceneResult->NextDraw();
 		break;
 	}
 	m_pFade->Draw();	// フェードの描画

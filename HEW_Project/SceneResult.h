@@ -14,9 +14,6 @@ class SceneManager;
 #include "Objectcamera.h"
 #include "CameraObject.h"
 
-//#include "Coin.h"
-//#include "CoinCntUI.h"
-
 #include "BackShadow.h"
 #include "Soundtest.h"
 
@@ -35,10 +32,17 @@ public:
 	SceneResult(SceneManager* pSceneManager);
 	~SceneResult();
 	void Update();
-	void Draw();
+	void BGDraw();
+	void ClearDraw();
+	void FPDraw();
+	void NextDraw();
 
 private:
-	Texture*		 m_pTexture;
+	Texture*		 m_pBGTexture;
+	Texture*		 m_pClearIcon;
+	Texture*		 m_pFPIcon;
+	Texture*		 m_pNextIcon;
+
 	SceneManager*	 m_pSceneManager;
 	Fade*			 m_pFade;
 	Screen*			 m_pScreen;
@@ -50,7 +54,6 @@ private:
 	CameraKindResult m_mainCamera;
 	CameraBase*		 m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
 
-	//Coin*			 m_pCoin;
 	CurtainUI*		 m_pCurtainUI;
 
 	RenderTarget* m_pRTV;
