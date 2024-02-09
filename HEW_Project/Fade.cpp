@@ -89,6 +89,12 @@ void Fade::Draw()
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
+	if (0.5f < m_alpha && m_alpha < 0.6f)
+	{
+		int a = 0 ;;
+
+	}
+
 	// ワールド行列は X,Y のみを考慮して作成
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(730.0f, 418.0f, 0.0f);
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
@@ -121,6 +127,16 @@ void Fade::Draw()
 
 	// スプライトの描画
 	Sprite::Draw();
+
+#if 0
+	FILE* fp;
+	fp = fopen("check.txt", "at");
+	fprintf(fp, "%.2f\n", m_alpha);
+	fclose(fp);
+
+#endif
+
+
 
 }
 
