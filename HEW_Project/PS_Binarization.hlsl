@@ -34,10 +34,10 @@ float4 main(PS_IN pin) : SV_TARGET
 		return float4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	if (0.96f <= color.r && color.r <= 1.0f && 0.05f <= color.g && color.g <= 0.1f || 0.0f <= color.b && color.b <= 0.05f)
+	if (0.05f <= color.g && color.g <= 0.1f || 0.0f <= color.b && color.b <= 0.05f)
 	{
 		return float4(0.0f, 0.0f, 0.0f, 1.0f);
-	}// 自動ブロック(赤)
+	} // 自動ブロック(赤)
 
 	if (0.5f <= color.r && color.r <= 0.55f && 0.5f <= color.g && color.g <= 0.55f || 0.5f <= color.b && color.b <= 0.55f)
 	{
