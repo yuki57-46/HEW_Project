@@ -346,10 +346,7 @@ void Object::Update()
 		//}
 	}
 	
-		SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
-		HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
-		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
-
+	
 
 		if (m_pos.x >= Max_X || m_pos.x <= Min_X
 			|| m_pos.z >= Max_Z || m_pos.z <=Min_Z
@@ -423,6 +420,10 @@ void Object::Update()
 			}
 			xz = true;
 		}
+		SetBounds(objectMinBound, objectMaxBound);  //最小値と最大値をセット
+		HSetBounds(hobjectMinBound, hobjectMaxBound);//憑依用の当たり判定
+		CSetBounds(cobjectMinBound, cobjectMaxBound);//ブロック同士の当たり判定
+
 
 }
 void Object::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)

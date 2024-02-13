@@ -376,9 +376,6 @@ void Stair::Update()
 		}
 	}
 
-	SetBounds(StairMinBound, StairMaxBound);  //最小値と最大値をセット
-	HSetBounds(hStairMinBound, hStairMaxBound);//憑依用の当たり判定
-	CSetBounds(cStairMinBound, cStairMaxBound);//ブロック同士の当たり判定
 
 
 	if (m_pos.x >= Max_X || m_pos.x <= Min_X
@@ -460,6 +457,9 @@ void Stair::Update()
 		};
 	
 	}
+	SetBounds(StairMinBound, StairMaxBound);  //最小値と最大値をセット
+	HSetBounds(hStairMinBound, hStairMaxBound);//憑依用の当たり判定
+	CSetBounds(cStairMinBound, cStairMaxBound);//ブロック同士の当たり判定
 
 
 }
