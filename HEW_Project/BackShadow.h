@@ -13,6 +13,9 @@
 #include "Coin.h"
 #include "Goal.h"
 
+#include "LibEffekseer.h"
+#include "Effekseer/Effekseer.h"
+
 class BackShadow
 {
 public:
@@ -108,6 +111,9 @@ private:
 	PixelShader* m_pPS[3];
 
 	int m_PS; // ピクセルシェーダーの選択
+
+	Effekseer::Handle m_EffectHandle; // エフェクトハンドル
+	Effekseer::EffectRef m_Effect; // エフェクト
 
 };
 

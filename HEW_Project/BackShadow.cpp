@@ -97,6 +97,8 @@ BackShadow::BackShadow()
 	m_pPS[0]->Load("Assets/Shader/PS_Shadow.cso");
 	m_pPS[1]->Load("Assets/Shader/PS_Binarization.cso");
 	m_pPS[2]->Load("Assets/Shader/PS_Sprite.cso");
+
+	m_Effect = LibEffekseer::Create("Assets/effect/coinGet.efkefc");
 }
 
 BackShadow::~BackShadow()
@@ -412,6 +414,24 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	{
 		m_PS = 2;
 	}
+
+	// エフェクト
+	DirectX::XMFLOAT4X4 effectMat[2];
+	effectMat[0] = m_pCamera->GetViewMatrix();
+	effectMat[1] = m_pCamera->GetProjectionMatrix();
+
+	// Effekseerの仕様上行列を転置前の状態で渡す
+	DirectX::XMMATRIX effectView = DirectX::XMLoadFloat4x4(&effectMat[0]);
+	effectView = DirectX::XMMatrixTranspose(effectView);
+	DirectX::XMStoreFloat4x4(&effectMat[0], effectView);
+
+	DirectX::XMMATRIX effectProj = DirectX::XMLoadFloat4x4(&effectMat[1]);
+	effectProj = DirectX::XMMatrixTranspose(effectProj);
+	DirectX::XMStoreFloat4x4(&effectMat[1], effectProj);
+
+	LibEffekseer::SetViewPosition(m_pCamera->GetPos());
+	LibEffekseer::SetCameraMatrix(effectMat[0], effectMat[1]);
+
 	Sprite::SetPixelShader(m_pPS[m_PS]);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
@@ -511,18 +531,26 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 	{
 		Coin1->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		// エフェクト
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin1->GetPosition().x, Coin1->GetPosition().y, Coin1->GetPosition().z);
 	}
 	// コイン2
 	if (IsHit(BoxShadowPlayer, BoxCoin2))
 	{
 		Coin2->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		// エフェクト
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin1->GetPosition().x, Coin1->GetPosition().y, Coin1->GetPosition().z);
+
 	}
 	// コイン3
 	if (IsHit(BoxShadowPlayer, BoxCoin3))
 	{
 		Coin3->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		// エフェクト
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin1->GetPosition().x, Coin1->GetPosition().y, Coin1->GetPosition().z);
+
 	}
 }
 
