@@ -540,7 +540,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		Coin2->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin1->GetPosition().x, Coin1->GetPosition().y, Coin1->GetPosition().z);
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin2->GetPosition().x, Coin2->GetPosition().y, Coin2->GetPosition().z);
 
 	}
 	// コイン3
@@ -549,7 +549,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		Coin3->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin1->GetPosition().x, Coin1->GetPosition().y, Coin1->GetPosition().z);
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin3->GetPosition().x, Coin3->GetPosition().y, Coin3->GetPosition().z);
 
 	}
 }
