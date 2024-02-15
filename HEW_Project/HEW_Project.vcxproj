@@ -200,13 +200,13 @@
     <ClCompile Include="Lever.cpp" />
     <ClCompile Include="LibEffekseer.cpp" />
     <ClCompile Include="Lift_Obj.cpp" />
+    <ClCompile Include="MagnetSN.cpp" />
     <ClCompile Include="MeshBuffer.cpp" />
     <ClCompile Include="Geometory.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="ObjectNot.cpp" />
     <ClCompile Include="ObjectTomegu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -236,6 +236,7 @@
     <ClInclude Include="Goal.h" />
     <ClInclude Include="Haikei.h" />
     <ClInclude Include="ItemUI.h" />
+    <ClInclude Include="MagnetSN.h" />
     <ClInclude Include="Objectcamera.h" />
     <ClInclude Include="CameraBase.h" />
     <ClInclude Include="CameraDebug.h" />
@@ -258,7 +259,6 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="ObjectNot.h" />
     <ClInclude Include="ObjectTomegu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />

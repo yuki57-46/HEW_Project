@@ -11,6 +11,8 @@
 #define EFFECT_PLAYER_MIN_POS_Z (1.8f)	// playerが移動できるZの最小値
 
 
+
+
 ObjectMng::ObjectMng()
 	: m_pObjects(nullptr)
 	, m_pYuka(nullptr)
@@ -23,6 +25,7 @@ ObjectMng::ObjectMng()
 	, m_num3(0)
 	, m_num4(0)
 	, m_num5(0)
+	, m_num6(0)
 	
 
 {
@@ -34,6 +37,15 @@ ObjectMng::ObjectMng()
 	m_pPlayer = new Player();
 
 	//======各ブロックの配置======
+	//すべてのオブジェクトはなるだけリスポーン時に位置が重ならないように
+	//リフトは今のｙ軸と上下制限をかえないで　変えると死ぬ
+//左＋　右－　奥ー　手前＋
+//Max_X (2.23f)
+// Min_X (-2.23f)
+//
+// Max_Z (3.36f)
+// Min_Z (1.8f)この値がブロックの配置制限位置
+//
 
 	//ブロック
 	struct Setting
@@ -86,13 +98,13 @@ ObjectMng::ObjectMng()
 		//ポジション、スケール、憑依判定(trueで憑依)、
 		//自動ムーブ判定(trueで自動、自動ブロックは否憑依(false)にして下さい[false,true])
 		//=============stage4===================
-		{1.5f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
-		{0.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
-		{1.0f, 1.25f, 2.0f, 0.24f, 0.25f, 0.25f,false,false},
-		{0.0f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+		{1.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		{0.75f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		//{1.0f, 1.25f, 2.0f, 0.24f, 0.25f, 0.25f,false,false},
+		{0.0f, 0.0f, 2.0f, 0.25f, 0.5f, 0.25f,true,false},
 		{-0.625f, 0.0f, 2.0f, 1.0f, 0.25f, 0.25f,false,false},
-		{-1.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{-1.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
+		{-1.25f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		{-1.75f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
 
 	};
 
@@ -123,8 +135,8 @@ ObjectMng::ObjectMng()
 		//{ -2.25f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
 
 		//=======================stage4=========================
-		{ 1.25f, 1.24f, 2.0f, 2.0f, 0.025f, 0.25f,1.5f,0.5f,0.0f},
-		{ -1.25f, 1.25f, 2.0f, 1.5f, 0.025f, 0.25f,4.0f,1.5f,0.0f},
+		{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+		{ -1.25f, 0.5f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
 
 	};
 
@@ -212,11 +224,11 @@ ObjectMng::ObjectMng()
 		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 
 		//===============stage4===============
-		{1.25f, 0.0f, 2.0f, -0.24f, 0.25f, -0.25f, true},//逆向き
-		{1.0f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f, false},
-		{0.25f, 0.0f, 2.0f, -0.24f, 0.25f, -0.25f, true},//逆向き
-		{-0.25f, 0.0f, 2.75f, -0.24f, 0.25f,-0.25f, true},//逆向き
-		{-1.5f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f, false},
+		{1.25f, 0.0f, 2.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
+		{1.0f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f, false},
+		{0.25f, 0.0f, 2.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
+		{-1.25f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
+		{-1.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f, false},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -261,16 +273,15 @@ ObjectMng::ObjectMng()
 
 
 
-	//留め具
+	//留め具//被憑依ブロックの前においてね
 	struct Setting5
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
 	//ブロック配置.スケール指定
 	Setting5 data5[] = {
-		{ 0.0f, 0.0f, 2.3f, 1.0f, 1.0f, 0.0f},
-	
-
+		{ 0.0f, 0.0f, 2.3f, 0.3f, 0.3f, 0.3f},
+		
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -287,7 +298,37 @@ ObjectMng::ObjectMng()
 		);
 	}
 
-	
+
+
+
+
+	//	まぐねっと　リフトの下においてね
+	struct Setting6
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ブロック配置.スケール指定
+	Setting6 data6[] = {
+		{ 1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		{ -1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+
+	};
+
+	//配列の要素の数から必要なブロック数を計算
+	m_num6 = sizeof(data6) / sizeof(data6[0]);
+
+	//必要な数だけブロックを確保
+	m_pMagnet = new Magnet[m_num6];
+	//確保したブロックに初期データを設定
+	for (int i = 0; i < m_num6; i++)
+	{
+		m_pMagnet[i].Create(
+			data6[i].x, data6[i].y, data6[i].z,
+			data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
+		);
+	}
+
+
 	
 
 	// effect
@@ -312,6 +353,8 @@ ObjectMng::~ObjectMng()
 	delete[] m_pStair;
 
 	delete[] m_pTomegu;
+
+	delete[] m_pMagnet;
 
 	if (m_pObjectCamera)
 	{
@@ -363,8 +406,8 @@ void ObjectMng::Update(float tick)
 	//	m_pObjectsAuto->Update();
 	//}
 
-	for (int t = 0;t < m_num4; t++)
-	{// 床
+	for (int t = 0;t < m_num5; t++)
+	{// 
 		m_pTomegu[t].Update();
 	}
 
@@ -382,6 +425,11 @@ void ObjectMng::Update(float tick)
 	{
 		m_pObjects[i].Update();
 	}
+	
+
+
+
+
 	for (int i = 0; i < m_num; i++)
 	{
 		
@@ -510,26 +558,33 @@ void ObjectMng::Update(float tick)
 				}
 				for (int l = 0; l < m_num2; l++)
 				{
+					for (int mg = 0; mg < m_num6; mg++)
+					{// ゴール
+						m_pMagnet[mg].Update();
 
-					m_pLever[l].Update();//レバーとプレイヤー
-					if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
-					{
-						if (m_pPlayer->IsCollidingWith(*lever))
+
+						m_pLever[l].Update();//レバーとプレイヤー
+						if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
 						{
-							if (IsKeyPress('Q'))
+							if (m_pPlayer->IsCollidingWith(*lever))
 							{
-								m_pLever[l].SetMoveTrue();
-								m_pLift_obj[a].SetMoveTrue();
-								m_pPlayer->SetOk();
-								m_pPlayer->HPlayerPos();
+								if (IsKeyPress('Q'))
+								{
+									m_pLever[l].SetMoveTrue();
+									m_pMagnet[mg].Set();
+									m_pLift_obj[a].SetMoveTrue();
+									m_pPlayer->SetOk();
+									m_pPlayer->HPlayerPos();
+								}
 							}
-						}
-						if (IsKeyPress('E'))
-						{
-							m_pLever[l].SetMoveFalse();
-							m_pLift_obj[a].SetMoveFalse();
-							m_pPlayer->SetNOk();
-							m_pPlayer->PlayerPos();
+							if (IsKeyPress('E'))
+							{
+								m_pLever[l].SetMoveFalse();
+								m_pMagnet[mg].SetF();
+								m_pLift_obj[a].SetMoveFalse();
+								m_pPlayer->SetNOk();
+								m_pPlayer->PlayerPos();
+							}
 						}
 					}
 				}
@@ -1679,13 +1734,22 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
 	}
-	/*if (draw == true)
-	{*/
+
+//留め具
 		for (int i = 0; i < m_num5; i++)
 		{
-			m_pTomegu->Draw(viewMatrix, projectionMatrix);
+			m_pTomegu[i].Draw(viewMatrix, projectionMatrix);
 		}
-	//}
+
+//マグネット
+
+		if (draw == true)
+		{
+			for (int i = 0; i < m_num6; i++)
+			{
+				m_pMagnet[i].Draw(viewMatrix, projectionMatrix);
+			}
+		}
 
 	//// 動くブロック描画
 	//for (int i = 0; i < m_num6; i++)

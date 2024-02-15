@@ -33,7 +33,7 @@ Lift_Obj::Lift_Obj()
 {
 	m_pModel = new Model();
 	
-	if (!m_pModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip))
+	if (!m_pModel->Load("Assets/Model/Block/TuriyukaM (1).fbx", Model::Flip::XFlip))
 	{
 		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました_リフト", "エラー", MB_OK | MB_ICONWARNING);
 	}
