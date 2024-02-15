@@ -33,7 +33,7 @@ private:
 	float m_fTotalTime; // 総時間
 
 	float m_fMaxPosY = 500.0f; // 最大Y座標
-	float m_fMinPosY = -300.0f; // 最小Y座標
+	float m_fMinPosY = -330.0f; // 最小Y座標
 
 	// 緞帳を下げるか上げるか
 	bool m_isUp; // 上げる

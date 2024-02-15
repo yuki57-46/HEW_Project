@@ -8,7 +8,7 @@
 //===コンストラクタ===
 CurtainUI::CurtainUI()
 	: m_pTexture(nullptr)
-	, m_fPosY(-300.0f)
+	, m_fPosY(-330.0f)
 {
 
 	m_pTexture = new Texture();
