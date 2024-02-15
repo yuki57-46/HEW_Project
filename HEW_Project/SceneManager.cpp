@@ -352,5 +352,4 @@ void SceneManager::SetNextScene(SceneKind scene)
 		m_NextScene = scene;
 		return;
 	}
-	
 }
