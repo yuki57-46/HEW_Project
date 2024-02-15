@@ -87,7 +87,7 @@ SceneResult::~SceneResult()
 	}
 }
 
-void SceneResult::Update()
+void SceneResult::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{

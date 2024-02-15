@@ -40,9 +40,9 @@ enum CameraKind
 class SceneGame
 {
 public:
-	SceneGame(SceneManager* pSceneManager);
+	SceneGame();
 	~SceneGame();
-	void Update(float tick);
+	void Update(SceneManager* pSceneManager, float tick);
 	void Draw();
 
 private:

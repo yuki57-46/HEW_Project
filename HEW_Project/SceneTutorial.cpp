@@ -9,13 +9,16 @@
 #define FILENAME2 "Assets/Texture/enter.png"		// start push Enter文字
 #define FILENAME3 "Assets/Texture/message.png"		// 操作一覧の文字
 
-SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
+SceneTutorial::SceneTutorial()
 	: m_pTexture1(nullptr)
 	, m_pTexture2(nullptr)
 	, m_pTexture3(nullptr)
-	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
+	, m_pFade(nullptr)
+	, m_pCurtainUI(nullptr)
 	, m_pPS(nullptr)
 {
+	m_pCurtainUI = new CurtainUI();
+
 	m_pTexture1 = new Texture();
 	if (FAILED(m_pTexture1->Create(FILENAME1)))
 	{
@@ -39,10 +42,24 @@ SceneTutorial::SceneTutorial(SceneManager *pSceneManager)
 	{
 		MessageBox(NULL, "Tutorial Pixel Shader", "Error", MB_OK);
 	}
+
+	m_pFade = new Fade(m_pCurtainUI);
 }
 
 SceneTutorial::~SceneTutorial()
 {
+	if (m_pFade)
+	{
+		delete m_pFade;
+		m_pFade = nullptr;
+	}
+
+	if (m_pCurtainUI)
+	{
+		delete m_pCurtainUI;
+		m_pCurtainUI = nullptr;
+	}
+
 	if (m_pPS)
 	{
 		delete m_pPS;
@@ -65,11 +82,13 @@ SceneTutorial::~SceneTutorial()
 	}
 }
 
-void SceneTutorial::Update()
+void SceneTutorial::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_SELECT);	// ゲームシーンに移る
+//		m_pFade->Start(false, 1.0f);
+		pSceneManager->SetNextScene(SCENE_GAME);
+//		m_pSceneManager->ChangeScene(SceneManager::SCENE_GAME);	// ゲームシーンに移る
 	}
 }
 
@@ -120,7 +139,7 @@ void SceneTutorial::Draw()
 
 	// テクスチャ3の描画
 	world = DirectX::XMMatrixTranslation(
-		100.0f, 40.0f, 0.0f);
+		100.0f, 100.0f, 0.0f);
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 	Sprite::SetWorld(mat[0]);
 
@@ -129,4 +148,7 @@ void SceneTutorial::Draw()
 		Sprite::SetTexture(m_pTexture3);
 		Sprite::Draw();
 	}
+
+	//m_pFade->Draw();
+	//m_pCurtainUI->StageCurtainDraw();
 }

@@ -29,7 +29,7 @@ enum class CameraKindResult
 class SceneResult
 {
 public:
-	SceneResult(SceneManager* pSceneManager);
+	SceneResult();
 	~SceneResult();
 	void Update();
 	void BGDraw();

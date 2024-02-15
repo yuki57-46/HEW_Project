@@ -30,7 +30,7 @@ enum class CameraKindSelect
 class SelectScene
 {
 public:
-	SelectScene(SceneManager* pSceneManager);
+	SelectScene();
 	~SelectScene();
 	void Update();
 	void Draw();

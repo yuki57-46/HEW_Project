@@ -38,15 +38,16 @@ enum class CameraKindTitle
 class SceneTitle
 {
 public:
-	SceneTitle(SceneManager* pSceneManager);
+	SceneTitle();
 	~SceneTitle();
-	void Update();
+	void Update(SceneManager* pSceneManager);
 	void Draw();
 
 private:
 	Texture*		m_pTexture;
-	SceneManager*	m_pSceneManager;
 	Fade*			m_pFade;
+	CurtainUI*		m_pCurtainUI;
+
 	Screen*			m_pScreen;
 
 	ObjectMng*		m_pObjectMng;
@@ -61,7 +62,6 @@ private:
 	ItemUI*			m_pUI;
 	Coin*			m_pCoin;
 	CoinCntUI*		m_pCoinCntUI;
-	CurtainUI*		m_pCurtainUI;
 
 	PixelShader*	m_pPS;
 

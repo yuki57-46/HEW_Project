@@ -6,7 +6,7 @@
 
 #define FILENAME "Assets/Texture/stageselect.png"
 
-SelectScene::SelectScene(SceneManager* pSceneManager)
+SelectScene::SelectScene()
 	: m_pTexture(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)

@@ -6,6 +6,9 @@
 #include "Texture.h"
 #include "Sprite.h"
 
+#include "Fade.hpp"
+#include "Curtain.h"
+
 class SceneManager;
 //#include "SceneManager.hpp"
 
@@ -36,9 +39,9 @@ enum class CameraKindTutorial
 class SceneTutorial
 {
 public:
-	SceneTutorial(SceneManager *pSceneManager);
+	SceneTutorial();
 	~SceneTutorial();
-	void Update();
+	void Update(SceneManager* pSceneManager);
 	void Draw();
 
 private:
@@ -46,7 +49,8 @@ private:
 	Texture*		m_pTexture2;
 	Texture*		m_pTexture3;
 
-	SceneManager*	m_pSceneManager;
+	Fade*		m_pFade;
+	CurtainUI*	m_pCurtainUI;
 
 	Screen* m_pScreen;
 
