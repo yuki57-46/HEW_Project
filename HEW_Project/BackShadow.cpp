@@ -403,7 +403,11 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			}
 			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha))
 			{
-				// ここにあわわわ挙動の関数呼び出し
+				m_pShadowPlayer->SetKeikai(true);// ここにあわわわ挙動の関数呼び出し
+			}
+			else
+			{
+				m_pShadowPlayer->SetKeikai(false);
 			}
 		}
 
@@ -424,7 +428,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			}
 			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha))
 			{
-				// ここに死亡挙動の関数呼び出し
+				m_pShadowPlayer->SetDeath(true);// ここに死亡挙動の関数呼び出し
 			}
 		}
 	});
