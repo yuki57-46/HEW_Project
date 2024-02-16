@@ -5,24 +5,15 @@
 #include <DirectXMath.h>
 #include "Texture.h"
 #include "Sprite.h"
-
-class SceneManager;
-//#include "SceneManager.hpp"
-
-#include "Model.h"
+#include "Fade.hpp"
 #include "Shader.h"
 #include "CameraBase.h"
 #include "Objectcamera.h"
-#include "Player.h"
-#include "ObjectManager.h"
-#include "Object.h"
 #include "CameraObject.h"
-
 #include "BackShadow.h"
 #include "Soundtest.h"
-#include "Coin.h"
-#include "CoinCntUI.h"
-#include "ItemUI.h"
+
+class SceneManager;
 
 enum class CameraKindResult
 {
@@ -39,31 +30,35 @@ public:
 	SceneResult();
 	~SceneResult();
 	void Update(SceneManager* pSceneManager);
-	void Draw();
+	void BGDraw();
+	void ClearDraw();
+	void FPDraw();
+	void NextDraw();
 
 private:
-	Texture* m_pTexture;
-	Screen* m_pScreen;
+	Texture*		 m_pBGTexture;
+	Texture*		 m_pClearIcon;
+	Texture*		 m_pFPIcon;
+	Texture*		 m_pNextIcon;
 
-	ObjectMng* m_pObjectMng;
-	VertexShader*	m_pVS;
-	PixelShader*	m_pPS;
+	SceneManager*	 m_pSceneManager;
+	Fade*			 m_pFade;
+	Screen*			 m_pScreen;
 
-	ObjectCamera* m_pobjcamera;
-	CameraKindResult	m_mainCamera;
-	CameraBase* m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
+	VertexShader*	 m_pVS;
+	PixelShader*	 m_pPS;
 
-	BackShadow* m_pBackShadow;
+	ObjectCamera*	 m_pobjcamera;
+	CameraKindResult m_mainCamera;
+	CameraBase*		 m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
 
-	ItemUI* m_pUI;
-	Coin* m_pCoin;
-	CoinCntUI* m_pCoinCntUI;
+	CurtainUI*		 m_pCurtainUI;
 
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
 
 	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
-	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
+	XAUDIO2_BUFFER*		 m_pSound; // サウンドバッファ
 	//Sound m_Sound;
 };
 

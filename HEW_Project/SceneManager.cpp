@@ -1,6 +1,7 @@
 ﻿#include "SceneManager.hpp"
 #include "TitleScene.h"
 #include "SceneTutorial.h"
+#include "SelectScene.h"
 #include "SceneGame.h"
 #include "SceneResult.h"
 
@@ -9,6 +10,7 @@ SceneManager::SceneManager()
 	, m_NextScene(SCENE_START)
 	, m_pSceneTitle(nullptr)
 	, m_pSceneTutorial(nullptr)
+	, m_pSceneSelect(nullptr)
 	, m_pSceneGame(nullptr)
 	, m_pSceneResult(nullptr)
 	, m_pFade(nullptr)
@@ -24,6 +26,7 @@ SceneManager::~SceneManager()
 	{
 	case SCENE_TITLE:	 delete m_pSceneGame;		break;
 	case SCENE_TUTORIAL: delete m_pSceneTutorial;	break;
+	case SCENE_SELECT:	 delete m_pSceneSelect;		break;
 	case SCENE_GAME:	 delete m_pSceneGame;		break;
 	case SCENE_RESULT:	 delete m_pSceneResult;		break;
 	default: break;
@@ -44,6 +47,7 @@ void SceneManager::Update(float tick)
 			{
 			case SCENE_TITLE:	 delete m_pSceneTitle;		break;
 			case SCENE_TUTORIAL: delete m_pSceneTutorial;	break;
+			case SCENE_SELECT:	 delete m_pSceneSelect;		break;
 			case SCENE_GAME:	 delete m_pSceneGame;		break;
 			case SCENE_RESULT:	 delete m_pSceneResult;		break;
 			default: break;
@@ -53,6 +57,7 @@ void SceneManager::Update(float tick)
 			{
 			case SCENE_TITLE:	 m_pSceneTitle = new SceneTitle();			break;
 			case SCENE_TUTORIAL: m_pSceneTutorial = new SceneTutorial();	break;
+			case SCENE_SELECT:	 m_pSceneSelect = new SelectScene();		break;
 			case SCENE_GAME:	 m_pSceneGame = new SceneGame();			break;
 			case SCENE_RESULT:	 m_pSceneResult = new SceneResult();		break;
 			default: break;
@@ -72,6 +77,7 @@ void SceneManager::Update(float tick)
 	{
 	case SCENE_TITLE:	 m_pSceneTitle->Update(this);		break;
 	case SCENE_TUTORIAL: m_pSceneTutorial->Update(this);	break;
+	case SCENE_SELECT:	 m_pSceneSelect->Update(this);		break;
 	case SCENE_GAME:	 m_pSceneGame->Update(this, tick);	break;
 	case SCENE_RESULT:   m_pSceneResult->Update(this);		break;
 	default: break;
@@ -88,8 +94,10 @@ void SceneManager::Draw()
 	{
 	case SCENE_TITLE:	 m_pSceneTitle->Draw();		break;
 	case SCENE_TUTORIAL: m_pSceneTutorial->Draw();	break;
+	case SCENE_SELECT:	 m_pSceneSelect->Draw();	break;
 	case SCENE_GAME:	 m_pSceneGame->Draw();		break;
-	case SCENE_RESULT:   m_pSceneResult->Draw();	break;
+	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw(), m_pSceneResult->FPDraw()
+		, m_pSceneResult->NextDraw();	break;
 	default: break;
 	}
 	// 一番最後に画面全体に表示する

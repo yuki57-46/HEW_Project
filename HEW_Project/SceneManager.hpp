@@ -84,6 +84,7 @@
 // 相互インクルードが発生した場合やむを得ない対応
 class SceneTitle;
 class SceneTutorial;
+class SelectScene;
 class SceneGame;
 class SceneResult;
 class SelectScene;
@@ -92,6 +93,7 @@ enum SceneKind
 {
 	SCENE_TITLE = 0,
 	SCENE_TUTORIAL,
+	SCENE_SELECT,
 	SCENE_GAME,
 	SCENE_RESULT,
 	SCENE_MAX,
@@ -118,6 +120,7 @@ private:
 
 	SceneTitle*		m_pSceneTitle;
 	SceneTutorial*	m_pSceneTutorial;
+	SelectScene*	m_pSceneSelect;
 	SceneGame*		m_pSceneGame;
 	SceneResult*	m_pSceneResult;
 };

@@ -7,9 +7,7 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Fade.hpp"
-
-class SceneManager;
-
+#include "Curtain.h"
 #include "Shader.h"
 #include "CameraBase.h"
 #include "Objectcamera.h"
@@ -17,6 +15,8 @@ class SceneManager;
 
 #include "BackShadow.h"
 #include "Soundtest.h"
+
+class SceneManager;
 
 enum class CameraKindSelect
 {
@@ -32,21 +32,23 @@ class SelectScene
 public:
 	SelectScene();
 	~SelectScene();
-	void Update();
+	void Update(SceneManager* pSceneManager);
 	void Draw();
 
 private:
-	Texture*		m_pTexture;
-	Fade*			m_pFade;
-	Screen*			m_pScreen;
+	Texture*		 m_pTexture;
+	SceneManager*	 m_pSceneManager;
+	Fade*			 m_pFade;
+	Screen*			 m_pScreen;
 
 	VertexShader*	 m_pVS;
+	PixelShader*	 m_pPS;
 
 	ObjectCamera*	 m_pobjcamera;
 	CameraKindSelect m_mainCamera;
-	CameraBase*		 m_pCamera[static_cast<int>(CameraKindSelect::MAX_CAMERA)];
+	CameraBase*		m_pCamera[static_cast<int>(CameraKindSelect::MAX_CAMERA)];
 
-	CurtainUI*		m_pCurtainUI;
+	CurtainUI*		 m_pCurtainUI;
 
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
