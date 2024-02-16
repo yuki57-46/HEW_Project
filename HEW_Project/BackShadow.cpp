@@ -42,6 +42,8 @@ BackShadow::BackShadow()
 	, m_nFeetAlpha(0)
 	, m_nBodyAlpha(0)
 	, m_nHeadAlpha(0)
+	, m_nDeathRAlpha(0)
+	, m_nDeathLAlpha(0)
 	, m_1Cpos(0.0f, 0.0f, 0.0f)		// コイン1の座標
 	, m_cast1CposX(0)				// コイン1のX変換座標用
 	, m_cast1CposY(0)				// コイン1のY変換座標用
@@ -383,6 +385,48 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		GoalCollision(Goal);
 		// 壁、階段当たり判定(関数)
 		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
+
+		// あわわわわわ判定
+		m_nDeathRAlpha = 0;
+		m_nDeathLAlpha = 0;
+		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
+		{
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{
+				m_nDeathRAlpha++;
+			}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{
+				m_nDeathLAlpha++;
+			}
+			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha))
+			{
+				// ここにあわわわ挙動の関数呼び出し
+			}
+		}
+
+		// 死亡判定
+		m_nDeathRAlpha = 0;
+		m_nDeathLAlpha = 0;
+		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
+		{
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{
+				m_nDeathRAlpha++;
+			}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{
+				m_nDeathLAlpha++;
+			}
+			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha))
+			{
+				// ここに死亡挙動の関数呼び出し
+			}
+		}
 	});
 
 
@@ -468,6 +512,16 @@ void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 		m_pShadowPlayer->Jump();
 		return;
 	}
+}
+
+// 死亡判定
+bool BackShadow::ShadowDeathCollision(int nLeftAlpha, int nRightAlpha)
+{
+	if (nLeftAlpha > 50 && nRightAlpha > 50)
+	{
+		return true;
+	}
+	return false;
 }
 
 // 影の足元判定
