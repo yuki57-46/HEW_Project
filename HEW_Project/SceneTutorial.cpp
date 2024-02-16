@@ -87,7 +87,7 @@ void SceneTutorial::Update(SceneManager* pSceneManager)
 	if (IsKeyTrigger(VK_RETURN))
 	{
 //		m_pFade->Start(false, 1.0f);
-		pSceneManager->SetNextScene(SCENE_GAME);
+		pSceneManager->SetNextScene(SCENE_SELECT);
 //		m_pSceneManager->ChangeScene(SceneManager::SCENE_GAME);	// ゲームシーンに移る
 	}
 }

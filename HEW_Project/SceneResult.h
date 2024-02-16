@@ -6,16 +6,14 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Fade.hpp"
-
-class SceneManager;
-
 #include "Shader.h"
 #include "CameraBase.h"
 #include "Objectcamera.h"
 #include "CameraObject.h"
-
 #include "BackShadow.h"
 #include "Soundtest.h"
+
+class SceneManager;
 
 enum class CameraKindResult
 {
@@ -31,7 +29,7 @@ class SceneResult
 public:
 	SceneResult();
 	~SceneResult();
-	void Update();
+	void Update(SceneManager* pSceneManager);
 	void BGDraw();
 	void ClearDraw();
 	void FPDraw();

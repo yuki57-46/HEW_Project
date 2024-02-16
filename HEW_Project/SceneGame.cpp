@@ -292,8 +292,8 @@ void SceneGame::Draw()
 		{
 			m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
 		}
-
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_SELECT);
+		m_pSceneManager->SetNextScene(SCENE_RESULT);
+		//m_pSceneManager->ChangeScene(SceneManager::SCENE_SELECT);
 	}
 
 	

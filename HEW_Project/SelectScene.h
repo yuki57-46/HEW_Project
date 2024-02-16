@@ -7,9 +7,6 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "Fade.hpp"
-
-class SceneManager;
-
 #include "Shader.h"
 #include "CameraBase.h"
 #include "Objectcamera.h"
@@ -17,6 +14,8 @@ class SceneManager;
 
 #include "BackShadow.h"
 #include "Soundtest.h"
+
+class SceneManager;
 
 enum class CameraKindSelect
 {
@@ -32,7 +31,7 @@ class SelectScene
 public:
 	SelectScene();
 	~SelectScene();
-	void Update();
+	void Update(SceneManager* pSceneManager);
 	void Draw();
 
 private:
@@ -46,7 +45,7 @@ private:
 
 	ObjectCamera*	 m_pobjcamera;
 	CameraKindSelect m_mainCamera;
-	CameraBase*		 m_pCamera[static_cast<int>(CameraKindSelect::MAX_CAMERA)];
+	CameraBase*		m_pCamera[static_cast<int>(CameraKindSelect::MAX_CAMERA)];
 
 	CurtainUI*		 m_pCurtainUI;
 

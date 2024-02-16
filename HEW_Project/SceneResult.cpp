@@ -6,14 +6,13 @@
 
 #define FILENAME "Assets/Texture/anmaku_usiro.png"
 
-SceneResult::SceneResult(SceneManager* pSceneManager)
+SceneResult::SceneResult()
 	: m_pBGTexture(nullptr)
 	, m_pClearIcon(nullptr)
 	, m_pFPIcon(nullptr)
 	, m_pNextIcon(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
-	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 	, m_pPS(nullptr)
 {
 	m_pCurtainUI = new CurtainUI();
@@ -91,8 +90,7 @@ void SceneResult::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
-		m_pFade->Start(true, 1.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TITLE);	// タイトルに戻る
+		pSceneManager->SetNextScene(SCENE_SELECT);
 	}
 }
 

@@ -4,13 +4,12 @@
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
 
-#define FILENAME "Assets/Texture/stageselect.png"
+#define FILENAME "Assets/Texture/select.png"
 
 SelectScene::SelectScene()
 	: m_pTexture(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
-	, m_pSceneManager(pSceneManager)	// メンバ変数を設定
 	, m_pPS(nullptr)
 {
 	m_pCurtainUI = new CurtainUI();
@@ -23,7 +22,7 @@ SelectScene::SelectScene()
 	m_pPS = new PixelShader();
 	if (FAILED(m_pPS->Load("./Assets/Shader/PS_Sprite.cso")))
 	{
-		MessageBox(NULL, "Title Pixel Shader", "Error", MB_OK);
+		MessageBox(NULL, "Select Pixel Shader", "Error", MB_OK);
 	}
 
 	// カーテンフェードの取得
@@ -55,31 +54,20 @@ SelectScene::~SelectScene()
 	}
 }
 
-void SelectScene::Update()
+void SelectScene::Update(SceneManager* pSceneManager)
 {
-	//m_pCurtainUI->Update();
-	//
-	//m_pFade->Update();
-	//if (IsKeyTrigger('O'))
-	//	m_pFade->Start(true, 2.0f);// フェードイン
-	//if (IsKeyTrigger('P'))
-	//	m_pFade->Start(false, 1.0f);// フェードアウト
-
 	if (IsKeyTrigger('1'))
 	{
-		m_pFade->Start(true, 1.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_GAME);	// ゲームシーンに移る
+		pSceneManager->SetNextScene(SCENE_GAME);
 	}
-	if (IsKeyTrigger('2'))
+	/*if (IsKeyTrigger('2'))
 	{
-		m_pFade->Start(true, 1.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
+		pSceneManager->SetNextScene(SCENE_TUTORIAL);
 	}
 	if (IsKeyTrigger('3'))
 	{
-		m_pFade->Start(true, 1.0f);// フェードイン
-		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// ゲームシーンに移る
-	}
+		pSceneManager->SetNextScene(SCENE_TUTORIAL);
+	}*/
 }
 
 void SelectScene::Draw()
@@ -112,7 +100,4 @@ void SelectScene::Draw()
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();
-
-	//m_pFade->Draw();
-	//m_pCurtainUI->StageCurtainDraw();
 }
