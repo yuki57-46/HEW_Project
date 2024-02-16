@@ -98,12 +98,12 @@ void ShadowP::Update(float tick)
 
 	if (m_IsAlterDir == true || m_IsAlterDir == false)
 	{
-		if (m_IsKeikai == true&& m_IsDeath == false)
+		if (m_IsKeikai == true && m_IsDeath == false)
 		{
 			//m_pModel->Play(m_death, false);
 			m_pModel->Play(m_keikai, true);
 		}
-		else if (m_IsKeikai == false&& m_IsDeath == false)
+		else if (m_IsKeikai == false && m_IsDeath == false)
 		{
 			m_pModel->Play(m_animeWalk, true);
 		}

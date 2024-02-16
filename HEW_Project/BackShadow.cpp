@@ -42,6 +42,8 @@ BackShadow::BackShadow()
 	, m_nFeetAlpha(0)
 	, m_nBodyAlpha(0)
 	, m_nHeadAlpha(0)
+	, m_nWarningRAlpha(0)
+	, m_nWarningLAlpha(0)
 	, m_nDeathRAlpha(0)
 	, m_nDeathLAlpha(0)
 	, m_1Cpos(0.0f, 0.0f, 0.0f)		// コイン1の座標
@@ -387,21 +389,17 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
 
 		// あわわわわわ判定
-		m_nDeathRAlpha = 0;
-		m_nDeathLAlpha = 0;
+		m_nWarningRAlpha = 0;
+		m_nWarningLAlpha = 0;
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			if (m_alpha > 240)
-			{
-				m_nDeathRAlpha++;
-			}
+			{	m_nWarningRAlpha++;	}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			if (m_alpha > 240)
-			{
-				m_nDeathLAlpha++;
-			}
-			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha))
+			{	m_nWarningLAlpha++;	}
+			if (ShadowWarningCollision(m_nWarningLAlpha, m_nWarningRAlpha))
 			{
 				m_pShadowPlayer->SetKeikai(true);// ここにあわわわ挙動の関数呼び出し
 			}
@@ -412,23 +410,31 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		}
 
 		// 死亡判定
-		m_nDeathRAlpha = 0;
-		m_nDeathLAlpha = 0;
+		m_nWarningRAlpha	= 0;
+		m_nWarningLAlpha	= 0;
+		m_nDeathRAlpha		= 0;
+		m_nDeathLAlpha		= 0;
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningRAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningLAlpha++;	}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			if (m_alpha > 240)
-			{
-				m_nDeathRAlpha++;
-			}
+			{	m_nDeathRAlpha++;	}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			if (m_alpha > 240)
-			{
-				m_nDeathLAlpha++;
-			}
-			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha))
+			{	m_nDeathLAlpha++;	}
+			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha, m_nWarningLAlpha, m_nWarningRAlpha))
 			{
 				m_pShadowPlayer->SetDeath(true);// ここに死亡挙動の関数呼び出し
+			}
+			else
+			{
+				m_pShadowPlayer->SetDeath(false);
 			}
 		}
 	});
@@ -518,12 +524,24 @@ void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 	}
 }
 
-// 死亡判定
-bool BackShadow::ShadowDeathCollision(int nLeftAlpha, int nRightAlpha)
+bool BackShadow::ShadowWarningCollision(int nLeftAlpha, int nRightAlpha)
 {
 	if (nLeftAlpha > 50 && nRightAlpha > 50)
 	{
 		return true;
+	}
+	return false;
+}
+
+// 死亡判定
+bool BackShadow::ShadowDeathCollision(int nLeftAlphaIN, int nRightAlphaIN, int nLeftAlphaOUT, int nRightAlphaOUT)
+{
+	if (nLeftAlphaOUT > 50 && nRightAlphaOUT > 50)
+	{
+		if (nLeftAlphaIN > 50 || nRightAlphaIN > 50)
+		{
+			return true;
+		}
 	}
 	return false;
 }
