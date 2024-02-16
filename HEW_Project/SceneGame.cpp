@@ -3,7 +3,7 @@
 #include "Input.h"
 #include <DirectXMath.h>
 
-#define FADE_TEST 1
+#define FADE_TEST 0
 
 SceneGame::SceneGame()
 	: m_pSound(nullptr)
