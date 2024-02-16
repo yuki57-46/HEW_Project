@@ -277,7 +277,23 @@ void SceneGame::Draw()
 	//本当は画面遷移
 	if (m_pGoal->IsGoal == true)
 	{
-		m_pCoinCntUI->GoalDraw();
+		m_pGoal->ResultUI();
+		if (m_pCoin[0].IsCoinCollected == false)
+		{
+			m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+		}
+
+		if (m_pCoin[1].IsCoinCollected == true)
+		{
+			m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+		}
+
+		if (m_pCoin[2].IsCoinCollected == true)
+		{
+			m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+		}
+		m_pSceneManager->SetNextScene(SCENE_RESULT);
+		//m_pSceneManager->ChangeScene(SceneManager::SCENE_SELECT);
 	}
 	/*if (m_pGoal->IsGoal == true)
 	{

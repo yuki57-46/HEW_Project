@@ -96,7 +96,7 @@ void SelectScene::Draw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
-	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
+	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -670.0f));
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pTexture);
 	Sprite::Draw();

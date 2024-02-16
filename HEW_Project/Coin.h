@@ -17,6 +17,8 @@ public:
 
 	bool IsCoinCollected = false;							// コインが取得されたかどうかを返す
 
+	bool ResultDraw = false;	//リザルトに表示させる用
+
 	float SetPosition(float x, float y, float z);			// コイン位置を設定
 	DirectX::XMFLOAT3 GetPosition() const;
 

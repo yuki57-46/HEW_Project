@@ -63,9 +63,9 @@ void SceneManager::Update(float tick)
 			default: break;
 			}
 			// 現在のシーンを新しいシーンへ上書き
-			m_Nowscene = m_NextScene;					
+			m_Nowscene = m_NextScene;
 			m_pFade->Start(true, 1.0f);	// フェードイン
-			
+
 		}
 		else
 		{
@@ -97,7 +97,7 @@ void SceneManager::Draw()
 	case SCENE_SELECT:	 m_pSceneSelect->Draw();	break;
 	case SCENE_GAME:	 m_pSceneGame->Draw();		break;
 	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw(), m_pSceneResult->FPDraw()
-		, m_pSceneResult->NextDraw();	break;
+												, m_pSceneResult->NextDraw();	break;
 	default: break;
 	}
 	// 一番最後に画面全体に表示する
