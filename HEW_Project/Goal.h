@@ -6,6 +6,10 @@
 #include "Collision.h"
 #include "Shader.h"
 
+#include "LibEffekseer.h"
+#include "Effekseer/Effekseer.h"
+
+
 class Goal
 {
 public:
@@ -34,6 +38,10 @@ private:
 	DirectX::XMFLOAT3 m_GoalSize;							//ゴールの大きさ
 
 	PixelShader* m_pPS;
+
+	Effekseer::Handle m_EffectHandle; // エフェクトハンドル
+	Effekseer::EffectRef m_EffectGoal; // エフェクト Goal
+
 };
 
 #endif

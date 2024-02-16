@@ -25,6 +25,9 @@ Goal::Goal()
 	{
 		MessageBox(NULL, "ゴールの読み込みエラー", "Error", MB_OK);
 	}
+
+	m_EffectGoal = LibEffekseer::Create("Assets/effect/Goal.efkefc");
+
 }
 
 //デストラクタ
@@ -45,6 +48,10 @@ Goal::~Goal()
 //更新
 void Goal::Update()
 {
+	if (IsGoal == true)
+	{
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, m_GoalPos.x, m_GoalPos.y, m_GoalPos.z);
+	}
 
 }
 

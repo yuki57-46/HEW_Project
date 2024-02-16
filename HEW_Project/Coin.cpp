@@ -38,6 +38,9 @@ Coin::Coin()
 	{
 		MessageBox(NULL, "[Coin.cpp] Failed to load Pixcel Shader", "Error", MB_OK);
 	}
+
+	m_EffectCoin = LibEffekseer::Create("Assets/effect/coinGet.efkefc");
+
 }
 
 //デストラクタ
@@ -68,6 +71,10 @@ Coin::~Coin()
 //更新
 void Coin::Update()
 {
+	if (IsCoinCollected == true)
+	{
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, m_CoinPos.x,m_CoinPos.y, m_CoinPos.z);
+	}
 
 }
 

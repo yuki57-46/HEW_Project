@@ -39,6 +39,9 @@ public:
 	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3);//コインの所得処理
 	void GoalCollision(Goal* Goal);//ゴール
 	bool IsHit(Box Box1, Box Box2);
+
+	
+
 private:
 	// カメラ
 	CameraBase* m_pCamera;	// レンダーのカメラ
@@ -65,7 +68,7 @@ private:
 	int m_nBodyAlpha;			// 胴体のα値の個数
 	int m_nHeadAlpha;			// 頭のα値の個数
 	bool m_LRcheck;				// 進行方向確認
-
+	
 	//影のみに描きたい物
 	ShadowP* m_pShadowPlayer;	// 影プレイヤー
 
@@ -113,7 +116,8 @@ private:
 	int m_PS; // ピクセルシェーダーの選択
 
 	Effekseer::Handle m_EffectHandle; // エフェクトハンドル
-	Effekseer::EffectRef m_Effect; // エフェクト
+	Effekseer::EffectRef m_EffectCoin; // エフェクト Coin
+	Effekseer::EffectRef m_EffectGoal; // エフェクト Goal
 
 };
 

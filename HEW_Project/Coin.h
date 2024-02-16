@@ -6,6 +6,10 @@
 #include "Collision.h"
 #include "Shader.h"
 
+#include "LibEffekseer.h"
+#include "Effekseer/Effekseer.h"
+
+
 class Coin
 {
 public:
@@ -36,6 +40,10 @@ private:
 	DirectX::XMFLOAT3 m_CoinSize;							//コインの大きさ
 
 	PixelShader* m_pPS;
+
+	Effekseer::Handle m_EffectHandle; // エフェクトハンドル
+	Effekseer::EffectRef m_EffectCoin; // エフェクト Coin
+
 };
 
 

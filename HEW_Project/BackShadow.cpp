@@ -18,7 +18,7 @@ int testh = 10;
 BackShadow::Box BoxCoin1;
 BackShadow::Box BoxCoin2;
 BackShadow::Box BoxCoin3;
-BackShadow::Box BoxGool;
+BackShadow::Box BoxGoal;
 BackShadow::Box BoxShadowPlayer;
 
 BackShadow::BackShadow()
@@ -98,7 +98,8 @@ BackShadow::BackShadow()
 	m_pPS[1]->Load("Assets/Shader/PS_Binarization.cso");
 	m_pPS[2]->Load("Assets/Shader/PS_Sprite.cso");
 
-	m_Effect = LibEffekseer::Create("Assets/effect/coinGet.efkefc");
+	m_EffectCoin = LibEffekseer::Create("Assets/effect/coinGet.efkefc");
+	m_EffectGoal = LibEffekseer::Create("Assets/effect/Goal.efkefc");
 }
 
 BackShadow::~BackShadow()
@@ -272,10 +273,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		BoxCoin3.maxY = m_cast3CposY + (m_castCsizeX - 5);	// 下辺
 		BoxCoin3.minY = m_cast3CposY - (m_castCsizeX - 5);	// 上辺
 		// ゴール
-		BoxGool.maxX  = m_castGoalposX + (m_castGoalsizeX - 5);	// 右辺
-		BoxGool.minX  = m_castGoalposX - (m_castGoalsizeX - 5);	// 左辺
-		BoxGool.maxY  = m_castGoalposY + (m_castGoalsizeY - 5);	// 下辺
-		BoxGool.minY  = m_castGoalposY - (m_castGoalsizeY - 5);	// 上辺
+		BoxGoal.maxX  = m_castGoalposX + (m_castGoalsizeX - 5);	// 右辺
+		BoxGoal.minX  = m_castGoalposX - (m_castGoalsizeX - 5);	// 左辺
+		BoxGoal.maxY  = m_castGoalposY + (m_castGoalsizeY - 5);	// 下辺
+		BoxGoal.minY  = m_castGoalposY - (m_castGoalsizeY - 5);	// 上辺
 		// 影プレイヤー
 		BoxShadowPlayer.maxX = m_castPosX + shadowSizeX;	// 右辺
 		BoxShadowPlayer.minX = m_castPosX - shadowSizeX;	// 左辺
@@ -306,6 +307,13 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			BoxCoin3.minX = RESET_POSISHION;	// 左辺
 			BoxCoin3.maxY = RESET_POSISHION;	// 下辺
 			BoxCoin3.minY = RESET_POSISHION;	// 上辺
+		}
+		if (Goal->GetGoal() == true)
+		{
+			BoxGoal.maxX = RESET_POSISHION;	// 右辺
+			BoxGoal.minX = RESET_POSISHION;	// 左辺
+			BoxGoal.maxY = RESET_POSISHION;	// 下辺
+			BoxGoal.minY = RESET_POSISHION;	// 上辺
 		}
 
 		const Color* pData = reinterpret_cast<const Color*>(colorData);
@@ -441,7 +449,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	Sprite::SetTexture(m_pRTV_BS);
 	Sprite::Draw();
-	
+
+	//LibEffekseer::Draw();
 
 	//m_pPS[0]->Bind();
 	//m_pPS[0]->WriteBuffer(0, mat);
@@ -532,7 +541,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		Coin1->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin1->GetPosition().x, Coin1->GetPosition().y, Coin1->GetPosition().z);
+		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, 2.5f, 1.35f, 0.0f);
 	}
 	// コイン2
 	if (IsHit(BoxShadowPlayer, BoxCoin2))
@@ -540,7 +549,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		Coin2->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin2->GetPosition().x, Coin2->GetPosition().y, Coin2->GetPosition().z);
+		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, 0.619f, 0.376f, Coin2->GetPosition().z);
 
 	}
 	// コイン3
@@ -549,7 +558,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		Coin3->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, Coin3->GetPosition().x, Coin3->GetPosition().y, Coin3->GetPosition().z);
+		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, -4.0f, 0.374f, 0.0f);
 
 	}
 }
@@ -557,10 +566,17 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 // ゴールの当たり判定＆処理
 void BackShadow::GoalCollision(Goal* Goal)
 {
-	if (IsHit(BoxShadowPlayer, BoxGool))
+	if (IsHit(BoxShadowPlayer, BoxGoal))
 	{
 		// 影とダイヤ型が重なったらゴールする
 		Goal->SetGoal(true);
+		if (Goal->GetGoal() != false)
+		{
+			// エフェクト
+			//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, -4.0f, 1.094f, 0.0f);
+			//LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+		}
+
 	}
 }
 
@@ -577,3 +593,5 @@ bool BackShadow::IsHit(Box Box1, Box Box2)
 
 	return true;
 }
+
+

@@ -22,6 +22,8 @@ const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);
 #define Max_Z (3.36f)
 #define Min_Z (1.8f)
 
+#define POS_GET 1
+
 Player::Player()
 	: m_pos(0.0f, 0.0f, 3.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
@@ -253,7 +255,12 @@ void Player::Update(float tick)
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		HSetBounds(HMinBound, HMaxBound);
 
-
+	if (IsKeyTrigger(VK_OEM_PERIOD))
+	{
+		char str[256];
+		sprintf_s(str, "pos.x = %f\n pos.y = %f\n pos.z = %f\n", m_pos.x, m_pos.y, m_pos.z);
+		MessageBox(NULL, str, "PlayerPos", MB_OK);
+	}
 
 		if (m_pos.x >= Max_X || m_pos.x <= Min_X
 			|| m_pos.z >= Max_Z || m_pos.z <= Min_Z
