@@ -461,6 +461,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_nWarningLAlpha = 0;
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			{
+				break;
+			}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			if (m_alpha > 240)
 			{	m_nWarningRAlpha++;	}
@@ -484,6 +488,10 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_nDeathLAlpha		= 0;
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			{
+				break;
+			}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			if (m_alpha > 240)
 			{	m_nWarningRAlpha++;	}
