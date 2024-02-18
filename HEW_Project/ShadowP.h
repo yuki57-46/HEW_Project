@@ -43,6 +43,7 @@ private:
 	VertexShader* m_pVS;
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_oldPos;
+	DirectX::XMFLOAT3 m_firstPos;
 
 
 	Model::AnimeNo m_animeWalk;	// 影の歩行アニメーション

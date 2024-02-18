@@ -500,10 +500,6 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			{
 				m_pShadowPlayer->SetDeath(true);// ここに死亡挙動の関数呼び出し
 			}
-			else
-			{
-				m_pShadowPlayer->SetDeath(false);
-			}
 		}
 	});
 

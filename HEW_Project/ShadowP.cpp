@@ -14,6 +14,7 @@ const std::chrono::milliseconds soundIntervalSd = std::chrono::milliseconds(1000
 ShadowP::ShadowP()
 	: m_pos(3.5f, 0.5f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 10.0f)
+	, m_firstPos(0.0f, 0.0f, 0.0f)
 	, m_IsAlterDir(false)
 	,m_IsKeikai(false)
 	,m_IsDeath(false)
@@ -69,6 +70,8 @@ ShadowP::ShadowP()
 	{
 		m_rotationY = 180.0f;
 	}
+
+	m_firstPos = m_pos;
 }
 
 
@@ -111,7 +114,11 @@ void ShadowP::Update(float tick)
 		if(m_IsDeath==true)
 		{
 			m_pModel->Play(m_death, false);
-			
+			if (!m_pModel->IsPlay(m_death))
+			{
+				m_pos = m_firstPos;
+				m_IsDeath = false;
+			}
 		}
 
 
