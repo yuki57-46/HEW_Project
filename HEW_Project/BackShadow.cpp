@@ -2,6 +2,8 @@
 #include "Sprite.h"
 #include "Geometory.h"
 #include "Input.h"
+#include <iostream>
+#include <string>
 
 #define RTV_3D_SIZE_WIDTH	(1280.0f / 1.3f)	// 3D空間上のレンダーの表示サイズX
 #define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.3f)	// 3D空間上のレンダーの表示サイズY
@@ -428,6 +430,11 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	effectMat[0] = m_pCamera->GetViewMatrix();
 	effectMat[1] = m_pCamera->GetProjectionMatrix();
 
+	std::string str = "Goal X:" + std::to_string(Goal->GetPosition().x) + " Y:" + std::to_string(Goal->GetPosition().y) + " Z:" + std::to_string(Goal->GetPosition().z) + "\n";
+	
+	OutputDebugString(str.c_str());
+
+
 	// Effekseerの仕様上行列を転置前の状態で渡す
 	DirectX::XMMATRIX effectView = DirectX::XMLoadFloat4x4(&effectMat[0]);
 	effectView = DirectX::XMMatrixTranspose(effectView);
@@ -450,7 +457,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	Sprite::SetTexture(m_pRTV_BS);
 	Sprite::Draw();
 
-	//LibEffekseer::Draw();
+	LibEffekseer::Draw();
 
 	//m_pPS[0]->Bind();
 	//m_pPS[0]->WriteBuffer(0, mat);
@@ -542,6 +549,24 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
 		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, 2.5f, 1.35f, 0.0f);
+
+		float x = Coin1->GetPosition().x;
+		// xを100で割る(-のときも考慮)
+		if (x < 0)
+		{
+			x *= -1;
+		}
+		x /= 100.0f;
+
+		float y = Coin1->GetPosition().y;
+		if (y < 0)
+		{
+			y *= -1;
+		}
+		y /= 100.0f;
+
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin1->GetPosition().z);
 	}
 	// コイン2
 	if (IsHit(BoxShadowPlayer, BoxCoin2))
@@ -549,7 +574,24 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		Coin2->SetCollect(true);
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
-		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, 0.619f, 0.376f, Coin2->GetPosition().z);
+		// m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, 0.619f, 0.376f, Coin2->GetPosition().z);
+		float x = Coin2->GetPosition().x;
+		// xを100で割る(-のときも考慮)
+		if (x < 0)
+		{
+			x *= -1;
+		}
+		x /= 1000.0f;
+
+		float y = Coin2->GetPosition().y;
+		if (y < 0)
+		{
+			y *= -1;
+		}
+		y /= 1000.0f;
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin2->GetPosition().z);
 
 	}
 	// コイン3
@@ -559,6 +601,25 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
 		// エフェクト
 		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, -4.0f, 0.374f, 0.0f);
+		float x = Coin3->GetPosition().x;
+		// xを100で割る(-のときも考慮)
+		if (x > 1000)
+		{
+			x *= -1;
+		}
+		x /= 300.0f;
+
+		float y = Coin3->GetPosition().y;
+		if (y < 0)
+		{
+			y *= -1;
+		}
+		y /= 1000.0f;
+
+
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin3->GetPosition().z);
 
 	}
 }
@@ -573,8 +634,25 @@ void BackShadow::GoalCollision(Goal* Goal)
 		if (Goal->GetGoal() != false)
 		{
 			// エフェクト
+			float x = Goal->GetPosition().x;
+
+			if (x > 1000)
+			{
+				x *= -1;
+			}
+			x /= 300.0f;
+
+			float y = Goal->GetPosition().y;
+			if (y < 0)
+			{
+				y *= -1;
+			}
+			y /= 1000.0f;
+
+			LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+
 			//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, -4.0f, 1.094f, 0.0f);
-			//LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+			m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, x, y, Goal->GetPosition().z);
 		}
 
 	}
