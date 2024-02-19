@@ -264,7 +264,7 @@ void Stair::Update()
 		}
 
 #endif 
-		if (IsKeyPress(VK_UP)&& IsKeyPress('W'))
+		if (IsKeyPress(VK_UP)|| IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
 
@@ -280,7 +280,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_DOWN)&& IsKeyPress('S'))
+		else if (IsKeyPress(VK_DOWN)|| IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -295,7 +295,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_RIGHT)&& IsKeyPress('D'))
+		else if (IsKeyPress(VK_RIGHT)|| IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -310,7 +310,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_LEFT)&& IsKeyPress('A'))
+		else if (IsKeyPress(VK_LEFT)|| IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.1f)

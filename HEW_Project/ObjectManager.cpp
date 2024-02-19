@@ -130,7 +130,7 @@ ObjectMng::ObjectMng()
 	//ブロック配置.スケール指定
 	Setting1 data1[] = {
 		//========チュートリアル～stage2まで===================
-		{ 0.75f, -10.0f, 0.0f, 1.5f, 0.2f, 0.5f,4.0f,-10.5f,0.0f},
+		{ 0.75f, 1.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
 
 		//======================stage3==========================
 		//{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
@@ -166,7 +166,7 @@ ObjectMng::ObjectMng()
 	//ブロック配置.スケール指定
 	Setting2 data2[] = {
 		//===チュートリアル～stage2まで======
-		{ 2.0f, -10.0f, 2.5f, 0.15f, 0.15f, 0.15f},
+		{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
 
 		//stage3
 		//{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f}
@@ -219,7 +219,7 @@ ObjectMng::ObjectMng()
 
 		//==========stage2===================
 		{1.75f, 0.0f, 2.6f, 0.25f, 0.25f, 0.25f, false},
-		{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		{0.0f, 0.0f, 3.2f, 0.25f, 0.25f, 0.25f, false},
 		{-0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f, false},
 		{-1.8f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 		{-0.7f, 0.0f, 3.2f, -0.25f, 0.25f, -0.25f, true},
@@ -1259,7 +1259,7 @@ void ObjectMng::Update(float tick)
 											}
 											else
 											{
-												m_pStair[b].SetF1();
+												m_pStair[b].SetF1() ;
 												m_pStair[b].framepls();
 											}
 										}
@@ -1319,7 +1319,7 @@ void ObjectMng::Update(float tick)
 									{
 										for (int l = 0; l < m_num3; l++)
 										{
-											m_pStair[l].OBJPos();
+  											m_pStair[l].OBJPos();
 										}
 										for (int l = 0; l < m_num; l++)
 										{
