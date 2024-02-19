@@ -264,7 +264,7 @@ void Stair::Update()
 		}
 
 #endif 
-		if (IsKeyPress(VK_UP))
+		if (IsKeyPress(VK_UP)|| IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
 
@@ -280,7 +280,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_DOWN))
+		else if (IsKeyPress(VK_DOWN)|| IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -295,7 +295,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_RIGHT))
+		else if (IsKeyPress(VK_RIGHT)|| IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -310,7 +310,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_LEFT))
+		else if (IsKeyPress(VK_LEFT)|| IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -376,9 +376,6 @@ void Stair::Update()
 		}
 	}
 
-	SetBounds(StairMinBound, StairMaxBound);  //最小値と最大値をセット
-	HSetBounds(hStairMinBound, hStairMaxBound);//憑依用の当たり判定
-	CSetBounds(cStairMinBound, cStairMaxBound);//ブロック同士の当たり判定
 
 
 	if (m_pos.x >= Max_X || m_pos.x <= Min_X
@@ -460,6 +457,9 @@ void Stair::Update()
 		};
 	
 	}
+	SetBounds(StairMinBound, StairMaxBound);  //最小値と最大値をセット
+	HSetBounds(hStairMinBound, hStairMaxBound);//憑依用の当たり判定
+	CSetBounds(cStairMinBound, cStairMaxBound);//ブロック同士の当たり判定
 
 
 }

@@ -11,6 +11,8 @@
 #define EFFECT_PLAYER_MIN_POS_Z (1.8f)	// playerが移動できるZの最小値
 
 
+
+
 ObjectMng::ObjectMng()
 	: m_pObjects(nullptr)
 	, m_pYuka(nullptr)
@@ -23,6 +25,7 @@ ObjectMng::ObjectMng()
 	, m_num3(0)
 	, m_num4(0)
 	, m_num5(0)
+	, m_num6(0)
 	
 
 {
@@ -34,6 +37,15 @@ ObjectMng::ObjectMng()
 	m_pPlayer = new Player();
 
 	//======各ブロックの配置======
+	//すべてのオブジェクトはリスポーン時に位置が重ならないように!!!!
+	//リフトは今のｙ軸スケールと上下制限をかえないで　変えると死ぬ
+//左＋　右－　奥ー　手前＋
+//Max_X (2.23f)
+// Min_X (-2.23f)
+//
+// Max_Z (3.36f)
+// Min_Z (1.8f)この値がブロックの配置制限位置
+//
 
 	//ブロック
 	struct Setting
@@ -42,44 +54,58 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting data[] = {
+		//=================移動チュートリアル===============
+		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		//{-0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+
+		//===============拡縮チュートリアル================
+		//{0.75f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
+		//{-0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+
+		//================ジャンプチュートリアル============
+		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		//{0.5f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+		//{-0.875f, 0.0f, 2.5f, 0.5f, 0.25f, 0.25f,true,false},
+		//{-1.0f, 0.25f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+		//{-0.75f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f,true,false},
+
 		//==========stage1====================
-		//{2.5f, 0.0f, 0.0f, 0.49f, 1.0f, 0.5f},
-		//{1.0f, 0.0f, 0.0f, 0.49f, 0.5f, 0.5f},
-		//{0.5f, 0.0f, 0.0f, 0.49f, 0.5f, 0.5f},
-		//{0.5f, 0.5f, 0.0f, 0.49f, 0.5f, 0.5f},
-		//{0.0f, 0.0f, 0.0f, 0.49f, 1.0f, 0.5f},
-		//{-0.5f, 0.0f, 0.0f, 0.49f, 1.0f, 0.5f},
-		//{-0.5f, 1.0f, 0.0f, 0.49f, 0.5f, 0.5f},
-		//{-0.5f, 0.0f, 2.0f, 0.49f, 0.5f, 0.5f},
-		//{-2.0f, 0.0f, 0.0f, 0.49f, 0.5f, 0.5f},
-		//{-3.0f, 0.0f, 0.0f, 0.49f, 0.5f, 0.5f},
-		//{-3.0f, 0.5f, 0.0f, 0.49f, 1.0f, 0.5f},
+		{1.75f, 0.0f, 3.0f, 0.25f, 0.5f, 0.25f,true,false},
+		{1.0f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		{0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		{0.25f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
+		{0.0f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		{-0.25f, 0.0f, 2.0f, 0.25f, 0.5f, 0.25f,true,false},
+		{-0.7f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		{-1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		{-1.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
+		{-1.5f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+
 
 		//===========stage2====================
-		//{2.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{-1.5f, 0.0f, 0.0f, 0.5f, 1.0f, 0.5f},
-		//{-2.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.5f},
-		//{-2.5f, 0.0f, 0.0f, 0.5f, 1.0f, 0.5f},
-		//{-3.0f, 0.0f, 0.0f, 0.5f, 1.0f, 0.5f},
-		//{-3.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.5f},
+		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		//{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		//{-0.75f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,false},
+		//{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+		//{-1.75f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+		//{-1.5f, 0.0f, 2.5f, 0.25f, 0.75f, 0.25f,false,false},
 
 		//============stage3===================
-		//{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{-1.0f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f},
-		//{-2.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f},
-		
-		//{ポジション、スケール、憑依判定(trueで憑依)、移動、XZ軸}
+		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		//{-0.5f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f,true,false},
+		//{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+		//ポジション、スケール、憑依判定(trueで憑依)、移動可否、移動のXZ軸
 		//自動ムーブ判定(trueで自動、自動ブロックは否憑依(false)にして下さい[false,true])
-		//三個目のtrueがX軸、falseZ軸で移動します
 		//=============stage4===================
-		{2.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-		{0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-		{0.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,false},
-		{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,true,true},
-		{-0.25f, 0.0f, 3.0f, 0.5f, 0.25f, 0.25f,true,false},
-		{-1.0f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
-		{-2.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,false,true,false},
+		//{1.7f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		//{0.7f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		////{1.0f, 1.25f, 2.0f, 0.24f, 0.25f, 0.25f,false,false},
+		//{0.0f, 0.0f, 2.0f, 0.25f, 0.5f, 0.25f,true,false},
+		//{-0.625f, 0.0f, 2.0f, 1.0f, 0.25f, 0.25f,false,false},
+		//{-1.25f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		//{-1.75f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -103,14 +129,18 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting1 data1[] = {
+		//========チュートリアル～stage2まで===================
+		{ 0.75f, 1.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
+
 		//======================stage3==========================
-		//{ 0.75f, 0.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
-		//{ -0.75f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
-		//{ -2.25f, 1.5f, 0.0f, 1.5f, 0.25f, 0.5f,4.0f,1.5f,0.0f},
+		//{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
+		//{ -0.75f, 0.75f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
+		//{ -2.25f, 0.75f, 2.25f, 0.5f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
 
 		//=======================stage4=========================
-		{ 0.5f, 1.0f, 2.5f, 2.0f, 0.1f, 0.15f,1.5f,0.5f,0.01f},
-		/*{ 1.0f, 2.0f, 2.5f, 1.0f, 0.1f, 0.15f,4.0f,1.5f,0.01f},*/
+		//{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+		//{ -1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -135,8 +165,11 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting2 data2[] = {
+		//===チュートリアル～stage2まで======
+		{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+
 		//stage3
-		{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f}
+		//{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f}
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -160,30 +193,49 @@ ObjectMng::ObjectMng()
 	};
 	//ブロック配置.スケール指定
 	Setting3 data3[] = {
+		//================移動チュートリアル================
+		//{0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{0.75f, 0.0f, 2.5f, -0.25f, 0.25f, -0.25f, true},	//逆三角形
+		//{-0.25f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{-0.75f, 0.0f, 2.5f, -0.25f, 0.25f, -0.25f, true},
+
+		//=================拡縮チュートリアル================
+		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{0.5f, 0.0f, 2.5f, -0.25f, 0.25f, -0.25f, true},	//逆三角形
+		//{-0.25f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f, false},
+		//{-0.75f, 0.0f, 3.0f, -0.25f, 0.25f, -0.25f, true},
+
+		//================ジャンプチュートリアル================
+		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{0.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f, false},
+		//{-0.5f, 0.0f, 3.25f, 0.25f, 0.25f, 0.25f, false},
+		//{-1.0f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
+
 		//==========stage1===================
-		//{3.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{2.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{0.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.5f},
+		//{1.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{0.0f, 0.5f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 
 		//==========stage2===================
-		//{2.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{-0.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{-2.0f, 1.0f, 0.0f, 0.5f, 0.5f, 0.5f},
+		{1.75f, 0.0f, 2.6f, 0.25f, 0.25f, 0.25f, false},
+		{0.0f, 0.0f, 3.2f, 0.25f, 0.25f, 0.25f, false},
+		{-0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f, false},
+		{-1.8f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		{-0.7f, 0.0f, 3.2f, -0.25f, 0.25f, -0.25f, true},
 
 		//==============stage3================
-		//{2.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
-		//{0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f},
-		//{0.0f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f},
-		//{1.5f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f},
+		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+		//{0.25f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
+		//{0.0f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
+		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 
 		//===============stage4===============
-		{1.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
-		{1.0f, 0.0f, 2.5f, -0.25f, 0.25f, -0.25f, true},//逆向き
-		{0.5f, 0.0f, 3.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
-		{-0.5f, 0.0f, 3.3f, -0.25f, 0.25f,-0.25f, true},//逆向き
-		{-2.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+	//	{1.25f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
+	//	{1.0f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
+	//	{0.25f, 0.0f, 2.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
+	//	{-1.25f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
+	//	{0.75f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -228,16 +280,24 @@ ObjectMng::ObjectMng()
 
 
 
-	//留め具
+	//留め具//被憑依ブロックの前においてね
 	struct Setting5
 	{
 		float x, y, z, scaleX, scaleY, scaleZ;
 	};
 	//ブロック配置.スケール指定
 	Setting5 data5[] = {
-		{ 0.0f, 0.0f, 2.3f, 1.0f, 1.0f, 0.0f},
-	
+		//=========チュートリアル～stage1まで=============
+		{ 0.0f, -1.0f, 2.3f, 0.3f, 0.3f, 0.3f},
+		//============stage2====================
+		//{-0.75f, 0.0f, 2.65f, 0.3f, 0.3f, 0.3f},
+		//{-1.5f, 0.0f, 2.65f, 0.3f, 0.3f, 0.3f},
 
+		//=========stage3=============
+		//{ 0.0f, -1.0f, 2.3f, 0.3f, 0.3f, 0.3f},
+
+		//==========stage4===============
+		
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -254,7 +314,45 @@ ObjectMng::ObjectMng()
 		);
 	}
 
-	
+
+
+
+
+	//	まぐねっと　リフトの下においてね
+	struct Setting6
+	{
+		float x, y, z, scaleX, scaleY, scaleZ;
+	};
+	//ブロック配置.スケール指定
+	Setting6 data6[] = {
+		//=======チュートリアル～stage2=========
+		{ 1.25f, -1.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		//=========stage3=============
+		//{ 0.325f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		//{ -0.75f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		//{ -2.25f, 0.0f, 2.25f, 0.3f, 0.15f, 0.3f},
+
+		//=============stage4===================
+		//{ 1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		//{ -1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+
+	};
+
+	//配列の要素の数から必要なブロック数を計算
+	m_num6 = sizeof(data6) / sizeof(data6[0]);
+
+	//必要な数だけブロックを確保
+	m_pMagnet = new Magnet[m_num6];
+	//確保したブロックに初期データを設定
+	for (int i = 0; i < m_num6; i++)
+	{
+		m_pMagnet[i].Create(
+			data6[i].x, data6[i].y, data6[i].z,
+			data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
+		);
+	}
+
+
 	
 
 	// effect
@@ -279,6 +377,8 @@ ObjectMng::~ObjectMng()
 	delete[] m_pStair;
 
 	delete[] m_pTomegu;
+
+	delete[] m_pMagnet;
 
 	if (m_pObjectCamera)
 	{
@@ -330,8 +430,8 @@ void ObjectMng::Update(float tick)
 	//	m_pObjectsAuto->Update();
 	//}
 
-	for (int t = 0;t < m_num4; t++)
-	{// 床
+	for (int t = 0;t < m_num5; t++)
+	{// 
 		m_pTomegu[t].Update();
 	}
 
@@ -349,6 +449,11 @@ void ObjectMng::Update(float tick)
 	{
 		m_pObjects[i].Update();
 	}
+	
+
+
+
+
 	for (int i = 0; i < m_num; i++)
 	{
 		
@@ -477,26 +582,33 @@ void ObjectMng::Update(float tick)
 				}
 				for (int l = 0; l < m_num2; l++)
 				{
+					for (int mg = 0; mg < m_num6; mg++)
+					{// ゴール
+						m_pMagnet[mg].Update();
 
-					m_pLever[l].Update();//レバーとプレイヤー
-					if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
-					{
-						if (m_pPlayer->IsCollidingWith(*lever))
+
+						m_pLever[l].Update();//レバーとプレイヤー
+						if (Lever* lever = dynamic_cast<Lever*>(&m_pLever[l]))
 						{
-							if (IsKeyPress('Q'))
+							if (m_pPlayer->IsCollidingWith(*lever))
 							{
-								m_pLever[l].SetMoveTrue();
-								m_pLift_obj[a].SetMoveTrue();
-								m_pPlayer->SetOk();
-								m_pPlayer->HPlayerPos();
+								if (IsKeyPress('Q'))
+								{
+									m_pLever[l].SetMoveTrue();
+									m_pMagnet[mg].Set();
+									m_pLift_obj[a].SetMoveTrue();
+									m_pPlayer->SetOk();
+									m_pPlayer->HPlayerPos();
+								}
 							}
-						}
-						if (IsKeyPress('E'))
-						{
-							m_pLever[l].SetMoveFalse();
-							m_pLift_obj[a].SetMoveFalse();
-							m_pPlayer->SetNOk();
-							m_pPlayer->PlayerPos();
+							if (IsKeyPress('E'))
+							{
+								m_pLever[l].SetMoveFalse();
+								m_pMagnet[mg].SetF();
+								m_pLift_obj[a].SetMoveFalse();
+								m_pPlayer->SetNOk();
+								m_pPlayer->PlayerPos();
+							}
 						}
 					}
 				}
@@ -593,14 +705,15 @@ void ObjectMng::Update(float tick)
 									//MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
 									if (m_pObjects[i].IsGravity())  //ジャンプ中の重力がある場合
 									{
-										if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)  //上辺の当たり判定
+										if (gameObject->GetCMinBounds().y + 0.05f >= gameObject2->GetMaxBounds().y)  //上辺の当たり判定
 										{
 											//m_pObjects[i].OBJPosy();  //y以外過去座標へ
-											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.01f);
+      											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.01f);
 											
 											if (m_pObjects[j].IsMove() == true)
 											{
 												m_pObjects[i].Set1();
+												
 											}
 											else
 											{
@@ -609,11 +722,18 @@ void ObjectMng::Update(float tick)
 											}
 											
 										}
-										else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)  //すり抜け防止
+										//else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)  //すり抜け防止
+										//{
+										//	/*m_pObjects[j].SetObjectTop();
+										//	m_pObjects[j].Set();*/
+										//	m_pObjects[j].OBJPosy();
+										//	//m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.02);
+										//}
+										else if (gameObject->GetCMinBounds().y + 0.07 >= gameObject2->GetMaxBounds().y)  //すり抜け防止
 										{
 											/*m_pObjects[j].SetObjectTop();
 											m_pObjects[j].Set();*/
-											m_pObjects[j].OBJPosy();
+											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.01f);
 											//m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.02);
 										}
 										else if (m_pObjects[i].IsXZ())  //x,z軸から当たった場合
@@ -621,7 +741,7 @@ void ObjectMng::Update(float tick)
 											m_pObjects[i].OBJPos();  //すべて過去座標へ
 										}
 									}
-									else if (gameObject2->GetCMinBounds().y + 0.1 >= gameObject->GetMaxBounds().y/*gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.1*/)
+									else if (gameObject2->GetCMinBounds().y + 0.1f >= gameObject->GetMaxBounds().y/*gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.1*/)
 									{
 										for (int h = 0; h < m_num; h++)  //ジャンプ中の重力がない時の連動
 										{
@@ -666,6 +786,14 @@ void ObjectMng::Update(float tick)
 										//m_pObjects[i].SetF();
 										m_pObjects[i].OBJPos();
 										m_pObjects[j].OBJPos();
+										if (m_pObjects[j].MVX() == true)
+										{
+											m_pObjects[j].MoveXfalse();
+										}
+										else if (m_pObjects[j].MVX() == false)
+										{
+											m_pObjects[j].MoveXtrue();
+										}
 									}
 									else if (gameObject->GetMaxBounds().y >= gameObject2->GetCMinBounds().y)
 									{
@@ -717,7 +845,7 @@ void ObjectMng::Update(float tick)
 													m_pObjects[i].Set1();
 													m_pStair[h].Set1();
 													m_pStair[h].Set();*/
- 													m_pObjects[i].MoveObject(gameObject1->GetMaxBounds().y + 0.05f);
+ 													m_pObjects[i].MoveObject(gameObject1->GetMaxBounds().y + 0.01f);
 													if (m_pStair[h].IsMove() == true)
 													{
 														m_pObjects[i].Set1();
@@ -843,7 +971,7 @@ void ObjectMng::Update(float tick)
 									{
 										//m_pObjects[i].OBJPosy();
 										//m_pObjects[i].OBJPosy();
-										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.07f);
+										m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y);
 										if (m_pObjects[j].IsMove())
 										{
 											m_pObjects[i].Set1();
@@ -1124,14 +1252,14 @@ void ObjectMng::Update(float tick)
 										if (gameObject->GetCMinBounds().y + 0.05 >= gameObject2->GetMaxBounds().y)
 										{
 
-											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.05f);
+											m_pStair[b].SetSlopeY(gameObject2->GetMaxBounds().y + 0.01f);
 											if (m_pObjects[j].IsMove() == true)
 											{
 												m_pStair[b].Set1();
 											}
 											else
 											{
-												m_pStair[b].SetF1();
+												m_pStair[b].SetF1() ;
 												m_pStair[b].framepls();
 											}
 										}
@@ -1163,24 +1291,35 @@ void ObjectMng::Update(float tick)
 										m_pObjects[j].OBJPosy();
 										
 									}
-									else if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.5)
+									//else if (gameObject->GetMaxBounds().y <= gameObject2->GetCMinBounds().y + 0.5)
+									//{
+									//	//for (int h = 0; h < m_num; h++)
+									//	//{
+									//	//	m_pObjects[h].Set1();
+									//	//	m_pStair[h].Set1();
+									//	//}
+									//	////m_pObjects[j].SetObjectTop();
+									//	//m_pObjects[j].Set();
+									//	//m_pObjects[j].OBJPosy();
+									//	m_pStair[b].OBJPos();
+									//}
+									else if (m_pObjects[j].IsXZ() && m_pObjects[j].IsAutoMove() == true)
 									{
-										//for (int h = 0; h < m_num; h++)
-										//{
-										//	m_pObjects[h].Set1();
-										//	m_pStair[h].Set1();
-										//}
-										////m_pObjects[j].SetObjectTop();
-										//m_pObjects[j].Set();
-										//m_pObjects[j].OBJPosy();
-										m_pStair[b].OBJPos();
+										m_pObjects[j].OBJPos();
+										if (m_pObjects[j].MVX() == true)
+										{
+											m_pObjects[j].MoveXfalse();
+										}
+										else if (m_pObjects[j].MVX() == false)
+										{
+											m_pObjects[j].MoveXtrue();
+										}
 									}
-
 									else if (m_pStair[b].IsXZ())
 									{
 										for (int l = 0; l < m_num3; l++)
 										{
-											m_pStair[l].OBJPos();
+  											m_pStair[l].OBJPos();
 										}
 										for (int l = 0; l < m_num; l++)
 										{
@@ -1437,6 +1576,20 @@ void ObjectMng::Update(float tick)
 											//}
 										}
 									}
+									if (m_pObjects[j].IsAutoMove() == true)
+									{
+										m_pObjects[j].OBJPos();
+
+										if (m_pObjects[j].MVX() == true)
+										{
+											m_pObjects[j].MoveXfalse();
+										}
+										else if (m_pObjects[j].MVX() == false)
+										{
+											m_pObjects[j].MoveXtrue();
+										}
+
+									}
 								}
 							}
 						}
@@ -1477,6 +1630,7 @@ void ObjectMng::Update(float tick)
 										}
 									}
 								}
+								
 							}
 						}
 					}
@@ -1531,6 +1685,7 @@ void ObjectMng::Update(float tick)
 											m_pStair[b].Set1();
 										}*/
 									}
+									
 									else if (m_pStair[h].IsXZ())
 									{
 										for (int k = 0; k < m_num3; k++)
@@ -1603,13 +1758,22 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 	{
 		m_pYuka[i].Draw(viewMatrix, projectionMatrix);
 	}
-	/*if (draw == true)
-	{*/
+
+//留め具
 		for (int i = 0; i < m_num5; i++)
 		{
-			m_pTomegu->Draw(viewMatrix, projectionMatrix);
+			m_pTomegu[i].Draw(viewMatrix, projectionMatrix);
 		}
-	//}
+
+//マグネット
+
+		if (draw == true)
+		{
+			for (int i = 0; i < m_num6; i++)
+			{
+				m_pMagnet[i].Draw(viewMatrix, projectionMatrix);
+			}
+		}
 
 	//// 動くブロック描画
 	//for (int i = 0; i < m_num6; i++)

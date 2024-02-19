@@ -44,6 +44,10 @@ BackShadow::BackShadow()
 	, m_nFeetAlpha(0)
 	, m_nBodyAlpha(0)
 	, m_nHeadAlpha(0)
+	, m_nWarningRAlpha(0)
+	, m_nWarningLAlpha(0)
+	, m_nDeathRAlpha(0)
+	, m_nDeathLAlpha(0)
 	, m_1Cpos(0.0f, 0.0f, 0.0f)		// コイン1の座標
 	, m_cast1CposX(0)				// コイン1のX変換座標用
 	, m_cast1CposY(0)				// コイン1のY変換座標用
@@ -168,16 +172,84 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 	// ゴールをフィールド上に表示
 	if (Goal->IsGoal == false)
-	{	Goal->Draw(1230.0f, 70.0f, 0.0f, 60.0f, 60.0f);	}
+		//===============移動チュートリアル================
+	//{	Goal->Draw(1000.0f, 300.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============拡縮チュートリアル================
+	//{	Goal->Draw(1000.0f, 300.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============ジャンプチュートリアル================
+	//{	Goal->Draw(900.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============stage1================
+	{ Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============stage2================
+	//{	Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============stage3================
+	//{	Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===================stage4=========================
+	//{	Goal->Draw(1230.0f, 70.0f, 0.0f, 60.0f, 60.0f);	}
 
 	// コインをフィールド上に表示
 	// Drawの１,２個目の数値をいじればコイン描画座標が変わる
+	//======================移動チュートリアル==================
+	//if (Coin1->IsCoinCollected == false)
+	//{	Coin1->Draw(270.0f, 300.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	//if (Coin2->IsCoinCollected == false)
+	//{	Coin2->Draw(500.0f, 320.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	//if (Coin3->IsCoinCollected == false)
+	//{	Coin3->Draw(770.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+	////======================拡縮チュートリアル==================
+	//if (Coin1->IsCoinCollected == false)
+	//{	Coin1->Draw(270.0f, 300.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	//if (Coin2->IsCoinCollected == false)
+	//{	Coin2->Draw(500.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	//if (Coin3->IsCoinCollected == false)
+	//{	Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+	//======================ジャンプチュートリアル==================
+	//if (Coin1->IsCoinCollected == false)
+	//{	Coin1->Draw(270.0f, 300.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	//if (Coin2->IsCoinCollected == false)
+	//{	Coin2->Draw(500.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	//if (Coin3->IsCoinCollected == false)
+	//{	Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+		//======================stage1==================
 	if (Coin1->IsCoinCollected == false)
-	{	Coin1->Draw(270.0f, 20.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	{
+		Coin1->Draw(350.0f, 200.0f, 0.0f, 40.0f, 40.0f, 1);
+	}	// 左 y=120.0f
 	if (Coin2->IsCoinCollected == false)
-	{	Coin2->Draw(500.0f, 320.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	{
+		Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);
+	}	// 真ん中
 	if (Coin3->IsCoinCollected == false)
-	{	Coin3->Draw(1200.0f, 300.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+	{
+		Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);
+	}	// 右
+
+//======================stage2==================
+//if (Coin1->IsCoinCollected == false)
+//{	Coin1->Draw(350.0f, 200.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+//if (Coin2->IsCoinCollected == false)
+//{	Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+//if (Coin3->IsCoinCollected == false)
+//{	Coin3->Draw(900.0f, 150.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+	//======================stage3==================
+//if (Coin1->IsCoinCollected == false)
+//{	Coin1->Draw(350.0f, 200.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+//if (Coin2->IsCoinCollected == false)
+//{	Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+//if (Coin3->IsCoinCollected == false)
+//{	Coin3->Draw(900.0f, 150.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+//=======================stage4=========================
+//if (Coin1->IsCoinCollected == false)
+//{	Coin1->Draw(270.0f, 70.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+//if (Coin2->IsCoinCollected == false)
+//{	Coin2->Draw(500.0f, 270.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+//if (Coin3->IsCoinCollected == false)
+//{	Coin3->Draw(1200.0f, 270.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
 
 	RenderTarget* pRTV;
 	pRTV = GetDefaultRTV();
@@ -395,6 +467,60 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		GoalCollision(Goal);
 		// 壁、階段当たり判定(関数)
 		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
+
+		// あわわわわわ判定
+		m_nWarningRAlpha = 0;
+		m_nWarningLAlpha = 0;
+		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
+		{
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			{
+				break;
+			}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningRAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningLAlpha++;	}
+			if (ShadowWarningCollision(m_nWarningLAlpha, m_nWarningRAlpha))
+			{
+				m_pShadowPlayer->SetKeikai(true);// ここにあわわわ挙動の関数呼び出し
+			}
+			else
+			{
+				m_pShadowPlayer->SetKeikai(false);
+			}
+		}
+
+		// 死亡判定
+		m_nWarningRAlpha	= 0;
+		m_nWarningLAlpha	= 0;
+		m_nDeathRAlpha		= 0;
+		m_nDeathLAlpha		= 0;
+		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
+		{
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			{
+				break;
+			}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningRAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningLAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nDeathRAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nDeathLAlpha++;	}
+			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha, m_nWarningLAlpha, m_nWarningRAlpha))
+			{
+				m_pShadowPlayer->SetDeath(true);// ここに死亡挙動の関数呼び出し
+			}
+		}
 	});
 
 
@@ -504,6 +630,28 @@ void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 		m_pShadowPlayer->Jump();
 		return;
 	}
+}
+
+bool BackShadow::ShadowWarningCollision(int nLeftAlpha, int nRightAlpha)
+{
+	if (nLeftAlpha > 50 && nRightAlpha > 50)
+	{
+		return true;
+	}
+	return false;
+}
+
+// 死亡判定
+bool BackShadow::ShadowDeathCollision(int nLeftAlphaIN, int nRightAlphaIN, int nLeftAlphaOUT, int nRightAlphaOUT)
+{
+	if (nLeftAlphaOUT > 50 && nRightAlphaOUT > 50)
+	{
+		if (nLeftAlphaIN > 50 || nRightAlphaIN > 50)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 // 影の足元判定
