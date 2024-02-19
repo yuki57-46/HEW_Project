@@ -267,10 +267,22 @@ void SceneGame::Draw()
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
+	//ゴールしたら表示（仮）
+	//本当は画面遷移
+	if (m_pGoal->IsGoal == true)
+	{
+		m_pCoinCntUI->GoalDraw();
+	}
+	
+#if FADE_TEST
+	m_pFade->Draw();
+#endif // FADE_TEST
+	m_pCurtainUI->StageCurtainDraw();
 
+	//SetRenderTargets(1, &m_pRTV, m_pDSV);
+	
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
-
 
 	//コインが取得されていたら描画
 	if (m_pCoin[0].IsCoinCollected == true)
@@ -287,22 +299,4 @@ void SceneGame::Draw()
 	{
 		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
 	}
-
-	//ゴールしたら表示（仮）
-	//本当は画面遷移
-	if (m_pGoal->IsGoal == true)
-	{
-		m_pCoinCntUI->GoalDraw();
-	}
-
-	
-#if FADE_TEST
-	m_pFade->Draw();
-#endif // FADE_TEST
-	m_pCurtainUI->StageCurtainDraw();
-
-	//SetRenderTargets(1, &m_pRTV, m_pDSV);
-	
-
 }
-
