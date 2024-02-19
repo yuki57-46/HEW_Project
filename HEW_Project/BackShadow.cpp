@@ -424,7 +424,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		// 壁、階段当たり判定(ループ)
 		for (int j = 0; j < SHADOWPLAYER_SIZE_Y; j++)
 		{
-			if (m_indexY - j <= 0 || m_indexY - j > 360)
+			if (m_indexY - j <= 0 || m_indexY - j > 720)
 			{// 例外スロー対策
 				break;
 			}
@@ -465,7 +465,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_nWarningLAlpha = 0;
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
-			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 720)
 			{// 例外スロー対策
 				break;
 			}
@@ -493,7 +493,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_nDeathLAlpha		= 0;
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
-			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 720)
 			{// 例外スロー対策
 				break;
 			}
