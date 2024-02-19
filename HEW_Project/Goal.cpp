@@ -32,6 +32,9 @@ Goal::Goal()
 	{
 		MessageBox(NULL, "ゴールの読み込みエラー", "Error", MB_OK);
 	}
+
+	m_EffectGoal = LibEffekseer::Create("Assets/effect/Goal.efkefc");
+
 }
 
 //デストラクタ
@@ -57,6 +60,10 @@ Goal::~Goal()
 //更新
 void Goal::Update()
 {
+	if (IsGoal == true)
+	{
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, m_GoalPos.x, m_GoalPos.y, m_GoalPos.z);
+	}
 
 }
 
@@ -84,6 +91,23 @@ void Goal::Draw(float x, float y, float z, float sizeX, float sizeY)
 	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
 		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f);
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+
+	// エフェクト
+	DirectX::XMFLOAT4X4 effectMat[2];
+	//effectMat[0] = m_pCamera->GetViewMatrix();
+	//effectMat[1] = m_pCamera->GetProjectionMatrix();
+
+	// Effekseerの仕様上行列を転置前の状態で渡す
+	DirectX::XMMATRIX effectView = DirectX::XMLoadFloat4x4(&mat[1]);
+	effectView = DirectX::XMMatrixTranspose(effectView);
+	DirectX::XMMATRIX effectProj = DirectX::XMLoadFloat4x4(&mat[2]);
+	effectProj = DirectX::XMMatrixTranspose(effectProj);
+	DirectX::XMStoreFloat4x4(&effectMat[0], effectView);
+	DirectX::XMStoreFloat4x4(&effectMat[1], effectProj);
+
+
+//	LibEffekseer::SetViewPosition(DirectX::XMFLOAT3(0.0f, 1.5f, 6.0f));
+//	LibEffekseer::SetCameraMatrix(effectMat[0], effectMat[1]);
 
 	//スプライトの設定
 	Sprite::SetPixelShader(m_pPS);

@@ -6,6 +6,10 @@
 #include "Collision.h"
 #include "Shader.h"
 
+#include "LibEffekseer.h"
+#include "Effekseer/Effekseer.h"
+
+
 class Coin
 {
 public:
@@ -19,7 +23,7 @@ public:
 
 	bool ResultDraw = false;	//リザルトに表示させる用
 
-	float SetPosition(float x, float y, float z);			// コイン位置を設定
+	void SetPosition(float x, float y, float z);			// コイン位置を設定
 	DirectX::XMFLOAT3 GetPosition() const;
 
 	float GetSizeX(float x);								// コインの横幅を取得
@@ -38,6 +42,10 @@ private:
 	DirectX::XMFLOAT3 m_CoinSize;							//コインの大きさ
 
 	PixelShader* m_pPS;
+
+	Effekseer::Handle m_EffectHandle; // エフェクトハンドル
+	Effekseer::EffectRef m_EffectCoin; // エフェクト Coin
+
 };
 
 

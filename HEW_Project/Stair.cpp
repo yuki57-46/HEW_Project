@@ -48,28 +48,46 @@ Stair::Stair()
 	, colgravity(true)
 	, xz(false)
 	, StairTop(false)
+	, m_reverse(false)
 	, m_pSVSEBlk(nullptr)
 	, m_pSDSEBlk(nullptr)
 {
-	m_pStairModel = new Model;
+	m_pStairModelL = new Model;
+	m_pStairModelR = new Model;
 
-	/*if (!m_pStairModel->Load("Assets/Model/Block/test_black_cube_tex_plus.fbx", 0.05f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
-	}*/
-	/*if (!m_pStairModel->Load("Assets/Model/Block/Slope.fbx",0.1,  Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
-	}*/
-	if (!m_pStairModel->Load("Assets/Model/Block/SlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
-		MessageBox(NULL, "モデルの読み込みエラー", "Error", MB_OK);
+	m_pStairModelHL = new Model;
+	m_pStairModelHR = new Model;
+
+
+	if (!m_pStairModelL->Load("Assets/Model/Block/SlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープL", "Error", MB_OK);
 	}
-	ExtractSlopeVertexCoordinates(*m_pStairModel);
+	if (!m_pStairModelR->Load("Assets/Model/Block/SlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープR", "Error", MB_OK);
+	}
+	if (!m_pStairModelHL->Load("Assets/Model/Block/HyouiSlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープHL", "Error", MB_OK);
+	}
+	if (!m_pStairModelHR->Load("Assets/Model/Block/HyouiSlopeL.fbx", Model::Flip::XFlip))/*BoxS.fbx*/ {
+		MessageBox(NULL, "モデルの読み込みエラー,スロープHR", "Error", MB_OK);
+	}
+
+
+	ExtractSlopeVertexCoordinates(*m_pStairModelL);
+	ExtractSlopeVertexCoordinates(*m_pStairModelR);
+	ExtractSlopeVertexCoordinates(*m_pStairModelHL);
+	ExtractSlopeVertexCoordinates(*m_pStairModelHR);
+
+
 	m_pStairVS = new VertexShader();
 	if (FAILED(m_pStairVS->Load("Assets/Shader/VS_Model.cso")))
 	{
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
-	m_pStairModel->SetVertexShader(m_pStairVS);
-
+	m_pStairModelL->SetVertexShader(m_pStairVS);
+	m_pStairModelR->SetVertexShader(m_pStairVS);
+	m_pStairModelHL->SetVertexShader(m_pStairVS);
+	m_pStairModelHR->SetVertexShader(m_pStairVS);
 
 	SetBounds(minBound, maxBound);
 	HSetBounds(hminBound, hmaxBound);
@@ -77,36 +95,75 @@ Stair::Stair()
 
 	m_pSDSEBlk = LoadSound("Assets/Sound/SE/Blockgaugokuoto_Oobayashi.wav");
 
-
-	points = {
-		{minBound.x, maxBound.y, minBound.z},  //右上
-		{minBound.x, maxBound.y, maxBound.z},
-		{maxBound.x, minBound.y, minBound.z},  //左下
-		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
-		{minBound.x, minBound.y, minBound.z},  //右下
-		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-	};
+	if (m_reverse == false)
+	{
+		points = {
+			{minBound.x, maxBound.y, minBound.z},  //右上
+			{minBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	}
+	else if (m_reverse == true)
+	{
+		points = {
+			{maxBound.x, maxBound.y, minBound.z},  //左上
+			{maxBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{maxBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	}
 }
 
 Stair::~Stair()
 {
-	if (m_pStairModel)
+	if (m_pStairModelR)
 	{
-		delete m_pStairModel;
-		m_pStairModel = nullptr;
+		delete m_pStairModelR;
+		m_pStairModelR = nullptr;
+	}
+	if (m_pStairModelHR)
+	{
+		delete m_pStairModelHR;
+		m_pStairModelHR = nullptr;
+	}
+	if (m_pStairModelHL)
+	{
+		delete m_pStairModelHL;
+		m_pStairModelHL = nullptr;
+	}
+	if (m_pStairModelL)
+	{
+		delete m_pStairModelL;
+		m_pStairModelL = nullptr;
 	}
 	if (m_pStairVS)
 	{
@@ -174,9 +231,40 @@ void Stair::Update()
 		//ok = false;
 		gravity = false;
 	}
+	//三角形憑依時の移動
 	if (moveok == true)
 	{
-		if (IsKeyPress(VK_UP))
+
+#if _DEBUG
+
+		//現在の座標を表示
+		if (IsKeyPress('X'))
+		{
+			char x[256];
+			snprintf(x, sizeof(x), "x座標 %f", m_pos.x);
+			MessageBox(0, x, "憑依中のオブジェクトの座標", MB_OK);
+		}
+		if (IsKeyPress('Y'))
+		{
+			char y[256];
+			snprintf(y, sizeof(y), "y座標 %f", m_pos.y);
+			MessageBox(0, y, "憑依中のオブジェクトの座標", MB_OK);
+		}
+		if (IsKeyPress('Z'))
+		{
+			char z[256];
+			snprintf(z, sizeof(z), "z座標 %f", m_pos.z);
+			MessageBox(0, z, "憑依中のオブジェクトの座標", MB_OK);
+		}
+		if (IsKeyTrigger('C'))
+		{
+			char c[256];
+			sprintf_s(c, "x座標 %f \n y座標 %f\n z座標 %f", m_pos.x, m_pos.y, m_pos.z);
+			MessageBox(0, c, "憑依中のオブジェクトの座標", MB_OK);
+		}
+
+#endif 
+		if (IsKeyPress(VK_UP)|| IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
 
@@ -192,7 +280,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_DOWN))
+		else if (IsKeyPress(VK_DOWN)|| IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -207,7 +295,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_RIGHT))
+		else if (IsKeyPress(VK_RIGHT)|| IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -222,7 +310,7 @@ void Stair::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_LEFT))
+		else if (IsKeyPress(VK_LEFT)|| IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -269,7 +357,7 @@ void Stair::Update()
 					m_pos.y = m_oldPos.y;
 				}
 			}
-			if (frame <= 0 || !(IsKeyPress(VK_SPACE)))
+			if (frame <= 0.0f || !(IsKeyPress(VK_SPACE)))
 			{
 				m_pos.y -= 0.05f;
 				gravity = true;
@@ -288,9 +376,6 @@ void Stair::Update()
 		}
 	}
 
-	SetBounds(StairMinBound, StairMaxBound);  //最小値と最大値をセット
-	HSetBounds(hStairMinBound, hStairMaxBound);//憑依用の当たり判定
-	CSetBounds(cStairMinBound, cStairMaxBound);//ブロック同士の当たり判定
 
 
 	if (m_pos.x >= Max_X || m_pos.x <= Min_X
@@ -311,6 +396,7 @@ void Stair::Update()
 	{
 		SetF1();
 		OBJPosy();
+		//m_pos.y = 0.001f;
 		//m_pos.y = 0.0f;
 		gravity = false;
 	}
@@ -324,27 +410,56 @@ void Stair::Update()
 	//{ 0.0f, 0.5f, 3.0f},
 	//// Add more points as needed
 	//};
-	points = {
+	if (m_reverse == false)
+	{
+		points = {
 			{minBound.x, maxBound.y, minBound.z},  //右上
-		{minBound.x, maxBound.y, maxBound.z},
-		{maxBound.x, minBound.y, minBound.z},  //左下
-		{maxBound.x, minBound.y, maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
-		{minBound.x, minBound.y, minBound.z},  //右下
-		{minBound.x, minBound.y, maxBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
-		{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
-	};
+			{minBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x, minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.75f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.5f), minBound.y + (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.25f), minBound.y + (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.15f), minBound.z},
+			{maxBound.x - (1.0f * m_scale.x * 0.15f), minBound.y + (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	}
+	else if (m_reverse == true)
+	{
+		points = {
+			{maxBound.x, maxBound.y, minBound.z},  //左上
+			{maxBound.x, maxBound.y, maxBound.z},
+			{maxBound.x, minBound.y, minBound.z},  //左下
+			{maxBound.x, minBound.y, maxBound.z},
+			{maxBound.x + (1.0f * m_scale.x * 0.5f), minBound.y, minBound.z},
+			{maxBound.x + (1.0f * m_scale.x * 0.5f), minBound.y, maxBound.z},
+			{minBound.x, minBound.y, minBound.z},  //右下
+			{minBound.x, minBound.y, maxBound.z},
+			{maxBound.x, minBound.y - (1.0f * m_scale.x * 0.5f), minBound.z},
+			{maxBound.x, minBound.y - (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y - (1.0f * m_scale.x * 0.75f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.75f), minBound.y - (1.0f * m_scale.x * 0.75f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y - (1.0f * m_scale.x * 0.5f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.5f), minBound.y - (1.0f * m_scale.x * 0.5f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y - (1.0f * m_scale.x * 0.25f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.25f), minBound.y - (1.0f * m_scale.x * 0.25f), maxBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y - (1.0f * m_scale.x * 0.15f), minBound.z},
+			{minBound.x - (1.0f * m_scale.x * 0.15f), minBound.y - (1.0f * m_scale.x * 0.75f), maxBound.z},
+		};
+	
+	}
+	SetBounds(StairMinBound, StairMaxBound);  //最小値と最大値をセット
+	HSetBounds(hStairMinBound, hStairMaxBound);//憑依用の当たり判定
+	CSetBounds(cStairMinBound, cStairMaxBound);//ブロック同士の当たり判定
 
 
 }
@@ -363,7 +478,32 @@ void Stair::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionM
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
 
 	m_pStairVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
-	m_pStairModel->Draw();
+	if (moveok==true)
+	{
+		if (m_reverse == false)
+		{
+			m_pStairModelHL->Draw();
+		}
+		else
+		{
+			m_pStairModelHR->Draw();
+		}
+	}
+	if (moveok==false)
+	{
+		if (m_reverse == false)
+		{
+			m_pStairModelL->Draw();
+
+		}
+		else
+		{
+			m_pStairModelR->Draw();
+		}
+
+	}
+	
+	
 
 }
 
@@ -459,7 +599,7 @@ DirectX::XMFLOAT3 Stair::GetPos()
 	return m_pos;
 }
 
-void Stair::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ)
+void Stair::Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool reverse)
 {
 	m_pos.x = posX;
 	m_pos.y = posY;
@@ -467,15 +607,27 @@ void Stair::Create(float posX, float posY, float posZ, float scaleX, float scale
 	m_scale.x = scaleX;
 	m_scale.y = scaleY;
 	m_scale.z = scaleZ;
-
+	m_reverse = reverse;
 
 	//
-	StairMinBound.x *= m_scale.x;
-	StairMinBound.y *= m_scale.y;
-	StairMinBound.z *= m_scale.z;
-	StairMaxBound.x *= m_scale.x;
-	StairMaxBound.y *= m_scale.y;
-	StairMaxBound.z *= m_scale.z;
+	if (reverse == false)
+	{
+		StairMinBound.x *= m_scale.x;
+		StairMinBound.y *= m_scale.y;
+		StairMinBound.z *= m_scale.z;
+		StairMaxBound.x *= m_scale.x;
+		StairMaxBound.y *= m_scale.y;
+		StairMaxBound.z *= m_scale.z;
+	}
+	else if (reverse == true)
+	{
+		StairMinBound.x *= m_scale.x * -1;
+		StairMinBound.y *= m_scale.y;
+		StairMinBound.z *= m_scale.z * -1;
+		StairMaxBound.x *= m_scale.x * -1;
+		StairMaxBound.y *= m_scale.y;
+		StairMaxBound.z *= m_scale.z * -1;
+	}
 
 	if (StairMinBound.y < 0)
 	{
@@ -558,15 +710,8 @@ void Stair::OBJPosy()
 	m_pos.y = m_oldPos.y;
 }
 
-void Stair::Modelchg()
-{
-	if (m_pStairModel->Load("Assets/Model/test_model/test_block.fbx", Model::Flip::XFlip));
-}
 
-void Stair::Modelchg2()
-{
-	if (m_pStairModel->Load("Assets/Model/Block/BoxS.fbx", Model::Flip::XFlip));
-}
+
 
 void Stair::Set1()
 {
@@ -585,14 +730,14 @@ bool Stair::SetR1()
 
 void Stair::SetColgravity()
 {
-	if (colgravity == true)
-	{
-		colgravity = false;
-	}
-	else/* if (colgravity == false)*/
-	{
+	//if (colgravity == true)
+	//{
+	//	colgravity = false;
+	//}
+	//else/* if (colgravity == false)*/
+	//{
 		colgravity = true;
-	}
+	//}
 }
 
 void Stair::SetColgravityfalse()
@@ -644,6 +789,11 @@ bool Stair::IsMove()
 	return moveok;
 }
 
+bool Stair::IsReverse()
+{
+	return m_reverse;
+}
+
 void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 {
 	const Model::Mesh* slopeMesh = slopeModel.GetMesh(0); // Slope.fbxが1つのメッシュしか持たないと仮定
@@ -661,7 +811,12 @@ void Stair::ExtractSlopeVertexCoordinates(Model& slopeModel)
 
 void Stair::SetSlope()
 {
-	m_pos.x += 0.005;
+	m_pos.x += 0.005f;
+}
+
+void Stair::SetReverseSlope()
+{
+	m_pos.x -= 0.005f;
 }
 
 void Stair::SetSlopeY(float y)

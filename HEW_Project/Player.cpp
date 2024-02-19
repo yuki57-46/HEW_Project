@@ -15,6 +15,15 @@ DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);     //最大�
 std::chrono::steady_clock::time_point lastSoundPlayTimePly;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
 
+
+#define Max_X (2.23f)
+#define Min_X (-2.23f)
+
+#define Max_Z (3.36f)
+#define Min_Z (1.8f)
+
+#define POS_GET 1
+
 Player::Player()
 	: m_pos(0.0f, 0.0f, 3.0f)
 	, m_oldPos(0.0f, 0.0f, 0.0f)
@@ -185,8 +194,10 @@ void Player::Update(float tick)
 		m_lastFacingDirection = m_rotationY;
 	}
 
+	//非憑依時プレイヤー移動
 	if (ok == false)
 	{
+
 		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
@@ -244,10 +255,16 @@ void Player::Update(float tick)
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		HSetBounds(HMinBound, HMaxBound);
 
+	if (IsKeyTrigger(VK_OEM_PERIOD))
+	{
+		char str[256];
+		sprintf_s(str, "pos.x = %f\n pos.y = %f\n pos.z = %f\n", m_pos.x, m_pos.y, m_pos.z);
+		MessageBox(NULL, str, "PlayerPos", MB_OK);
+	}
 
-		if (m_pos.x>=4.0f||m_pos.x<=-4.0f
-			||m_pos.z>=3.35f|| m_pos.z <= 0.0f
-			||m_pos.y >= 5.0f )
+		if (m_pos.x >= Max_X || m_pos.x <= Min_X
+			|| m_pos.z >= Max_Z || m_pos.z <= Min_Z
+			|| m_pos.y >= 4.0f)
 		{
 			PlayerPos();
 		}
@@ -261,7 +278,7 @@ void Player::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 	DirectX::XMMATRIX MT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	//DirectX::XMMATRIX MR = DirectX::XMMatrixRotationY(m_rotationY); // Y軸回転
 	DirectX::XMMATRIX MS = DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f);
-	DirectX::XMMATRIX world = MS  * MT;//MR* MT; // 回転を適用
+	DirectX::XMMATRIX world = MS  * MT;//MR*  // 回転を適用//
 
 
 	world = DirectX::XMMatrixTranspose(world);

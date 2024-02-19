@@ -12,16 +12,21 @@ const std::chrono::milliseconds soundIntervalSd = std::chrono::milliseconds(1000
 
 
 ShadowP::ShadowP()
-	: m_pos(3.5f, 0.2f, 0.0f)
+	: m_pos(3.5f, 0.5f, 0.0f)
 	, m_oldPos(0.0f, 0.0f, 10.0f)
+	, m_firstPos(0.0f, 0.0f, 0.0f)
 	, m_IsAlterDir(false)
+	,m_IsKeikai(false)
+	,m_IsDeath(false)
 	, m_LastDir(false)
 	, m_Jump(false)
 	, m_footing(false)
 	, m_moveY(0.001f)
 	, m_JumpY(0.5f)
 	, m_rotationY(0.0f)
-	,m_animeWalk(NULL)
+	, m_animeWalk(NULL)
+	, m_keikai(NULL)
+	, m_death(NULL)
 	, m_pSVSESdPly(nullptr)//スピーカ
 	, m_pSDSESdPly(nullptr)//サウンドデータ
 {
@@ -49,8 +54,10 @@ ShadowP::ShadowP()
 	}
 	//m_pModel->SetVertexShader(m_pVS);
 	m_animeWalk = m_pModel->AddAnimation("Assets/Animation/Walk.fbx");	//	ファイルパスを入れる
+	m_keikai = m_pModel->AddAnimation("Assets/Animation/Keikai.fbx");
+	m_death = m_pModel->AddAnimation("Assets/Animation/Sandwich.fbx");
 
-	
+
 	m_pSDSESdPly = LoadSound("Assets/Sound/SE/Kageidouon_Oobayashi.wav");
 
 	minBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);
@@ -63,6 +70,8 @@ ShadowP::ShadowP()
 	{
 		m_rotationY = 180.0f;
 	}
+
+	m_firstPos = m_pos;
 }
 
 
@@ -88,9 +97,33 @@ void ShadowP::Update(float tick)
 
 	m_pModel->Step(tick);
 
+
+
 	if (m_IsAlterDir == true || m_IsAlterDir == false)
 	{
-		m_pModel->Play(m_animeWalk, true);
+		if (m_IsKeikai == true && m_IsDeath == false)
+		{
+			//m_pModel->Play(m_death, false);
+			m_pModel->Play(m_keikai, true);
+		}
+		else if (m_IsKeikai == false && m_IsDeath == false)
+		{
+			m_pModel->Play(m_animeWalk, true);
+		}
+
+		if(m_IsDeath==true)
+		{
+			m_pModel->Play(m_death, false);
+			if (!m_pModel->IsPlay(m_death))
+			{
+				m_pos = m_firstPos;
+				m_IsDeath = false;
+			}
+		}
+
+
+		//m_pModel->Play(m_animeWalk, true);
+		//m_pModel->Play(m_keikai, true);
 		if (elapsedTime >= soundIntervalSd)
 		{
 			m_pSVSESdPly = PlaySound(m_pSDSESdPly);
@@ -101,23 +134,35 @@ void ShadowP::Update(float tick)
 
 	}
 
-	m_oldPos = m_pos;
-	if (m_IsAlterDir == true)
-	{
-		m_pos.x += 0.01;
-	}
-	else if (m_IsAlterDir == false)
-	{
-		m_pos.x -= 0.01;
-	}
+	
 
+
+
+
+
+
+
+
+	m_oldPos = m_pos;
+
+	if (m_IsKeikai == false)
+	{
+		if (m_IsAlterDir == true)
+		{
+			m_pos.x += 0.01f;
+		}
+		else if (m_IsAlterDir == false)
+		{
+			m_pos.x -= 0.01f;
+		}
+	}
 	//重力
 	if (!m_footing)
 	{
 		m_pos.y -= m_moveY;
 		if (m_moveY < 0.5f && m_moveY >= 0.0f)
 		{
-			m_moveY += 0.001;
+			m_moveY += 0.001f;
 		}
 	}
 
@@ -229,7 +274,7 @@ void ShadowP::ShadowPPos()
 
 void ShadowP::ShadowPupY()
 {
-	m_pos.y += 0.05;
+	m_pos.y += 0.05f;
 }
 
 void ShadowP::Use()
@@ -237,12 +282,12 @@ void ShadowP::Use()
 	if (m_IsAlterDir == false)
 	{
 		m_IsAlterDir = true;
-		m_rotationY = 0.0f;
+		m_rotationY = 90.0f;
 	}
 	else
 	{
 		m_IsAlterDir = false;
-		m_rotationY = 180.0f;
+		m_rotationY = -90.0f;
 	}
 }
 
@@ -257,7 +302,7 @@ void  ShadowP::NotUse()
 
 void ShadowP::Jump()
 {
-	m_moveY = 0.10f;
+	m_moveY = 0.05f;
 	m_pos.y += m_moveY;
 }
 
@@ -283,4 +328,14 @@ void ShadowP::SetFooting(bool footing)
 	{
 		m_moveY = 0.0f;
 	}
+}
+
+void ShadowP::SetKeikai(bool waring)
+{
+	m_IsKeikai = waring;
+}
+
+void ShadowP::SetDeath(bool death)
+{
+	m_IsDeath = death;
 }

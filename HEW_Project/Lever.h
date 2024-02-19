@@ -37,16 +37,16 @@ public:
 	void OBJPos();
 	void OBJPosy();
 
-	void ModelchgUp();
-	void ModelchgDown();
 
-	void ModelchgNormal();
 
 
 
 
 private:
-	Model* m_pLeverModel;
+	Model* m_pLeverModelN;
+	Model* m_pLeverModelUP;
+	Model* m_pLeverModelDown;
+
 	VertexShader* m_pLeverVS;
 	DirectX::XMFLOAT3 m_oldPos;
 	DirectX::XMFLOAT3 m_pos;

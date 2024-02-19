@@ -32,15 +32,23 @@ public:
 	bool IsJump();
 	float GetMove();
 	void SetFooting(bool footing);
+
+	void SetKeikai(bool waring);
+
+	void SetDeath(bool death);
+
 	//bool IsJump();
 private:
 	Model* m_pModel;
 	VertexShader* m_pVS;
 	DirectX::XMFLOAT3 m_pos;
 	DirectX::XMFLOAT3 m_oldPos;
+	DirectX::XMFLOAT3 m_firstPos;
 
 
 	Model::AnimeNo m_animeWalk;	// 影の歩行アニメーション
+	Model::AnimeNo m_keikai;
+	Model::AnimeNo m_death;
 
 	bool m_IsAlterDir; // 移動方向の反転
 	bool m_LastDir; // 最後に向いていた方向
@@ -49,6 +57,8 @@ private:
 	bool m_footing;
 	float m_moveY;
 	float m_JumpY;
+	bool m_IsKeikai;
+	bool m_IsDeath;
 
 	IXAudio2SourceVoice* m_pSVSESdPly; // サウンドソース
 	XAUDIO2_BUFFER* m_pSDSESdPly; // サウンドバッファ

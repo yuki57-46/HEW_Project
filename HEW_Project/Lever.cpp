@@ -19,18 +19,28 @@ Lever::Lever()
 	, m_move(false)
 	
 {
-	m_pLeverModel = new Model;
+	m_pLeverModelN = new Model;
+	m_pLeverModelUP = new Model;
+	m_pLeverModelDown = new Model;
 
+	if (!m_pLeverModelN->Load("Assets/Model/Block/LeverM.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "モデルの読み込みエラー_レバー", "Error", MB_OK);
+	}
 
-	if (!m_pLeverModel->Load("Assets/Model/Block/LeverM.fbx", Model::Flip::XFlip)) {
-		MessageBox(NULL, "モデルの読み込みエラー‗レバー", "Error", MB_OK);
+	if (!m_pLeverModelUP->Load("Assets/Model/Block/LeverU.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "モデルの読み込みエラー_レバー", "Error", MB_OK);
+	}
+	if (!m_pLeverModelDown->Load("Assets/Model/Block/LeverD.fbx", Model::Flip::XFlip)) {
+		MessageBox(NULL, "モデルの読み込みエラー_レバー", "Error", MB_OK);
 	}
 	m_pLeverVS = new VertexShader();
 	if (FAILED(m_pLeverVS->Load("Assets/Shader/VS_Model.cso")))
 	{
 		MessageBox(nullptr, "VS_Model.cso", "Error", MB_OK);
 	}
-	m_pLeverModel->SetVertexShader(m_pLeverVS);
+	m_pLeverModelN->SetVertexShader(m_pLeverVS);
+	m_pLeverModelUP->SetVertexShader(m_pLeverVS);
+	m_pLeverModelDown->SetVertexShader(m_pLeverVS);
 
 
 	SetBounds(minBound, maxBound);
@@ -41,10 +51,20 @@ Lever::Lever()
 
 Lever::~Lever()
 {
-	if (m_pLeverModel)
+	if (m_pLeverModelN)
 	{
-		delete m_pLeverModel;
-		m_pLeverModel = nullptr;
+		delete m_pLeverModelN;
+		m_pLeverModelN = nullptr;
+	}
+	if (m_pLeverModelUP)
+	{
+		delete m_pLeverModelUP;
+		m_pLeverModelUP = nullptr;
+	}
+	if (m_pLeverModelDown)
+	{
+		delete m_pLeverModelDown;
+		m_pLeverModelDown = nullptr;
 	}
 	if (m_pLeverVS)
 	{
@@ -62,11 +82,11 @@ void Lever::Update()
 	{
 		if (IsKeyTrigger(VK_UP))
 		{
-				ModelchgUp();
+			
 		}
 		if (IsKeyTrigger(VK_DOWN))
 		{
-			ModelchgDown();
+		
 		}
 	}
 	
@@ -90,8 +110,27 @@ void Lever::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionM
 	mat[2] = projectionMatrix; // 与えられた projectionMatrix を使う
 
 	m_pLeverVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
-	m_pLeverModel->Draw();
+	if (m_move==false)
+	{
+		m_pLeverModelN->Draw();
+	}
 
+
+	if (m_move == true)
+	{
+		if (IsKeyPress(VK_UP))
+		{
+			m_pLeverModelUP->Draw();
+		}
+		else if (IsKeyPress(VK_DOWN))
+		{
+			m_pLeverModelDown->Draw();
+		}
+		else
+		{
+			m_pLeverModelN->Draw();
+		}
+	}
 }
 
 
@@ -201,18 +240,3 @@ void Lever::SetMoveFalse()
 
 
 
-void Lever::ModelchgUp()
-{
-	 (m_pLeverModel->Load("Assets/Model/Block/LeverU.fbx", Model::Flip::XFlip));
-}
-
-void Lever::ModelchgDown()
-{
-	(m_pLeverModel->Load("Assets/Model/Block/LeverD.fbx", Model::Flip::XFlip));
-}
-
-
-void Lever::ModelchgNormal()
-{
-	(m_pLeverModel->Load("Assets/Model/Block/LeverM.fbx", Model::Flip::XFlip));
-}

@@ -47,15 +47,16 @@ void CoinCntUI::Draw()
 
 	//プロジェクション行列には2Dとして表示するための行列を設定
 	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
-		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f);
+		0.0f, 1280.0f, 720.0f, 0.0f, 0.5f, 10.0f);
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
 	//スプライトの設定
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
+	//Sprite::SetOffset(DirectX::XMFLOAT2(30.0f, 30.0f));
 	Sprite::SetSize(DirectX::XMFLOAT2(300.0f, -75.0f));
 	Sprite::SetTexture(m_pTexture);
-	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 2.0f });
 	Sprite::Draw();
 }

@@ -1,13 +1,17 @@
 ﻿#include "BackShadow.h"
 #include "Sprite.h"
 #include "Geometory.h"
+#include "Input.h"
+#include <iostream>
+#include <string>
 
-#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.5f)	// 3D空間上のレンダーの表示サイズX
-#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.5f)	// 3D空間上のレンダーの表示サイズY
+#define RTV_3D_SIZE_WIDTH	(1280.0f / 1.3f)	// 3D空間上のレンダーの表示サイズX
+#define RTV_3D_SIZE_HEIGHT	(-720.0f / 1.3f)	// 3D空間上のレンダーの表示サイズY
 #define RTV_3D_POS_WIDTH	(640.0f)			// 3D空間上のレンダー表示の原点X
-#define RTV_3D_POS_HEIGHT	(430.0f)			// 3D空間上のレンダー表示の原点Y
-#define SHADOWPLAYER_SIZE_Y	(55)				// 影Playerの縦幅
-#define SHADOWPLAYER_SIZE_X	(15)				// 影Playerの横幅の半分
+#define RTV_3D_POS_HEIGHT	(400.0f)			// 3D空間上のレンダー表示の原点Y
+#define SHADOWPLAYER_SIZE_Y	(110)				// 影Playerの縦幅
+#define SHADOWPLAYER_SIZE_X	(30)				// 影Playerの横幅の半分
+#define RESET_POSISHION		(2000)				// 影コインの取得後のポジション
 
 
 int testw = 10;
@@ -16,7 +20,7 @@ int testh = 10;
 BackShadow::Box BoxCoin1;
 BackShadow::Box BoxCoin2;
 BackShadow::Box BoxCoin3;
-BackShadow::Box BoxGool;
+BackShadow::Box BoxGoal;
 BackShadow::Box BoxShadowPlayer;
 
 BackShadow::BackShadow()
@@ -25,7 +29,7 @@ BackShadow::BackShadow()
 	, m_pDSV_BS(nullptr)
 	, m_pCamera(nullptr)
 	, m_pShadowPlayer(nullptr)
-	,m_pScreen(nullptr)//27
+	, m_pScreen(nullptr)//27
 	, m_indexX(0)
 	, m_indexY(0)
 	, m_castPosX(0)
@@ -34,14 +38,16 @@ BackShadow::BackShadow()
 	, m_SPposY(0.0f)
 	, m_SPpos(0.0f, 0.0f, 0.0f)
 	, m_alpha{0}
-	, m_alpha2{0}
 	, m_underAlpha{0}
 	, m_underAlpha2{0}
 	, m_PleyerSenter{0}
-	, m_Player_a{0}
-	, m_sumAlpha(0)
-	, m_alphaData(0)
-	, m_noAlphaData(0)
+	, m_nFeetAlpha(0)
+	, m_nBodyAlpha(0)
+	, m_nHeadAlpha(0)
+	, m_nWarningRAlpha(0)
+	, m_nWarningLAlpha(0)
+	, m_nDeathRAlpha(0)
+	, m_nDeathLAlpha(0)
 	, m_1Cpos(0.0f, 0.0f, 0.0f)		// コイン1の座標
 	, m_cast1CposX(0)				// コイン1のX変換座標用
 	, m_cast1CposY(0)				// コイン1のY変換座標用
@@ -59,10 +65,10 @@ BackShadow::BackShadow()
 	, m_castGoalsizeX(0)			// ゴールのXサイズ
 	, m_castGoalsizeY(0)			// ゴールのYサイズ
 	, m_collisionFlag(false)
-	, m_upFlag(false)
 	, m_LRcheck(false)
 	,m_pSDSESdCoin(nullptr)
 	,m_pSVSESdCoin(nullptr)
+	,m_PS(1)
 
 {
 	// レンダー表示関連の確保
@@ -71,7 +77,7 @@ BackShadow::BackShadow()
 	m_pDSV_BS = new DepthStencil;
 
 	// レンダーターゲット制作
-	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280 / 2, 720 / 2);// レンダー内の大きさ
+	m_pRTV_BS->Create(DXGI_FORMAT_R8G8B8A8_UNORM, 1280/* / 2*/, 720/* / 2*/);// レンダー内の大きさ
 	m_pDSV_BS->Create(m_pRTV_BS->GetWidth(), m_pRTV_BS->GetHeight(), true);
 	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);
 
@@ -97,6 +103,9 @@ BackShadow::BackShadow()
 	m_pPS[0]->Load("Assets/Shader/PS_Shadow.cso");
 	m_pPS[1]->Load("Assets/Shader/PS_Binarization.cso");
 	m_pPS[2]->Load("Assets/Shader/PS_Sprite.cso");
+
+	m_EffectCoin = LibEffekseer::Create("Assets/effect/coinGet.efkefc");
+	m_EffectGoal = LibEffekseer::Create("Assets/effect/Goal.efkefc");
 }
 
 BackShadow::~BackShadow()
@@ -164,17 +173,85 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 	// ゴールをフィールド上に表示
 	if (Goal->IsGoal == false)
-	{	Goal->Draw(1230.0f, 70.0f, 0.0f, 60.0f, 60.0f);	}
+		//===============移動チュートリアル================
+	//{	Goal->Draw(1000.0f, 300.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============拡縮チュートリアル================
+	//{	Goal->Draw(1000.0f, 300.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============ジャンプチュートリアル================
+	//{	Goal->Draw(900.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============stage1================
+	{ Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============stage2================
+	//{	Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===============stage3================
+	//{	Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//===================stage4=========================
+	//{	Goal->Draw(1230.0f, 70.0f, 0.0f, 60.0f, 60.0f);	}
 
 	// UI
 	// コインをフィールド上に表示
 	// Drawの１,２個目の数値をいじればコイン描画座標が変わる
+	//======================移動チュートリアル==================
+	//if (Coin1->IsCoinCollected == false)
+	//{	Coin1->Draw(270.0f, 300.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	//if (Coin2->IsCoinCollected == false)
+	//{	Coin2->Draw(500.0f, 320.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	//if (Coin3->IsCoinCollected == false)
+	//{	Coin3->Draw(770.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+	////======================拡縮チュートリアル==================
+	//if (Coin1->IsCoinCollected == false)
+	//{	Coin1->Draw(270.0f, 300.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	//if (Coin2->IsCoinCollected == false)
+	//{	Coin2->Draw(500.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	//if (Coin3->IsCoinCollected == false)
+	//{	Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+	//======================ジャンプチュートリアル==================
+	//if (Coin1->IsCoinCollected == false)
+	//{	Coin1->Draw(270.0f, 300.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	//if (Coin2->IsCoinCollected == false)
+	//{	Coin2->Draw(500.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	//if (Coin3->IsCoinCollected == false)
+	//{	Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+		//======================stage1==================
 	if (Coin1->IsCoinCollected == false)
-	{	Coin1->Draw(270.0f, 20.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+	{
+		Coin1->Draw(350.0f, 200.0f, 0.0f, 40.0f, 40.0f, 1);
+	}	// 左 y=120.0f
 	if (Coin2->IsCoinCollected == false)
-	{	Coin2->Draw(500.0f, 320.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+	{
+		Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);
+	}	// 真ん中
 	if (Coin3->IsCoinCollected == false)
-	{	Coin3->Draw(1200.0f, 300.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+	{
+		Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);
+	}	// 右
+
+//======================stage2==================
+//if (Coin1->IsCoinCollected == false)
+//{	Coin1->Draw(350.0f, 200.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+//if (Coin2->IsCoinCollected == false)
+//{	Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+//if (Coin3->IsCoinCollected == false)
+//{	Coin3->Draw(900.0f, 150.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+	//======================stage3==================
+//if (Coin1->IsCoinCollected == false)
+//{	Coin1->Draw(350.0f, 200.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+//if (Coin2->IsCoinCollected == false)
+//{	Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+//if (Coin3->IsCoinCollected == false)
+//{	Coin3->Draw(900.0f, 150.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+//=======================stage4=========================
+//if (Coin1->IsCoinCollected == false)
+//{	Coin1->Draw(270.0f, 70.0f, 0.0f,40.0f, 40.0f, 1);	}	// 左 y=120.0f
+//if (Coin2->IsCoinCollected == false)
+//{	Coin2->Draw(500.0f, 270.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
+//if (Coin3->IsCoinCollected == false)
+//{	Coin3->Draw(1200.0f, 270.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
 
 	RenderTarget* pRTV;
 	pRTV = GetDefaultRTV();
@@ -191,8 +268,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		// Y軸は上が 0 下が 360
 
 		// 当たり判定用変数初期化
-		int shadowSizeX = 5;
-		int shadowSizeY = 40;
+		int shadowSizeX = SHADOWPLAYER_SIZE_X;
+		int shadowSizeY = SHADOWPLAYER_SIZE_Y;
 		// レンダー当たり判定用変数更新
 		m_SPpos = m_pShadowPlayer->NowPos();				// 影の座標を所得
 		m_SPposX = ((m_SPpos.x - 5.0f) / 10.0f) * (-1);		// X軸をレンダーのウィンドウ座標に合わせて変換
@@ -231,25 +308,25 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_Csize = Coin3->GetSize();
 
 		// ゴールの座標変換
-		m_castGoalposX = static_cast<int>(m_Goalpos.x / 2.0f);
-		m_castGoalposY = static_cast<int>(m_Goalpos.y / 2.0f);
+		m_castGoalposX = static_cast<int>(m_Goalpos.x);
+		m_castGoalposY = static_cast<int>(m_Goalpos.y);
 		// ゴールのサイズ変換
-		m_castGoalsizeX = static_cast<int>(m_Goalsize.x / 2.0f);
-		m_castGoalsizeY = static_cast<int>(m_Goalsize.y / 2.0f);
+		m_castGoalsizeX = static_cast<int>(m_Goalsize.x);
+		m_castGoalsizeY = static_cast<int>(m_Goalsize.y);
 
 		// コインの座標変換
 		// コイン1
-		m_cast1CposX = static_cast<int>(m_1Cpos.x / 2.0f);
-		m_cast1CposY = static_cast<int>(m_1Cpos.y / 2.0f);
+		m_cast1CposX = static_cast<int>(m_1Cpos.x);
+		m_cast1CposY = static_cast<int>(m_1Cpos.y);
 		// コイン2
-		m_cast2CposX = static_cast<int>(m_2Cpos.x / 2.0f);
-		m_cast2CposY = static_cast<int>(m_2Cpos.y / 2.0f);
+		m_cast2CposX = static_cast<int>(m_2Cpos.x);
+		m_cast2CposY = static_cast<int>(m_2Cpos.y);
 		// コイン3
-		m_cast3CposX = static_cast<int>(m_3Cpos.x / 2.0f);
-		m_cast3CposY = static_cast<int>(m_3Cpos.y / 2.0f);
+		m_cast3CposX = static_cast<int>(m_3Cpos.x);
+		m_cast3CposY = static_cast<int>(m_3Cpos.y);
 		// コインのサイズ変換
-		m_castCsizeX = static_cast<int>(m_Csize.x / 2.0f);
-		m_castCsizeY = static_cast<int>(m_Csize.y / 2.0f);
+		m_castCsizeX = static_cast<int>(m_Csize.x);
+		m_castCsizeY = static_cast<int>(m_Csize.y);
 
 		// プレイヤーの位置とスクリーン左上の座標の差分を、スクリーンの横幅で割ると配列のインデックスが求められる
 		// 影のプレイヤーはレンダーにのみ表示している->レンダー幅が影プレイヤーのウィンドウ幅
@@ -272,15 +349,48 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		BoxCoin3.maxY = m_cast3CposY + (m_castCsizeX - 5);	// 下辺
 		BoxCoin3.minY = m_cast3CposY - (m_castCsizeX - 5);	// 上辺
 		// ゴール
-		BoxGool.maxX  = m_castGoalposX + (m_castGoalsizeX - 5);	// 右辺
-		BoxGool.minX  = m_castGoalposX - (m_castGoalsizeX - 5);	// 左辺
-		BoxGool.maxY  = m_castGoalposY + (m_castGoalsizeY - 5);	// 下辺
-		BoxGool.minY  = m_castGoalposY - (m_castGoalsizeY - 5);	// 上辺
+		BoxGoal.maxX  = m_castGoalposX + (m_castGoalsizeX - 5);	// 右辺
+		BoxGoal.minX  = m_castGoalposX - (m_castGoalsizeX - 5);	// 左辺
+		BoxGoal.maxY  = m_castGoalposY + (m_castGoalsizeY - 5);	// 下辺
+		BoxGoal.minY  = m_castGoalposY - (m_castGoalsizeY - 5);	// 上辺
 		// 影プレイヤー
 		BoxShadowPlayer.maxX = m_castPosX + shadowSizeX;	// 右辺
 		BoxShadowPlayer.minX = m_castPosX - shadowSizeX;	// 左辺
 		BoxShadowPlayer.maxY = m_castPosY;					// 下辺
 		BoxShadowPlayer.minY = m_castPosY - shadowSizeY;	// 上辺
+
+
+		// コイン1
+		if (Coin1->IsCoinCollected == true)
+		{
+			BoxCoin1.maxX = RESET_POSISHION;	// 右辺
+			BoxCoin1.minX = RESET_POSISHION;	// 左辺
+			BoxCoin1.maxY = RESET_POSISHION;	// 下辺
+			BoxCoin1.minY = RESET_POSISHION;	// 上辺
+		}
+		// コイン2
+		if (Coin2->IsCoinCollected == true)
+		{
+			BoxCoin2.maxX = RESET_POSISHION;	// 右辺
+			BoxCoin2.minX = RESET_POSISHION;	// 左辺
+			BoxCoin2.maxY = RESET_POSISHION;	// 下辺
+			BoxCoin2.minY = RESET_POSISHION;	// 上辺
+		}
+		// コイン3
+		if (Coin3->IsCoinCollected == true)
+		{
+			BoxCoin3.maxX = RESET_POSISHION;	// 右辺
+			BoxCoin3.minX = RESET_POSISHION;	// 左辺
+			BoxCoin3.maxY = RESET_POSISHION;	// 下辺
+			BoxCoin3.minY = RESET_POSISHION;	// 上辺
+		}
+		if (Goal->GetGoal() == true)
+		{
+			BoxGoal.maxX = RESET_POSISHION;	// 右辺
+			BoxGoal.minX = RESET_POSISHION;	// 左辺
+			BoxGoal.maxY = RESET_POSISHION;	// 下辺
+			BoxGoal.minY = RESET_POSISHION;	// 上辺
+		}
 
 		const Color* pData = reinterpret_cast<const Color*>(colorData);
 
@@ -288,9 +398,9 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_LRcheck = m_pShadowPlayer->isUse();
 
 		// 画面端判定(左右)
-		for (int h = 0; h < height; ++h)
+		for (UINT h = 0; h < height; ++h)
 		{
-			for (int w = 0; w < width; ++w)
+			for (UINT w = 0; w < width; ++w)
 			{
 				if (ShadowEdgeCollision(h, width))
 				{
@@ -307,15 +417,19 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		}
 
 		// 足元当たり判定
-		m_underAlpha	= pData[(m_indexY + 5) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-		m_underAlpha2	= pData[(m_indexY + 1) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-		// 足元判定
-		ShadowUnderCollision(m_underAlpha, m_underAlpha2);
+		m_underAlpha = pData[(m_indexY + 6) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+		for (int i = 1; i < 4; i++)
+		{
+			m_underAlpha2 = pData[(m_indexY + i) * width + m_indexX].a;						// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			// 足元判定
+			ShadowUnderCollision(m_underAlpha, m_underAlpha2);
+		}
+		
 
 		// 必要αデータ初期化
-		m_alphaData = 1;
-		m_noAlphaData = 1;
-		m_sumAlpha = 0;
+		m_nFeetAlpha = 0;
+		m_nBodyAlpha = 0;
+		m_nHeadAlpha = 0;
 
 		// 壁、階段当たり判定(ループ)
 		for (int j = 0; j < SHADOWPLAYER_SIZE_Y; j++)
@@ -326,41 +440,88 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			}
 			if (m_LRcheck == false)
 			{
-				m_alpha = pData[(m_indexY - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			}
 			else
 			{
-				m_alpha = pData[(m_indexY - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
 			}
-
-			// 平均
+			// α値の内訳
 			if (m_alpha > 240)
 			{
-				m_sumAlpha += m_alpha;
-				m_alphaData++;
-			}
-			if (m_alpha < 230)
-			{
-				m_noAlphaData++;
-			}
-		}
-		// 壁、階段当たり判定(関数)
-		ShadowCollision(m_sumAlpha, m_alphaData, m_noAlphaData);
+				if (j <= SHADOWPLAYER_SIZE_Y - 100)
+				{// 足元のα値
+					m_nFeetAlpha++;
+				}
+				else if (j > SHADOWPLAYER_SIZE_Y - 100 && j < SHADOWPLAYER_SIZE_Y - 10)
+				{// 胴体のα値
+					m_nBodyAlpha++;
+				}
+				else if (j >= SHADOWPLAYER_SIZE_Y - 10)
+				{// 頭のα値
+					m_nHeadAlpha++;
+				}
 
-		// コイン当たり判定
-		if (m_LRcheck == false)
-		{
-//			m_alpha		= pData[(m_indexY - 40) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-//			m_alpha2	= pData[(m_indexY - 5) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			// コイン判定
-			CoinCollection(Coin1, Coin2, Coin3, m_alpha, m_alpha2);
+				// コイン当たり判定
+				CoinCollection(Coin1, Coin2, Coin3);
+			}
 		}
-		else
+		GoalCollision(Goal);
+		// 壁、階段当たり判定(関数)
+		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
+
+		// あわわわわわ判定
+		m_nWarningRAlpha = 0;
+		m_nWarningLAlpha = 0;
+		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
-//			m_alpha		= pData[(m_indexY - 40) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-//			m_alpha2	= pData[(m_indexY - 5) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			// コイン判定
-			CoinCollection(Coin1, Coin2, Coin3, m_alpha2, m_alpha);
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			{
+				break;
+			}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningRAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningLAlpha++;	}
+			if (ShadowWarningCollision(m_nWarningLAlpha, m_nWarningRAlpha))
+			{
+				m_pShadowPlayer->SetKeikai(true);// ここにあわわわ挙動の関数呼び出し
+			}
+			else
+			{
+				m_pShadowPlayer->SetKeikai(false);
+			}
+		}
+
+		// 死亡判定
+		m_nWarningRAlpha	= 0;
+		m_nWarningLAlpha	= 0;
+		m_nDeathRAlpha		= 0;
+		m_nDeathLAlpha		= 0;
+		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
+		{
+			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
+			{
+				break;
+			}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningRAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nWarningLAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nDeathRAlpha++;	}
+			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+			if (m_alpha > 240)
+			{	m_nDeathLAlpha++;	}
+			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha, m_nWarningLAlpha, m_nWarningRAlpha))
+			{
+				m_pShadowPlayer->SetDeath(true);// ここに死亡挙動の関数呼び出し
+			}
 		}
 	});
 
@@ -378,7 +539,43 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 	SetSamplerState(SAMPLER_POINT);
 	// スプライトの設定
-	Sprite::SetPixelShader(m_pPS[1]);
+
+	if (IsKeyPress('1'))
+	{
+		m_PS = 0;
+	}
+	if (IsKeyPress('2'))
+	{
+		m_PS = 1;
+	}
+	if (IsKeyPress('3'))
+	{
+		m_PS = 2;
+	}
+
+	// エフェクト
+	DirectX::XMFLOAT4X4 effectMat[2];
+	effectMat[0] = m_pCamera->GetViewMatrix();
+	effectMat[1] = m_pCamera->GetProjectionMatrix();
+
+	std::string str = "Goal X:" + std::to_string(Goal->GetPosition().x) + " Y:" + std::to_string(Goal->GetPosition().y) + " Z:" + std::to_string(Goal->GetPosition().z) + "\n";
+	
+	OutputDebugString(str.c_str());
+
+
+	// Effekseerの仕様上行列を転置前の状態で渡す
+	DirectX::XMMATRIX effectView = DirectX::XMLoadFloat4x4(&effectMat[0]);
+	effectView = DirectX::XMMatrixTranspose(effectView);
+	DirectX::XMStoreFloat4x4(&effectMat[0], effectView);
+
+	DirectX::XMMATRIX effectProj = DirectX::XMLoadFloat4x4(&effectMat[1]);
+	effectProj = DirectX::XMMatrixTranspose(effectProj);
+	DirectX::XMStoreFloat4x4(&effectMat[1], effectProj);
+
+	LibEffekseer::SetViewPosition(m_pCamera->GetPos());
+	LibEffekseer::SetCameraMatrix(effectMat[0], effectMat[1]);
+
+	Sprite::SetPixelShader(m_pPS[m_PS]);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
@@ -387,7 +584,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	Sprite::SetTexture(m_pRTV_BS);
 	Sprite::Draw();
-	
+
+	LibEffekseer::Draw();
 
 	//m_pPS[0]->Bind();
 	//m_pPS[0]->WriteBuffer(0, mat);
@@ -416,20 +614,45 @@ void BackShadow::SetShadowCamera(CameraBase* pCamera)
  * @return true or false(何もないならfalseで返す)
  * @detail 今はまだ描画があるか見てるだけ
  */
-bool BackShadow::ShadowCollision(int sumAlpha, int cntAlpha, int noAlpha)
+void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 {
 	// 左右のα値の参照
-	if (sumAlpha / cntAlpha > 200 && cntAlpha > 25)
+	if (nHeadAlpha >= 10)
+	{// 天井
+		m_pShadowPlayer->Use();
+		return;
+	}
+	if (nBodyAlpha > 30)
 	{// 壁
 		m_pShadowPlayer->Use();
-		return true;
+		return;
 	}
-	if (sumAlpha / (cntAlpha + noAlpha) > 128 && cntAlpha > 13 && noAlpha > 10)
+	if (nFeetAlpha >= 3)
 	{// 階段
 		m_pShadowPlayer->Jump();
+		return;
+	}
+}
+
+bool BackShadow::ShadowWarningCollision(int nLeftAlpha, int nRightAlpha)
+{
+	if (nLeftAlpha > 50 && nRightAlpha > 50)
+	{
 		return true;
 	}
+	return false;
+}
 
+// 死亡判定
+bool BackShadow::ShadowDeathCollision(int nLeftAlphaIN, int nRightAlphaIN, int nLeftAlphaOUT, int nRightAlphaOUT)
+{
+	if (nLeftAlphaOUT > 50 && nRightAlphaOUT > 50)
+	{
+		if (nLeftAlphaIN > 50 || nRightAlphaIN > 50)
+		{
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -454,11 +677,11 @@ void BackShadow::ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2)
 // 画面端(左右)判定
 bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 {
-	if (h * width + 15 == m_indexY * width + m_indexX)
+	if (h * width + 30 == m_indexY * width + m_indexX)
 	{// 左の画面端
 		return true;
 	}
-	if (h * width + width - 4 == m_indexY * width + m_indexX)
+	if (h * width + width - 8 == m_indexY * width + m_indexX)
 	{// 右の画面端
 		return true;
 	}
@@ -466,53 +689,122 @@ bool BackShadow::ShadowEdgeCollision(int h, UINT width)
 }
 
 //コインの当たり判定＆処理
-void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3, BYTE RegAlpha, BYTE BodyAlpha)
+void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 {
 	// コインの取得処理
 	// コイン1
 	if (IsHit(BoxShadowPlayer, BoxCoin1))
 	{
-		// 影とコインが重なったらコインを取得する
-		if (RegAlpha > 240 || BodyAlpha > 240)
+		Coin1->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		// エフェクト
+		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, 2.5f, 1.35f, 0.0f);
+
+		float x = Coin1->GetPosition().x;
+		// xを100で割る(-のときも考慮)
+		if (x < 0)
 		{
-			Coin1->SetCollect(true);
-			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+			x *= -1;
 		}
+		x /= 100.0f;
+
+		float y = Coin1->GetPosition().y;
+		if (y < 0)
+		{
+			y *= -1;
+		}
+		y /= 100.0f;
+
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin1->GetPosition().z);
 	}
 	// コイン2
 	if (IsHit(BoxShadowPlayer, BoxCoin2))
 	{
-		// 影とコインが重なったらコインを取得する
-		if (RegAlpha > 240 || BodyAlpha > 240)
+		Coin2->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		// エフェクト
+		// m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, 0.619f, 0.376f, Coin2->GetPosition().z);
+		float x = Coin2->GetPosition().x;
+		// xを100で割る(-のときも考慮)
+		if (x < 0)
 		{
-			Coin2->SetCollect(true);
-			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+			x *= -1;
 		}
+		x /= 1000.0f;
+
+		float y = Coin2->GetPosition().y;
+		if (y < 0)
+		{
+			y *= -1;
+		}
+		y /= 1000.0f;
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin2->GetPosition().z);
+
 	}
 	// コイン3
 	if (IsHit(BoxShadowPlayer, BoxCoin3))
 	{
-		// 影とコインが重なったらコインを取得する
-		if (RegAlpha > 240 || BodyAlpha > 240)
+		Coin3->SetCollect(true);
+		m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+		// エフェクト
+		//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, -4.0f, 0.374f, 0.0f);
+		float x = Coin3->GetPosition().x;
+		// xを100で割る(-のときも考慮)
+		if (x > 1000)
 		{
-			Coin3->SetCollect(true);
-			m_pSVSESdCoin = PlaySound(m_pSDSESdCoin);
+			x *= -1;
 		}
-	}
+		x /= 300.0f;
 
-	if (RegAlpha > 240)
-	{
-		int a = 0;
+		float y = Coin3->GetPosition().y;
+		if (y < 0)
+		{
+			y *= -1;
+		}
+		y /= 1000.0f;
+
+
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin3->GetPosition().z);
+
 	}
 }
 
 // ゴールの当たり判定＆処理
 void BackShadow::GoalCollision(Goal* Goal)
 {
-	if (IsHit(BoxShadowPlayer, BoxGool))
+	if (IsHit(BoxShadowPlayer, BoxGoal))
 	{
 		// 影とダイヤ型が重なったらゴールする
 		Goal->SetGoal(true);
+		if (Goal->GetGoal() != false)
+		{
+			// エフェクト
+			float x = Goal->GetPosition().x;
+
+			if (x > 1000)
+			{
+				x *= -1;
+			}
+			x /= 300.0f;
+
+			float y = Goal->GetPosition().y;
+			if (y < 0)
+			{
+				y *= -1;
+			}
+			y /= 1000.0f;
+
+			LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+
+			//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, -4.0f, 1.094f, 0.0f);
+			m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, x, y, Goal->GetPosition().z);
+		}
+
 	}
 }
 
@@ -529,3 +821,5 @@ bool BackShadow::IsHit(Box Box1, Box Box2)
 
 	return true;
 }
+
+

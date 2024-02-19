@@ -32,9 +32,10 @@ Lift_Obj::Lift_Obj()
 
 {
 	m_pModel = new Model();
-	if (!m_pModel->Load("Assets/Stage/Turiyuka.fbx", Model::Flip::XFlip))	//BoxS.fbx
+	
+	if (!m_pModel->Load("Assets/Model/Block/TuriyukaM (1).fbx", Model::Flip::XFlip))
 	{
-		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました‗リフト", "エラー", MB_OK | MB_ICONWARNING);
+		MessageBox(nullptr, "Liftモデルの読み込みに失敗しました_リフト", "エラー", MB_OK | MB_ICONWARNING);
 	}
 	m_pVS = new VertexShader();
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))

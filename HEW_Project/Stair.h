@@ -32,7 +32,7 @@ public:
 	DirectX::XMFLOAT3 GetStairMaxBounds();
 	DirectX::XMFLOAT3 GetPos();
 
-	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ);
+	void Create(float posX, float posY, float posZ, float scaleX, float scaleY, float scaleZ, bool reverse);
 	void Set();
 	void SetF();
 	bool SetR();
@@ -40,9 +40,7 @@ public:
 
 	void OBJPos();
 	void OBJPosy();
-	void Modelchg();
-	void Modelchg2();
-
+	
 
 	void Set1();
 	void SetF1();
@@ -58,14 +56,20 @@ public:
 	bool IsXZ();
 	bool IsStairTop();
 	bool IsMove();
+	bool IsReverse();
 	void ExtractSlopeVertexCoordinates(Model& slopeModel);
 
 	void SetSlope();
+	void SetReverseSlope();
 	void SetSlopeY(float y);
 
 	
 private:
-	Model* m_pStairModel;
+	Model* m_pStairModelL;
+	Model* m_pStairModelHL;
+	Model* m_pStairModelR;
+	Model* m_pStairModelHR;
+
 	VertexShader* m_pStairVS;
 	DirectX::XMFLOAT3 m_oldPos;
 	DirectX::XMFLOAT3 m_pos;
@@ -85,6 +89,7 @@ private:
 	bool colgravity;
 	bool xz;
 	bool StairTop;
+	bool m_reverse;
 	float a = 0.0f;
 
 
@@ -101,7 +106,7 @@ private:
 	DirectX::XMFLOAT3 cStairMinBound;
 	DirectX::XMFLOAT3 cStairMaxBound;
 
-	int frame = 30;
+	int  frame = 30;
 
 };
 

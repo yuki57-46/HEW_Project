@@ -1,3 +1,5 @@
+#pragma warning(disable:3570)
+
 struct PS_IN
 {
 	float4 pos : SV_POSITION;
@@ -26,6 +28,21 @@ float4 main(PS_IN pin) : SV_TARGET
 	{
 		return float4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
+
+	if (color.g == 1.0f)
+	{
+		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+
+	if (0.05f <= color.g && color.g <= 0.1f || 0.0f <= color.b && color.b <= 0.05f)
+	{
+		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	} // 自動ブロック(赤)
+
+	if (0.5f <= color.r && color.r <= 0.55f && 0.5f <= color.g && color.g <= 0.55f || 0.5f <= color.b && color.b <= 0.55f)
+	{
+		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	}// 床
 	
 	//if (color.r == 1.0f && color.g == 1.0f && color.b == 1.0f)
 	//{
@@ -40,18 +57,21 @@ float4 main(PS_IN pin) : SV_TARGET
 	if (0.95f <= color.r && color.r <= 1.0f || 0.22f <= color.g && color.g <= 0.25f || 0.95f <= color.b && color.b <= 1.0f)
 	{
 		return color;
-	}
+	}//コインのテカリ
 	
 	if (0.50f <= color.r && color.r <= 0.55f || 0.75f <= color.g && color.g <= 0.80f || 0.75f <= color.b && color.b <= 0.80f)
 	{
 		return color;
-	}
+	}//ゴール
 	
 	if (0.31f <= color.r && color.r <= 0.35f || 0.0f <= color.g && color.g <= 0.0f || 0.25 <= color.b && color.b <= 0.30f)
 	{
 		return color;
-	}
+	}//コイン
 	
+
+	
+
 	//// RGB値を平均化
 	float gray = (color.r + color.g + color.b) / 3.0f;
 	////color = float4(gray, gray, gray, 1.0f);
@@ -83,6 +103,7 @@ float4 main(PS_IN pin) : SV_TARGET
 
 	
 	// フィルター処理
+	float4 neighbor = 0.0f;
 	for (int i = -FILTER_SIZE; i <= FILTER_SIZE; i++)
 	{
 		for (int j = -FILTER_SIZE; j <= FILTER_SIZE; j++)
@@ -92,7 +113,6 @@ float4 main(PS_IN pin) : SV_TARGET
 			
 			// フィルタ内のピクセルの色
 			// 前回のサンプリングと比較して、色が変わっていなければ、再度サンプリングを行わない
-			float4 neighbor = 0.0f;
 			if (all(neighbor == center))
 			{
 				neighbor = tex.Sample(samp, pin.uv + offset);

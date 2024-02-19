@@ -198,29 +198,11 @@
     <ClCompile Include="Fade.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectNot.cpp">
-      <Filter>ソース ファイル\object</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectAutoMove.cpp">
-      <Filter>ソース ファイル\object</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
     <ClCompile Include="Haikei.cpp">
       <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneTutorial.cpp">
-      <Filter>ソース ファイル\SceneChange</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneResult.cpp">
-      <Filter>ソース ファイル\SceneChange</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneGame.cpp">
-      <Filter>ソース ファイル\SceneChange</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectScene.cpp">
-      <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -371,6 +353,7 @@
     <ClInclude Include="SelectScene.h">
       <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
+
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VS_Model.hlsl">

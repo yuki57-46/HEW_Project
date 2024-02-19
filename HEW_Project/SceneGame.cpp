@@ -2,6 +2,7 @@
 #include "Geometory.h"
 #include "Input.h"
 #include <DirectXMath.h>
+#include "Input.h"
 
 #define FADE_TEST 0
 
@@ -22,6 +23,7 @@ SceneGame::SceneGame()
 	, m_pBackShadow(nullptr)
 	, m_pObjectMng(nullptr)
 	, m_pFade(nullptr)
+	, m_pCurtain(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -48,6 +50,9 @@ SceneGame::SceneGame()
 	m_pGoal = new Goal();
 	//カーテン
 	m_pCurtainUI = new CurtainUI();
+	m_pCurtain = new Curtain();
+	
+
 
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
 	{
@@ -139,9 +144,13 @@ SceneGame::~SceneGame()
 		delete m_pBackShadow;
 		m_pBackShadow = nullptr;
 	}
+	if (m_pCurtain)
+	{
+		delete m_pCurtain;
+		m_pCurtain = nullptr;
+	}
 	m_pSourceVoice->Stop();
 }
-#include "Input.h"
 
 void SceneGame::Update(SceneManager* pSceneManager, float tick)
 {
@@ -202,9 +211,10 @@ void SceneGame::Draw()
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2], m_pGoal);
 
 	//カーテン表示
-	m_pCurtainUI->LeftDraw();
-	m_pCurtainUI->RightDraw();
+	//m_pCurtainUI->LeftDraw();
+	//m_pCurtainUI->RightDraw();
 
+	
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
@@ -231,6 +241,9 @@ void SceneGame::Draw()
 
 	//オブジェクト
 	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
+	//カーテン
+	m_pCurtain->RightDraw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
+	m_pCurtain->LeftDraw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
 
 	//Geometry用の変更行列を計算
 	//ワールド行列の再計算

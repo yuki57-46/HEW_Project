@@ -38,6 +38,9 @@ Coin::Coin()
 	{
 		MessageBox(NULL, "[Coin.cpp] Failed to load Pixcel Shader", "Error", MB_OK);
 	}
+
+	m_EffectCoin = LibEffekseer::Create("Assets/effect/coinGet.efkefc");
+
 }
 
 //デストラクタ
@@ -68,6 +71,10 @@ Coin::~Coin()
 //更新
 void Coin::Update()
 {
+	if (IsCoinCollected == true)
+	{
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, m_CoinPos.x,m_CoinPos.y, m_CoinPos.z);
+	}
 
 }
 
@@ -124,15 +131,11 @@ void Coin::Draw(float x, float y, float z, float sizeX, float sizeY, int num)
 }
 
 
-float Coin::SetPosition(float x, float y, float z)
+void Coin::SetPosition(float x, float y, float z)
 {
 	m_CoinPos.x = x;
 	m_CoinPos.y = y;
 	m_CoinPos.z = z;
-
-	return m_CoinPos.x;
-	return m_CoinPos.y;
-	return m_CoinPos.z;
 }
 
 DirectX::XMFLOAT3 Coin::GetPosition() const

@@ -1,4 +1,4 @@
-
+ï»¿
 #include"Objectcamera.h"
 #include"CameraObject.h"
 #include "Geometory.h"
@@ -14,8 +14,8 @@ ObjectCamera::ObjectCamera()
 {
 	m_pObjectCameramodel = new Model;
 
-	if (!m_pObjectCameramodel->Load("Assets/Model/Block/Slope.fbx", 0.5f, Model::Flip::XFlip)) {
-		MessageBox(NULL, "ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚ÝƒGƒ‰[", "Error", MB_OK);
+	if (!m_pObjectCameramodel->Load("Assets/Model/Block/BoxS.fbx", 0.5f, Model::Flip::XFlip)) {
+		MessageBox(NULL, "ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼,ã‚«ãƒ¡ãƒ©ç”¨", "Error", MB_OK);
 	}
 	m_pObjectCameraVS = new VertexShader();
 	if (FAILED(m_pObjectCameraVS->Load("Assets/Shader/VS_Model.cso")))
