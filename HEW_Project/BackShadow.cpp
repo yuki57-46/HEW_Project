@@ -278,15 +278,6 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_indexX = m_castPosX;
 		m_indexY = m_castPosY;
 
-		if (m_indexY < 0)
-		{
-			m_indexY = 1;
-		}
-		if (m_indexY > 360)
-		{
-			m_indexY = 1;
-		}
-
 		// ゴール
 		if (Goal->IsGoal == false)
 		{	m_Goalpos = Goal->GetPosition();}
@@ -382,6 +373,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			BoxCoin3.maxY = RESET_POSISHION;	// 下辺
 			BoxCoin3.minY = RESET_POSISHION;	// 上辺
 		}
+		// ゴール
 		if (Goal->GetGoal() == true)
 		{
 			BoxGoal.maxX = RESET_POSISHION;	// 右辺
@@ -433,7 +425,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		for (int j = 0; j < SHADOWPLAYER_SIZE_Y; j++)
 		{
 			if (m_indexY - j <= 0 || m_indexY - j > 360)
-			{
+			{// 例外スロー対策
 				break;
 			}
 			if (m_LRcheck == false)
@@ -474,17 +466,18 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
 			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
-			{
+			{// 例外スロー対策
 				break;
 			}
+			// 影君の両横の縦長にα値があるか見てる -> |影| こんな感じ
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			if (m_alpha > 240)
+			if (m_alpha > 240)	// 右
 			{	m_nWarningRAlpha++;	}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			if (m_alpha > 240)
+			if (m_alpha > 240)	// 左
 			{	m_nWarningLAlpha++;	}
 			if (ShadowWarningCollision(m_nWarningLAlpha, m_nWarningRAlpha))
-			{
+			{// α値の合計数で一定数超えていたらtrueを返す
 				m_pShadowPlayer->SetKeikai(true);// ここにあわわわ挙動の関数呼び出し
 			}
 			else
@@ -501,23 +494,24 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		for (int i = 0; i < SHADOWPLAYER_SIZE_Y - 30; i++)
 		{
 			if (m_indexY + 15 - i <= 0 || m_indexY + 15 - i > 360)
-			{
+			{// 例外スロー対策
 				break;
 			}
+			// 影君の両横の縦長に二重にα値があるか見てる -> ||影|| こんな感じ
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			if (m_alpha > 240)
+			if (m_alpha > 240)	// 外側右
 			{	m_nWarningRAlpha++;	}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X + 5)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			if (m_alpha > 240)
+			if (m_alpha > 240)	// 外側左
 			{	m_nWarningLAlpha++;	}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX + (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			if (m_alpha > 240)
+			if (m_alpha > 240)	// 内側右
 			{	m_nDeathRAlpha++;	}
 			m_alpha = pData[(m_indexY + 15 - i) * width + m_indexX - (SHADOWPLAYER_SIZE_X - 12)].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-			if (m_alpha > 240)
+			if (m_alpha > 240)	// 内側左
 			{	m_nDeathLAlpha++;	}
 			if (ShadowDeathCollision(m_nDeathLAlpha, m_nDeathRAlpha, m_nWarningLAlpha, m_nWarningRAlpha))
-			{
+			{// α値の合計数で一定数超えていたらtrueを返す
 				m_pShadowPlayer->SetDeath(true);// ここに死亡挙動の関数呼び出し
 			}
 		}
@@ -538,6 +532,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	SetSamplerState(SAMPLER_POINT);
 	// スプライトの設定
 
+	// 影の表示形式変更
 	if (IsKeyPress('1'))
 	{
 		m_PS = 0;
