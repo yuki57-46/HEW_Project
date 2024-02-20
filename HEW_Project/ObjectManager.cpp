@@ -48,7 +48,7 @@ ObjectMng::ObjectMng()
 	//
 	//
 
-	int stage_num = 1;	// 現在のステージ
+	int stage_num = 6;	// 現在のステージ
 
 	switch (stage_num)
 	{
@@ -578,14 +578,211 @@ ObjectMng::ObjectMng()
 	// stage5
 	case 5:
 	{
-
+		//ブロック
+		Setting data[] = {
+			{0.5f, 0.0f, 2.0f, 0.49f, 0.49f, 0.25f,false,true},
+			{-0.25f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false,true},
+			{-1.0f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+			{-1.25f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},
+			{-1.5f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},
+		};
+		m_num = sizeof(data) / sizeof(data[0]);
+		m_pObjects = new Object[m_num];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num; i++) {	//確保したブロックに初期データを設定
+			m_pObjects[i].Create(
+				data[i].x, data[i].y, data[i].z,
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ, data[i].hyoui, data[i].Auto, data[i].XZM
+			);
+		}
+		//リフト
+		Setting1 data1[] = {
+			{ 0.345f, 0.6f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},    //動かさない
+			{ -0.875f, 1.25f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},    //動かさない
+		};
+		m_num1 = sizeof(data1) / sizeof(data1[0]);
+		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num1; i++) {		//確保したブロックに初期データを設定
+			m_pLift_obj[i].Create(
+				data1[i].x, data1[i].y, data1[i].z,
+				data1[i].scaleX, data1[i].scaleY, data1[i].scaleZ
+				, data1[i].lifth, data1[i].liftl, data1[i].lifts
+			);
+		}
+		//レバー
+		Setting2 data2[] = {
+			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ -2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+		};
+		m_num2 = sizeof(data2) / sizeof(data2[0]);
+		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num2; i++) {	//確保したブロックに初期データを設定
+			m_pLever[i].Create(
+				data2[i].x, data2[i].y, data2[i].z,
+				data2[i].scaleX, data2[i].scaleY, data2[i].scaleZ
+			);
+		}
+		//スロープ
+		Setting3 data3[] = {
+			{1.25f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
+			{1.0f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
+			{0.25f, 0.0f, 2.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
+			{-1.25f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
+			{0.75f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
+		};
+		m_num3 = sizeof(data3) / sizeof(data3[0]);
+		m_pStair = new Stair[m_num3];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num3; i++) {	//確保したブロックに初期データを設定
+			m_pStair[i].Create(
+				data3[i].x, data3[i].y, data3[i].z,
+				data3[i].scaleX, data3[i].scaleY, data3[i].scaleZ,
+				data3[i].reverse
+			);
+		}
+		//床
+		Setting4 data4[] = {
+			{ 0.0f, 0.0f, 2.3f, 1.45f, 1.2f, 0.7f},
+		};
+		m_num4 = sizeof(data4) / sizeof(data4[0]);
+		m_pYuka = new Yuka[m_num4];			//必要な数だけブロックを確保
+		for (int i = 0; i < m_num4; i++) {	//確保したブロックに初期データを設定
+			m_pYuka[i].Create(
+				data4[i].x, data4[i].y, data4[i].z,
+				data4[i].scaleX, data4[i].scaleY, data4[i].scaleZ
+			);
+		}
+		//留め具		被憑依ブロックの前においてね
+		Setting5 data5[] = {
+			{ 0.0f, -1.0f, 2.3f, 0.3f, 0.3f, 0.3f},
+		};
+		m_num5 = sizeof(data5) / sizeof(data5[0]);
+		m_pTomegu = new Tomegu[m_num5];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num5; i++) {	//確保したブロックに初期データを設定
+			m_pTomegu[i].Create(
+				data5[i].x, data5[i].y, data5[i].z,
+				data5[i].scaleX, data5[i].scaleY, data5[i].scaleZ
+			);
+		}
+		//マグネット	リフトの下においてね
+		Setting6 data6[] = {
+			{ 1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+			{ -1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		};
+		m_num6 = sizeof(data6) / sizeof(data6[0]);
+		m_pMagnet = new Magnet[m_num6];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num6; i++) {	//確保したブロックに初期データを設定
+			m_pMagnet[i].Create(
+				data6[i].x, data6[i].y, data6[i].z,
+				data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
+			);
+		}
 	}
 	break;
 
 	// stage6
 	case 6:
 	{
-
+		//ブロック
+		Setting data[] = {
+			{1.0f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
+			{0.75f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+			{0.5f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+			{-0.25f, 0.0f, 2.0f, 0.24f, 1.25f, 0.25f,false,false},    //動かさない
+			{-0.5f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+			{-0.5f, 0.0f, 2.25f, 0.24f, 0.25f, 0.24f,true,false},
+			{-0.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false,false},    //動かさない
+			{-1.625f, 0.0f, 2.0f, 0.5f, 0.25f, 0.25f,true,false},
+		};
+		m_num = sizeof(data) / sizeof(data[0]);
+		m_pObjects = new Object[m_num];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num; i++) {	//確保したブロックに初期データを設定
+			m_pObjects[i].Create(
+				data[i].x, data[i].y, data[i].z,
+				data[i].scaleX, data[i].scaleY, data[i].scaleZ, data[i].hyoui, data[i].Auto, data[i].XZM
+			);
+		}
+		//リフト
+		Setting1 data1[] = {
+			{ 1.25f, 0.65f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+			{ 0.125f, 0.5f, 2.0f, 0.35f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+			{ -1.125f, 0.5f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f}
+		};
+		m_num1 = sizeof(data1) / sizeof(data1[0]);
+		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num1; i++) {		//確保したブロックに初期データを設定
+			m_pLift_obj[i].Create(
+				data1[i].x, data1[i].y, data1[i].z,
+				data1[i].scaleX, data1[i].scaleY, data1[i].scaleZ
+				, data1[i].lifth, data1[i].liftl, data1[i].lifts
+			);
+		}
+		//レバー
+		Setting2 data2[] = {
+			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ -2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+		};
+		m_num2 = sizeof(data2) / sizeof(data2[0]);
+		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num2; i++) {	//確保したブロックに初期データを設定
+			m_pLever[i].Create(
+				data2[i].x, data2[i].y, data2[i].z,
+				data2[i].scaleX, data2[i].scaleY, data2[i].scaleZ
+			);
+		}
+		//スロープ
+		Setting3 data3[] = {
+			{1.25f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},
+			{0.5f, 0.0f, 2.25f, 0.24f, 0.24f, 0.25f,false},
+			{0.25f, 0.0f, 2.0f, -0.24f, 0.24f, -0.25f,true},
+			{-0.5f, 0.25f, 2.25f, -0.24f, 0.24f, -0.25f,true},
+			{-1.0f, 0.0f, 2.0f, -0.24f, 0.24f, -0.25f,true},
+		};
+		m_num3 = sizeof(data3) / sizeof(data3[0]);
+		m_pStair = new Stair[m_num3];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num3; i++) {	//確保したブロックに初期データを設定
+			m_pStair[i].Create(
+				data3[i].x, data3[i].y, data3[i].z,
+				data3[i].scaleX, data3[i].scaleY, data3[i].scaleZ,
+				data3[i].reverse
+			);
+		}
+		//床
+		Setting4 data4[] = {
+			{ 0.0f, 0.0f, 2.3f, 1.45f, 1.2f, 0.7f},
+		};
+		m_num4 = sizeof(data4) / sizeof(data4[0]);
+		m_pYuka = new Yuka[m_num4];			//必要な数だけブロックを確保
+		for (int i = 0; i < m_num4; i++) {	//確保したブロックに初期データを設定
+			m_pYuka[i].Create(
+				data4[i].x, data4[i].y, data4[i].z,
+				data4[i].scaleX, data4[i].scaleY, data4[i].scaleZ
+			);
+		}
+		//留め具		被憑依ブロックの前においてね
+		Setting5 data5[] = {
+			{-0.25f, 0.0f, 2.2f,0.3f,0.3f,0.3f},
+		};
+		m_num5 = sizeof(data5) / sizeof(data5[0]);
+		m_pTomegu = new Tomegu[m_num5];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num5; i++) {	//確保したブロックに初期データを設定
+			m_pTomegu[i].Create(
+				data5[i].x, data5[i].y, data5[i].z,
+				data5[i].scaleX, data5[i].scaleY, data5[i].scaleZ
+			);
+		}
+		//マグネット	リフトの下においてね
+		Setting6 data6[] = {
+			{ 1.125f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+			{ 0.125f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+			{ -1.125f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f}
+		};
+		m_num6 = sizeof(data6) / sizeof(data6[0]);
+		m_pMagnet = new Magnet[m_num6];		//必要な数だけブロックを確保
+		for (int i = 0; i < m_num6; i++) {	//確保したブロックに初期データを設定
+			m_pMagnet[i].Create(
+				data6[i].x, data6[i].y, data6[i].z,
+				data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
+			);
+		}
 	}
 	break;
 
