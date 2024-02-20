@@ -47,7 +47,7 @@ ObjectMng::ObjectMng()
 	// Min_Z (1.8f)この値がブロックの配置制限位置
 	//
 
-	int stage_num = 0;	// 現在のステージの番号(0にしてチュートリアルから始める)
+	int stage_num = 1;	// 現在のステージの番号(0にしてチュートリアルから始める)
 
 	switch (stage_num)
 	{
