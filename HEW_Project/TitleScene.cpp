@@ -61,7 +61,7 @@ void SceneTitle::Update(SceneManager* pSceneManager)
 	if (IsKeyTrigger(VK_RETURN))
 	{
 //		m_pFade->Start(false, 1.0f);
-		pSceneManager->SetNextScene(SCENE_TUTORIAL);
+		pSceneManager->SetNextScene(SCENE_SELECT);
 
 //		m_pFade->Start(false, 0.5f);	// フェードアウト
 //		m_pSceneManager->ChangeScene(SceneManager::SCENE_TUTORIAL);	// 操作説明シーンに移る

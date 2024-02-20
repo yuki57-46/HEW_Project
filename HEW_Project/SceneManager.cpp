@@ -94,10 +94,11 @@ void SceneManager::Draw()
 	{
 	case SCENE_TITLE:	 m_pSceneTitle->Draw();		break;
 	case SCENE_TUTORIAL: m_pSceneTutorial->Draw();	break;
-	case SCENE_SELECT:	 m_pSceneSelect->Draw();	break;
+	case SCENE_SELECT:	 m_pSceneSelect->Draw(), m_pSceneSelect->BackUIDraw(), m_pSceneSelect->MenuUIDraw(), m_pSceneSelect->StartUIDraw(),m_pSceneSelect->CursorUIDraw()
+						, m_pSceneSelect->Stage1Draw(), m_pSceneSelect->Stage2Draw(), m_pSceneSelect->Stage3Draw(), m_pSceneSelect->Stage4Draw();	break;
 	case SCENE_GAME:	 m_pSceneGame->Draw();		break;
 	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw(), m_pSceneResult->FPDraw()
-												, m_pSceneResult->NextDraw();	break;
+						, m_pSceneResult->NextDraw();	break;
 	default: break;
 	}
 	// 一番最後に画面全体に表示する

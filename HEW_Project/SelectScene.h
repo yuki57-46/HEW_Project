@@ -34,9 +34,26 @@ public:
 	~SelectScene();
 	void Update(SceneManager* pSceneManager);
 	void Draw();
+	void BackUIDraw();
+	void MenuUIDraw();
+	void StartUIDraw();
+	void CursorUIDraw();
+	void Stage1Draw();
+	void Stage2Draw();
+	void Stage3Draw();
+	void Stage4Draw();
 
 private:
 	Texture*		 m_pTexture;
+	Texture*		 m_pBackTexture;
+	Texture*		 m_pMenuTexture;
+	Texture*		 m_pStartTexture;
+	Texture*		 m_pCursorTexture;
+	Texture*		 m_pStage1Texture;
+	Texture*		 m_pStage2Texture;
+	Texture*		 m_pStage3Texture;
+	Texture*		 m_pStage4Texture;
+
 	SceneManager*	 m_pSceneManager;
 	Fade*			 m_pFade;
 	Screen*			 m_pScreen;
