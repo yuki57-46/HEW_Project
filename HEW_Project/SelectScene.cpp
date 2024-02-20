@@ -165,6 +165,10 @@ void SelectScene::Update(SceneManager* pSceneManager)
 	{
 		pSceneManager->SetNextScene(SCENE_TUTORIAL);
 	}*/
+
+	//カーソル移動
+	//各座標メモ→1=(236.0f, 226.5f, 0.0f),2=(636.0f, 226.5f, 0.0f),3=(1036.0f, 226.5f, 0.0f),4=(438.0f, 456.1f, 0.0f)
+
 }
 
 void SelectScene::Draw()
@@ -299,7 +303,7 @@ void SelectScene::CursorUIDraw()
 	//ワールド行列はXとYのみを考慮して作成
 	DirectX::XMMATRIX world =
 		DirectX::XMMatrixTranslation(
-			1140.0f, 680.0f, 0.0f
+			438.0f, 456.1f, 0.0f
 		);
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
@@ -307,7 +311,6 @@ void SelectScene::CursorUIDraw()
 	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
 	//プロジェクション行列には2Dとして表示するための行列を設定する
-	//この行列で2Dぼスクリーンの大きさが決まる
 	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
 		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f
 	);
@@ -318,7 +321,7 @@ void SelectScene::CursorUIDraw()
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
-	Sprite::SetSize(DirectX::XMFLOAT2(265.0f, -52.0f));
+	Sprite::SetSize(DirectX::XMFLOAT2(380.0f, -220.0f));		//602×340
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pCursorTexture);
 	Sprite::Draw();

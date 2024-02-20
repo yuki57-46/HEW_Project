@@ -267,24 +267,7 @@ void SceneGame::Draw()
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
-	//コインの枠表示
-	m_pCoinCntUI->Draw();
-
-	//コインが取得されていたら描画
-	if (m_pCoin[0].IsCoinCollected == true)
-	{
-		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
-	}
-
-	if (m_pCoin[1].IsCoinCollected == true)
-	{
-		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
-	}
-
-	if (m_pCoin[2].IsCoinCollected == true)
-	{
-		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
-	}
+	
 
 	//ゴールしたら表示（仮）
 	//本当は画面遷移
@@ -336,4 +319,22 @@ void SceneGame::Draw()
 
 	//SetRenderTargets(1, &m_pRTV, m_pDSV);
 
+	//コインの枠表示
+	m_pCoinCntUI->Draw();
+
+	//コインが取得されていたら描画
+	if (m_pCoin[0].IsCoinCollected == true)
+	{
+		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+	}
+
+	if (m_pCoin[1].IsCoinCollected == true)
+	{
+		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+	}
+
+	if (m_pCoin[2].IsCoinCollected == true)
+	{
+		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+	}
 }
