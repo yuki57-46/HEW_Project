@@ -638,25 +638,48 @@ void Stair::Create(float posX, float posY, float posZ, float scaleX, float scale
 	}
 	SetBounds(StairMinBound, StairMaxBound);
 
-	cStairMinBound.x *= m_scale.x;
-	cStairMinBound.y *= m_scale.y;
-	cStairMinBound.z *= m_scale.z;
-	cStairMaxBound.x *= m_scale.x;
-	cStairMaxBound.y *= m_scale.y;
-	cStairMaxBound.z *= m_scale.z;
-
-	//これがないとy軸の当たり判定おかしくなる
-
-	if (cStairMinBound.y < 0)
+	if (reverse == false)
 	{
-		a = cStairMinBound.y *= -1;
-		cStairMaxBound.y += a;
+		cStairMinBound.x *= m_scale.x;
+		cStairMinBound.y *= m_scale.y;
+		cStairMinBound.z *= m_scale.z;
+		cStairMaxBound.x *= m_scale.x;
+		cStairMaxBound.y *= m_scale.y;
+		cStairMaxBound.z *= m_scale.z;
 
-		cStairMinBound.y = 0;
+		//これがないとy軸の当たり判定おかしくなる
+
+		if (cStairMinBound.y < 0)
+		{
+			a = cStairMinBound.y *= -1;
+			cStairMaxBound.y += a;
+
+			cStairMinBound.y = 0;
+		}
+
+		CSetBounds(cStairMinBound, cStairMaxBound);
 	}
+	else
+	{
+		cStairMinBound.x *= m_scale.x * -1;
+		cStairMinBound.y *= m_scale.y;
+		cStairMinBound.z *= m_scale.z * -1;
+		cStairMaxBound.x *= m_scale.x * -1;
+		cStairMaxBound.y *= m_scale.y;
+		cStairMaxBound.z *= m_scale.z * -1;
 
-	CSetBounds(cStairMinBound, cStairMaxBound);
+		//これがないとy軸の当たり判定おかしくなる
 
+		if (cStairMinBound.y < 0)
+		{
+			a = cStairMinBound.y *= -1;
+			cStairMaxBound.y += a;
+
+			cStairMinBound.y = 0;
+		}
+
+		CSetBounds(cStairMinBound, cStairMaxBound);
+	}
 
 	hStairMinBound.x *= m_scale.x;
 	hStairMinBound.y *= m_scale.y;

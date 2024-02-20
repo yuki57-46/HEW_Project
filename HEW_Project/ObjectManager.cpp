@@ -70,17 +70,17 @@ ObjectMng::ObjectMng()
 		//{-0.75f, 0.0f, 2.75f, 0.24f, 0.25f, 0.25f,true,false},
 
 		//==========stage1====================
-		//{1.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
-		//{0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
-		//{-0.25f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{0.0f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		//{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+		{1.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+		{0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+		{-0.25f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{0.0f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 
 
 		//===========stage2====================
@@ -107,11 +107,11 @@ ObjectMng::ObjectMng()
 		//{-1.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
 
 		//===================stage5========================
-		{0.5f, 0.0f, 2.0f, 0.49f, 0.49f, 0.25f,false,true},		//前後
-		{-0.25f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false,true},	//左右
-		{-1.0f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},	
-		{-1.25f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},	
-		{-1.5f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},	
+		//{0.5f, 0.0f, 2.0f, 0.49f, 0.49f, 0.25f,false,true},		//前後
+		//{-0.25f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false,true},	//左右
+		//{-1.0f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},	
+		//{-1.25f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},	
+		//{-1.5f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},	
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -179,7 +179,7 @@ ObjectMng::ObjectMng()
 		{ 2.0f, 10.5f, 2.5f, 0.15f, 0.15f, 0.15f},	//表示しない
 
 		//stage3
-		//{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f}
+		{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f}
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -241,17 +241,17 @@ ObjectMng::ObjectMng()
 		//{0.75f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
 
 		//===============stage4===============
-	//	{1.25f, 0.0f, 2.3f, -0.24f, 0.25f, -0.25f, true},//逆向き
-	//	{1.0f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
-	//	{0.25f, 0.0f, 2.0f, -0.24f, 0.25f, -0.25f, true},//逆向き
-	//	{-1.25f, 0.0f, 2.75f, -0.24f, 0.25f,-0.25f, true},//逆向き
-	//	{0.75f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
+		{1.25f, 0.0f, 2.3f, -0.24f, 0.25f, -0.25f, true},//逆向き
+		{1.0f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
+		{0.25f, 0.0f, 2.0f, -0.24f, 0.25f, -0.25f, true},//逆向き
+		{-1.25f, 0.0f, 2.75f, -0.24f, 0.25f,-0.25f, true},//逆向き
+		{0.75f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
 
 		//=======================stage5======================
-		{1.0f, 0.0f, 2.25f, 0.24f, 0.25f, 0.25f,false},
-		{0.0f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},
-		{-0.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},	//左右
-		{-1.0f, 0.5f, 2.0f, 0.24f, 0.25f, 0.25f,false},
+		//{1.0f, 0.0f, 2.25f, 0.24f, 0.25f, 0.25f,false},
+		//{0.0f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},
+		//{-0.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},	//左右
+		//{-1.0f, 0.5f, 2.0f, 0.24f, 0.25f, 0.25f,false},
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -521,18 +521,22 @@ void ObjectMng::Update(float tick)
 						if (m_pObjects[i].col(*lift))
 						{
 							//m_pObjects[i].OBJPosy();
-							if (gameObject->GetCMinBounds().y + 0.1 >= lift->GetMaxBounds().y)
+							if (gameObject->GetCMinBounds().y + 0.05 >= lift->GetMaxBounds().y)
 							{
-								m_pObjects[i].OBJPosy();
+								m_pObjects[i].MoveObject(lift->GetMaxBounds().y);
+								m_pObjects[i].SetF1();
+								m_pObjects[i].framepls();
 							}
 							else if (gameObject->GetCMinBounds().y + 0.03 <= lift->GetMaxBounds().y)
 							{
-								m_pObjects[i].OBJPos();
+								m_pObjects[i].MoveObject(lift->GetMaxBounds().y);
+								m_pObjects[i].SetF1();
+								m_pObjects[i].framepls();
 
 							}
 							else if (m_pObjects[i].IsXZ())
 							{
-								m_pObjects[i].OBJPos();
+								m_pObjects[i].OBJPosy();
 							}
 							if (m_pLift_obj[a].IsMove())
 							{
@@ -541,7 +545,7 @@ void ObjectMng::Update(float tick)
 									m_pObjects[i].MoveObject(liftposY);
 								}
 							}
-							if (gameObject->GetMaxBounds().y >= lift->GetCMinBounds().y)
+							if (gameObject->GetMaxBounds().y <= lift->GetCMinBounds().y)
 							{
 								if(m_pLift_obj[a].IsMove()==true)
 								{
@@ -566,23 +570,27 @@ void ObjectMng::Update(float tick)
 						if (m_pStair[b].col(*lift))
 						{
 							//m_pObjects[i].OBJPosy();
-							if (gameObject->GetCMinBounds().y + 0.1 >= lift->GetMaxBounds().y)
+							if (gameObject->GetCMinBounds().y + 0.5 >= lift->GetMaxBounds().y)
 							{
-								m_pStair[b].OBJPosy();
+								m_pStair[b].SetSlopeY(lift->GetMaxBounds().y);
+								m_pStair[b].SetF1();
+								m_pStair[b].framepls();
 							}
 							else if (gameObject->GetCMinBounds().y + 0.03 <= lift->GetMaxBounds().y)
 							{
-								m_pStair[i].OBJPos();
+								m_pStair[b].SetSlopeY(lift->GetMaxBounds().y);
+								m_pStair[b].SetF1();
+								m_pStair[b].framepls();
 							}
 							else if (m_pObjects[i].IsXZ())
 							{
-								m_pStair[b].OBJPos();
+								m_pStair[b].SetSlopeY(lift->GetMaxBounds().y);
 							}
 							if (m_pLift_obj[a].IsMove())
 							{
 								m_pStair[b].MoveStair(liftposY);
 							}
-							if (gameObject->GetMaxBounds().y >= lift->GetCMinBounds().y)
+							if (gameObject->GetMaxBounds().y <= lift->GetCMinBounds().y)
 							{
 								if (m_pLift_obj[a].IsMove() == true)
 								{
@@ -1289,6 +1297,15 @@ void ObjectMng::Update(float tick)
 											{
 												m_pObjects[h].Set1();
 												m_pStair[h].Set1();
+											}
+											if (m_pObjects[j].IsMove() == true)
+											{
+												m_pStair[b].Set1();
+											}
+											else
+											{
+												m_pStair[b].SetF1();
+												m_pStair[b].framepls();
 											}
 										}
 										else if (m_pStair[b].IsXZ())
