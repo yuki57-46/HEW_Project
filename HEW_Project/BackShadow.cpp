@@ -613,7 +613,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	Sprite::SetTexture(m_pRTV_BS);
 	Sprite::Draw();
 
-	LibEffekseer::Draw();
+	//LibEffekseer::Draw();
 
 	//m_pPS[0]->Bind();
 	//m_pPS[0]->WriteBuffer(0, mat);
@@ -734,14 +734,14 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		{
 			x *= -1;
 		}
-		x /= 100.0f;
+		x = (x - 640.0f) / 1280.0f * 10.0f * (-1.0f);
 
 		float y = Coin1->GetPosition().y;
 		if (y < 0)
 		{
 			y *= -1;
 		}
-		y /= 100.0f;
+		y = (y - 360.0f) / 720.0f * 6.0f * (-1.0f);
 
 		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
 		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin1->GetPosition().z);
@@ -759,14 +759,15 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		{
 			x *= -1;
 		}
-		x /= 1000.0f;
+		x = (x - 640.0f) / 1280.0f * 10.0f * (-1.0f);
 
 		float y = Coin2->GetPosition().y;
 		if (y < 0)
 		{
 			y *= -1;
 		}
-		y /= 1000.0f;
+		y = (y - 360.0f) / 720.0f * 6.0f * (-1.0f);
+
 		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
 
 		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin2->GetPosition().z);
@@ -785,15 +786,14 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		{
 			x *= -1;
 		}
-		x /= 300.0f;
+		x = (x - 640.0f) / 1280.0f * 10.0f * (-1.0f);
 
 		float y = Coin3->GetPosition().y;
 		if (y < 0)
 		{
 			y *= -1;
 		}
-		y /= 1000.0f;
-
+		y = (y - 360.0f) / 720.0f * 6.0f * (-1.0f);
 
 		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
 
