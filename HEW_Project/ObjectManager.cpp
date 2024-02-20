@@ -55,32 +55,32 @@ ObjectMng::ObjectMng()
 	//ブロック配置.スケール指定
 	Setting data[] = {
 		//=================移動チュートリアル===============
-		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-		//{-0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
+		//{1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{-0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 
 		//===============拡縮チュートリアル================
-		//{0.75f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
-		//{-0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
+		//{0.75f, 0.0f, 3.0f, 0.24f, 0.25f, 0.25f,true,false},
+		//{-0.5f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
 
 		//================ジャンプチュートリアル============
-		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-		//{0.5f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+		//{0.75f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{0.5f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 		//{-0.875f, 0.0f, 2.5f, 0.5f, 0.25f, 0.25f,true,false},
-		//{-1.0f, 0.25f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
-		//{-0.75f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f,true,false},
+		//{-1.0f, 0.25f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+		//{-0.75f, 0.0f, 2.75f, 0.24f, 0.25f, 0.25f,true,false},
 
 		//==========stage1====================
-		{1.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
-		{0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
-		{-0.25f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{0.0f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-		{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+		//{1.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+		//{0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+		//{-0.25f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{0.0f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+		//{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 
 
 		//===========stage2====================
@@ -106,7 +106,26 @@ ObjectMng::ObjectMng()
 		//{-1.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 		//{-1.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
 
+		//===================stage5========================
+		//{0.5f, 0.0f, 2.0f, 0.49f, 0.49f, 0.25f,false,true},		//前後
+		//{-0.25f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false,true},	//左右
+		//{-1.0f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},	
+		//{-1.25f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},	
+		//{-1.5f, 0.0f, 2.0f, 0.24f, 0.75f, 0.25f,true,false},
+
+		//====================staga6=========================
+		{1.0f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,true,false},
+		{0.75f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+		{0.5f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+		{-0.25f, 0.0f, 2.0f, 0.24f, 1.25f, 0.25f,false,false},	//動かさない
+		{-0.5f, 0.0f, 2.0f, 0.24f, 0.5f, 0.25f,true,false},
+		{-0.5f, 0.0f, 2.25f, 0.24f, 0.25f, 0.24f,true,false},
+		{-0.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false,false},	//動かさない
+		{-1.625f, 0.0f, 2.0f, 0.5f, 0.25f, 0.25f,true,false},
+
+
 	};
+
 
 	//配列の要素の数から必要なブロック数を計算
 	m_num = sizeof(data) / sizeof(data[0]);
@@ -130,16 +149,26 @@ ObjectMng::ObjectMng()
 	//ブロック配置.スケール指定
 	Setting1 data1[] = {
 		//========チュートリアル～stage2まで===================
-		{ 0.75f, 1.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
+		//{ 0.75f, 10.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},	//表示しない
 
 		//======================stage3==========================
-		//{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
-		//{ -0.75f, 0.75f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
-		//{ -2.25f, 0.75f, 2.25f, 0.5f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
+		//{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.001f},	//動かさない
+		//{ -0.75f, 0.75f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.001f},	//動かさない
+		//{ -2.25f, 0.75f, 2.25f, 0.5f, 0.1f, 0.25f,4.0f,1.5f,0.001f},	//動かさない
 
 		//=======================stage4=========================
-		//{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
-		//{ -1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+		//{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},	//動かさない
+		//{ -1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},	//動かさない
+
+		//========================stage5=========================
+		//{ 0.345f, 0.6f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},	//動かさない
+		//{ -0.875f, 1.25f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},	//動かさない
+
+		//======================stage6==========================
+		{ 1.25f, 0.65f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+		{ 0.125f, 0.5f, 2.0f, 0.35f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+		{ -1.125f, 0.5f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f}
+
 
 	};
 
@@ -166,10 +195,15 @@ ObjectMng::ObjectMng()
 	//ブロック配置.スケール指定
 	Setting2 data2[] = {
 		//===チュートリアル～stage2まで======
-		{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+		{ 2.0f, 10.5f, 2.5f, 0.15f, 0.15f, 0.15f},	//表示しない
 
 		//stage3
-		//{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f}
+		//{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+
+		//stage5,6
+		{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},	
+		{ -2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},	
+
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -218,11 +252,11 @@ ObjectMng::ObjectMng()
 		//{0.0f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f, false},
 
 		//==========stage2===================
-		{1.75f, 0.0f, 2.6f, 0.24f, 0.25f, 0.25f, false},
-		{0.0f, 0.0f, 3.2f, 0.24f, 0.25f, 0.25f, false},
-		{-0.5f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f, false},
-		{-1.8f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
-		{-0.7f, 0.0f, 3.2f, -0.24f, 0.25f, -0.25f, true},
+		//{1.75f, 0.0f, 2.6f, 0.24f, 0.25f, 0.25f, false},
+		//{0.0f, 0.0f, 3.2f, 0.24f, 0.25f, 0.25f, false},
+		//{-0.5f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f, false},
+		//{-1.8f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
+		//{-0.7f, 0.0f, 3.2f, -0.24f, 0.25f, -0.25f, true},
 
 		//==============stage3================
 		//{1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
@@ -231,11 +265,26 @@ ObjectMng::ObjectMng()
 		//{0.75f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
 
 		//===============stage4===============
-	//	{1.25f, 0.0f, 2.3f, -0.24f, 0.25f, -0.25f, true},//逆向き
-	//	{1.0f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
-	//	{0.25f, 0.0f, 2.0f, -0.24f, 0.25f, -0.25f, true},//逆向き
-	//	{-1.25f, 0.0f, 2.75f, -0.24f, 0.25f,-0.25f, true},//逆向き
-	//	{0.75f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
+		//{1.25f, 0.0f, 2.3f, -0.24f, 0.25f, -0.25f, true},//逆向き
+		//{1.0f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
+		//{0.25f, 0.0f, 2.0f, -0.24f, 0.25f, -0.25f, true},//逆向き
+		//{-1.25f, 0.0f, 2.75f, -0.24f, 0.25f,-0.25f, true},//逆向き
+		//{0.75f, 0.0f, 2.3f, 0.24f, 0.25f, 0.25f, false},
+
+		//=======================stage5======================
+		//{1.0f, 0.0f, 2.25f, 0.24f, 0.25f, 0.25f,false},
+		//{0.0f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},
+		//{-0.75f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},	//左右
+		//{-1.0f, 0.5f, 2.0f, 0.24f, 0.25f, 0.25f,false},
+
+		//========================stagae6========================
+		{1.25f, 0.0f, 2.0f, 0.24f, 0.25f, 0.25f,false},
+		{0.5f, 0.0f, 2.25f, 0.24f, 0.24f, 0.25f,false},
+		{0.25f, 0.0f, 2.0f, -0.24f, 0.24f, -0.25f,true},
+		{-0.5f, 0.25f, 2.25f, -0.24f, 0.24f, -0.25f,true},
+		{-1.0f, 0.0f, 2.0f, -0.24f, 0.24f, -0.25f,true},
+
+
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -299,6 +348,9 @@ ObjectMng::ObjectMng()
 		//==========stage4===============
 		//{-0.625f, 0.0f, 2.0f, 0.3f, 0.25f, 0.25f},
 
+		//============stage6===================
+		{-0.25f, 0.0f, 2.2f,0.3f,0.3f,0.3f},
+
 	};
 
 	//配列の要素の数から必要なブロック数を計算
@@ -336,6 +388,15 @@ ObjectMng::ObjectMng()
 		//=============stage4===================
 		//{ 1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
 		//{ -1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+
+		//==========stage5===================
+		//{ 0.345f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		//{ -0.875f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+
+		//================stage6===================
+		{ 1.125f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		{ 0.125f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+		{ -1.125f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f}
 
 	};
 
@@ -505,18 +566,22 @@ void ObjectMng::Update(float tick)
 						if (m_pObjects[i].col(*lift))
 						{
 							//m_pObjects[i].OBJPosy();
-							if (gameObject->GetCMinBounds().y + 0.1 >= lift->GetMaxBounds().y)
+							if (gameObject->GetCMinBounds().y + 0.05 >= lift->GetMaxBounds().y)
 							{
-								m_pObjects[i].OBJPosy();
+								m_pObjects[i].MoveObject(lift->GetMaxBounds().y);
+								m_pObjects[i].SetF1();
+								m_pObjects[i].framepls();
 							}
 							else if (gameObject->GetCMinBounds().y + 0.03 <= lift->GetMaxBounds().y)
 							{
-								m_pObjects[i].OBJPos();
+								m_pObjects[i].MoveObject(lift->GetMaxBounds().y);
+								m_pObjects[i].SetF1();
+								m_pObjects[i].framepls();
 
 							}
 							else if (m_pObjects[i].IsXZ())
 							{
-								m_pObjects[i].OBJPos();
+								m_pObjects[i].OBJPosy();
 							}
 							if (m_pLift_obj[a].IsMove())
 							{
@@ -525,7 +590,7 @@ void ObjectMng::Update(float tick)
 									m_pObjects[i].MoveObject(liftposY);
 								}
 							}
-							if (gameObject->GetMaxBounds().y >= lift->GetCMinBounds().y)
+							if (gameObject->GetMaxBounds().y <= lift->GetCMinBounds().y)
 							{
 								if(m_pLift_obj[a].IsMove()==true)
 								{
@@ -550,23 +615,27 @@ void ObjectMng::Update(float tick)
 						if (m_pStair[b].col(*lift))
 						{
 							//m_pObjects[i].OBJPosy();
-							if (gameObject->GetCMinBounds().y + 0.1 >= lift->GetMaxBounds().y)
+							if (gameObject->GetCMinBounds().y + 0.5 >= lift->GetMaxBounds().y)
 							{
-								m_pStair[b].OBJPosy();
+								m_pStair[b].SetSlopeY(lift->GetMaxBounds().y);
+								m_pStair[b].SetF1();
+								m_pStair[b].framepls();
 							}
 							else if (gameObject->GetCMinBounds().y + 0.03 <= lift->GetMaxBounds().y)
 							{
-								m_pStair[i].OBJPos();
+								m_pStair[b].SetSlopeY(lift->GetMaxBounds().y);
+								m_pStair[b].SetF1();
+								m_pStair[b].framepls();
 							}
 							else if (m_pObjects[i].IsXZ())
 							{
-								m_pStair[b].OBJPos();
+								m_pStair[b].SetSlopeY(lift->GetMaxBounds().y);
 							}
 							if (m_pLift_obj[a].IsMove())
 							{
 								m_pStair[b].MoveStair(liftposY);
 							}
-							if (gameObject->GetMaxBounds().y >= lift->GetCMinBounds().y)
+							if (gameObject->GetMaxBounds().y <= lift->GetCMinBounds().y)
 							{
 								if (m_pLift_obj[a].IsMove() == true)
 								{
@@ -1120,7 +1189,7 @@ void ObjectMng::Update(float tick)
 											{
 												k++;
 											}
-											m_pObjects[k].OBJPos();
+											//m_pObjects[k].OBJPos();  //スタック問題
 											for (int l = 0; l < m_num3; l++)
 											{
 												if (l == h)
@@ -1145,7 +1214,7 @@ void ObjectMng::Update(float tick)
 													}
 
 												}*/
-												m_pStair[l].OBJPos();
+												//m_pStair[l].OBJPos(); //スタック問題
 											}
 
 										}
@@ -1274,6 +1343,15 @@ void ObjectMng::Update(float tick)
 												m_pObjects[h].Set1();
 												m_pStair[h].Set1();
 											}
+											if (m_pObjects[j].IsMove() == true)
+											{
+												m_pStair[b].Set1();
+											}
+											else
+											{
+												m_pStair[b].SetF1();
+												m_pStair[b].framepls();
+											}
 										}
 										else if (m_pStair[b].IsXZ())
 										{
@@ -1307,6 +1385,7 @@ void ObjectMng::Update(float tick)
 									else if (m_pObjects[j].IsXZ() && m_pObjects[j].IsAutoMove() == true)
 									{
 										m_pObjects[j].OBJPos();
+										m_pStair[b].OBJPos();
 										if (m_pObjects[j].MVX() == true)
 										{
 											m_pObjects[j].MoveXfalse();
