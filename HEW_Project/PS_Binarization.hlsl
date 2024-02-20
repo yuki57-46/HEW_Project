@@ -24,6 +24,11 @@ float4 main(PS_IN pin) : SV_TARGET
 	// テクスチャから色を取得
 	float4 color = tex.Sample(samp, pin.uv);
 	
+	if (all(color.rgba == float4(1.0f, 1.0f, 1.0f, 1.0f)))
+	{
+		return float4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+	
 	if (color.a == 0.0f)
 	{
 		return float4(0.0f, 0.0f, 0.0f, 0.0f);

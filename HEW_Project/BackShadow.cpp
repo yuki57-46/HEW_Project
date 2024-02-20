@@ -548,12 +548,12 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 	// エフェクト
 	DirectX::XMFLOAT4X4 effectMat[2];
-	effectMat[0] = m_pCamera->GetViewMatrix();
-	effectMat[1] = m_pCamera->GetProjectionMatrix();
+	effectMat[0] = m_pCamera->GetShadowViewMatrix();
+	effectMat[1] = m_pCamera->GetShadowProjectionMatrix();
 
-	std::string str = "Goal X:" + std::to_string(Goal->GetPosition().x) + " Y:" + std::to_string(Goal->GetPosition().y) + " Z:" + std::to_string(Goal->GetPosition().z) + "\n";
+	//std::string str = "Goal X:" + std::to_string(Goal->GetPosition().x) + " Y:" + std::to_string(Goal->GetPosition().y) + " Z:" + std::to_string(Goal->GetPosition().z) + "\n";
 	
-	OutputDebugString(str.c_str());
+	//OutputDebugString(str.c_str());
 
 
 	// Effekseerの仕様上行列を転置前の状態で渡す
@@ -565,8 +565,14 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	effectProj = DirectX::XMMatrixTranspose(effectProj);
 	DirectX::XMStoreFloat4x4(&effectMat[1], effectProj);
 
+	Effekseer::Matrix43 EffecMat = LibEffekseer::GetManager()->GetBaseMatrix(m_EffectHandle);
+	EffecMat.Translation(0.0f, -1.0f, 0.0f);
+	LibEffekseer::GetManager()->SetBaseMatrix(m_EffectHandle, EffecMat);
+
 	LibEffekseer::SetViewPosition(m_pCamera->GetPos());
 	LibEffekseer::SetCameraMatrix(effectMat[0], effectMat[1]);
+
+	
 
 	Sprite::SetPixelShader(m_pPS[m_PS]);
 	Sprite::SetWorld(mat[0]);
@@ -578,7 +584,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	Sprite::SetTexture(m_pRTV_BS);
 	Sprite::Draw();
 
-	LibEffekseer::Draw();
+	//LibEffekseer::Draw();
 
 	//m_pPS[0]->Bind();
 	//m_pPS[0]->WriteBuffer(0, mat);
@@ -708,8 +714,8 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		}
 		y /= 100.0f;
 
-		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin1->GetPosition().z);
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.05f, 0.05f, 0.05f);
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, -2.0f);
 	}
 	// コイン2
 	if (IsHit(BoxShadowPlayer, BoxCoin2))
@@ -732,9 +738,9 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 			y *= -1;
 		}
 		y /= 1000.0f;
-		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.05f, 0.05f, 0.05f);
 
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin2->GetPosition().z);
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, -2.0f);
 
 	}
 	// コイン3
@@ -760,9 +766,9 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 		y /= 1000.0f;
 
 
-		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
+		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.05f, 0.05f, 0.05f);
 
-		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, Coin3->GetPosition().z);
+		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, -2.0f);
 
 	}
 }
