@@ -37,11 +37,14 @@ public:
 	void BackUIDraw();
 	void MenuUIDraw();
 	void StartUIDraw();
-	void CursorUIDraw();
 	void Stage1Draw();
 	void Stage2Draw();
 	void Stage3Draw();
 	void Stage4Draw();
+
+	void CursorUIDraw(float x, float y, float z);	//カーソル描画
+	void SetPosition(float x, float y, float z);	//カーソル位置を設定
+	DirectX::XMFLOAT3 GetPosition() const;
 
 private:
 	Texture*		 m_pTexture;
@@ -73,6 +76,9 @@ private:
 	IXAudio2SourceVoice* m_pSourceVoice;	 // サウンドソース
 	XAUDIO2_BUFFER*		 m_pSound;			 // サウンドバッファ
 	//Sound m_Sound;
+
+	DirectX::XMFLOAT3 m_CursorPos;	//カーソルの現在の位置
+
 };
 
 

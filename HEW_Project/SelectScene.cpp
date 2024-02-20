@@ -19,6 +19,7 @@ SelectScene::SelectScene()
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
 	, m_pPS(nullptr)
+	, m_CursorPos(236.0f, 226.5f, 0.0f)
 {
 	m_pCurtainUI = new CurtainUI();
 	m_pTexture = new Texture();
@@ -157,18 +158,54 @@ void SelectScene::Update(SceneManager* pSceneManager)
 	{
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
-	/*if (IsKeyTrigger('2'))
-	{
-		pSceneManager->SetNextScene(SCENE_TUTORIAL);
-	}
-	if (IsKeyTrigger('3'))
-	{
-		pSceneManager->SetNextScene(SCENE_TUTORIAL);
-	}*/
 
 	//カーソル移動
-	//各座標メモ→1=(236.0f, 226.5f, 0.0f),2=(636.0f, 226.5f, 0.0f),3=(1036.0f, 226.5f, 0.0f),4=(438.0f, 456.1f, 0.0f)
+	//各座標メモ→1=(236.0f, 226.5f, 0.0f),2=(636.0f, 226.5f, 0.0f),
+	//				3=(1036.0f, 226.5f, 0.0f),4=(438.0f, 456.1f, 0.0f)
+	if (IsKeyTrigger(VK_RIGHT))	//カーソル右移動
+	{
+		if (m_CursorPos.x == 236.0f || m_CursorPos.x == 636.0f || m_CursorPos.x == 438.0f)
+		{
+			m_CursorPos.x += 400.0f;
+		}
+		else if (m_CursorPos.x == 1036.0f)
+		{
+			m_CursorPos.x = 438.0f;
+			m_CursorPos.y = 456.1f;
+		}
+		else if (m_CursorPos.x == 838.0f)
+		{
+			m_CursorPos.x = 236.0f;
+			m_CursorPos.y = 226.1f;
+		}
+	}
+	if (IsKeyTrigger(VK_LEFT))	//カーソル左移動
+	{
+		if (m_CursorPos.x == 636.0f || m_CursorPos.x == 1036.0f || m_CursorPos.x == 838.0f)
+		{
+			m_CursorPos.x -= 400.0f;
+		}
+		else if (m_CursorPos.x == 438.0f)
+		{
+			m_CursorPos.x = 1036.0f;
+			m_CursorPos.y = 226.5f;
+		}
+		else if (m_CursorPos.x == 236.0f)
+		{
+			m_CursorPos.x = 838.0f;
+			m_CursorPos.y = 456.1f;
+		}
+	}
 
+	//各ゲームシーンに移動
+	if (m_CursorPos.x == 236.0f && IsKeyTrigger(VK_RETURN))
+	{
+		pSceneManager->SetNextScene(SCENE_GAME);
+	}
+	/*else if (m_CursorPos.x == 236.0f)
+	{
+		pSceneManager->SetNextScene(SCENE_GAME);
+	}*/
 }
 
 void SelectScene::Draw()
@@ -296,36 +333,6 @@ void SelectScene::StartUIDraw()
 	Sprite::SetTexture(m_pStartTexture);
 	Sprite::Draw();
 }
-void SelectScene::CursorUIDraw()
-{
-	DirectX::XMFLOAT4X4 mat[3];
-
-	//ワールド行列はXとYのみを考慮して作成
-	DirectX::XMMATRIX world =
-		DirectX::XMMatrixTranslation(
-			438.0f, 456.1f, 0.0f
-		);
-	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
-
-	//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
-	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
-
-	//プロジェクション行列には2Dとして表示するための行列を設定する
-	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
-		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f
-	);
-	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
-
-	//スプライトの設定
-	Sprite::SetPixelShader(m_pPS);
-	Sprite::SetWorld(mat[0]);
-	Sprite::SetView(mat[1]);
-	Sprite::SetProjection(mat[2]);
-	Sprite::SetSize(DirectX::XMFLOAT2(380.0f, -220.0f));		//602×340
-	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
-	Sprite::SetTexture(m_pCursorTexture);
-	Sprite::Draw();
-}
 void SelectScene::Stage1Draw()
 {
 	DirectX::XMFLOAT4X4 mat[3];
@@ -449,4 +456,43 @@ void SelectScene::Stage4Draw()
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pStage4Texture);
 	Sprite::Draw();
+}
+
+
+void SelectScene::CursorUIDraw(float x, float y, float z)
+{
+	SetPosition(x, y, z);
+
+	DirectX::XMFLOAT4X4 mat[3];
+	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(x, y, z);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
+
+	//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
+
+	//プロジェクション行列には2Dとして表示するための行列を設定する
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f
+	);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+
+	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	Sprite::SetSize(DirectX::XMFLOAT2(380.0f, -220.0f));		//602×340
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+	Sprite::SetTexture(m_pCursorTexture);
+	Sprite::Draw();
+}
+void SelectScene::SetPosition(float x, float y, float z)
+{
+	m_CursorPos.x = x;
+	m_CursorPos.y = y;
+	m_CursorPos.z = z;
+}
+DirectX::XMFLOAT3 SelectScene::GetPosition() const
+{
+	return m_CursorPos;
 }
