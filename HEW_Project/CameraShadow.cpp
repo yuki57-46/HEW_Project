@@ -16,8 +16,6 @@ CameraShadow::CameraShadow()
 	m_pos.z = 5.0f;
 
 	ID3D11DeviceContext* pContext = GetContext();
-	m_pPS = new PixelShader();
-	m_pPS->Load("Assets/Shader/PS_Shadow.cso");
 
 }
 

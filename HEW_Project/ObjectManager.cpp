@@ -1871,6 +1871,7 @@ void ObjectMng::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 project
 		m_pPlayer->Draw(viewMatrix, projectionMatrix);
 	}
 	
+
 }
 
 
