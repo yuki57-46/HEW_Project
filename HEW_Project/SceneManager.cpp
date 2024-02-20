@@ -96,7 +96,7 @@ void SceneManager::Draw()
 	case SCENE_TUTORIAL: m_pSceneTutorial->Draw();	break;
 	case SCENE_SELECT:	 m_pSceneSelect->Draw(), m_pSceneSelect->BackUIDraw(), m_pSceneSelect->MenuUIDraw(), m_pSceneSelect->StartUIDraw()
 						,m_pSceneSelect->CursorUIDraw(m_pSceneSelect->GetPosition().x, m_pSceneSelect->GetPosition().y, m_pSceneSelect->GetPosition().z)
-						, m_pSceneSelect->Stage1Draw(), m_pSceneSelect->Stage2Draw(), m_pSceneSelect->Stage3Draw(), m_pSceneSelect->Stage4Draw();	break;
+						, m_pSceneSelect->Stage1Draw(), m_pSceneSelect->Stage2Draw(), m_pSceneSelect->Stage3Draw(), m_pSceneSelect->Stage4Draw(), m_pSceneSelect->Stage5Draw();	break;
 	case SCENE_GAME:	 m_pSceneGame->Draw();		break;
 	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw(), m_pSceneResult->FPDraw()
 						, m_pSceneResult->NextDraw();	break;

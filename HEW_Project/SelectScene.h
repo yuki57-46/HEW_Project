@@ -41,6 +41,7 @@ public:
 	void Stage2Draw();
 	void Stage3Draw();
 	void Stage4Draw();
+	void Stage5Draw();
 
 	void CursorUIDraw(float x, float y, float z);	//カーソル描画
 	void SetPosition(float x, float y, float z);	//カーソル位置を設定
@@ -56,6 +57,7 @@ private:
 	Texture*		 m_pStage2Texture;
 	Texture*		 m_pStage3Texture;
 	Texture*		 m_pStage4Texture;
+	Texture*		 m_pStage5Texture;
 
 	SceneManager*	 m_pSceneManager;
 	Fade*			 m_pFade;

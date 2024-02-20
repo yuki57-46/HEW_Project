@@ -16,6 +16,7 @@ SelectScene::SelectScene()
 	, m_pStage2Texture(nullptr)
 	, m_pStage3Texture(nullptr)
 	, m_pStage4Texture(nullptr)
+	, m_pStage5Texture(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
 	, m_pPS(nullptr)
@@ -68,6 +69,11 @@ SelectScene::SelectScene()
 	{
 		MessageBox(NULL, "SelectUI系", "Error", MB_OK);
 	}
+	m_pStage5Texture = new Texture();
+	if (FAILED(m_pStage5Texture->Create("Assets/Texture/Stage5.png")))
+	{
+		MessageBox(NULL, "SelectUI系", "Error", MB_OK);
+	}
 
 	m_pPS = new PixelShader();
 	if (FAILED(m_pPS->Load("./Assets/Shader/PS_Sprite.cso")))
@@ -96,6 +102,11 @@ SelectScene::~SelectScene()
 	{
 		delete m_pCurtainUI;
 		m_pCurtainUI = nullptr;
+	}
+	if (m_pStage5Texture)
+	{
+		delete m_pStage5Texture;
+		m_pStage5Texture = nullptr;
 	}
 	if (m_pStage4Texture)
 	{
@@ -154,11 +165,7 @@ void SelectScene::Update(SceneManager* pSceneManager)
 	{
 		pSceneManager->SetNextScene(SCENE_TITLE);
 	}
-	if (IsKeyTrigger('1'))
-	{
-		pSceneManager->SetNextScene(SCENE_GAME);
-	}
-
+	
 	//カーソル移動
 	//各座標メモ→1=(236.0f, 226.5f, 0.0f),2=(636.0f, 226.5f, 0.0f),
 	//				3=(1036.0f, 226.5f, 0.0f),4=(438.0f, 456.1f, 0.0f)
@@ -455,6 +462,37 @@ void SelectScene::Stage4Draw()
 	Sprite::SetSize(DirectX::XMFLOAT2(360.5f, -190.0f));
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pStage4Texture);
+	Sprite::Draw();
+}
+void SelectScene::Stage5Draw()
+{
+	DirectX::XMFLOAT4X4 mat[3];
+
+	//ワールド行列はXとYのみを考慮して作成
+	DirectX::XMMATRIX world =
+		DirectX::XMMatrixTranslation(
+			837.0f, 455.0f, 0.0f
+		);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
+
+	//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
+
+	//プロジェクション行列には2Dとして表示するための行列を設定する
+	//この行列で2Dぼスクリーンの大きさが決まる
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f
+	);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+
+	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	Sprite::SetSize(DirectX::XMFLOAT2(360.5f, -190.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+	Sprite::SetTexture(m_pStage5Texture);
 	Sprite::Draw();
 }
 
