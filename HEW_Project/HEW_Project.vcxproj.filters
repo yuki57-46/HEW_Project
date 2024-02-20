@@ -210,6 +210,9 @@
     <ClCompile Include="MagnetSN.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectTomegu.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="SceneGame.cpp">
       <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
@@ -221,9 +224,6 @@
     </ClCompile>
     <ClCompile Include="SelectScene.cpp">
       <Filter>ソース ファイル\SceneChange</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectTomegu.cpp">
-      <Filter>ソース ファイル\object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
