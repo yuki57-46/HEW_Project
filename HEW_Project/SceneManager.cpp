@@ -65,7 +65,6 @@ void SceneManager::Update(float tick)
 			// 現在のシーンを新しいシーンへ上書き
 			m_Nowscene = m_NextScene;
 			m_pFade->Start(true, 1.0f);	// フェードイン
-
 		}
 		else
 		{
@@ -83,7 +82,6 @@ void SceneManager::Update(float tick)
 	default: break;
 	}
 	// フェードの更新処理
-
 	m_pFade->Update();
 	m_pCurtainUI->Update();
 }

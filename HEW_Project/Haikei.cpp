@@ -14,7 +14,7 @@ Haikei::Haikei()
 	m_pTexture = new Texture();
 
 	//それぞれの.pngが開けなかった時メッセージボックスを表示する
-	if (FAILED(m_pTexture->Create("Assets/backyard_pings/sougen.png")))
+	if (FAILED(m_pTexture->Create("Assets/backyard_pings/crystal.png")))
 	{
 		MessageBox(NULL, "Haikei.png", "Error", MB_OK);
 	}

@@ -46,14 +46,13 @@ ObjectMng::ObjectMng()
 	// Max_Z (3.36f)
 	// Min_Z (1.8f)この値がブロックの配置制限位置
 	//
-	//
 
-	int stage_num = 6;	// 現在のステージ
+	int stage_num = 1;	// 現在のステージの番号(0にしてチュートリアルから始める)
 
 	switch (stage_num)
 	{
 		//ブロック
-		struct Setting	{ float x, y, z, scaleX, scaleY, scaleZ, hyoui, Auto, XZM; };
+		struct Setting { float x, y, z, scaleX, scaleY, scaleZ, hyoui, Auto, XZM; };
 		//リフト
 		struct Setting1 { float x, y, z, scaleX, scaleY, scaleZ, lifth, liftl, lifts; };
 		//レバー
@@ -67,7 +66,7 @@ ObjectMng::ObjectMng()
 		//マグネット	リフトの下においてね
 		struct Setting6 { float x, y, z, scaleX, scaleY, scaleZ; };
 
-	// tutorial
+		// tutorial
 	case 0:
 	{
 		//ブロック
@@ -785,7 +784,6 @@ ObjectMng::ObjectMng()
 		}
 	}
 	break;
-
 	}
 	// effect
 	m_Effect = LibEffekseer::Create("Assets/effect/BoxSet.efkefc");
@@ -795,24 +793,20 @@ ObjectMng::ObjectMng()
 	//{
 	//	float x, y, z, scaleX, scaleY, scaleZ,hyoui,Auto,XZM;
 	//};
-
 	//ブロック配置.スケール指定
 //	Setting data[] = {
 		//=================移動チュートリアル===============
 //		{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 //		{-0.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-
 		//===============拡縮チュートリアル================
 		//{0.75f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
 		//{-0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
-
 		//================ジャンプチュートリアル============
 		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 		//{0.5f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
 		//{-0.875f, 0.0f, 2.5f, 0.5f, 0.25f, 0.25f,true,false},
 		//{-1.0f, 0.25f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
 		//{-0.75f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f,true,false},
-
 		//==========stage1====================
 		//{1.75f, 0.0f, 3.0f, 0.25f, 0.5f, 0.25f,true,false},
 		//{1.0f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
@@ -825,8 +819,6 @@ ObjectMng::ObjectMng()
 		//{-1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 		//{-1.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
 		//{-1.5f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
-
-
 		//===========stage2====================
 		//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 		//{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
@@ -834,7 +826,6 @@ ObjectMng::ObjectMng()
 		//{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
 		//{-1.75f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
 		//{-1.5f, 0.0f, 2.5f, 0.25f, 0.75f, 0.25f,false,false},
-
 		//============stage3===================
 		//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 		//{-0.5f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f,true,false},
@@ -850,10 +841,8 @@ ObjectMng::ObjectMng()
 		//{-1.25f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 		//{-1.75f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
 		//	};
-
 	//配列の要素の数から必要なブロック数を計算
 	//m_num = sizeof(data) / sizeof(data[0]);
-
 	////必要な数だけブロックを確保
 	//m_pObjects = new Object[m_num];
 	////確保したブロックに初期データを設定
@@ -874,20 +863,16 @@ ObjectMng::ObjectMng()
 	//Setting1 data1[] = {
 	//	//========チュートリアル～stage2まで===================
 	//	{ 0.75f, 1.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
-
 	//	//======================stage3==========================
 	//	//{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
 	//	//{ -0.75f, 0.75f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
 	//	//{ -2.25f, 0.75f, 2.25f, 0.5f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
-
 	//	//=======================stage4=========================
 	//	//{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
 	//	//{ -1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
 	//};
-
 	////配列の要素の数から必要なブロック数を計算
 	//m_num1 = sizeof(data1) / sizeof(data1[0]);
-
 	////必要な数だけブロックを確保
 	//m_pLift_obj = new Lift_Obj[m_num1];
 	////確保したブロックに初期データを設定
@@ -909,14 +894,11 @@ ObjectMng::ObjectMng()
 	//Setting2 data2[] = {
 	//	//===チュートリアル～stage2まで======
 	//	{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
-
 	//	//stage3
 	//	//{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
 	//};
-
 	////配列の要素の数から必要なブロック数を計算
 	//m_num2 = sizeof(data2) / sizeof(data2[0]);
-
 	////必要な数だけブロックを確保
 	//m_pLever = new Lever[m_num2];
 	////確保したブロックに初期データを設定
@@ -927,6 +909,7 @@ ObjectMng::ObjectMng()
 	//		data2[i].scaleX, data2[i].scaleY, data2[i].scaleZ
 	//	);
 	//}
+
 	////スロープ
 	//struct Setting3
 	//{
@@ -940,38 +923,32 @@ ObjectMng::ObjectMng()
 	//	//{0.75f, 0.0f, 2.5f, -0.25f, 0.25f, -0.25f, true},	//逆三角形
 	//	//{-0.25f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	//{-0.75f, 0.0f, 2.5f, -0.25f, 0.25f, -0.25f, true},
-
 	//	//=================拡縮チュートリアル================
 	//	//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	//{0.5f, 0.0f, 2.5f, -0.25f, 0.25f, -0.25f, true},	//逆三角形
 	//	//{-0.25f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f, false},
 	//	//{-0.75f, 0.0f, 3.0f, -0.25f, 0.25f, -0.25f, true},
-
 	//	//================ジャンプチュートリアル================
 	//	//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	//{0.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f, false},
 	//	//{-0.5f, 0.0f, 3.25f, 0.25f, 0.25f, 0.25f, false},
 	//	//{-1.0f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
-
 	//	//==========stage1===================
 	//	//{1.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	//{0.0f, 0.5f, 2.5f, 0.25f, 0.25f, 0.25f, false},
-
 	//	//==========stage2===================
 	//	{1.75f, 0.0f, 2.6f, 0.25f, 0.25f, 0.25f, false},
 	//	{0.0f, 0.0f, 3.2f, 0.25f, 0.25f, 0.25f, false},
 	//	{-0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f, false},
 	//	{-1.8f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	{-0.7f, 0.0f, 3.2f, -0.25f, 0.25f, -0.25f, true},
-
 	//	//==============stage3================
 	//	//{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 	//	//{0.25f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
 	//	//{0.0f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
 	//	//{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
-
 	//	//===============stage4===============
 	////	{1.25f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
 	////	{1.0f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
@@ -979,10 +956,8 @@ ObjectMng::ObjectMng()
 	////	{-1.25f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
 	////	{0.75f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
 	//};
-
 	////配列の要素の数から必要なブロック数を計算
 	//m_num3 = sizeof(data3) / sizeof(data3[0]);
-
 	////必要な数だけブロックを確保
 	//m_pStair = new Stair[m_num3];
 	////確保したブロックに初期データを設定
@@ -1004,10 +979,8 @@ ObjectMng::ObjectMng()
 	//Setting4 data4[] = {
 	//	{ 0.0f, 0.0f, 2.3f, 1.45f, 1.2f, 0.7f},
 	//};
-
 	////配列の要素の数から必要なブロック数を計算
 	//m_num4 = sizeof(data4) / sizeof(data4[0]);
-
 	////必要な数だけブロックを確保
 	//m_pYuka = new Yuka[m_num4];
 	////確保したブロックに初期データを設定
@@ -1031,17 +1004,13 @@ ObjectMng::ObjectMng()
 	//	//============stage2====================
 	//	//{-0.75f, 0.0f, 2.65f, 0.3f, 0.3f, 0.3f},
 	//	//{-1.5f, 0.0f, 2.65f, 0.3f, 0.3f, 0.3f},
-
 	//	//=========stage3=============
 	//	//{ 0.0f, -1.0f, 2.3f, 0.3f, 0.3f, 0.3f},
-
 	//	//==========stage4===============
 	//	
 	//};
-
 	////配列の要素の数から必要なブロック数を計算
 	//m_num5 = sizeof(data5) / sizeof(data5[0]);
-
 	////必要な数だけブロックを確保
 	//m_pTomegu = new Tomegu[m_num5];
 	////確保したブロックに初期データを設定
@@ -1066,15 +1035,12 @@ ObjectMng::ObjectMng()
 	//	//{ 0.325f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
 	//	//{ -0.75f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
 	//	//{ -2.25f, 0.0f, 2.25f, 0.3f, 0.15f, 0.3f},
-
 	//	//=============stage4===================
 	//	//{ 1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
 	//	//{ -1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
 	//};
-
 	////配列の要素の数から必要なブロック数を計算
 	//m_num6 = sizeof(data6) / sizeof(data6[0]);
-
 	////必要な数だけブロックを確保
 	//m_pMagnet = new Magnet[m_num6];
 	////確保したブロックに初期データを設定
@@ -1085,9 +1051,7 @@ ObjectMng::ObjectMng()
 	//		data6[i].scaleX, data6[i].scaleY, data6[i].scaleZ
 	//	);
 	//}
-
 }
-
 
 ObjectMng::~ObjectMng()
 {
