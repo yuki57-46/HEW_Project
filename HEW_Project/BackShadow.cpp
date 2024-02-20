@@ -179,13 +179,15 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//===============ジャンプチュートリアル================
 	//{	Goal->Draw(900.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
 	//===============stage1================
-	{ Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
+	//{ Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
 	//===============stage2================
 	//{	Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
 	//===============stage3================
 	//{	Goal->Draw(1050.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
 	//===================stage4=========================
 	//{	Goal->Draw(1230.0f, 70.0f, 0.0f, 60.0f, 60.0f);	}
+	//=======================stage5========================
+	{ Goal->Draw(800.0f, 50.0f, 0.0f, 60.0f, 60.0f);	}
 
 	// コインをフィールド上に表示
 	// Drawの１,２個目の数値をいじればコイン描画座標が変わる
@@ -214,18 +216,18 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//{	Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
 
 		//======================stage1==================
-	if (Coin1->IsCoinCollected == false)
-	{
-		Coin1->Draw(350.0f, 200.0f, 0.0f, 40.0f, 40.0f, 1);
-	}	// 左 y=120.0f
-	if (Coin2->IsCoinCollected == false)
-	{
-		Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);
-	}	// 真ん中
-	if (Coin3->IsCoinCollected == false)
-	{
-		Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);
-	}	// 右
+	//if (Coin1->IsCoinCollected == false)
+	//{
+	//	Coin1->Draw(350.0f, 200.0f, 0.0f, 40.0f, 40.0f, 1);
+	//}	// 左 y=120.0f
+	//if (Coin2->IsCoinCollected == false)
+	//{
+	//	Coin2->Draw(600.0f, 200.0f, 0.0f, 40.0f, 40.0f, 2);
+	//}	// 真ん中
+	//if (Coin3->IsCoinCollected == false)
+	//{
+	//	Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);
+	//}	// 右
 
 //======================stage2==================
 //if (Coin1->IsCoinCollected == false)
@@ -250,6 +252,20 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 //{	Coin2->Draw(500.0f, 270.0f, 0.0f, 40.0f, 40.0f, 2);	}	// 真ん中
 //if (Coin3->IsCoinCollected == false)
 //{	Coin3->Draw(1200.0f, 270.0f, 0.0f, 40.0f, 40.0f, 3);}	// 右
+
+	//=======================stage5=========================
+	if (Coin1->IsCoinCollected == false)
+	{
+		Coin1->Draw(600.0f, 180.0f, 0.0f, 40.0f, 40.0f, 1);
+	}	// 左 y=120.0f
+	if (Coin2->IsCoinCollected == false)
+	{
+		Coin2->Draw(600.0f, 300.0f, 0.0f, 40.0f, 40.0f, 2);
+	}	// 真ん中
+	if (Coin3->IsCoinCollected == false)
+	{
+		Coin3->Draw(800.0f, 250.0f, 0.0f, 40.0f, 40.0f, 3);
+	}	// 右
 
 	RenderTarget* pRTV;
 	pRTV = GetDefaultRTV();
