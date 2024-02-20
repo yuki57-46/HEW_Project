@@ -26,7 +26,7 @@ ObjectMng::ObjectMng()
 	, m_num4(0)
 	, m_num5(0)
 	, m_num6(0)
-	
+
 
 {
 	m_pObjectCamera = new CameraDebug();
@@ -39,16 +39,16 @@ ObjectMng::ObjectMng()
 	//======各ブロックの配置======
 	//すべてのオブジェクトはリスポーン時に位置が重ならないように!!!!
 	//リフトは今のｙ軸スケールと上下制限をかえないで　変えると死ぬ
-//左＋　右－　奥ー　手前＋
-//Max_X (2.23f)
-// Min_X (-2.23f)
-//
-// Max_Z (3.36f)
-// Min_Z (1.8f)この値がブロックの配置制限位置
-//
-//
+	//左＋　右－　奥ー　手前＋
+	//Max_X (2.23f)
+	// Min_X (-2.23f)
+	//
+	// Max_Z (3.36f)
+	// Min_Z (1.8f)この値がブロックの配置制限位置
+	//
+	//
 
-	int stage_num = 3;	// 現在のステージ
+	int stage_num = 1;	// 現在のステージ
 
 	switch (stage_num)
 	{
@@ -85,7 +85,7 @@ ObjectMng::ObjectMng()
 		}
 		//リフト
 		Setting1 data1[] = {
-			{ 0.75f, 1.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
+			{ 0.75f, 10.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
 		};
 		m_num1 = sizeof(data1) / sizeof(data1[0]);
 		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
@@ -168,17 +168,17 @@ ObjectMng::ObjectMng()
 	{
 		//ブロック
 		Setting data[] = {
-			{1.75f, 0.0f, 3.0f, 0.25f, 0.5f, 0.25f,true,false},
-			{1.0f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
-			{0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
-			{0.25f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
-			{0.0f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
-			{-0.25f, 0.0f, 2.0f, 0.25f, 0.5f, 0.25f,true,false},
-			{-0.7f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-			{0.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-			{-1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
-			{-1.5f, 0.0f, 3.0f, 0.25f, 0.25f, 0.25f,true,false},
-			{-1.5f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
+			{1.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+			{0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+			{-0.25f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{0.0f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 		};
 		m_num = sizeof(data) / sizeof(data[0]);
 		m_pObjects = new Object[m_num];		//必要な数だけブロックを確保
@@ -190,7 +190,7 @@ ObjectMng::ObjectMng()
 		}
 		//リフト
 		Setting1 data1[] = {
-			{ 0.75f, 1.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
+			{ 0.75f, 10.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
 		};
 		m_num1 = sizeof(data1) / sizeof(data1[0]);
 		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
@@ -215,10 +215,10 @@ ObjectMng::ObjectMng()
 		}
 		//スロープ
 		Setting3 data3[] = {
-			{1.5f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
-			{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
-			{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
-			{0.0f, 0.5f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+			{1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
+			{1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
+			{0.75f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f, false},
+			{ 0.0f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f, false },
 		};
 		m_num3 = sizeof(data3) / sizeof(data3[0]);
 		m_pStair = new Stair[m_num3];		//必要な数だけブロックを確保
@@ -243,7 +243,7 @@ ObjectMng::ObjectMng()
 		}
 		//留め具		被憑依ブロックの前においてね
 		Setting5 data5[] = {
-		{ 0.0f, -1.0f, 2.3f, 0.3f, 0.3f, 0.3f},
+			{ 0.0f, -1.0f, 2.3f, 0.3f, 0.3f, 0.3f},
 		};
 		m_num5 = sizeof(data5) / sizeof(data5[0]);
 		m_pTomegu = new Tomegu[m_num5];		//必要な数だけブロックを確保
@@ -255,7 +255,7 @@ ObjectMng::ObjectMng()
 		}
 		//マグネット	リフトの下においてね
 		Setting6 data6[] = {
-		{ 1.25f, -1.0f, 2.0f, 0.3f, 0.15f, 0.3f},
+			{ 1.25f, -1.0f, 2.0f, 0.3f, 0.15f, 0.3f},
 		};
 		m_num6 = sizeof(data6) / sizeof(data6[0]);
 		m_pMagnet = new Magnet[m_num6];		//必要な数だけブロックを確保
@@ -290,7 +290,7 @@ ObjectMng::ObjectMng()
 		}
 		//リフト
 		Setting1 data1[] = {
-			{ 0.75f, 1.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
+			{ 0.75f, 10.0f, 2.0f, 0.8f, 0.2f, 0.5f,1.2f,0.5f,0.001f},
 		};
 		m_num1 = sizeof(data1) / sizeof(data1[0]);
 		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
@@ -575,13 +575,23 @@ ObjectMng::ObjectMng()
 	}
 	break;
 
-		// stage5
-		//case 5:
-		//{
+	// stage5
+	case 5:
+	{
 
-		//}
-		//break;
 	}
+	break;
+
+	// stage6
+	case 6:
+	{
+
+	}
+	break;
+
+	}
+	// effect
+	m_Effect = LibEffekseer::Create("Assets/effect/BoxSet.efkefc");
 
 	//ブロック
 	//struct Setting
@@ -642,8 +652,7 @@ ObjectMng::ObjectMng()
 		//{-0.625f, 0.0f, 2.0f, 1.0f, 0.25f, 0.25f,false,false},
 		//{-1.25f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f,true,false},
 		//{-1.75f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f,true,false},
-
-//	};
+		//	};
 
 	//配列の要素の数から必要なブロック数を計算
 	//m_num = sizeof(data) / sizeof(data[0]);
@@ -677,7 +686,6 @@ ObjectMng::ObjectMng()
 	//	//=======================stage4=========================
 	//	//{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
 	//	//{ -1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
-
 	//};
 
 	////配列の要素の数から必要なブロック数を計算
@@ -798,7 +806,6 @@ ObjectMng::ObjectMng()
 	////ブロック配置.スケール指定
 	//Setting4 data4[] = {
 	//	{ 0.0f, 0.0f, 2.3f, 1.45f, 1.2f, 0.7f},
-
 	//};
 
 	////配列の要素の数から必要なブロック数を計算
@@ -866,7 +873,6 @@ ObjectMng::ObjectMng()
 	//	//=============stage4===================
 	//	//{ 1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
 	//	//{ -1.25f, 0.0f, 2.0f, 0.3f, 0.15f, 0.3f},
-
 	//};
 
 	////配列の要素の数から必要なブロック数を計算
@@ -883,8 +889,6 @@ ObjectMng::ObjectMng()
 	//	);
 	//}
 
-	// effect
-	m_Effect = LibEffekseer::Create("Assets/effect/BoxSet.efkefc");
 }
 
 
