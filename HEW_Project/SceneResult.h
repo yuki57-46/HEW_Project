@@ -32,13 +32,11 @@ public:
 	void Update(SceneManager* pSceneManager);
 	void BGDraw();
 	void ClearDraw();
-	void FPDraw();
 	void NextDraw();
 
 private:
 	Texture*		 m_pBGTexture;
 	Texture*		 m_pClearIcon;
-	Texture*		 m_pFPIcon;
 	Texture*		 m_pNextIcon;
 
 	SceneManager*	 m_pSceneManager;

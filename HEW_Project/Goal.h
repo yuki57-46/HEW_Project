@@ -18,7 +18,6 @@ public:
 
 	void Update();
 	void Draw(float x, float y, float z, float sizeX, float sizeY);
-	void ResultUI();
 
 	bool IsGoal = false;									// ゴールしたかどうかを返す
 
@@ -34,7 +33,6 @@ public:
 
 private:
 	Texture* m_pGoalTexture;
-	Texture* m_pResultUI;
 	
 	DirectX::XMFLOAT3 m_GoalPos;							// ゴールの現在の位置
 	DirectX::XMFLOAT3 m_GoalSize;							//ゴールの大きさ

@@ -98,7 +98,7 @@ void SceneManager::Draw()
 						,m_pSceneSelect->CursorUIDraw(m_pSceneSelect->GetPosition().x, m_pSceneSelect->GetPosition().y, m_pSceneSelect->GetPosition().z)
 						, m_pSceneSelect->Stage1Draw(), m_pSceneSelect->Stage2Draw(), m_pSceneSelect->Stage3Draw(), m_pSceneSelect->Stage4Draw(), m_pSceneSelect->Stage5Draw();	break;
 	case SCENE_GAME:	 m_pSceneGame->Draw();		break;
-	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw(), m_pSceneResult->FPDraw()
+	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw()
 						, m_pSceneResult->NextDraw();	break;
 	default: break;
 	}
