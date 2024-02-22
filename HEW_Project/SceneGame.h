@@ -26,6 +26,9 @@
 #include"CurtainObject.h"
 #include "SceneManager.hpp"
 
+#include "Texture.h"
+#include "Sprite.h"
+
 class SceneManager;
 
 enum CameraKind
@@ -79,6 +82,12 @@ private:
 	//Sound m_Sound;
 
 	SceneManager* m_pSceneManager;
+
+	
+	Texture* m_pGoalTecture;
+	Texture* m_pDeadTexture;
+
+	PixelShader* m_pPS;
 };
 
 #endif // __SCENE_GAME_H__

@@ -24,6 +24,7 @@ SceneGame::SceneGame()
 	, m_pObjectMng(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtain(nullptr)
+	, m_pGoalTecture(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -71,6 +72,24 @@ SceneGame::SceneGame()
 #if FADE_TEST
 	m_pFade = new Fade(m_pCurtainUI);
 #endif
+
+	// ゴール用
+	m_pGoalTecture = new Texture();
+	if (m_pGoalTecture->Create("Assets/Texture/clear.png"))
+	{
+		MessageBox(NULL, "clear.pngの読み込みエラー", "Error", MB_OK);
+	}
+	// ゲームオーバー用
+	m_pDeadTexture = new Texture();
+	if (m_pDeadTexture->Create("Assets/Texture/gameover.png"))
+	{
+		MessageBox(NULL, "gameover.pngの読み込みエラー", "Error", MB_OK);
+	}
+	m_pPS = new PixelShader();
+	if (m_pPS->Load("Assets/Shader/PS_Sprite.cso"))
+	{
+		MessageBox(NULL, "[Coin.cpp] Failed to load Pixcel Shader", "Error", MB_OK);
+	}
 
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
 	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav", true); // サウンドファイルの読み込み
@@ -148,6 +167,21 @@ SceneGame::~SceneGame()
 	{
 		delete m_pCurtain;
 		m_pCurtain = nullptr;
+	}
+	if (m_pGoalTecture)
+	{
+		delete m_pGoalTecture;
+		m_pGoalTecture = nullptr;
+	}
+	if (m_pDeadTexture)
+	{
+		delete m_pDeadTexture;
+		m_pDeadTexture = nullptr;
+	}
+	if (m_pPS)
+	{
+		delete m_pPS;
+		m_pPS = nullptr;
 	}
 	m_pSourceVoice->Stop();
 }
@@ -268,7 +302,14 @@ void SceneGame::Draw()
 	//本当は画面遷移
 	if (m_pGoal->IsGoal == true)
 	{
-		
+		//スプライトの設定
+		Sprite::SetPixelShader(m_pPS);
+		Sprite::SetWorld(mat[0]);
+		Sprite::SetView(mat[1]);
+		Sprite::SetProjection(mat[2]);
+		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
+		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		Sprite::SetTexture(m_pGoalTecture);
 		//m_pSceneManager->SetNextScene(SCENE_RESULT);
 	}
 	
