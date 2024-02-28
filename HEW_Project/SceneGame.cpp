@@ -227,6 +227,11 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 	DirectX::XMFLOAT4X4 fMat;
 	DirectX::XMStoreFloat4x4(&fMat, mat);
 	Geometory::SetWorld(fMat);
+
+	if (m_pGoal->IsGoal == true)
+	{
+		pSceneManager->SetNextScene(SCENE_RESULT);
+	}
 }
 
 void SceneGame::Draw()

@@ -98,7 +98,7 @@ enum SceneKind
 	SCENE_RESULT,
 	SCENE_MAX,
 
-	SCENE_START = SCENE_TITLE,
+	SCENE_START = SCENE_RESULT,
 };
 
 class SceneManager
