@@ -11,9 +11,6 @@ SceneResult::SceneResult()
 	: m_pBGTexture(nullptr)
 	, m_pClearIcon(nullptr)
 	, m_pNextIcon(nullptr)
-	//, m_pCoin1Icon(nullptr)
-	//, m_pCoin2Icon(nullptr)
-	//, m_pCoin3Icon(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
 	, m_pPS(nullptr)
@@ -34,22 +31,6 @@ SceneResult::SceneResult()
 	{
 		MessageBox(NULL, "リザルト", "Error", MB_OK);
 	}
-	/*m_pCoin1Icon = new Texture();
-	if (m_pCoin1Icon->Create("Assets/Texture/coin.png"))
-	{
-		MessageBox(NULL, "リザルト", "Error", MB_OK);
-	}
-	m_pCoin2Icon = new Texture();
-	if (m_pCoin2Icon->Create("Assets/Texture/coin.png"))
-	{
-		MessageBox(NULL, "リザルト", "Error", MB_OK);
-	}
-	m_pCoin3Icon = new Texture();
-	if (m_pCoin3Icon->Create("Assets/Texture/coin.png"))
-	{
-		MessageBox(NULL, "リザルト", "Error", MB_OK);
-	}*/
-
 	m_pResultCoinUI = new Coin[3];
 	m_pResultCoinUI[0].SetCollect(m_pResultCoinUI[1].IsCoinCollected);
 	m_pResultCoinUI[1].SetCollect(ms_resultCoin);
@@ -83,21 +64,6 @@ SceneResult::~SceneResult()
 		delete[] m_pResultCoinUI;
 		m_pResultCoinUI = nullptr;
 	}
-	/*if (m_pCoin1Icon)
-	{
-		delete m_pCoin1Icon;
-		m_pCoin1Icon = nullptr;
-	}
-	if (m_pCoin2Icon)
-	{
-		delete m_pCoin2Icon;
-		m_pCoin2Icon = nullptr;
-	}
-	if (m_pCoin3Icon)
-	{
-		delete m_pCoin3Icon;
-		m_pCoin3Icon = nullptr;
-	}*/
 	if (m_pCurtainUI)
 	{
 		delete m_pCurtainUI;

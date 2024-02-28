@@ -9,6 +9,7 @@
 #include "LibEffekseer.h"
 #include "Effekseer/Effekseer.h"
 
+#define MAX_COINS 3 // コインの最大数を3
 
 class Coin
 {

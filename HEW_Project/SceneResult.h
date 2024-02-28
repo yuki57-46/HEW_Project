@@ -35,15 +35,10 @@ public:
 	void ClearDraw();
 	void NextDraw();
 
-	//void CoinDraw(float x, float y, float z, float sizeX, float sizeY, int num);
-
 private:
 	Texture*		 m_pBGTexture;
 	Texture*		 m_pClearIcon;
 	Texture*		 m_pNextIcon;
-	//Texture*		 m_pCoin1Icon;
-	//Texture*		 m_pCoin2Icon;
-	//Texture*		 m_pCoin3Icon;
 
 	SceneManager*	 m_pSceneManager;
 	Fade*			 m_pFade;
