@@ -10,6 +10,9 @@ SceneResult::SceneResult()
 	: m_pBGTexture(nullptr)
 	, m_pClearIcon(nullptr)
 	, m_pNextIcon(nullptr)
+	, m_pCoin1Icon(nullptr)
+	, m_pCoin2Icon(nullptr)
+	, m_pCoin3Icon(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
 	, m_pPS(nullptr)
@@ -27,6 +30,21 @@ SceneResult::SceneResult()
 	}
 	m_pNextIcon = new Texture();
 	if (FAILED(m_pNextIcon->Create("Assets/Texture/nextperformance.png")))
+	{
+		MessageBox(NULL, "リザルト", "Error", MB_OK);
+	}
+	m_pCoin1Icon = new Texture();
+	if (m_pCoin1Icon->Create("Assets/Texture/coin.png"))
+	{
+		MessageBox(NULL, "リザルト", "Error", MB_OK);
+	}
+	m_pCoin2Icon = new Texture();
+	if (m_pCoin2Icon->Create("Assets/Texture/coin.png"))
+	{
+		MessageBox(NULL, "リザルト", "Error", MB_OK);
+	}
+	m_pCoin3Icon = new Texture();
+	if (m_pCoin3Icon->Create("Assets/Texture/coin.png"))
 	{
 		MessageBox(NULL, "リザルト", "Error", MB_OK);
 	}
@@ -176,5 +194,61 @@ void SceneResult::NextDraw()
 	Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pNextIcon);
+	Sprite::Draw();
+}
+
+void Coin::Draw(float x, float y, float z, float sizeX, float sizeY, int num)
+{
+
+	SetPosition(x, y, z);
+
+	GetSizeX(sizeX);
+	GetSizeY(sizeY);
+
+
+	DirectX::XMFLOAT4X4 mat[3];
+
+	//ワールド行列はXとYのみを考慮して作成
+	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(x, y, z);
+
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
+
+	//単体行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
+
+	//プロジェクション行列には2Dとして表示するための行列を設定
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+
+	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	//Sprite::SetOffset({ 0.0f, 0.0f });
+	Sprite::SetSize(DirectX::XMFLOAT2(sizeX, -sizeY));
+	Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+
+	switch (num)
+	{
+	case 1:
+		Sprite::SetTexture(m_pCFirstTexture);
+		break;
+
+	case 2:
+		Sprite::SetTexture(m_pCSecondTexture);
+		break;
+
+	case 3:
+		Sprite::SetTexture(m_pCThirdTexture);
+		break;
+	}
+
+	if (m_pCoin[0].IsCoinCollected == true)
+	{
+		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+	}
+
 	Sprite::Draw();
 }
