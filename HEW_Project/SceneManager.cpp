@@ -59,7 +59,7 @@ void SceneManager::Update(float tick)
 			case SCENE_TUTORIAL: m_pSceneTutorial = new SceneTutorial();	break;
 			case SCENE_SELECT:	 m_pSceneSelect = new SelectScene();		break;
 			case SCENE_GAME:	 m_pSceneGame = new SceneGame();			break;
-			case SCENE_RESULT:	 m_pSceneResult = new SceneResult();		break;
+			case SCENE_RESULT:	 m_pSceneResult = new SceneResult(m_CoinNumber);		break;
 			default: break;
 			}
 			// 現在のシーンを新しいシーンへ上書き
@@ -77,7 +77,7 @@ void SceneManager::Update(float tick)
 	case SCENE_TITLE:	 m_pSceneTitle->Update(this);		break;
 	case SCENE_TUTORIAL: m_pSceneTutorial->Update(this);	break;
 	case SCENE_SELECT:	 m_pSceneSelect->Update(this);		break;
-	case SCENE_GAME:	 m_pSceneGame->Update(this, tick);	break;
+	case SCENE_GAME:	 m_pSceneGame->Update(this, tick);	m_CoinNumber = m_pSceneGame->GetCoinNum(); break;
 	case SCENE_RESULT:   m_pSceneResult->Update(this);		break;
 	default: break;
 	}
@@ -99,7 +99,7 @@ void SceneManager::Draw()
 						, m_pSceneSelect->Stage1Draw(), m_pSceneSelect->Stage2Draw(), m_pSceneSelect->Stage3Draw(), m_pSceneSelect->Stage4Draw(), m_pSceneSelect->Stage5Draw();	break;
 	case SCENE_GAME:	 m_pSceneGame->Draw();		break;
 	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw()
-						, m_pSceneResult->NextDraw();	break;
+						, m_pSceneResult->NextDraw(), m_pSceneResult->ResultCoinDraw();	break;
 	default: break;
 	}
 	// 一番最後に画面全体に表示する

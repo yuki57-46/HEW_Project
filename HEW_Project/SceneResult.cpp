@@ -7,12 +7,13 @@
 #define FILENAME "Assets/Texture/backgroundandcoin.png"
 
 
-SceneResult::SceneResult()
+SceneResult::SceneResult(int GetCoinNum)
 	: m_pBGTexture(nullptr)
 	, m_pClearIcon(nullptr)
 	, m_pNextIcon(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
+	, m_pCoinIcon(nullptr)
 	, m_pPS(nullptr)
 {
 	m_pCurtainUI = new CurtainUI();
@@ -31,11 +32,11 @@ SceneResult::SceneResult()
 	{
 		MessageBox(NULL, "リザルト", "Error", MB_OK);
 	}
-	m_pResultCoinUI = new Coin[3];
-	m_pResultCoinUI[0].SetCollect(m_pResultCoinUI[1].IsCoinCollected);
-	m_pResultCoinUI[1].SetCollect(ms_resultCoin);
-	m_pResultCoinUI[2].SetCollect(ms_resultCoin);
-
+	m_pCoinIcon = new Texture();
+	if (FAILED(m_pNextIcon->Create("Assets/Texture/coin.png")))
+	{
+		MessageBox(NULL, "リザルトコインアイコン", "Error", MB_OK);
+	}
 
 	m_pPS = new PixelShader();
 	if (FAILED(m_pPS->Load("./Assets/Shader/PS_Sprite.cso")))
@@ -59,10 +60,10 @@ SceneResult::~SceneResult()
 		delete m_pPS;
 		m_pPS = nullptr;
 	}
-	if (m_pResultCoinUI)
+	if (m_pCoinIcon)
 	{
-		delete[] m_pResultCoinUI;
-		m_pResultCoinUI = nullptr;
+		delete m_pCoinIcon;
+		m_pCoinIcon = nullptr;
 	}
 	if (m_pCurtainUI)
 	{
@@ -124,19 +125,6 @@ void SceneResult::BGDraw()
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pBGTexture);
 	Sprite::Draw();
-
-	if (m_pResultCoinUI[0].IsCoinCollected == true)
-	{
-		m_pResultCoinUI[0].Draw(221.0f, 482.0f, 0.0f, 250.0f, 250.0f, 1);
-	}
-	if (m_pResultCoinUI[1].IsCoinCollected == true)
-	{
-		m_pResultCoinUI[1].Draw(622.0f, 482.0f, 0.0f, 250.0f, 250.0f, 2);
-	}
-	if (m_pResultCoinUI[2].IsCoinCollected == true)
-	{
-		m_pResultCoinUI[2].Draw(1030.0f, 482.0f, 0.0f, 250.0f, 250.0f, 3);
-	}
 }
 
 void SceneResult::ClearDraw()
@@ -202,3 +190,51 @@ void SceneResult::NextDraw()
 	Sprite::SetTexture(m_pNextIcon);
 	Sprite::Draw();
 }
+
+void SceneResult::ResultCoinDraw()
+{
+	DirectX::XMFLOAT4X4 mat[3];
+
+	//ワールド行列はXとYのみを考慮して作成
+	DirectX::XMMATRIX world[3];
+	float x = 221.0f;				//コイン描画基準の座標
+	for (int i = 1; i < 3; i++)
+	{
+		world[i] = DirectX::XMMatrixTranslation(x, 482.0f, 0.0f);
+		x += 403.0f;
+
+		DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world[i]));
+
+		//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
+		DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
+
+		//プロジェクション行列には2Dとして表示するための行列を設定する
+		//この行列で2Dぼスクリーンの大きさが決まる
+		DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+			0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f
+		);
+		DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+
+		//スプライトの設定
+		Sprite::SetPixelShader(m_pPS);
+		Sprite::SetWorld(mat[0]);
+		Sprite::SetView(mat[1]);
+		Sprite::SetProjection(mat[2]);
+		Sprite::SetSize(DirectX::XMFLOAT2(0.0f, 0.0f));
+		Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+		Sprite::SetTexture(m_pCoinIcon);
+		Sprite::Draw();
+	}
+}
+//if (m_pResultCoinUI[0].IsCoinCollected == true)
+//{
+//	m_pResultCoinUI[0].Draw(221.0f, 482.0f, 0.0f, 250.0f, 250.0f, 1);
+//}
+//if (m_pResultCoinUI[1].IsCoinCollected == true)
+//{
+//	m_pResultCoinUI[1].Draw(624.0f, 482.0f, 0.0f, 250.0f, 250.0f, 2);
+//}
+//if (m_pResultCoinUI[2].IsCoinCollected == true)
+//{
+//	m_pResultCoinUI[2].Draw(1028.0f, 482.0f, 0.0f, 250.0f, 250.0f, 3);
+//}

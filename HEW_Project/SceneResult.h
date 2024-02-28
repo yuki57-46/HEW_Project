@@ -28,17 +28,19 @@ enum class CameraKindResult
 class SceneResult
 {
 public:
-	SceneResult();
+	SceneResult(int GetCoinNum = 0);
 	~SceneResult();
 	void Update(SceneManager* pSceneManager);
 	void BGDraw();
 	void ClearDraw();
 	void NextDraw();
+	void ResultCoinDraw();
 
 private:
 	Texture*		 m_pBGTexture;
 	Texture*		 m_pClearIcon;
 	Texture*		 m_pNextIcon;
+	Texture*		 m_pCoinIcon;
 
 	SceneManager*	 m_pSceneManager;
 	Fade*			 m_pFade;
@@ -50,9 +52,6 @@ private:
 	ObjectCamera*	 m_pobjcamera;
 	CameraKindResult m_mainCamera;
 	CameraBase*		 m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
-
-	Coin*			 m_pResultCoinUI;
-	bool ms_resultCoin = false;
 
 	CurtainUI*		 m_pCurtainUI;
 

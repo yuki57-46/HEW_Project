@@ -115,8 +115,11 @@ private:
 	int		m_Nowscene; // 現在実行中のシーン
 	int		m_NextScene; // 次のシーン
 
+	int		m_CoinNumber;	//リザルトのためにコインの枚数数える
+
 	Fade*		m_pFade;
 	CurtainUI*	m_pCurtainUI;
+	
 
 	SceneTitle*		m_pSceneTitle;
 	SceneTutorial*	m_pSceneTutorial;

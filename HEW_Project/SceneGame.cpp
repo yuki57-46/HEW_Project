@@ -5,6 +5,7 @@
 #include "Input.h"
 
 #define FADE_TEST 0
+int GetCoin = 0;	//リザルトにコインの情報を持っていく為のグローバル変数
 
 SceneGame::SceneGame()
 	: m_pSound(nullptr)
@@ -315,7 +316,15 @@ void SceneGame::Draw()
 		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
 		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		Sprite::SetTexture(m_pGoalTecture);
-		//m_pSceneManager->SetNextScene(SCENE_RESULT);
+		
+		//リザルトにコインの情報を渡す
+		if (int i = 0; i < 3, i++)
+		{
+			if (m_pCoin[i].GetCollect() == true)
+			{
+				GetCoin++;
+			}
+		}
 	}
 
 #if FADE_TEST
@@ -343,4 +352,9 @@ void SceneGame::Draw()
 	{
 		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
 	}
+}
+
+int SceneGame::GetCoinNum()
+{
+	return GetCoin;
 }
