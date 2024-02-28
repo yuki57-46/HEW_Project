@@ -114,11 +114,11 @@ void ShadowP::Update(float tick)
 		if(m_IsDeath==true)
 		{
 			m_pModel->Play(m_death, false);
-			if (!m_pModel->IsPlay(m_death))
-			{
-				m_pos = m_firstPos;
-				m_IsDeath = false;
-			}
+			// if (!m_pModel->IsPlay(m_death))
+			// {
+			// 	m_pos = m_firstPos;
+			// 	m_IsDeath = false;
+			// }
 		}
 
 

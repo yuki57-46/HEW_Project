@@ -83,6 +83,8 @@ private:
 
 	SceneManager* m_pSceneManager;
 
+	bool m_bGoal = false;
+
 	
 	Texture* m_pGoalTecture;
 	Texture* m_pDeadTexture;

@@ -199,6 +199,12 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	m_pCamera[CAM_OBJ]->Update();
+	m_bGoal = m_pGoal->GetGoal();
+	// ゴールしたらシーンを切り替えてリザルトシーンに遷移する
+	if (m_bGoal == true)
+	{
+		pSceneManager->SetNextScene(SCENE_RESULT);
+	}
 
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);

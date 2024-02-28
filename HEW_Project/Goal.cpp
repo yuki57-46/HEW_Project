@@ -4,6 +4,8 @@
 #include "Goal.h"
 #include "Sprite.h"
 
+#include "SceneManager.hpp"
+
 //コンストラクタ
 Goal::Goal()
 	: m_pGoalTexture(nullptr)
@@ -52,7 +54,6 @@ void Goal::Update()
 	{
 		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, m_GoalPos.x, m_GoalPos.y, m_GoalPos.z);
 	}
-
 }
 
 //描画

@@ -13,7 +13,7 @@
 
 
 
-ObjectMng::ObjectMng()
+ObjectMng::ObjectMng(int stage_num)
 	: m_pObjects(nullptr)
 	, m_pYuka(nullptr)
 	, m_pPlayer(nullptr)
@@ -26,8 +26,6 @@ ObjectMng::ObjectMng()
 	, m_num4(0)
 	, m_num5(0)
 	, m_num6(0)
-
-
 {
 	m_pObjectCamera = new CameraDebug();
 	aabb = new AABB();
@@ -47,7 +45,6 @@ ObjectMng::ObjectMng()
 	// Min_Z (1.8f)この値がブロックの配置制限位置
 	//
 
-	int stage_num = 1;	// 現在のステージの番号(0にしてチュートリアルから始める)
 
 	switch (stage_num)
 	{
@@ -1136,7 +1133,7 @@ void ObjectMng::Update(float tick)
 										if (gameObject->GetCMinBounds().y + 0.05f >= gameObject2->GetMaxBounds().y)  //上辺の当たり判定
 										{
 											//m_pObjects[i].OBJPosy();  //y以外過去座標へ
-      											m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.01f);
+												m_pObjects[i].MoveObject(gameObject2->GetMaxBounds().y + 0.01f);
 
 											if (m_pObjects[j].IsMove() == true)
 											{
@@ -1273,7 +1270,7 @@ void ObjectMng::Update(float tick)
 													m_pObjects[i].Set1();
 													m_pStair[h].Set1();
 													m_pStair[h].Set();*/
- 													m_pObjects[i].MoveObject(gameObject1->GetMaxBounds().y + 0.01f);
+													m_pObjects[i].MoveObject(gameObject1->GetMaxBounds().y + 0.01f);
 													if (m_pStair[h].IsMove() == true)
 													{
 														m_pObjects[i].Set1();
@@ -1757,7 +1754,7 @@ void ObjectMng::Update(float tick)
 									{
 										for (int l = 0; l < m_num3; l++)
 										{
-  											m_pStair[l].OBJPos();
+											m_pStair[l].OBJPos();
 										}
 										for (int l = 0; l < m_num; l++)
 										{
