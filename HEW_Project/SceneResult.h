@@ -34,7 +34,7 @@ public:
 	void ClearDraw();
 	void NextDraw();
 
-	void CoinDraw(float x, float y, float z, float sizeX, float sizeY, int num);
+	//void CoinDraw(float x, float y, float z, float sizeX, float sizeY, int num);
 
 private:
 	Texture*		 m_pBGTexture;
@@ -55,7 +55,6 @@ private:
 	CameraKindResult m_mainCamera;
 	CameraBase*		 m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
 
-	Coin*			 m_pCoin;
 	CurtainUI*		 m_pCurtainUI;
 
 	RenderTarget* m_pRTV;
