@@ -6,6 +6,9 @@
 #include "Texture.h"
 #include "Sprite.h"
 
+#include "Fade.hpp"
+#include "Curtain.h"
+
 class SceneManager;
 //#include "SceneManager.hpp"
 
@@ -36,14 +39,18 @@ enum class CameraKindTutorial
 class SceneTutorial
 {
 public:
-	SceneTutorial(SceneManager *pSceneManager);
+	SceneTutorial();
 	~SceneTutorial();
-	void Update(float tick);
+	void Update(SceneManager* pSceneManager);
 	void Draw();
 
 private:
-	Texture*		m_pTexture;
-	SceneManager*	m_pSceneManager;
+	Texture*		m_pTexture1;
+	Texture*		m_pTexture2;
+	Texture*		m_pTexture3;
+
+	Fade*		m_pFade;
+	CurtainUI*	m_pCurtainUI;
 
 	Screen* m_pScreen;
 
@@ -64,6 +71,8 @@ private:
 
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
+
+	PixelShader* m_pPS;
 
 	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
 	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ

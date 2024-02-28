@@ -108,7 +108,6 @@ void Goal::Draw(float x, float y, float z, float sizeX, float sizeY)
 	Sprite::Draw();
 }
 
-
 float Goal::SetPosition(float x, float y, float z)
 {
 	m_GoalPos.x = x;

@@ -20,7 +20,6 @@
 #include "Effekseer/Effekseer.h"
 #include "MagnetSN.h"
 
-
 class ObjectMng
 {
 public:
@@ -31,8 +30,6 @@ public:
 	
 private:
 	Object*			m_pObjects;
-	
-
 
 	Yuka*		m_pYuka;
 	Lift_Obj*	m_pLift_obj;
@@ -40,7 +37,6 @@ private:
 	Stair*		m_pStair;
 	Tomegu*     m_pTomegu;
 	Magnet*  m_pMagnet;
-
 
 	CameraDebug* m_pObjectCamera;
 
@@ -57,6 +53,6 @@ private:
 	int m_num3;	// ゴール
 	int m_num4;	// 床
 	int m_num5;	// 留め具
-	int m_num6;//magnet
+	int m_num6;	// マグネット
 
 };

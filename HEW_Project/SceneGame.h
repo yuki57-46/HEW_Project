@@ -20,10 +20,17 @@
 #include "ItemUI.h"
 #include "Goal.h"
 #include "Curtain.h"
-#include"Haikei.h"
+#include "Haikei.h"
 
 #include "Fade.hpp"
 #include"CurtainObject.h"
+#include "SceneManager.hpp"
+
+#include "Texture.h"
+#include "Sprite.h"
+
+class SceneManager;
+
 enum CameraKind
 {
 	CAM_OBJ,	//
@@ -38,11 +45,10 @@ class SceneGame
 public:
 	SceneGame();
 	~SceneGame();
-	void Update(float tick);
+	void Update(SceneManager* pSceneManager, float tick);
 	void Draw();
 
 private:
-
 	Screen* m_pScreen;
 
 	ObjectMng* m_pObjectMng;
@@ -74,6 +80,14 @@ private:
 	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
 	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
 	//Sound m_Sound;
+
+	SceneManager* m_pSceneManager;
+
+	
+	Texture* m_pGoalTecture;
+	Texture* m_pDeadTexture;
+
+	PixelShader* m_pPS;
 };
 
 #endif // __SCENE_GAME_H__

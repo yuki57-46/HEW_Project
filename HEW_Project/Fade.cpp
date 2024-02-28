@@ -49,17 +49,14 @@ Fade::~Fade()
 void Fade::Update()
 {
 	// カウントダウン
-	m_time -= 1.0f / 60.0f;
-
+	m_time -= 1.0f / 30.0f;
 	// フェードを実行する必要があるか
 	if (!IsPlay())
 	{
 		return;
 	}
-
 	// フェードの経過時間の割合から透明度を計算
 	float rate = m_time / m_totalTime;
-
 	// フェードアウトの場合だけ、透明度を反転させる
 	if (!m_isIn)
 	{
@@ -73,28 +70,34 @@ void Fade::Update()
 	}
 	else
 	{
-		m_alpha = 1.0f - cosf((rate * DirectX::XM_PI) / 2.0f);
+		// フェードアウト
+		rate =  1.0f * rate; // cosf((rate * DirectX::XM_PI) / 2.0f);
 	}
-	
+	m_alpha = rate;
 
-	if ((GetAlpha() >= 0.5f && GetAlpha() <= 0.6f)&& m_isIn == false)
-	{
-		m_pCurtain->Start(false, m_time + 0.5f);
-	}
-	if ((GetAlpha() >= 0.9f && GetAlpha() <= 1.0f) && m_isIn == true)
-	{
-		m_pCurtain->Start(true, m_time - 0.4f);
-	}
+	//if ((GetAlpha() >= 0.5f && GetAlpha() <= 0.6f)&& m_isIn == false)
+	//{
+	//	m_pCurtain->Start(false, m_time + 0.5f);
+	//}
+	//if ((GetAlpha() >= 0.9f && GetAlpha() <= 1.0f) && m_isIn == true)
+	//{
+	//	m_pCurtain->Start(true, m_time - 0.4f);
+	//}
 }
 
 void Fade::Draw()
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
+	if (0.5f < m_alpha && m_alpha < 0.6f)
+	{
+		int a = 0 ;;
+
+	}
+
 	// ワールド行列は X,Y のみを考慮して作成
 	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(730.0f, 418.0f, 0.0f);
 	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
-
 	// ビュー行列は2Dだと、カメラの位置があまり関係ないので単位行列
 	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
@@ -124,6 +127,16 @@ void Fade::Draw()
 
 	// スプライトの描画
 	Sprite::Draw();
+
+#if 0
+	FILE* fp;
+	fp = fopen("check.txt", "at");
+	fprintf(fp, "%.2f\n", m_alpha);
+	fclose(fp);
+
+#endif
+
+
 
 }
 

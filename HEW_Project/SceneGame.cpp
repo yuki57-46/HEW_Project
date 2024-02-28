@@ -1,13 +1,14 @@
 ﻿#include "SceneGame.h"
 #include "Geometory.h"
+#include "Input.h"
 #include <DirectXMath.h>
 #include "Input.h"
 
-#define FADE_TEST 1
+#define FADE_TEST 0
 
 SceneGame::SceneGame()
-	:  m_pSound(nullptr)
-	,  m_pSourceVoice(nullptr)
+	: m_pSound(nullptr)
+	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
 	, m_pCamera{ nullptr, nullptr,nullptr }
 	, m_pobjcamera(nullptr)
@@ -23,12 +24,12 @@ SceneGame::SceneGame()
 	, m_pObjectMng(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtain(nullptr)
+	, m_pGoalTecture(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
 	//DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
 	//SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
-
 
 	//深度バッファ、レンダーターゲットの設定
 	m_pRTV = GetDefaultRTV();	//デフォルトで使用しているRender Target Viewの取得
@@ -44,16 +45,14 @@ SceneGame::SceneGame()
 	m_pUI = new ItemUI();
 	m_pCoinCntUI = new CoinCntUI();
 	m_pCoin = new Coin[3];
-
 	m_pHaikei = new Haikei();
 
 	//ゴール
 	m_pGoal = new Goal();
-
 	//カーテン
 	m_pCurtainUI = new CurtainUI();
 	m_pCurtain = new Curtain();
-	
+
 
 
 	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
@@ -74,14 +73,30 @@ SceneGame::SceneGame()
 	m_pFade = new Fade(m_pCurtainUI);
 #endif
 
+	// ゴール用
+	m_pGoalTecture = new Texture();
+	if (m_pGoalTecture->Create("Assets/Texture/clear.png"))
+	{
+		MessageBox(NULL, "clear.pngの読み込みエラー", "Error", MB_OK);
+	}
+	// ゲームオーバー用
+	m_pDeadTexture = new Texture();
+	if (m_pDeadTexture->Create("Assets/Texture/gameover.png"))
+	{
+		MessageBox(NULL, "gameover.pngの読み込みエラー", "Error", MB_OK);
+	}
+	m_pPS = new PixelShader();
+	if (m_pPS->Load("Assets/Shader/PS_Sprite.cso"))
+	{
+		MessageBox(NULL, "[Coin.cpp] Failed to load Pixcel Shader", "Error", MB_OK);
+	}
+
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
 	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav", true); // サウンドファイルの読み込み
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
 	m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
-
-
 }
 
 SceneGame::~SceneGame()
@@ -153,21 +168,37 @@ SceneGame::~SceneGame()
 		delete m_pCurtain;
 		m_pCurtain = nullptr;
 	}
+	if (m_pGoalTecture)
+	{
+		delete m_pGoalTecture;
+		m_pGoalTecture = nullptr;
+	}
+	if (m_pDeadTexture)
+	{
+		delete m_pDeadTexture;
+		m_pDeadTexture = nullptr;
+	}
+	if (m_pPS)
+	{
+		delete m_pPS;
+		m_pPS = nullptr;
+	}
 	m_pSourceVoice->Stop();
 }
 
-void SceneGame::Update(float tick)
+void SceneGame::Update(SceneManager* pSceneManager, float tick)
 {
+	if (m_pobjcamera != nullptr)
+		{
+			m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);	// 例外スロー発生場所
+		}
 
-	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
 	m_pBackShadow->Update(tick);
 
 	//m_pObjectMng->SetPlayer(m_pPlayer);
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	m_pCamera[CAM_OBJ]->Update();
-
-	
 
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
@@ -182,6 +213,11 @@ void SceneGame::Update(float tick)
 		m_pFade->Start(true, 2.0f);// フェードイン
 	if (IsKeyTrigger('P'))
 		m_pFade->Start(false, 1.0f);// フェードアウト
+
+	//if (IsKeyTrigger(VK_RETURN))
+	//{
+	//	m_pSceneManager->ChangeScene(SceneManager::SCENE_RESULT);	// タイトルに戻る
+	//}
 #endif
 
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
@@ -195,7 +231,6 @@ void SceneGame::Update(float tick)
 
 void SceneGame::Draw()
 {
-
 	m_pDSV->Clear();
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
@@ -209,11 +244,6 @@ void SceneGame::Draw()
 	m_pHaikei->Draw();
 	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2], m_pGoal);
 
-	//カーテン表示
-	//m_pCurtainUI->LeftDraw();
-	//m_pCurtainUI->RightDraw();
-
-	
 	//3D表示に変更
 	SetRenderTargets(1, &m_pRTV, m_pDSV);
 
@@ -238,7 +268,6 @@ void SceneGame::Draw()
 
 	//m_pobjcamera->Draw();
 
-	
 	//オブジェクト
 	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(),true);
 	//カーテン
@@ -267,20 +296,30 @@ void SceneGame::Draw()
 	//2D表示に変換(ミニマップやUI
 	SetRenderTargets(1, &m_pRTV, nullptr);
 
+
+
 	//ゴールしたら表示（仮）
 	//本当は画面遷移
 	if (m_pGoal->IsGoal == true)
 	{
-		m_pCoinCntUI->GoalDraw();
+		//スプライトの設定
+		Sprite::SetPixelShader(m_pPS);
+		Sprite::SetWorld(mat[0]);
+		Sprite::SetView(mat[1]);
+		Sprite::SetProjection(mat[2]);
+		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
+		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		Sprite::SetTexture(m_pGoalTecture);
+		//m_pSceneManager->SetNextScene(SCENE_RESULT);
 	}
-	
+
 #if FADE_TEST
 	m_pFade->Draw();
 #endif // FADE_TEST
 	m_pCurtainUI->StageCurtainDraw();
 
 	//SetRenderTargets(1, &m_pRTV, m_pDSV);
-	
+
 	//コインの枠表示
 	m_pCoinCntUI->Draw();
 

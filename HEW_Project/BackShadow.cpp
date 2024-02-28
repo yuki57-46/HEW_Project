@@ -158,16 +158,17 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	// レンダーの色設定し、その色で画面クリア
 	float color[4] = { 1.0f, 1.0f, 1.0f, 0.0f };
 	m_pRTV_BS->Clear(color);
-	//m_pRTV_BS->Clear();
+	//m_pDSV_BS->Clear();
 
 	// レンダーの設定
-	SetRenderTargets(1, &m_pRTV_BS, m_pDSV_BS);
-
+	SetRenderTargets(1, &m_pRTV_BS, nullptr);
 	// ここに表示したいものを持ってくる
 
 	DirectX::XMFLOAT4X4 viewMatrix = m_pCamera->GetViewMatrix();
 	DirectX::XMFLOAT4X4 projectionMatrix = m_pCamera->GetProjectionMatrix();
-    Obj->Draw(viewMatrix, projectionMatrix,false);
+
+	// 影のブロックの描画
+    Obj->Draw(viewMatrix, projectionMatrix,false);	// レンダーターゲット
 	m_pShadowPlayer->Draw(viewMatrix, projectionMatrix);
 
 	// ゴールをフィールド上に表示
@@ -194,6 +195,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 
 
 
+	// UI
 	// コインをフィールド上に表示
 	// Drawの１,２個目の数値をいじればコイン描画座標が変わる
 	//======================移動チュートリアル==================

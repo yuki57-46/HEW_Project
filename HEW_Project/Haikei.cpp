@@ -8,16 +8,22 @@
 //===コンストラクタ===
 Haikei::Haikei()
 	: m_pTexture(nullptr)
+	, m_pPS(nullptr)
 {
 
 	m_pTexture = new Texture();
 
 	//それぞれの.pngが開けなかった時メッセージボックスを表示する
-	if (FAILED(m_pTexture->Create("Assets/backyard_pings/sougen.png")))
+	if (FAILED(m_pTexture->Create("Assets/backyard_pings/crystal.png")))
 	{
 		MessageBox(NULL, "Haikei.png", "Error", MB_OK);
 	}
 
+	m_pPS = new PixelShader();
+	if (FAILED(m_pPS->Load("Assets/Shader/PS_Sprite.cso")))
+	{
+		MessageBox(NULL, "[Haikei] PS_Sprite", "Error", MB_OK);
+	}
 	
 }
 
@@ -58,6 +64,7 @@ void Haikei::Draw()
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
 	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
 	Sprite::SetWorld(mat[0]);
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
