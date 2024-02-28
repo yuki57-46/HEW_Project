@@ -43,7 +43,7 @@ enum CameraKind
 class SceneGame
 {
 public:
-	SceneGame();
+	SceneGame(int selectNum = 0);
 	~SceneGame();
 	void Update(SceneManager* pSceneManager, float tick);
 	void Draw();

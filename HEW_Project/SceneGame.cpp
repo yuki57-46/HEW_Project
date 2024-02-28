@@ -6,7 +6,7 @@
 
 #define FADE_TEST 0
 
-SceneGame::SceneGame()
+SceneGame::SceneGame(int selectNum)
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
@@ -66,7 +66,7 @@ SceneGame::SceneGame()
 
 	m_pBackShadow = new BackShadow;
 
-	m_pObjectMng = new ObjectMng();
+	m_pObjectMng = new ObjectMng(selectNum);
 	//m_pDCamera = new CameraDebug();
 
 #if FADE_TEST

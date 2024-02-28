@@ -37,6 +37,11 @@ SceneManager::~SceneManager()
 
 void SceneManager::Update(float tick)
 {
+	if (m_pSceneSelect)
+	{
+		m_SelectScene = m_pSceneSelect->GetSelectStage();
+
+	}
 	if (!m_pFade->IsPlay())
 	{
 		// シーンの切り替え判定
@@ -58,7 +63,7 @@ void SceneManager::Update(float tick)
 			case SCENE_TITLE:	 m_pSceneTitle = new SceneTitle();			break;
 			case SCENE_TUTORIAL: m_pSceneTutorial = new SceneTutorial();	break;
 			case SCENE_SELECT:	 m_pSceneSelect = new SelectScene();		break;
-			case SCENE_GAME:	 m_pSceneGame = new SceneGame();			break;
+			case SCENE_GAME:	 m_pSceneGame = new SceneGame(m_SelectScene);			break;
 			case SCENE_RESULT:	 m_pSceneResult = new SceneResult();		break;
 			default: break;
 			}

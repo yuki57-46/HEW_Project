@@ -114,6 +114,7 @@ public:
 private:
 	int		m_Nowscene; // 現在実行中のシーン
 	int		m_NextScene; // 次のシーン
+	int		m_SelectScene; // 選択されたシーン
 
 	Fade*		m_pFade;
 	CurtainUI*	m_pCurtainUI;
