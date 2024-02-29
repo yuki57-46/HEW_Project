@@ -24,7 +24,7 @@ SceneGame::SceneGame(int selectNum)
 	, m_pObjectMng(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtain(nullptr)
-	, m_pGoalTecture(nullptr)
+	, m_pGoalTexture(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -74,8 +74,8 @@ SceneGame::SceneGame(int selectNum)
 #endif
 
 	// ゴール用
-	m_pGoalTecture = new Texture();
-	if (m_pGoalTecture->Create("Assets/Texture/clear.png"))
+	m_pGoalTexture = new Texture();
+	if (m_pGoalTexture->Create("Assets/Texture/clear.png"))
 	{
 		MessageBox(NULL, "clear.pngの読み込みエラー", "Error", MB_OK);
 	}
@@ -168,10 +168,10 @@ SceneGame::~SceneGame()
 		delete m_pCurtain;
 		m_pCurtain = nullptr;
 	}
-	if (m_pGoalTecture)
+	if (m_pGoalTexture)
 	{
-		delete m_pGoalTecture;
-		m_pGoalTecture = nullptr;
+		delete m_pGoalTexture;
+		m_pGoalTexture = nullptr;
 	}
 	if (m_pDeadTexture)
 	{
@@ -308,15 +308,24 @@ void SceneGame::Draw()
 	//本当は画面遷移
 	if (m_pGoal->IsGoal == true)
 	{
+		DirectX::XMFLOAT4X4 Cmat[3];
+		DirectX::XMMATRIX Cworld = DirectX::XMMatrixTranslation(
+			635.0f, 360.0f, 0.0f);
+		DirectX::XMStoreFloat4x4(&Cmat[0], DirectX::XMMatrixTranspose(Cworld));
+		DirectX::XMStoreFloat4x4(&Cmat[1], DirectX::XMMatrixIdentity());
+		DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+			0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f);
+		DirectX::XMStoreFloat4x4(&Cmat[2], DirectX::XMMatrixTranspose(proj));
+
 		//スプライトの設定
 		Sprite::SetPixelShader(m_pPS);
-		Sprite::SetWorld(mat[0]);
-		Sprite::SetView(mat[1]);
-		Sprite::SetProjection(mat[2]);
+		Sprite::SetWorld(Cmat[0]);
+		Sprite::SetView(Cmat[1]);
+		Sprite::SetProjection(Cmat[2]);
 		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
 		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		Sprite::SetTexture(m_pGoalTecture);
-		//m_pSceneManager->SetNextScene(SCENE_RESULT);
+		Sprite::SetTexture(m_pGoalTexture);
+		Sprite::Draw();
 	}
 
 #if FADE_TEST
