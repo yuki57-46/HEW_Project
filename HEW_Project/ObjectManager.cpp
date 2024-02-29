@@ -674,7 +674,7 @@ ObjectMng::ObjectMng(int stage_num)
 	}
 	break;
 
-	// stage6
+	// stage6 無し
 	case 6:
 	{
 		//ブロック
