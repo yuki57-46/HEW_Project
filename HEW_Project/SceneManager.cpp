@@ -103,8 +103,7 @@ void SceneManager::Draw()
 						,m_pSceneSelect->CursorUIDraw(m_pSceneSelect->GetPosition().x, m_pSceneSelect->GetPosition().y, m_pSceneSelect->GetPosition().z)
 						, m_pSceneSelect->Stage1Draw(), m_pSceneSelect->Stage2Draw(), m_pSceneSelect->Stage3Draw(), m_pSceneSelect->Stage4Draw(), m_pSceneSelect->Stage5Draw();	break;
 	case SCENE_GAME:	 m_pSceneGame->Draw();		break;
-	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw()
-						, m_pSceneResult->NextDraw();	break;
+	case SCENE_RESULT:   m_pSceneResult->BGDraw(), m_pSceneResult->ClearDraw(), m_pSceneResult->NextDraw();	break;
 	default: break;
 	}
 	// 一番最後に画面全体に表示する
@@ -129,3 +128,12 @@ void SceneManager::SetNextScene(SceneKind scene)
 		return;
 	}
 }
+
+/*void SceneManager::CoinNumber()
+{
+	m_CoinNumber = m_pSceneGame->GetCoinNum();
+}
+float SceneManager::GetCoinNumber()
+{
+	return m_CoinNumber;
+}*/

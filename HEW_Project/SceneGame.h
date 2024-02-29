@@ -48,6 +48,10 @@ public:
 	void Update(SceneManager* pSceneManager, float tick);
 	void Draw();
 
+	int GetCoinNum1();	//リザルトにコインの情報を渡す
+	int GetCoinNum2();
+	int GetCoinNum3();
+
 private:
 	Screen* m_pScreen;
 

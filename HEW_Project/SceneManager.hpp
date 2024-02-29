@@ -98,7 +98,7 @@ enum SceneKind
 	SCENE_RESULT,
 	SCENE_MAX,
 
-	SCENE_START = SCENE_TITLE,
+	SCENE_START = SCENE_RESULT,
 };
 
 class SceneManager
@@ -111,13 +111,19 @@ public:
 	void Draw();
 
 	void SetNextScene(SceneKind scene);
+
+	//void CoinNumber();
+	//float GetCoinNumber();
 private:
 	int		m_Nowscene; // 現在実行中のシーン
 	int		m_NextScene; // 次のシーン
 	int		m_SelectScene; // 選択されたシーン
 
+	//float		m_CoinNumber;	//リザルトのためにコインの枚数数える
+
 	Fade*		m_pFade;
 	CurtainUI*	m_pCurtainUI;
+	
 
 	SceneTitle*		m_pSceneTitle;
 	SceneTutorial*	m_pSceneTutorial;

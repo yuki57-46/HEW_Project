@@ -5,6 +5,9 @@
 #include "Input.h"
 
 #define FADE_TEST 0
+int GetCoin1 = 0;//リザルトにコインの情報を持っていく為のグローバル変数
+int GetCoin2 = 0;
+int GetCoin3 = 0;
 
 SceneGame::SceneGame(int selectNum)
 	: m_pSound(nullptr)
@@ -233,6 +236,11 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 	DirectX::XMFLOAT4X4 fMat;
 	DirectX::XMStoreFloat4x4(&fMat, mat);
 	Geometory::SetWorld(fMat);
+
+	if (m_pGoal->IsGoal == true)
+	{
+		pSceneManager->SetNextScene(SCENE_RESULT);
+	}
 }
 
 void SceneGame::Draw()
@@ -324,8 +332,10 @@ void SceneGame::Draw()
 		Sprite::SetProjection(Cmat[2]);
 		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
 		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+
 		Sprite::SetTexture(m_pGoalTexture);
 		Sprite::Draw();
+
 	}
 
 #if FADE_TEST
@@ -342,15 +352,31 @@ void SceneGame::Draw()
 	if (m_pCoin[0].IsCoinCollected == true)
 	{
 		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+		GetCoin1 = 1;
 	}
 
 	if (m_pCoin[1].IsCoinCollected == true)
 	{
 		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+		GetCoin2 = 10;
 	}
 
 	if (m_pCoin[2].IsCoinCollected == true)
 	{
 		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+		GetCoin3 = 100;
 	}
+}
+
+int SceneGame::GetCoinNum1()
+{
+	return GetCoin1;
+}
+int SceneGame::GetCoinNum2()
+{
+	return GetCoin2;
+}
+int SceneGame::GetCoinNum3()
+{
+	return GetCoin3;
 }
