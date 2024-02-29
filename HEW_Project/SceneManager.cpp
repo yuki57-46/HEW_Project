@@ -114,7 +114,14 @@ void SceneManager::Draw()
 
 void SceneManager::SetNextScene(SceneKind scene)
 {
-	m_pFade->Start(false, 1.0f);	// フェードアウト
+	if (m_Nowscene == SCENE_GAME)
+	{
+		m_pFade->Start(false, 6.0f);
+	}
+	else
+	{
+		m_pFade->Start(false, 1.0f);	// フェードアウト
+	}
 	// フェード中は次のシーンを予約しない
 	if (m_pFade->IsPlay())
 	{
