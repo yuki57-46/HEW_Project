@@ -6,8 +6,7 @@
 
 #define FILENAME "Assets/Texture/backgroundandcoin.png"
 
-
-SceneResult::SceneResult(int GetCoinNum)
+SceneResult::SceneResult()
 	: m_pBGTexture(nullptr)
 	, m_pClearIcon(nullptr)
 	, m_pNextIcon(nullptr)
@@ -33,7 +32,7 @@ SceneResult::SceneResult(int GetCoinNum)
 		MessageBox(NULL, "リザルト", "Error", MB_OK);
 	}
 	m_pCoinIcon = new Texture();
-	if (FAILED(m_pNextIcon->Create("Assets/Texture/coin.png")))
+	if (FAILED(m_pCoinIcon->Create("Assets/Texture/coin.png")))
 	{
 		MessageBox(NULL, "リザルトコインアイコン", "Error", MB_OK);
 	}
@@ -125,6 +124,10 @@ void SceneResult::BGDraw()
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pBGTexture);
 	Sprite::Draw();
+
+	m_GetCoinNum1 = m_pSceneGame->GetCoinNum1();
+	m_GetCoinNum2 = m_pSceneGame->GetCoinNum2();
+	m_GetCoinNum3 = m_pSceneGame->GetCoinNum3();
 }
 
 void SceneResult::ClearDraw()
@@ -189,52 +192,47 @@ void SceneResult::NextDraw()
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 	Sprite::SetTexture(m_pNextIcon);
 	Sprite::Draw();
+
+	if (m_GetCoinNum1 == 1)
+	{
+		ResultCoinDraw(216.0f);
+	}
+	if (m_GetCoinNum2 == 10)
+	{
+		ResultCoinDraw(613.0f);
+	}
+	if (m_GetCoinNum3 == 100)
+	{
+		ResultCoinDraw(1016.0f);
+	}
 }
 
-void SceneResult::ResultCoinDraw()
+void SceneResult::ResultCoinDraw(float x)
 {
 	DirectX::XMFLOAT4X4 mat[3];
 
 	//ワールド行列はXとYのみを考慮して作成
-	DirectX::XMMATRIX world[3];
-	float x = 221.0f;				//コイン描画基準の座標
-	for (int i = 1; i < 3; i++)
-	{
-		world[i] = DirectX::XMMatrixTranslation(x, 482.0f, 0.0f);
-		x += 403.0f;
+	DirectX::XMMATRIX world = DirectX::XMMatrixTranslation(x, 482.0f, 0.0f);
 
-		DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world[i]));
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
-		//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
-		DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
+	//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
-		//プロジェクション行列には2Dとして表示するための行列を設定する
-		//この行列で2Dぼスクリーンの大きさが決まる
-		DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
-			0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f
-		);
-		DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+	//プロジェクション行列には2Dとして表示するための行列を設定する
+	//この行列で2Dぼスクリーンの大きさが決まる
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f
+	);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
-		//スプライトの設定
-		Sprite::SetPixelShader(m_pPS);
-		Sprite::SetWorld(mat[0]);
-		Sprite::SetView(mat[1]);
-		Sprite::SetProjection(mat[2]);
-		Sprite::SetSize(DirectX::XMFLOAT2(0.0f, 0.0f));
-		Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
-		Sprite::SetTexture(m_pCoinIcon);
-		Sprite::Draw();
-	}
+	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	Sprite::SetSize(DirectX::XMFLOAT2(250.0f, -250.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+	Sprite::SetTexture(m_pCoinIcon);
+	Sprite::Draw();
 }
-//if (m_pResultCoinUI[0].IsCoinCollected == true)
-//{
-//	m_pResultCoinUI[0].Draw(221.0f, 482.0f, 0.0f, 250.0f, 250.0f, 1);
-//}
-//if (m_pResultCoinUI[1].IsCoinCollected == true)
-//{
-//	m_pResultCoinUI[1].Draw(624.0f, 482.0f, 0.0f, 250.0f, 250.0f, 2);
-//}
-//if (m_pResultCoinUI[2].IsCoinCollected == true)
-//{
-//	m_pResultCoinUI[2].Draw(1028.0f, 482.0f, 0.0f, 250.0f, 250.0f, 3);
-//}

@@ -111,11 +111,14 @@ public:
 	void Draw();
 
 	void SetNextScene(SceneKind scene);
+
+	//void CoinNumber();
+	//float GetCoinNumber();
 private:
 	int		m_Nowscene; // 現在実行中のシーン
 	int		m_NextScene; // 次のシーン
 
-	int		m_CoinNumber;	//リザルトのためにコインの枚数数える
+	//float		m_CoinNumber;	//リザルトのためにコインの枚数数える
 
 	Fade*		m_pFade;
 	CurtainUI*	m_pCurtainUI;

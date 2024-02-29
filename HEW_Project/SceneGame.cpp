@@ -5,7 +5,9 @@
 #include "Input.h"
 
 #define FADE_TEST 0
-int GetCoin = 0;	//リザルトにコインの情報を持っていく為のグローバル変数
+int GetCoin1 = 0;//リザルトにコインの情報を持っていく為のグローバル変数
+int GetCoin2 = 0;
+int GetCoin3 = 0;
 
 SceneGame::SceneGame()
 	: m_pSound(nullptr)
@@ -316,15 +318,6 @@ void SceneGame::Draw()
 		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
 		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		Sprite::SetTexture(m_pGoalTecture);
-		
-		//リザルトにコインの情報を渡す
-		if (int i = 0; i < 3, i++)
-		{
-			if (m_pCoin[i].GetCollect() == true)
-			{
-				GetCoin++;
-			}
-		}
 	}
 
 #if FADE_TEST
@@ -341,20 +334,31 @@ void SceneGame::Draw()
 	if (m_pCoin[0].IsCoinCollected == true)
 	{
 		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+		GetCoin1 = 1;
 	}
 
 	if (m_pCoin[1].IsCoinCollected == true)
 	{
 		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+		GetCoin2 = 10;
 	}
 
 	if (m_pCoin[2].IsCoinCollected == true)
 	{
 		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+		GetCoin3 = 100;
 	}
 }
 
-int SceneGame::GetCoinNum()
+int SceneGame::GetCoinNum1()
 {
-	return GetCoin;
+	return GetCoin1;
+}
+int SceneGame::GetCoinNum2()
+{
+	return GetCoin2;
+}
+int SceneGame::GetCoinNum3()
+{
+	return GetCoin3;
 }
