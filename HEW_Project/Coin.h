@@ -9,6 +9,7 @@
 #include "LibEffekseer.h"
 #include "Effekseer/Effekseer.h"
 
+#define MAX_COINS 3 // コインの最大数を3
 
 class Coin
 {
@@ -20,6 +21,8 @@ public:
 	void Draw(float x, float y, float z, float sizeX, float sizeY, int num);
 
 	bool IsCoinCollected = false;							// コインが取得されたかどうかを返す
+
+	bool ResultDraw = false;	//リザルトに表示させる用
 
 	void SetPosition(float x, float y, float z);			// コイン位置を設定
 	DirectX::XMFLOAT3 GetPosition() const;

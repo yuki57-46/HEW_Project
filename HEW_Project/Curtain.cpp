@@ -8,7 +8,7 @@
 //===コンストラクタ===
 CurtainUI::CurtainUI()
 	: m_pTexture(nullptr)
-	, m_fPosY(-300.0f)
+	, m_fPosY(-330.0f)
 {
 
 	m_pTexture = new Texture();
@@ -22,7 +22,7 @@ CurtainUI::CurtainUI()
 	m_pStageCurtainTex = new Texture();
 
 	// 画像ファイルが開けなかったら表示
-	if (FAILED(m_pStageCurtainTex->Create("Assets/Texture/Stage_Curtain.png")))
+	if (FAILED(m_pStageCurtainTex->Create("Assets/Texture/Stage_Curtain_V2.png")))
 	{
 		MessageBox(NULL, "StageCurtain.png", "Error", MB_OK);
 	}
@@ -178,5 +178,5 @@ void CurtainUI::Start(bool isUp, float Time)
 bool CurtainUI::IsPlay()
 {
 	// 緞帳が移動中かどうか
-	return m_fTime > 0.0f;
+	return m_fTime > 0.0f;	// 例外スロー箇所
 }

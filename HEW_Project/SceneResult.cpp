@@ -1,242 +1,204 @@
 ﻿#include "SceneResult.h"
+#include "Input.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
+#include "SceneManager.hpp"
+
+#define FILENAME "Assets/Texture/backgroundandcoin.png"
+
 
 SceneResult::SceneResult()
-	: m_pSound(nullptr)
-	, m_pSourceVoice(nullptr)
-	, m_pVS(nullptr)
-//	, m_pCamera{ nullptr, nullptr,nullptr }
-	, m_pobjcamera(nullptr)
-	, m_pRTV(nullptr)
-	, m_pDSV(nullptr)
-	, m_pUI(nullptr)
-	, m_pScreen(nullptr)
+	: m_pBGTexture(nullptr)
+	, m_pClearIcon(nullptr)
+	, m_pNextIcon(nullptr)
+	, m_pFade(nullptr)
+	, m_pCurtainUI(nullptr)
+	, m_pPS(nullptr)
 {
-
-	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
-	//DepthStencil* pDSV = GetDefaultDSV();  //デフォルトで使用しているDepthStencilViewの取得
-	//SetRenderTargets(1, &pRTV, pDSV);      //DSVがnullだと2D表示になる
-
-
-	//深度バッファ、レンダーターゲットの設定
-	m_pRTV = GetDefaultRTV();	//デフォルトで使用しているRender Target Viewの取得
-	m_pDSV = GetDefaultDSV();	//デフォルトで使用しているDepth Stencil Viewの取得
-	SetRenderTargets(1, &m_pRTV, m_pDSV);		//DSVがnullだと２D表示になる
-
-	//m_pPlayer = new Player();
-	m_pVS = new VertexShader();
-
-	m_pobjcamera = new ObjectCamera();
-
-	//コイン系
-	m_pUI = new ItemUI();
-	m_pCoinCntUI = new CoinCntUI();
-	m_pCoin = new Coin[3];
-
-	//スクリーン
-	m_pScreen = new Screen();
-
-	if (FAILED(m_pVS->Load("Assets/Shader/VS_Model.cso")))
+	m_pCurtainUI = new CurtainUI();
+	m_pBGTexture = new Texture();
+	if (FAILED(m_pBGTexture->Create(FILENAME)))
 	{
-		MessageBox(nullptr, "VS_Model.cso", "ERROR", MB_OK);
+		MessageBox(NULL, "リザルト背景", "Error", MB_OK);
 	}
-	
+	m_pClearIcon = new Texture();
+	if (FAILED(m_pClearIcon->Create("Assets/Texture/clear.png")))
+	{
+		MessageBox(NULL, "リザルトclear", "Error", MB_OK);
+	}
+	m_pNextIcon = new Texture();
+	if (FAILED(m_pNextIcon->Create("Assets/Texture/nextperformance.png")))
+	{
+		MessageBox(NULL, "リザルト", "Error", MB_OK);
+	}
+	m_pResultCoinUI = new Coin[3];
+	m_pResultCoinUI[0].SetCollect(m_pResultCoinUI[1].IsCoinCollected);
+	m_pResultCoinUI[1].SetCollect(ms_resultCoin);
+	m_pResultCoinUI[2].SetCollect(ms_resultCoin);
 
-	m_pCamera[CameraKind::CAM_OBJ] = new CameraObject(m_pobjcamera);
-	m_pCamera[CameraKind::CAM_DEBUG] = new CameraDebug();
-	m_pCamera[CameraKind::CAM_SHADOW] = new CameraShadow();
 
-	m_pBackShadow = new BackShadow;
+	m_pPS = new PixelShader();
+	if (FAILED(m_pPS->Load("./Assets/Shader/PS_Sprite.cso")))
+	{
+		MessageBox(NULL, "Result Pixel Shader", "Error", MB_OK);
+	}
 
-	m_pObjectMng = new ObjectMng();
-	//m_pDCamera = new CameraDebug();
-
-	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav"); // サウンドファイルの読み込み
-
-	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
-	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	//m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
+	// カーテンフェードの取得
+	m_pFade = new Fade(m_pCurtainUI);
 }
 
 SceneResult::~SceneResult()
 {
-	if (m_pScreen)
+	if (m_pFade)
 	{
-		delete[] m_pScreen;
-		m_pScreen = nullptr;
+		delete m_pFade;
+		m_pFade = nullptr;
 	}
-	if (m_pCoin)
+	if (m_pPS)
 	{
-		delete[] m_pCoin;
-		m_pCoin = nullptr;
+		delete m_pPS;
+		m_pPS = nullptr;
 	}
-
-	if (m_pCoinCntUI)
+	if (m_pResultCoinUI)
 	{
-		delete m_pCoinCntUI;
-		m_pCoinCntUI = nullptr;
+		delete[] m_pResultCoinUI;
+		m_pResultCoinUI = nullptr;
 	}
-
-	if (m_pUI)
+	if (m_pCurtainUI)
 	{
-		delete m_pUI;
-		m_pUI = nullptr;
+		delete m_pCurtainUI;
+		m_pCurtainUI = nullptr;
 	}
-	/*if (m_pPlayer)
+	if (m_pNextIcon)
 	{
-		delete m_pPlayer;
-		m_pPlayer = nullptr;
-	}*/
-	if (m_pRTV)
-	{
-		delete m_pRTV;
-		m_pRTV = nullptr;
+		delete m_pNextIcon;
+		m_pNextIcon = nullptr;
 	}
-	if (m_pDSV)
+	if (m_pClearIcon)
 	{
-		delete m_pDSV;
-		m_pDSV = nullptr;
+		delete m_pClearIcon;
+		m_pClearIcon = nullptr;
 	}
-	if (m_pCamera)
+	if (m_pBGTexture)
 	{
-		for (int i = 0; i < MAX_CAMERA; i++)
-		{
-			delete m_pCamera[i];
-			m_pCamera[i] = nullptr;
-		}
+		delete m_pBGTexture;
+		m_pBGTexture = nullptr;
 	}
-	if (m_pObjectMng)
-	{
-		delete m_pObjectMng;
-		m_pObjectMng = nullptr;
-	}
-	if (m_pBackShadow)
-	{
-		delete m_pBackShadow;
-		m_pBackShadow = nullptr;
-	}
-	if (m_pBackShadow)
-	{
-		delete m_pBackShadow;
-		m_pBackShadow = nullptr;
-	}
-	//m_pSourceVoice->Stop();
 }
 
-void SceneResult::Update(float tick)
+void SceneResult::Update(SceneManager* pSceneManager)
 {
-
-	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
-	m_pBackShadow->Update(tick);
-
-	//m_pObjectMng->SetPlayer(m_pPlayer);
-	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
-
-	m_pCamera[CAM_OBJ]->Update();
-
-	//オブジェクト
-	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
-	m_pObjectMng->Update(tick);
-	//m_pObject2D->Update();
-	m_pCoinCntUI->Update();
-
-	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
-	DirectX::XMMATRIX S = DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f);
-	DirectX::XMMATRIX mat = S * T;
-	mat = DirectX::XMMatrixTranspose(mat);
-	DirectX::XMFLOAT4X4 fMat;
-	DirectX::XMStoreFloat4x4(&fMat, mat);
-	Geometory::SetWorld(fMat);
+	if (IsKeyTrigger(VK_RETURN))
+	{
+		pSceneManager->SetNextScene(SCENE_SELECT);
+	}
 }
 
-void SceneResult::Draw()
+void SceneResult::BGDraw()
 {
-
-	m_pDSV->Clear();
-	SetRenderTargets(1, &m_pRTV, nullptr);
-
-	static float rad = 0.0f;
 	DirectX::XMFLOAT4X4 mat[3];
 
-	m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);
-	//背景
-	m_pScreen->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix());
-//	m_pBackShadow->Draw(m_pobjcamera, m_pObjectMng, &m_pCoin[0], &m_pCoin[1], &m_pCoin[2]);
-
-
-	//3D表示に変更
-	SetRenderTargets(1, &m_pRTV, m_pDSV);
-
-	//ワールド行列の計算
+	//ワールド行列はXとYのみを考慮して作成
 	DirectX::XMMATRIX world =
-		DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) *
-		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
-		DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
-	world = DirectX::XMMatrixTranspose(world);
-	DirectX::XMStoreFloat4x4(&mat[0], world);
-	//ビュー行列の計算
-	mat[1] = m_pCamera[CAM_OBJ]->GetViewMatrix();
-	//プロジェクション行列の計算
-	mat[2] = m_pCamera[CAM_OBJ]->GetProjectionMatrix();
+		DirectX::XMMatrixTranslation(
+			635.0f, 360.0f, 0.0f
+		);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
-	//行列をシェーダーへ設定
-	m_pVS->WriteBuffer(0, mat);
+	//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
-	//m_pPlayer->Draw(viewMatrix, projectionMatrix);
+	//プロジェクション行列には2Dとして表示するための行列を設定する
+	//この行列で2Dぼスクリーンの大きさが決まる
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f
+	);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
-	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
+	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	Sprite::SetSize(DirectX::XMFLOAT2(1270.0f, -720.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+	Sprite::SetTexture(m_pBGTexture);
+	Sprite::Draw();
 
-	//m_pobjcamera->Draw();
+	if (m_pResultCoinUI[0].IsCoinCollected == true)
+	{
+		m_pResultCoinUI[0].Draw(221.0f, 482.0f, 0.0f, 250.0f, 250.0f, 1);
+	}
+	if (m_pResultCoinUI[1].IsCoinCollected == true)
+	{
+		m_pResultCoinUI[1].Draw(622.0f, 482.0f, 0.0f, 250.0f, 250.0f, 2);
+	}
+	if (m_pResultCoinUI[2].IsCoinCollected == true)
+	{
+		m_pResultCoinUI[2].Draw(1030.0f, 482.0f, 0.0f, 250.0f, 250.0f, 3);
+	}
+}
 
-	//オブジェクト
-	m_pObjectMng->Draw(m_pCamera[CAM_OBJ]->GetViewMatrix(), m_pCamera[CAM_OBJ]->GetProjectionMatrix(), true);
+void SceneResult::ClearDraw()
+{
+	DirectX::XMFLOAT4X4 mat[3];
 
+	//ワールド行列はXとYのみを考慮して作成
+	DirectX::XMMATRIX world =
+		DirectX::XMMatrixTranslation(
+			340.0f, 360.0f, 0.0f
+		);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
-	//Geometry用の変更行列を計算
-	//ワールド行列の再計算
-	world =
-		DirectX::XMMatrixScaling(10.0f, 0.1f, 10.0f) *
-		DirectX::XMMatrixRotationX(rad) * DirectX::XMMatrixRotationY(rad) * DirectX::XMMatrixRotationZ(rad) *
-		DirectX::XMMatrixTranslation(0.0f, -0.05f, 0.0f);
-	//転置行列に変換
-	world = DirectX::XMMatrixTranspose(world);
-	//XMMATRIX型からXMFLOAT4X4に変換して格納
-	DirectX::XMStoreFloat4x4(&mat[0], world);
+	//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
-	//Geometory用の変換行列を設定
-	Geometory::SetWorld(mat[0]);
-	Geometory::SetView(mat[1]);
-	Geometory::SetProjection(mat[2]);
+	//プロジェクション行列には2Dとして表示するための行列を設定する
+	//この行列で2Dぼスクリーンの大きさが決まる
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f
+	);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
-	//モデル表示
-	//Geometory::DrawBox();
+	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	Sprite::SetSize(DirectX::XMFLOAT2(1270.0f, -720.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+	Sprite::SetTexture(m_pClearIcon);
+	Sprite::Draw();
+}
 
-	//2D表示に変換(ミニマップやUI
-	SetRenderTargets(1, &m_pRTV, nullptr);
+void SceneResult::NextDraw()
+{
+	DirectX::XMFLOAT4X4 mat[3];
 
-	//コインの枠表示
-	m_pCoinCntUI->Draw();
+	//ワールド行列はXとYのみを考慮して作成
+	DirectX::XMMATRIX world =
+		DirectX::XMMatrixTranslation(
+			640.0f, 360.0f, 0.0f
+		);
+	DirectX::XMStoreFloat4x4(&mat[0], DirectX::XMMatrixTranspose(world));
 
+	//ビュー行列は2Dだとカメラの位置があまり関係ないので、単体行列を設定
+	DirectX::XMStoreFloat4x4(&mat[1], DirectX::XMMatrixIdentity());
 
-	//コインが取得されていたら描画
+	//プロジェクション行列には2Dとして表示するための行列を設定する
+	//この行列で2Dぼスクリーンの大きさが決まる
+	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+		0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f
+	);
+	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
 
-	//if (m_pCoin[0].IsFirstCollected == true)
-	//{
-	//	m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
-	//}
-
-	//if (m_pCoin[1].IsFirstCollected == true)
-	//{
-	//	m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
-	//}
-
-	//if (m_pCoin[2].IsFirstCollected == true)
-	//{
-	//	m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
-	//}
-
-	SetRenderTargets(1, &m_pRTV, m_pDSV);
-
+	//スプライトの設定
+	Sprite::SetPixelShader(m_pPS);
+	Sprite::SetWorld(mat[0]);
+	Sprite::SetView(mat[1]);
+	Sprite::SetProjection(mat[2]);
+	Sprite::SetSize(DirectX::XMFLOAT2(1270.0f, -720.0f));
+	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+	Sprite::SetTexture(m_pNextIcon);
+	Sprite::Draw();
 }

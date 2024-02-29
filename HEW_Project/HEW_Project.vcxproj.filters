@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="ソース ファイル">
@@ -55,6 +55,12 @@
     <Filter Include="ヘッダー ファイル\UI">
       <UniqueIdentifier>{5e366096-b712-4958-8683-393e15dd78b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\SceneChange">
+      <UniqueIdentifier>{6469e79d-1332-4e58-9587-1d8cd2ba6999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\SceneChange">
+      <UniqueIdentifier>{592b75bc-314d-45dd-ba51-be6d9476ec85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -77,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>ソース ファイル\System</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneGame.cpp">
-      <Filter>ソース ファイル\App</Filter>
     </ClCompile>
     <ClCompile Include="_geometory.cpp">
       <Filter>ソース ファイル\System</Filter>
@@ -180,12 +183,6 @@
     <ClCompile Include="Curtain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SceneTutorial.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneResult.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
     <ClCompile Include="Curtain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -194,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
     <ClCompile Include="Fade.cpp">
       <Filter>ソース ファイル</Filter>
@@ -205,13 +205,25 @@
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="CurtainObject.cpp">
-      <Filter>ソース ファイル\object</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectTomegu.cpp">
-      <Filter>ソース ファイル\object</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MagnetSN.cpp">
-      <Filter>ソース ファイル\object</Filter>
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTomegu.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGame.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneResult.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTutorial.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectScene.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,9 +253,6 @@
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneGame.h">
-      <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>ヘッダー ファイル\System</Filter>
@@ -332,14 +341,11 @@
     <ClInclude Include="Curtain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SceneTutorial.h">
+    <ClInclude Include="SceneManager.hpp">
       <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
-    <ClInclude Include="SceneResult.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Curtain.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="TitleScene.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.hpp">
       <Filter>ヘッダー ファイル\App</Filter>
@@ -347,20 +353,29 @@
     <ClInclude Include="Fade.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.hpp">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
     <ClInclude Include="Haikei.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CurtainObject.h">
-      <Filter>ヘッダー ファイル\object</Filter>
+    <ClInclude Include="SceneResult.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectTomegu.h">
-      <Filter>ヘッダー ファイル\object</Filter>
+    <ClInclude Include="SceneTutorial.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGame.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectScene.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="CurtainObject.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MagnetSN.h">
-      <Filter>ヘッダー ファイル\object</Filter>
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTomegu.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

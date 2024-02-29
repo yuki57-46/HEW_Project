@@ -65,11 +65,11 @@ Player::Player()
 	m_anime_possession = m_pModel->AddAnimation("Assets/Animation/kuroko_hyoui.fbx");
 
 
-	minBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
-	maxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
+	minBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);
+	maxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);
 
-	hminBound = DirectX::XMFLOAT3(-0.15f, -0.5f, -0.2f);
-	hmaxBound = DirectX::XMFLOAT3(0.2f, 0.5f, 0.4f);
+	hminBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);
+	hmaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);
 
 	m_pSDSEPly= LoadSound("Assets/Sound/SE/yuurei idouonn_Arai_1.wav");
 }
