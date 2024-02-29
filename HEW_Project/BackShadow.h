@@ -34,6 +34,7 @@ public:
 	void Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, Coin* Coin2, Coin* Coin3, Goal* Goal);
 	void SetShadowCamera(CameraBase* pCamera);
 	void ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha);
+	void ShadowBackCollision(int nFeetAlpha, int nBodyAlpha);
 	bool ShadowWarningCollision(int nLeftAlpha, int nRightAlpha);
 	bool ShadowDeathCollision(int nLeftAlphaIN, int nRightAlphaIN, int nLeftAlphaOUT, int nRightAlphaOUT);
 	void ShadowUnderCollision(BYTE underAlpha, BYTE underAlpha2);
@@ -62,6 +63,7 @@ private:
 	float m_SPposX;				// 影プレイヤーの位置のXの値
 	float m_SPposY;				// 影プレイヤーの位置のYの値
 	BYTE m_alpha;				// レンダーウィンドウのα値
+	BYTE m_alpha2;				// レンダーウィンドウのα値(サブ)
 	BYTE m_underAlpha;			// 足元のα値
 	BYTE m_underAlpha2;			// 足元のめり込み解消
 	BYTE m_PleyerSenter;		// 影君のデス判定用
@@ -69,6 +71,9 @@ private:
 	int m_nFeetAlpha;			// 足元のα値の個数
 	int m_nBodyAlpha;			// 胴体のα値の個数
 	int m_nHeadAlpha;			// 頭のα値の個数
+	int m_nBackFeetAlpha;		// 後ろの足元のα値の個数
+	int m_nBackBodyAlpha;		// 後ろの胴体のα値の個数
+	int m_nBackHeadAlpha;		// 後ろの頭のα値の個数
 	int m_nWarningRAlpha;		// 警戒判定右側のα値の個数
 	int m_nWarningLAlpha;		// 警戒判定左側のα値の個数
 	int m_nDeathRAlpha;			// 死亡判定右側のα値の個数

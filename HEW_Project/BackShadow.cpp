@@ -38,12 +38,16 @@ BackShadow::BackShadow()
 	, m_SPposY(0.0f)
 	, m_SPpos(0.0f, 0.0f, 0.0f)
 	, m_alpha{0}
+	, m_alpha2{0}
 	, m_underAlpha{0}
 	, m_underAlpha2{0}
 	, m_PleyerSenter{0}
 	, m_nFeetAlpha(0)
 	, m_nBodyAlpha(0)
 	, m_nHeadAlpha(0)
+	, m_nBackFeetAlpha(0)
+	, m_nBackBodyAlpha(0)
+	, m_nBackHeadAlpha(0)
 	, m_nWarningRAlpha(0)
 	, m_nWarningLAlpha(0)
 	, m_nDeathRAlpha(0)
@@ -466,10 +470,12 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			if (m_LRcheck == false)
 			{
 				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// 背面
 			}
 			else
 			{
 				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// 背面
 			}
 			// α値の内訳
 			if (m_alpha > 240)
@@ -490,10 +496,23 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 				// コイン当たり判定
 				CoinCollection(Coin1, Coin2, Coin3);
 			}
+			if (m_alpha > 240)
+			{
+				if (j <= SHADOWPLAYER_SIZE_Y - 100)
+				{// 足元のα値
+					m_nBackFeetAlpha++;
+				}
+				else if (j > SHADOWPLAYER_SIZE_Y - 100 && j < SHADOWPLAYER_SIZE_Y - 10)
+				{// 胴体のα値
+					m_nBackBodyAlpha++;
+				}
+			}
+
 		}
 		GoalCollision(Goal);
 		// 壁、階段当たり判定(関数)
 		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
+		ShadowBackCollision(m_nBackFeetAlpha, m_nBodyAlpha);
 
 		// あわわわわわ判定
 		m_nWarningRAlpha = 0;
@@ -668,6 +687,21 @@ void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 	}
 }
 
+void BackShadow::ShadowBackCollision(int nFeetAlpha, int nBodyAlpha)
+{
+	// 背面の左右のα値の参照
+	if (nBodyAlpha > 30)
+	{// 壁
+		
+		return;
+	}
+	if (nFeetAlpha >= 3)
+	{// 階段
+		m_pShadowPlayer->Jump();
+		return;
+	}
+}
+
 bool BackShadow::ShadowWarningCollision(int nLeftAlpha, int nRightAlpha)
 {
 	if (nLeftAlpha > 50 && nRightAlpha > 50)
@@ -773,7 +807,7 @@ void BackShadow::CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3)
 			y *= -1;
 		}
 
-    y /= 1000.0f;
+		y = (y - 360.0f) / 720.0f * 6.0f * (-1.0f);
 		LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.05f, 0.05f, 0.05f);
 
 		m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectCoin, x, y, -2.0f);

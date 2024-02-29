@@ -25,6 +25,7 @@ public:
 	DirectX::XMFLOAT3 NowPos();
 	void ShadowPPos();
 	void ShadowPupY();
+	void ShadowPpushX();
 	void Use();
 	void NotUse();
 	void Jump();

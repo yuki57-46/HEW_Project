@@ -277,6 +277,18 @@ void ShadowP::ShadowPupY()
 	m_pos.y += 0.05f;
 }
 
+void ShadowP::ShadowPpushX()
+{
+	if (m_IsAlterDir == false)
+	{
+		m_pos.x += 0.05f;
+	}
+	else
+	{
+		m_pos.x -= 0.05f;
+	}
+}
+
 void ShadowP::Use()
 {//編集
 	if (m_IsAlterDir == false)
