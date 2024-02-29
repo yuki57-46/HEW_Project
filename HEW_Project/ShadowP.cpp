@@ -134,15 +134,6 @@ void ShadowP::Update(float tick)
 
 	}
 
-	
-
-
-
-
-
-
-
-
 	m_oldPos = m_pos;
 
 	if (m_IsKeikai == false)
@@ -281,11 +272,11 @@ void ShadowP::ShadowPpushX()
 {
 	if (m_IsAlterDir == false)
 	{
-		m_pos.x += 0.05f;
+		m_pos.x -= 0.05f;
 	}
 	else
 	{
-		m_pos.x -= 0.05f;
+		m_pos.x += 0.05f;
 	}
 }
 

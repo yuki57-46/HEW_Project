@@ -461,6 +461,8 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		m_nFeetAlpha = 0;
 		m_nBodyAlpha = 0;
 		m_nHeadAlpha = 0;
+		m_nBackFeetAlpha = 0;
+		m_nBackBodyAlpha = 0;
 
 		// 壁、階段当たり判定(ループ)
 		for (int j = 0; j < SHADOWPLAYER_SIZE_Y; j++)
@@ -471,13 +473,13 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 			}
 			if (m_LRcheck == false)
 			{
-				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// 背面
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;		// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha2 = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// 背面
 			}
 			else
 			{
-				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;	// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
-				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// 背面
+				m_alpha = pData[(m_indexY + 2 - j) * width + m_indexX - SHADOWPLAYER_SIZE_X].a;		// (プレイヤーposY - 高さ) * 横幅 + プレイヤーposX - サイズ - 見たい横幅
+				m_alpha2 = pData[(m_indexY + 2 - j) * width + m_indexX + SHADOWPLAYER_SIZE_X].a;	// 背面
 			}
 			// α値の内訳
 			if (m_alpha > 240)
@@ -498,7 +500,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 				// コイン当たり判定
 				CoinCollection(Coin1, Coin2, Coin3);
 			}
-			if (m_alpha > 240)
+			if (m_alpha2 > 240)
 			{
 				if (j <= SHADOWPLAYER_SIZE_Y - 100)
 				{// 足元のα値
@@ -514,7 +516,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 		GoalCollision(Goal);
 		// 壁、階段当たり判定(関数)
 		ShadowCollision(m_nFeetAlpha, m_nBodyAlpha, m_nHeadAlpha);
-		ShadowBackCollision(m_nBackFeetAlpha, m_nBodyAlpha);
+		ShadowBackCollision(m_nBackFeetAlpha, m_nBackBodyAlpha);
 
 		// あわわわわわ判定
 		m_nWarningRAlpha = 0;
@@ -694,7 +696,7 @@ void BackShadow::ShadowBackCollision(int nFeetAlpha, int nBodyAlpha)
 	// 背面の左右のα値の参照
 	if (nBodyAlpha > 30)
 	{// 壁
-		
+		m_pShadowPlayer->ShadowPpushX();
 		return;
 	}
 	if (nFeetAlpha >= 3)
