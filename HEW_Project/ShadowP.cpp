@@ -136,7 +136,7 @@ void ShadowP::Update(float tick)
 
 	m_oldPos = m_pos;
 
-	if (m_IsKeikai == false)
+	if (m_IsKeikai == false && m_IsDeath == false)
 	{
 		if (m_IsAlterDir == true)
 		{
@@ -270,27 +270,33 @@ void ShadowP::ShadowPupY()
 
 void ShadowP::ShadowPpushX()
 {
-	if (m_IsAlterDir == false)
+	if (m_IsKeikai == false && m_IsDeath == false)
 	{
-		m_pos.x -= 0.05f;
-	}
-	else
-	{
-		m_pos.x += 0.05f;
+		if (m_IsAlterDir == false)
+		{
+			m_pos.x -= 0.05f;
+		}
+		else
+		{
+			m_pos.x += 0.05f;
+		}
 	}
 }
 
 void ShadowP::Use()
-{//編集
-	if (m_IsAlterDir == false)
+{
+	if (m_IsKeikai == false && m_IsDeath == false)
 	{
-		m_IsAlterDir = true;
-		m_rotationY = 90.0f;
-	}
-	else
-	{
-		m_IsAlterDir = false;
-		m_rotationY = -90.0f;
+		if (m_IsAlterDir == false)
+		{
+			m_IsAlterDir = true;
+			m_rotationY = 90.0f;
+		}
+		else
+		{
+			m_IsAlterDir = false;
+			m_rotationY = -90.0f;
+		}
 	}
 }
 
@@ -305,8 +311,11 @@ void  ShadowP::NotUse()
 
 void ShadowP::Jump()
 {
-	m_moveY = 0.05f;
-	m_pos.y += m_moveY;
+	if (m_IsKeikai == false && m_IsDeath == false)
+	{
+		m_moveY = 0.05f;
+		m_pos.y += m_moveY;
+	}
 }
 
 bool ShadowP::isUse()
