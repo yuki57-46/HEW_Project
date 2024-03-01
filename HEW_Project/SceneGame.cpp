@@ -202,11 +202,10 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	m_pCamera[CAM_OBJ]->Update();
-	m_bGoal = m_pGoal->GetGoal();
-	// ゴールしたらシーンを切り替えてリザルトシーンに遷移する
-	if (m_bGoal == true)
+	
+	if (IsKeyTrigger(VK_BACK))
 	{
-		pSceneManager->SetNextScene(SCENE_RESULT);
+		pSceneManager->SetNextScene(SCENE_LOAD);
 	}
 
 	//オブジェクト
@@ -330,7 +329,7 @@ void SceneGame::Draw()
 		Sprite::SetWorld(Cmat[0]);
 		Sprite::SetView(Cmat[1]);
 		Sprite::SetProjection(Cmat[2]);
-		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
+		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
 		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 		Sprite::SetTexture(m_pGoalTexture);

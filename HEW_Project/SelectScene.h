@@ -85,6 +85,4 @@ private:
 	DirectX::XMFLOAT3 m_CursorPos;	//カーソルの現在の位置
 
 };
-
-
 #endif

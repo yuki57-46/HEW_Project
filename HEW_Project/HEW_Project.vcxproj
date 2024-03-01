@@ -209,6 +209,7 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="ObjectTomegu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneLoad.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneResult.cpp" />
     <ClCompile Include="SceneTutorial.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="ObjectTomegu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="SceneLoad.h" />
     <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="SceneResult.h" />
     <ClInclude Include="SceneTutorial.h" />

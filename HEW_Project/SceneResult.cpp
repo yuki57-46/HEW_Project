@@ -91,6 +91,9 @@ void SceneResult::Update(SceneManager* pSceneManager)
 	if (IsKeyTrigger(VK_RETURN))
 	{
 		pSceneManager->SetNextScene(SCENE_SELECT);
+		m_GetCoinNum1 = 0;
+		m_GetCoinNum2 = 0;
+		m_GetCoinNum3 = 0;
 	}
 }
 
