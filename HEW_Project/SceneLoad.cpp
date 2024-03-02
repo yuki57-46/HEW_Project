@@ -48,10 +48,10 @@ SceneLoad::~SceneLoad()
 
 void SceneLoad::Update(SceneManager* pSceneManager)
 {
-	if (IsKeyTrigger(VK_BACK))
-	{
+	//if (IsKeyTrigger(VK_BACK))
+	//{
 		pSceneManager->SetNextScene(SCENE_GAME);
-	}
+	//}
 }
 
 void SceneLoad::Draw()

@@ -43,7 +43,6 @@ void SceneManager::Update(float tick)
 	if (m_pSceneSelect)
 	{
 		m_SelectScene = m_pSceneSelect->GetSelectStage();
-
 	}
 	if (!m_pFade->IsPlay())
 	{
@@ -53,12 +52,12 @@ void SceneManager::Update(float tick)
 			// 現在のシーンを削除
 			switch (m_Nowscene)
 			{
-			case SCENE_TITLE:	 delete m_pSceneTitle;		break;
-			case SCENE_TUTORIAL: delete m_pSceneTutorial;	break;
-			case SCENE_SELECT:	 delete m_pSceneSelect;		break;
-			case SCENE_GAME:	 delete m_pSceneGame;		break;
-			case SCENE_RESULT:	 delete m_pSceneResult;		break;
-			case SCENE_LOAD:	 delete m_pSceneLoad;		break;
+			case SCENE_TITLE:	 delete m_pSceneTitle; m_pSceneTitle = nullptr;			break;
+			case SCENE_TUTORIAL: delete m_pSceneTutorial; m_pSceneTutorial = nullptr;	break;				break;
+			case SCENE_SELECT:	 delete m_pSceneSelect; m_pSceneSelect = nullptr;		break;
+			case SCENE_GAME:	 delete m_pSceneGame; m_pSceneGame = nullptr;			break;
+			case SCENE_RESULT:	 delete m_pSceneResult; m_pSceneResult = nullptr;		break;
+			case SCENE_LOAD:	 delete m_pSceneLoad; m_pSceneLoad = nullptr;			break;
 			default: break;
 			}
 			// 新しいシーンの読込
