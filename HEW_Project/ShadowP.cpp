@@ -71,6 +71,8 @@ ShadowP::ShadowP()
 		m_rotationY = 180.0f;
 	}
 
+	m_Effect = LibEffekseer::Create("Assets/effect/ShadowDead.efkefc");
+
 	m_firstPos = m_pos;
 }
 
@@ -119,6 +121,11 @@ void ShadowP::Update(float tick)
 			// 	m_pos = m_firstPos;
 			// 	m_IsDeath = false;
 			// }
+			float X = m_pos.x;
+			float Y = m_pos.y - 0.4f;
+			float Z = m_pos.z;
+
+			m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
 		}
 
 
@@ -190,6 +197,10 @@ void ShadowP::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectio
 //	m_pModel->Draw();
 
 
+
+	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.2f, 0.2f, 0.1f);
+	LibEffekseer::SetViewPosition(m_pos);
+	LibEffekseer::SetCameraMatrix(viewMatrix, projectionMatrix);
 
 	ShaderList::SetWVP(mat);	// 転置済みの変換行列
 
