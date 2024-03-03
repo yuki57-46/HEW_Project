@@ -9,7 +9,7 @@ DirectX::XMFLOAT3 PMaxBound = DirectX::XMFLOAT3(0.2f, 0.1f, 0.5f);     //最大�
 std::chrono::steady_clock::time_point lastSoundPlayTimeSdPly;
 const std::chrono::milliseconds soundIntervalSd = std::chrono::milliseconds(1000);//再生時間三秒の時
 
-
+float g_fDeadTime = 0.0f;
 
 ShadowP::ShadowP()
 	: m_pos(3.5f, 0.5f, 0.0f)
@@ -121,11 +121,15 @@ void ShadowP::Update(float tick)
 			// 	m_pos = m_firstPos;
 			// 	m_IsDeath = false;
 			// }
-			float X = m_pos.x;
-			float Y = m_pos.y - 0.4f;
-			float Z = m_pos.z;
+			if (g_fDeadTime >= 60.0f)
+			{
+				float X = m_pos.x;
+				float Y = m_pos.y - 0.4f;
+				float Z = m_pos.z;
 
-			m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
+				m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
+			}
+			g_fDeadTime++;
 		}
 
 
