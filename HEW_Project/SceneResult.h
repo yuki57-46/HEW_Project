@@ -12,7 +12,7 @@
 #include "CameraObject.h"
 #include "BackShadow.h"
 #include "Soundtest.h"
-#include "Coin.h"
+#include "SceneGame.h"
 
 class SceneManager;
 
@@ -34,12 +34,15 @@ public:
 	void BGDraw();
 	void ClearDraw();
 	void NextDraw();
+	void ResultCoinDraw(float x);
 
 private:
 	Texture*		 m_pBGTexture;
 	Texture*		 m_pClearIcon;
 	Texture*		 m_pNextIcon;
+	Texture*		 m_pCoinIcon;
 
+	SceneGame*		 m_pSceneGame;
 	SceneManager*	 m_pSceneManager;
 	Fade*			 m_pFade;
 	Screen*			 m_pScreen;
@@ -51,10 +54,11 @@ private:
 	CameraKindResult m_mainCamera;
 	CameraBase*		 m_pCamera[static_cast<int>(CameraKindResult::MAX_CAMERA)];
 
-	Coin*			 m_pResultCoinUI;
-	bool ms_resultCoin = false;
-
 	CurtainUI*		 m_pCurtainUI;
+
+	int m_GetCoinNum1 = 0;
+	int m_GetCoinNum2 = 0;
+	int m_GetCoinNum3 = 0;
 
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;

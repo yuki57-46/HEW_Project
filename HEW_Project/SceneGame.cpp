@@ -5,8 +5,11 @@
 #include "Input.h"
 
 #define FADE_TEST 0
+int GetCoin1 = 0;//リザルトにコインの情報を持っていく為のグローバル変数
+int GetCoin2 = 0;
+int GetCoin3 = 0;
 
-SceneGame::SceneGame()
+SceneGame::SceneGame(int selectNum)
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
 	, m_pVS(nullptr)
@@ -24,7 +27,7 @@ SceneGame::SceneGame()
 	, m_pObjectMng(nullptr)
 	, m_pFade(nullptr)
 	, m_pCurtain(nullptr)
-	, m_pGoalTecture(nullptr)
+	, m_pGoalTexture(nullptr)
 {
 
 	//RenderTarget* pRTV = GetDefaultRTV();  //デフォルトで使用しているRenderTargetViewの取得
@@ -66,7 +69,7 @@ SceneGame::SceneGame()
 
 	m_pBackShadow = new BackShadow;
 
-	m_pObjectMng = new ObjectMng();
+	m_pObjectMng = new ObjectMng(selectNum);
 	//m_pDCamera = new CameraDebug();
 
 #if FADE_TEST
@@ -74,8 +77,8 @@ SceneGame::SceneGame()
 #endif
 
 	// ゴール用
-	m_pGoalTecture = new Texture();
-	if (m_pGoalTecture->Create("Assets/Texture/clear.png"))
+	m_pGoalTexture = new Texture();
+	if (m_pGoalTexture->Create("Assets/Texture/clear.png"))
 	{
 		MessageBox(NULL, "clear.pngの読み込みエラー", "Error", MB_OK);
 	}
@@ -168,10 +171,10 @@ SceneGame::~SceneGame()
 		delete m_pCurtain;
 		m_pCurtain = nullptr;
 	}
-	if (m_pGoalTecture)
+	if (m_pGoalTexture)
 	{
-		delete m_pGoalTecture;
-		m_pGoalTecture = nullptr;
+		delete m_pGoalTexture;
+		m_pGoalTexture = nullptr;
 	}
 	if (m_pDeadTexture)
 	{
@@ -199,6 +202,11 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 
 	m_pCamera[CAM_OBJ]->Update();
+	
+	if (IsKeyTrigger(VK_BACK))
+	{
+		pSceneManager->SetNextScene(SCENE_LOAD);
+	}
 
 	//オブジェクト
 	m_pobjcamera->SetCamera(m_pCamera[CAM_DEBUG]);
@@ -307,15 +315,26 @@ void SceneGame::Draw()
 	//本当は画面遷移
 	if (m_pGoal->IsGoal == true)
 	{
+		DirectX::XMFLOAT4X4 Cmat[3];
+		DirectX::XMMATRIX Cworld = DirectX::XMMatrixTranslation(
+			635.0f, 360.0f, 0.0f);
+		DirectX::XMStoreFloat4x4(&Cmat[0], DirectX::XMMatrixTranspose(Cworld));
+		DirectX::XMStoreFloat4x4(&Cmat[1], DirectX::XMMatrixIdentity());
+		DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
+			0.0f, 1270.0f, 720.0f, 0.0f, 0.1f, 10.0f);
+		DirectX::XMStoreFloat4x4(&Cmat[2], DirectX::XMMatrixTranspose(proj));
+
 		//スプライトの設定
 		Sprite::SetPixelShader(m_pPS);
-		Sprite::SetWorld(mat[0]);
-		Sprite::SetView(mat[1]);
-		Sprite::SetProjection(mat[2]);
-		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f/*ここ何とかすれば出そうかなぁ*/));
+		Sprite::SetWorld(Cmat[0]);
+		Sprite::SetView(Cmat[1]);
+		Sprite::SetProjection(Cmat[2]);
+		Sprite::SetSize(DirectX::XMFLOAT2(1280.0f, -720.0f));
 		Sprite::SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		Sprite::SetTexture(m_pGoalTecture);
-		//m_pSceneManager->SetNextScene(SCENE_RESULT);
+
+		Sprite::SetTexture(m_pGoalTexture);
+		Sprite::Draw();
+
 	}
 
 #if FADE_TEST
@@ -332,15 +351,31 @@ void SceneGame::Draw()
 	if (m_pCoin[0].IsCoinCollected == true)
 	{
 		m_pCoin[0].Draw(68.0f, 80.0f, 0.0f, 75.0f, 75.0f, 1);
+		GetCoin1 = 1;
 	}
 
 	if (m_pCoin[1].IsCoinCollected == true)
 	{
 		m_pCoin[1].Draw(180.0f, 80.0f, 0.0f, 75.0f, 75.0f, 2);
+		GetCoin2 = 10;
 	}
 
 	if (m_pCoin[2].IsCoinCollected == true)
 	{
 		m_pCoin[2].Draw(295.0f, 80.0f, 0.0f, 75.0f, 75.0f, 3);
+		GetCoin3 = 100;
 	}
+}
+
+int SceneGame::GetCoinNum1()
+{
+	return GetCoin1;
+}
+int SceneGame::GetCoinNum2()
+{
+	return GetCoin2;
+}
+int SceneGame::GetCoinNum3()
+{
+	return GetCoin3;
 }

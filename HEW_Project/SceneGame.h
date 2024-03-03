@@ -43,10 +43,14 @@ enum CameraKind
 class SceneGame
 {
 public:
-	SceneGame();
+	SceneGame(int selectNum = 0);
 	~SceneGame();
 	void Update(SceneManager* pSceneManager, float tick);
 	void Draw();
+
+	int GetCoinNum1();	//リザルトにコインの情報を渡す
+	int GetCoinNum2();
+	int GetCoinNum3();
 
 private:
 	Screen* m_pScreen;
@@ -83,8 +87,10 @@ private:
 
 	SceneManager* m_pSceneManager;
 
+	bool m_bGoal = false;
+
 	
-	Texture* m_pGoalTecture;
+	Texture* m_pGoalTexture;
 	Texture* m_pDeadTexture;
 
 	PixelShader* m_pPS;

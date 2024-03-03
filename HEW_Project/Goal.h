@@ -9,6 +9,8 @@
 #include "LibEffekseer.h"
 #include "Effekseer/Effekseer.h"
 
+//class SceneManager;
+
 
 class Goal
 {
@@ -36,6 +38,8 @@ private:
 	
 	DirectX::XMFLOAT3 m_GoalPos;							// ゴールの現在の位置
 	DirectX::XMFLOAT3 m_GoalSize;							//ゴールの大きさ
+
+//	SceneManager* m_pSceneManager;
 
 	PixelShader* m_pPS;
 

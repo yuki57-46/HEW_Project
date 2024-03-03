@@ -207,12 +207,36 @@ void SelectScene::Update(SceneManager* pSceneManager)
 	//各ゲームシーンに移動
 	if (m_CursorPos.x == 236.0f && IsKeyTrigger(VK_RETURN))
 	{
+		m_SelectStage = 1;
+		pSceneManager->SetNextScene(SCENE_GAME);
+	}
+	else if (m_CursorPos.x == 636.0f && IsKeyTrigger(VK_RETURN))
+	{
+		m_SelectStage = 2;
+		pSceneManager->SetNextScene(SCENE_GAME);
+	}
+	else if (m_CursorPos.x == 1036.0f && IsKeyTrigger(VK_RETURN))
+	{
+		m_SelectStage = 3;
+		pSceneManager->SetNextScene(SCENE_GAME);
+	}
+	else if (m_CursorPos.x == 438.0f && IsKeyTrigger(VK_RETURN))
+	{
+		m_SelectStage = 4;
+		pSceneManager->SetNextScene(SCENE_GAME);
+	}
+	else if (m_CursorPos.x == 838.0f && IsKeyTrigger(VK_RETURN))
+	{
+		m_SelectStage = 5;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
 	/*else if (m_CursorPos.x == 236.0f)
 	{
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}*/
+
+	std::string test = "X:" + std::to_string(m_CursorPos.x) + " Y:" + std::to_string(m_CursorPos.y) + "\n";
+	OutputDebugString(test.c_str());
 }
 
 void SelectScene::Draw()

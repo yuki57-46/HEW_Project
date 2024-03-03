@@ -43,6 +43,8 @@ SceneTutorial::SceneTutorial()
 		MessageBox(NULL, "Tutorial Pixel Shader", "Error", MB_OK);
 	}
 
+	m_pObjectMng = new ObjectMng(0);
+
 	m_pFade = new Fade(m_pCurtainUI);
 }
 
@@ -53,6 +55,12 @@ SceneTutorial::~SceneTutorial()
 		delete m_pFade;
 		m_pFade = nullptr;
 	}
+
+    if (m_pObjectMng)
+    {
+		delete m_pObjectMng;
+		m_pObjectMng = nullptr;
+    }
 
 	if (m_pCurtainUI)
 	{
@@ -84,6 +92,7 @@ SceneTutorial::~SceneTutorial()
 
 void SceneTutorial::Update(SceneManager* pSceneManager)
 {
+//	m_pObjectMng->Update();
 	if (IsKeyTrigger(VK_RETURN))
 	{
 //		m_pFade->Start(false, 1.0f);
@@ -109,6 +118,8 @@ void SceneTutorial::Draw()
 	DirectX::XMMATRIX proj = DirectX::XMMatrixOrthographicOffCenterLH(
 		0.0f, 1280.0f, 720.0f, 0.0f, 0.1f, 10.0f);
 	DirectX::XMStoreFloat4x4(&mat[2], DirectX::XMMatrixTranspose(proj));
+
+	m_pObjectMng->Draw(mat[1], mat[2], true);
 
 	// スプライトの設定
 	Sprite::SetPixelShader(m_pPS);

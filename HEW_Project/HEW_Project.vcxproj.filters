@@ -225,6 +225,9 @@
     <ClCompile Include="SelectScene.cpp">
       <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
+    <ClCompile Include="SceneLoad.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defines.h">
@@ -376,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="ObjectTomegu.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLoad.h">
+      <Filter>ヘッダー ファイル\SceneChange</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

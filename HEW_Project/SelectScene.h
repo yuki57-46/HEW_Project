@@ -42,6 +42,7 @@ public:
 	void Stage3Draw();
 	void Stage4Draw();
 	void Stage5Draw();
+	int GetSelectStage() const { return m_SelectStage; }
 
 	void CursorUIDraw(float x, float y, float z);	//カーソル描画
 	void SetPosition(float x, float y, float z);	//カーソル位置を設定
@@ -75,6 +76,8 @@ private:
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
 
+	int m_SelectStage;
+
 	IXAudio2SourceVoice* m_pSourceVoice;	 // サウンドソース
 	XAUDIO2_BUFFER*		 m_pSound;			 // サウンドバッファ
 	//Sound m_Sound;
@@ -82,6 +85,4 @@ private:
 	DirectX::XMFLOAT3 m_CursorPos;	//カーソルの現在の位置
 
 };
-
-
 #endif
