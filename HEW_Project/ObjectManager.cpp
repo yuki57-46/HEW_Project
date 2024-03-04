@@ -167,14 +167,14 @@ ObjectMng::ObjectMng(int stage_num)
 			{1.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 			{0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-			{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.24f,true,false},
 			{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 			{-0.25f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-			{0.0f, 0.25f, 3.2f, 0.24f, 0.25f, 0.25f,true,false},
+			{0.0f, 0.25f, 3.2f, 0.24f, 0.25f, 0.24f,true,false},
 			{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-			{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
+			{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.24f,true,false},
 		};
 		m_num = sizeof(data) / sizeof(data[0]);
 		m_pObjects = new Object[m_num];		//必要な数だけブロックを確保
@@ -415,7 +415,7 @@ ObjectMng::ObjectMng(int stage_num)
 			{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 			{0.25f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
 			{0.0f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
-//			{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+			{-0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 		};
 		m_num3 = sizeof(data3) / sizeof(data3[0]);
 		m_pStair = new Stair[m_num3];		//必要な数だけブロックを確保
