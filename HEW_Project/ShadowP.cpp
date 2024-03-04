@@ -74,6 +74,7 @@ ShadowP::ShadowP()
 	m_Effect = LibEffekseer::Create("Assets/effect/ShadowDead.efkefc");
 
 	m_firstPos = m_pos;
+	g_fDeadTime = 0.0f;
 }
 
 
@@ -128,6 +129,19 @@ void ShadowP::Update(float tick)
 				float Z = m_pos.z;
 
 				m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
+				// 150F以降でエフェクトをアルファ値を下げる
+				if (g_fDeadTime >= 120.0f)
+				{
+					Effekseer::Color color = { 1, 1, 1, 1 };
+					color = Effekseer::Color::Lerp(Effekseer::Color(1, 1, 1, 1), Effekseer::Color(1, 1, 1, 0), 0.5f);
+					//color.Lerp(Effekseer::Color(1, 1, 1, 0), 
+					LibEffekseer::GetManager()->SetAllColor(m_EffectHandle, color);
+				}
+				// 180Fでエフェクトを消す
+				if (g_fDeadTime >= 180.0f)
+				{
+					LibEffekseer::GetManager()->StopAllEffects();
+				}
 			}
 			g_fDeadTime++;
 		}

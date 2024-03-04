@@ -38,6 +38,7 @@ public:
 	void SetKeikai(bool waring);
 
 	void SetDeath(bool death);
+	bool IsDeath() { return m_IsDeath; }
 
 	//bool IsJump();
 private:
