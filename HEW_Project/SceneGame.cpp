@@ -249,10 +249,9 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 	{
 		if (g_fDeadTime_ > 180.0f)
 		{
-			if (g_fDeadTime_ < 200.0f)
+			if (g_fDeadTime_ < 3000.0f)
 			{
 				pSceneManager->SetNextScene(SCENE_LOAD);
-				LibEffekseer::GetManager()->StopAllEffects();
 			}
 		}
 		g_fDeadTime_++;

@@ -10,6 +10,7 @@ std::chrono::steady_clock::time_point lastSoundPlayTimeSdPly;
 const std::chrono::milliseconds soundIntervalSd = std::chrono::milliseconds(1000);//再生時間三秒の時
 
 float g_fDeadTime = 0.0f;
+Effekseer::Color color = { 255, 255, 255, 255 };
 
 ShadowP::ShadowP()
 	: m_pos(3.5f, 0.5f, 0.0f)
@@ -75,6 +76,7 @@ ShadowP::ShadowP()
 
 	m_firstPos = m_pos;
 	g_fDeadTime = 0.0f;
+	color = { 255, 255, 255, 255 };
 }
 
 
@@ -128,21 +130,32 @@ void ShadowP::Update(float tick)
 				float Y = m_pos.y - 0.4f;
 				float Z = m_pos.z;
 				//LibEffekseer::GetManager()->Exists(m_EffectHandle)
+				
+
+				//color = Effekseer::Color::Lerp(Effekseer::Color(255, 255, 255, 255) , Effekseer::Color(1, 1, 1, 0), 10.5f);
 				if (g_fDeadTime >= 70.0f)
+				{
+					//color.Lerp(Effekseer::Color(1, 1, 1, 0),
+				}
+				
+				if ((int)g_fDeadTime % 10 == 0)
+				{
+					if (color.A > 10)
+					{
+						color.A = color.A - 10;
+					}
+				}
+				LibEffekseer::GetManager()->SetAllColor(m_EffectHandle, color);
+				//LibEffekseer::GetManager()->SetAllColor(m_EffectHandle, color);
+				LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.2f, 0.2f, 0.1f);
+
+				if ((int)g_fDeadTime % 24 == 0)
 				{
 					m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
 				}
-				
-				// 120F以降でエフェクトをアルファ値を下げる
-				if (g_fDeadTime >= 120.0f)
-				{
-					Effekseer::Color color = { 1, 1, 1, 1 };
-					color = Effekseer::Color::Lerp(Effekseer::Color(1, 1, 1, 1), Effekseer::Color(1, 1, 1, 0), 0.5f);
-					//color.Lerp(Effekseer::Color(1, 1, 1, 0),
-					LibEffekseer::GetManager()->SetAllColor(m_EffectHandle, color);
-				}
+
 				// 180Fでエフェクトを消す
-				if (g_fDeadTime >= 185.0f)
+				if (g_fDeadTime >= 300.0f || color.A <= 10)
 				{
 					LibEffekseer::GetManager()->StopAllEffects();
 				}
@@ -218,10 +231,23 @@ void ShadowP::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectio
 	m_pVS->WriteBuffer(0, mat);    //配列の先頭アドレスを指定して、まとめて変換行列を渡す
 //	m_pModel->Draw();
 
+	DirectX::XMFLOAT4X4 effecMat[2]; // エフェクトの行列
+	// 転置前の行列を計算
+	
+	// viewMatrix と projectionMatrix は転置済みの行列
+	// エフェクトの行列は転置前の行列を渡す必要がある
+	DirectX::XMMATRIX effecViewMatrix = DirectX::XMLoadFloat4x4(&viewMatrix);
+	DirectX::XMMATRIX effecProjectionMatrix = DirectX::XMLoadFloat4x4(&projectionMatrix);
+
+	// エフェクトの行列を転置して effecMat に格納
+	DirectX::XMStoreFloat4x4(&effecMat[0], DirectX::XMMatrixTranspose(effecViewMatrix));
+	DirectX::XMStoreFloat4x4(&effecMat[1], DirectX::XMMatrixTranspose(effecProjectionMatrix));
 
 
 	LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.2f, 0.2f, 0.1f);
+	//LibEffekseer::SetViewPosition(DirectX::XMFLOAT3(0.0f, 1.5f, 6.0f));
 	LibEffekseer::SetViewPosition(m_pos);
+	//LibEffekseer::SetCameraMatrix(effecMat[0], effecMat[1]);
 	LibEffekseer::SetCameraMatrix(viewMatrix, projectionMatrix);
 
 	ShaderList::SetWVP(mat);	// 転置済みの変換行列
