@@ -42,7 +42,7 @@ public:
 	void CoinCollection(Coin* Coin1, Coin* Coin2, Coin* Coin3);//コインの所得処理
 	void GoalCollision(Goal* Goal);//ゴール
 	bool IsHit(Box Box1, Box Box2);
-
+	bool IsDeath() { return m_pShadowPlayer->IsDeath(); } // 死亡判定
 	
 
 private:

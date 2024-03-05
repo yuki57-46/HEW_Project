@@ -7,6 +7,7 @@
 #include "GameObject.h"
 #include"ShaderList.h"
 #include"Soundtest.h"
+#include "LibEffekseer.h"
 
 class ShadowP : public GameObject
 {
@@ -37,6 +38,7 @@ public:
 	void SetKeikai(bool waring);
 
 	void SetDeath(bool death);
+	bool IsDeath() { return m_IsDeath; }
 
 	//bool IsJump();
 private:
@@ -60,6 +62,10 @@ private:
 	float m_JumpY;
 	bool m_IsKeikai;
 	bool m_IsDeath;
+
+	// エフェクト
+	Effekseer::Handle		m_EffectHandle; // エフェクトハンドル
+	Effekseer::EffectRef	m_Effect; // エフェクト
 
 	IXAudio2SourceVoice* m_pSVSESdPly; // サウンドソース
 	XAUDIO2_BUFFER* m_pSDSESdPly; // サウンドバッファ

@@ -9,6 +9,8 @@ int GetCoin1 = 0;//リザルトにコインの情報を持っていく為のグ�
 int GetCoin2 = 0;
 int GetCoin3 = 0;
 
+float g_fDeadTime_ = 0.0f;
+
 SceneGame::SceneGame(int selectNum)
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
@@ -100,6 +102,8 @@ SceneGame::SceneGame(int selectNum)
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
 	m_pSourceVoice = PlaySound(m_pSound); // サウンドの再生
+
+	g_fDeadTime_ = 0.0f;
 }
 
 SceneGame::~SceneGame()
@@ -240,6 +244,20 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 	{
 		pSceneManager->SetNextScene(SCENE_RESULT);
 	}
+
+	if (m_pBackShadow->IsDeath() == true)
+	{
+		if (g_fDeadTime_ > 180.0f)
+		{
+			if (g_fDeadTime_ < 200.0f)
+			{
+				pSceneManager->SetNextScene(SCENE_LOAD);
+				LibEffekseer::GetManager()->StopAllEffects();
+			}
+		}
+		g_fDeadTime_++;
+	}
+
 }
 
 void SceneGame::Draw()
