@@ -127,18 +127,22 @@ void ShadowP::Update(float tick)
 				float X = m_pos.x;
 				float Y = m_pos.y - 0.4f;
 				float Z = m_pos.z;
-
-				m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
-				// 150F以降でエフェクトをアルファ値を下げる
+				//LibEffekseer::GetManager()->Exists(m_EffectHandle)
+				if (g_fDeadTime >= 70.0f)
+				{
+					m_EffectHandle = LibEffekseer::GetManager()->Play(m_Effect, X, Y, Z);
+				}
+				
+				// 120F以降でエフェクトをアルファ値を下げる
 				if (g_fDeadTime >= 120.0f)
 				{
 					Effekseer::Color color = { 1, 1, 1, 1 };
 					color = Effekseer::Color::Lerp(Effekseer::Color(1, 1, 1, 1), Effekseer::Color(1, 1, 1, 0), 0.5f);
-					//color.Lerp(Effekseer::Color(1, 1, 1, 0), 
+					//color.Lerp(Effekseer::Color(1, 1, 1, 0),
 					LibEffekseer::GetManager()->SetAllColor(m_EffectHandle, color);
 				}
 				// 180Fでエフェクトを消す
-				if (g_fDeadTime >= 180.0f)
+				if (g_fDeadTime >= 185.0f)
 				{
 					LibEffekseer::GetManager()->StopAllEffects();
 				}
