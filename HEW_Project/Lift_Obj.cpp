@@ -4,6 +4,8 @@
 #include"Gamepad.h"
 #include "GameObject.h"
 
+InputManager imanagerLf = InputManager();
+
 
 // プレイヤーとの当たり判定用
 //DirectX::XMFLOAT3 liftobj_MinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);
@@ -71,6 +73,11 @@ void Lift_Obj::Update()
 {
 	m_oldPos = m_pos; // 前の位置を保存
 
+	imanagerLf.addKeycode(0, 0, GAMEPAD_KEYTYPE::LTrigger, XINPUT_GAMEPAD_LEFT_SHOULDER);
+	imanagerLf.addKeycode(1, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
+
+	imanagerLf.inspect();
+
 	// 上昇フラグが`true`の場合
 	//if (m_RiseFlag)
 	//{
@@ -101,7 +108,7 @@ void Lift_Obj::Update()
 
 	if (m_move == true)
 	{
-		if (IsKeyPress(VK_SPACE))
+		if (imanagerLf.getKey(1) & 0b011)
 		{
 			// 最高点に到達していない場合
 			m_LiftUp = true;
@@ -114,7 +121,7 @@ void Lift_Obj::Update()
 			}
 
 		}
-		if (IsKeyPress(VK_SHIFT))
+		if (imanagerLf.getKey(0) & 0b011)
 
 		{
 			m_LiftUp = false;

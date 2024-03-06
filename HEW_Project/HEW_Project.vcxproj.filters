@@ -192,9 +192,6 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>ソース ファイル\SceneChange</Filter>
-    </ClCompile>
     <ClCompile Include="Fade.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -226,6 +223,9 @@
       <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
     <ClCompile Include="SceneLoad.cpp">
+      <Filter>ソース ファイル\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル\SceneChange</Filter>
     </ClCompile>
   </ItemGroup>

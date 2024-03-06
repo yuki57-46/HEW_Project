@@ -1,6 +1,9 @@
 ﻿#include "MagnetSN.h"
 #include "Geometory.h"
 #include "Input.h"
+#include"Gamepad.h"
+
+InputManager imanagerMg = InputManager();
 
 
 Magnet::Magnet()
@@ -62,6 +65,11 @@ void Magnet::Update()
 
 void Magnet::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionMatrix)
 {
+	imanagerMg.addKeycode(0, 0, GAMEPAD_KEYTYPE::LTrigger, XINPUT_GAMEPAD_LEFT_SHOULDER);
+	imanagerMg.addKeycode(1, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
+
+	imanagerMg.inspect();
+
 	DirectX::XMFLOAT4X4 mat[3];
 
 	DirectX::XMMATRIX MoT = DirectX::XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
@@ -84,12 +92,12 @@ void Magnet::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 
 	if (moveok == true)
 	{
-		if (IsKeyPress(VK_SPACE))
+		if (imanagerMg.getKey(1) & 0b011)
 		{
 			m_pMgtM->Draw();
 			lastDrawnModel = m_pMgtM;
 		}
-		else if (IsKeyPress(VK_SHIFT))
+		else if (imanagerMg.getKey(0) & 0b011)
 		{
 			m_pMgtS->Draw();
 			lastDrawnModel = m_pMgtS;

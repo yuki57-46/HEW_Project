@@ -7,6 +7,8 @@
 
 #define FILENAME "Assets/Texture/selectbackground.png"
 
+InputManager imanagerSS = InputManager();
+
 SelectScene::SelectScene()
 	: m_pTexture(nullptr)
 	, m_pBackTexture(nullptr)
@@ -161,21 +163,33 @@ SelectScene::~SelectScene()
 
 void SelectScene::Update(SceneManager* pSceneManager)
 {
-	if (IsKeyTrigger('Y'))
+	imanagerSS.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
+	imanagerSS.addKeycode(1, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
+	imanagerSS.addKeycode(2, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_Y);
+	imanagerSS.addKeycode(3, 0, GAMEPAD_KEYTYPE::LTrigger, XINPUT_GAMEPAD_LEFT_SHOULDER);
+	imanagerSS.addKeycode(4, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
+	imanagerSS.inspect();
+
+
+	/*if (imanagerSS.getKey(2) & 0b001)
 	{
 		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		pSceneManager->SetNextScene(SCENE_TUTORIAL);
-	}
-	if (IsKeyTrigger(VK_BACK))
+	}*/
+	if (imanagerSS.getKey(1) & 0b011)
 	{
-		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		if (!m_pSourceVoiceSelect)
+		{
+			m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		}
 		pSceneManager->SetNextScene(SCENE_TITLE);
 	}
 	
 	//カーソル移動
 	//各座標メモ→1=(236.0f, 226.5f, 0.0f),2=(636.0f, 226.5f, 0.0f),
 	//				3=(1036.0f, 226.5f, 0.0f),4=(438.0f, 456.1f, 0.0f)
-	if (IsKeyTrigger(VK_RIGHT))	//カーソル右移動
+
+	if (imanagerSS.getKey(4) & 0b100)//カーソル右移動
 	{
 		if (m_CursorPos.x == 236.0f || m_CursorPos.x == 636.0f || m_CursorPos.x == 438.0f)
 		{
@@ -192,7 +206,7 @@ void SelectScene::Update(SceneManager* pSceneManager)
 			m_CursorPos.y = 226.1f;
 		}
 	}
-	if (IsKeyTrigger(VK_LEFT))	//カーソル左移動
+	if (imanagerSS.getKey(3) & 0b100)	//カーソル左移動
 	{
 		if (m_CursorPos.x == 636.0f || m_CursorPos.x == 1036.0f || m_CursorPos.x == 838.0f)
 		{
@@ -210,34 +224,51 @@ void SelectScene::Update(SceneManager* pSceneManager)
 		}
 	}
 
+	
+
 	//各ゲームシーンに移動
-	if (m_CursorPos.x == 236.0f && IsKeyTrigger(VK_RETURN))
+	if (m_CursorPos.x == 236.0f && (imanagerSS.getKey(0) & 0b011))
 	{
-		m_pSourceVoiceSelect	 = PlaySound(m_pSoundSelect);
+		if (!m_pSourceVoiceSelect)
+		{
+			m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		}
 		m_SelectStage = 1;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
-	else if (m_CursorPos.x == 636.0f && IsKeyTrigger(VK_RETURN))
+	else if (m_CursorPos.x == 636.0f && (imanagerSS.getKey(0) & 0b011))
 	{
-		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		if (!m_pSourceVoiceSelect)
+		{
+			m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		}
 		m_SelectStage = 2;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
-	else if (m_CursorPos.x == 1036.0f && IsKeyTrigger(VK_RETURN))
+	else if (m_CursorPos.x == 1036.0f && (imanagerSS.getKey(0) & 0b011))
 	{
-		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		if (!m_pSourceVoiceSelect)
+		{
+			m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		}
 		m_SelectStage = 3;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
-	else if (m_CursorPos.x == 438.0f && IsKeyTrigger(VK_RETURN))
+	else if (m_CursorPos.x == 438.0f && (imanagerSS.getKey(0) & 0b011))
 	{
-		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		if (!m_pSourceVoiceSelect)
+		{
+			m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		}
 		m_SelectStage = 4;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
-	else if (m_CursorPos.x == 838.0f && IsKeyTrigger(VK_RETURN))
+	else if (m_CursorPos.x == 838.0f && (imanagerSS.getKey(0) & 0b011))
 	{
-		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		if (!m_pSourceVoiceSelect)
+		{
+			m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
+		}
 		m_SelectStage = 5;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}

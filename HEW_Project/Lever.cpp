@@ -7,6 +7,8 @@
 //minbound maxboundをメンバ変数に
 //create部分にスケールと当たり判定をかけ合わせる処理を追加　yは追加で計算必要
 
+InputManager imanagerLv = InputManager();
+
 
 
 Lever::Lever()
@@ -77,8 +79,11 @@ Lever::~Lever()
 
 void Lever::Update()
 {
-	
 
+	imanagerLv.addKeycode(0, 0, GAMEPAD_KEYTYPE::LTrigger, XINPUT_GAMEPAD_LEFT_SHOULDER);
+	imanagerLv.addKeycode(1, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
+
+	imanagerLv.inspect();
 	
 	
 	SetBounds(LeverMinBound, LeverMaxBound);  //最小値と最大値をセット
@@ -109,11 +114,11 @@ void Lever::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionM
 
 	if (m_move == true)
 	{
-		if (IsKeyPress(VK_SPACE))
+		if(imanagerLv.getKey(1) & 0b011)
 		{
 			m_pLeverModelUP->Draw();
 		}
-		else if (IsKeyPress(VK_SHIFT))
+		else if (imanagerLv.getKey(0) & 0b011)
 		{
 			m_pLeverModelDown->Draw();
 		}

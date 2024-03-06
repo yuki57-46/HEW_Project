@@ -7,6 +7,8 @@
 
 #define FILENAME "Assets/Texture/Title.png"
 
+InputManager imanagerST = InputManager();
+
 SceneTitle::SceneTitle()
 	: m_pTexture(nullptr)
 	, m_pFade(nullptr)
@@ -63,11 +65,15 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Update(SceneManager* pSceneManager)
 {
-	if (IsKeyTrigger(VK_RETURN))
+	imanagerST.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
+	imanagerST.addKeycode(1, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
+	imanagerST.inspect();
+	if (imanagerST.getKey(0) & 0b011)
 	{
-
-		m_pSourceTitle = PlaySound(m_pSoundTitle);
-
+		if(!m_pSourceTitle)
+		{
+			m_pSourceTitle = PlaySound(m_pSoundTitle);
+		}
 
 //		m_pFade->Start(false, 1.0f);
 		pSceneManager->SetNextScene(SCENE_SELECT);

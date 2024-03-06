@@ -256,7 +256,7 @@ private:
 	DirectX::XMFLOAT3 cobjectMinBound;
 	DirectX::XMFLOAT3 cobjectMaxBound;
 
-	int frame = 30;
+	int frame = 25;
 
 
 };

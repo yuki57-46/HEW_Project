@@ -5,6 +5,9 @@
 #include <DirectXMath.h>
 #include "Input.h"
 
+InputManager imanagerSG = InputManager();
+
+
 #define FADE_TEST 0
 int GetCoin1 = 0;//リザルトにコインの情報を持っていく為のグローバル変数
 int GetCoin2 = 0;
@@ -201,6 +204,10 @@ SceneGame::~SceneGame()
 
 void SceneGame::Update(SceneManager* pSceneManager, float tick)
 {
+	imanagerSG.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
+
+	imanagerSG.inspect();
+
 	if (m_pobjcamera != nullptr)
 		{
 			m_pobjcamera->SetCamera(m_pCamera[CAM_SHADOW]);	// 例外スロー発生場所
@@ -213,7 +220,8 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 
 	m_pCamera[CAM_OBJ]->Update();
 	
-	if (IsKeyTrigger(VK_BACK))
+	
+		if (imanagerSG.getKey(0) & 0b011)
 	{
 		pSceneManager->SetNextScene(SCENE_LOAD);
 	}

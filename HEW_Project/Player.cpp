@@ -128,7 +128,7 @@ void Player::Update(float tick)
 	imanagerP.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
 	imanagerP.addKeycode(5, 0, GAMEPAD_KEYTYPE::LTrigger, XINPUT_GAMEPAD_LEFT_SHOULDER);
 	imanagerP.addKeycode(6, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
-	//imanagerP.inspect();
+	imanagerP.inspect();
 
 	//// 左スティックのX軸とY軸方向の入力を取得
 	float leftStickX1 = static_cast<float>(imanagerP.getKey(0));
@@ -152,50 +152,62 @@ void Player::Update(float tick)
 	m_rotationY = rotationAngle;
 
 	// 位置を更新
-	m_pos.x -= moveSpeed * moveDirection.x;
-	m_pos.z -= moveSpeed * moveDirection.z;
 
-
-	if((imanagerP.getKey(0) & 0b011)|| (imanagerP.getKey(1) & 0b011)||
-		(imanagerP.getKey(2) & 0b011)|| (imanagerP.getKey(3) & 0b011))
+	if (ok == false)
 	{
-		if (elapsedTime >= soundInterval)
+		m_pos.x += moveSpeed * moveDirection.x;
+		m_pos.z += moveSpeed * moveDirection.z;
+
+
+		if ((imanagerP.getKey(0) & 0b011) || (imanagerP.getKey(1) & 0b011) ||
+			(imanagerP.getKey(2) & 0b011) || (imanagerP.getKey(3) & 0b011))
 		{
-			m_pSVSEPly = PlaySound(m_pSDSEPly);
+			if (elapsedTime >= soundInterval)
+			{
+				m_pSVSEPly = PlaySound(m_pSDSEPly);
 
-			// 最後のサウンド再生時間を更新
-			lastSoundPlayTimePly = currentTime;
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTimePly = currentTime;
+			}
 		}
+		else
+		{
+			if (m_pSVSEPly)
+			{
+				m_pSVSEPly->Stop();
+			}
+		}
+
+		// 回転行列を更新
+		m_rotationMatrix = DirectX::XMMatrixRotationY(m_rotationY);
+
+
+
+
+		if (moveDirection.x == 0.0f && moveDirection.z == 0.0f)
+		{
+			// 最後に向いていた方向を使用
+			m_rotationY = m_lastFacingDirection;
+		}
+		else
+		{
+			// 移動方向ベクトルから回転角度を計算
+			float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
+			m_rotationY = rotationAngle;
+			// 最後に向いた方向を更新
+			m_lastFacingDirection = m_rotationY;
+		}
+
+		if (imanagerP.getKey(5) & 0b011)
+		{
+			m_pos.y -= moveSpeed * 1.0f;
+		}
+		if (imanagerP.getKey(6) & 0b011)
+		{
+			m_pos.y += moveSpeed * 1.0f;
+		}
+
 	}
-
-	// 回転行列を更新
-	m_rotationMatrix = DirectX::XMMatrixRotationY(m_rotationY);
-
-	if (imanagerP.getKey(5) & 0b011)
-	{
-		m_pos.y -= moveSpeed * 1.0f;
-	}
-	if (imanagerP.getKey(6) & 0b011)
-	{
-		m_pos.y += moveSpeed * 1.0f;
-	}
-
-
-	if (moveDirection.x == 0.0f && moveDirection.z == 0.0f)
-	{
-		// 最後に向いていた方向を使用
-		m_rotationY = m_lastFacingDirection;
-	}
-	else
-	{
-		// 移動方向ベクトルから回転角度を計算
-		float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
-		m_rotationY = rotationAngle;
-		// 最後に向いた方向を更新
-		m_lastFacingDirection = m_rotationY;
-	}
-
-
 
 	//非憑依時プレイヤー移動
 	//if (ok == false)
@@ -382,7 +394,7 @@ void Player::PlayerPos()
 void Player::HPlayerPos()
 {
 	// 12/29 pos.y = -100.0f → -0.3f
-	m_pos.y = -1.0f;
+	m_pos.y = -3.0f;
 }
 
 //リセット用（未実装）

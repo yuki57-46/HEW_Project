@@ -1,6 +1,6 @@
 ﻿#include "ObjectManager.h"
 #include"Input.h"
-
+#include"Gamepad.h"
 
 #define EFFECT_MAX_POS_X		(4.0f)	// 微調整必要 エフェクトが出るXの最大値
 #define EFFECT_PLAYER_MAX_POS_X (2.23f)	// playerの移動できるXの最大値
@@ -10,6 +10,8 @@
 #define EFFECT_PLAYER_MAX_POS_Z (3.36f)	// playerが移動できるZの最大値
 #define EFFECT_PLAYER_MIN_POS_Z (1.8f)	// playerが移動できるZの最小値
 
+
+InputManager imanagerO = InputManager();
 
 
 ObjectMng::ObjectMng(int stage_num)
@@ -166,14 +168,14 @@ ObjectMng::ObjectMng(int stage_num)
 			{1.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 			{0.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-			{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.24f,true,false},
+			{0.25f, 0.26f, 2.5f, 0.24f, 0.25f, 0.24f,true,false},
 			{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
 			//{-0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-			{0.0f, 0.25f, 3.2f, 0.24f, 0.25f, 0.24f,true,false},
+			{0.0f, 0.0f, 3.2f, 0.24f, 0.25f, 0.24f,true,false},
 			{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
-			{-1.5f, 0.25f, 2.5f, 0.24f, 0.5f, 0.24f,true,false},
+			{-1.5f, 0.26f, 2.5f, 0.24f, 0.5f, 0.24f,true,false},
 		};
 		m_num = sizeof(data) / sizeof(data[0]);
 		m_pObjects = new Object[m_num];		//必要な数だけブロックを確保
@@ -384,7 +386,7 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//リフト
 		Setting1 data1[] = {
-			{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,1.2f,0.6f,0.01f},
+			{ 0.325f, 0.35f, 2.0f, 0.75f, 0.1f, 0.25f,1.2f,0.35f,0.01f},
 			{ -0.75f, 0.75f, 2.0f, 0.75f, 0.1f, 0.25f,1.2f,0.5f,0.01f},
 			{ -2.25f, 0.75f, 2.25f, 0.5f, 0.1f, 0.25f,1.2f,0.5f,0.01f},
 		};
@@ -411,10 +413,10 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//スロープ
 		Setting3 data3[] = {
-			{1.0f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
-			{0.25f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
-			{0.0f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
-			{-0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+			{1.2f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+			{0.4f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
+			//{0.0f, 0.0f, 2.75f, 0.25f, 0.25f, 0.25f, false},
+			{-0.7f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 		};
 		m_num3 = sizeof(data3) / sizeof(data3[0]);
 		m_pStair = new Stair[m_num3];		//必要な数だけブロックを確保
@@ -607,7 +609,7 @@ ObjectMng::ObjectMng(int stage_num)
 		//レバー
 		Setting2 data2[] = {
 			{ 2.0f, 0.5f, 2.0f, 0.15f, 0.15f, 0.15f},
-			{ -2.0f, 0.5f, 2.0f, 0.15f, 0.15f, 0.15f},
+			//{ -2.0f, 0.5f, 2.0f, 0.15f, 0.15f, 0.15f},
 		};
 		m_num2 = sizeof(data2) / sizeof(data2[0]);
 		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
@@ -619,10 +621,10 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//スロープ
 		Setting3 data3[] = {
-			{1.5f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
+			{1.6f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
 			{1.0f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
 			//{0.5f, 0.0f, 2.8f, -0.25f, 0.25f, -0.25f, true},//逆向き
-			{-1.5f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
+			{-1.0f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
 			{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 		};
 		m_num3 = sizeof(data3) / sizeof(data3[0]);
@@ -827,7 +829,7 @@ ObjectMng::~ObjectMng()
 
 void ObjectMng::Update(float tick)
 {
-	/*imanagerO.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
+	imanagerO.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
 	imanagerO.addKeycode(1, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
 
 	imanagerO.addKeycode(2, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_Y);
@@ -839,7 +841,7 @@ void ObjectMng::Update(float tick)
 	float BB = static_cast<float>(imanagerO.getKey(1));
 	float YB = static_cast<float>(imanagerO.getKey(2));
 	float XB = static_cast<float>(imanagerO.getKey(3));
-*/
+
 #if TEST
 	m_pPlayer->Update(tick);
 
@@ -2326,7 +2328,7 @@ void ObjectMng::Update(float tick)
 						{
 							if (m_pPlayer->IsCollidingWith(*lever))
 							{
-								if (IsKeyPress('Q'))
+								if (imanagerO.getKey(2) & 0b011)
 								{
 									m_pLever[l].SetMoveTrue();
 									m_pMagnet[mg].Set();
@@ -2335,7 +2337,7 @@ void ObjectMng::Update(float tick)
 									m_pPlayer->HPlayerPos();
 								}
 							}
-							if (IsKeyPress('E'))
+							if (imanagerO.getKey(3) & 0b011)
 							{
 								m_pLever[l].SetMoveFalse();
 								m_pMagnet[mg].SetF();
@@ -2361,7 +2363,7 @@ void ObjectMng::Update(float tick)
 					if ((m_pPlayer->HIsCollidingWith(*gameObject)) && m_pObjects[i].possessionok() == true)
 					{
 
-						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
+						if (imanagerO.getKey(2) & 0b011)//(imanagerO.getKey(0) & 0b011)
 						{
 							//// effectこうしん
 							// effectこうしん
@@ -2391,7 +2393,7 @@ void ObjectMng::Update(float tick)
 					//憑依解除
 					/*if (!m_pPlayer->HIsCollidingWith(*gameObject))
 					{*/
-					if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
+					if (imanagerO.getKey(3) & 0b011)//(imanagerO.getKey(1) & 0b011)
 					{
 						if (m_pObjects[i].SetR() == true)
 						{
@@ -2919,7 +2921,7 @@ void ObjectMng::Update(float tick)
 					if (m_pPlayer->IsCollisionPoint(*gameObject))
 					{
 
-						if (IsKeyPress('Q'))//(imanagerO.getKey(0) & 0b011)
+						if (imanagerO.getKey(2) & 0b011)//(imanagerO.getKey(0) & 0b011)
 						{
 							// effectこうしん
 							float X = m_pPlayer->GetPosX() / EFFECT_PLAYER_MAX_POS_X * EFFECT_MAX_POS_X;
@@ -2947,7 +2949,7 @@ void ObjectMng::Update(float tick)
 					//憑依解除
 					/*if (!m_pPlayer->HIsCollidingWith(*gameObject))
 					{*/
-					if (IsKeyPress('E'))//(imanagerO.getKey(1) & 0b011)
+					if (imanagerO.getKey(3) & 0b011)//(imanagerO.getKey(1) & 0b011)
 					{
 						if (m_pStair[b].SetR() == true)
 						{

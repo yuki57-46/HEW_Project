@@ -900,7 +900,7 @@ void Object::Update()
 
 	m_oldPos = m_pos;
 
-	float moveSpeed = 0.007f; // 移動速度の調整
+	float moveSpeed = 0.003f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
 	if (colgravity == true)
@@ -918,7 +918,7 @@ void Object::Update()
 	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(2, 0, GAMEPAD_KEYTYPE::ThumbLU, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(3, 0, GAMEPAD_KEYTYPE::ThumbLD, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerOB.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
+	imanagerOB.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
 
 	imanagerOB.inspect();
 
@@ -948,7 +948,7 @@ void Object::Update()
 	if (moveok == true)//憑依時
 	{
 		m_pos.x += moveSpeed * moveDirection.x;
-		m_pos.z -= moveSpeed * moveDirection.z;
+		m_pos.z += moveSpeed * moveDirection.z;
 	
 	}
 
@@ -961,12 +961,16 @@ void Object::Update()
 		if ((imanagerOB.getKey(0) & 0b011) || (imanagerOB.getKey(1) & 0b011) ||
 			(imanagerOB.getKey(2) & 0b011) || (imanagerOB.getKey(3) & 0b011))
 		{
-			if (elapsedTime >= soundInterval)
+			if (m_pos.y <= 0.1f)
 			{
-				m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				if (elapsedTime >= soundInterval)
+				{
+					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-				// 最後のサウンド再生時間を更新
-				lastSoundPlayTime = currentTime;
+					// 最後のサウンド再生時間を更新
+					lastSoundPlayTime = currentTime;
+				}
+				
 			}
 			xz = true;
 		}
@@ -1525,7 +1529,7 @@ void Object::SetColgravityfalse()
 
 void Object::framepls()
 {
-	frame = 30;
+	frame = 25;
 }
 
 void Object::SetSlope()

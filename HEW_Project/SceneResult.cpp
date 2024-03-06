@@ -7,6 +7,9 @@
 
 #define FILENAME "Assets/Texture/backgroundandcoin.png"
 
+InputManager imanagerSR = InputManager();
+
+
 std::chrono::steady_clock::time_point lastSound;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(4000);//再生時間三秒の時
 
@@ -101,15 +104,20 @@ SceneResult::~SceneResult()
 
 void SceneResult::Update(SceneManager* pSceneManager)
 {
+	imanagerSR.addKeycode(0, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
 
+	imanagerSR.inspect();
 
 	if (!m_pSourceVoiceClear)
 	{
 		m_pSourceVoiceClear = PlaySound(m_pSoundResultClear);
 	}
-	if (IsKeyTrigger(VK_RETURN))
+	if (imanagerSR.getKey(0) & 0b011)
 	{
-		m_pSourceVoiceResult = PlaySound(m_pSoundResult);
+		if (!m_pSourceVoiceResult)
+		{
+			m_pSourceVoiceResult = PlaySound(m_pSoundResult);
+		}
 		pSceneManager->SetNextScene(SCENE_SELECT);
 		m_GetCoinNum1 = 0;
 		m_GetCoinNum2 = 0;

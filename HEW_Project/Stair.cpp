@@ -8,7 +8,7 @@
 //create部分にスケールと当たり判定をかけ合わせる処理を追加　yは追加で計算必要
 
 
-//InputManager imanagerOB = InputManager();
+InputManager imanagerSt = InputManager();
 
 //DirectX::XMFLOAT3 StairMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//プレイヤーとの当たり判定用
 //DirectX::XMFLOAT3 StairMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
@@ -182,45 +182,45 @@ void Stair::Update()
 	{
 		m_pos.y -= 0.05f;
 	}
-	float moveSpeed = 0.007f; // 移動速度の調整
+	float moveSpeed = 0.003f; // 移動速度の調整
 	float rotationSpeed = 10.0f;
 
-	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerOB.addKeycode(2, 0, GAMEPAD_KEYTYPE::ThumbLU, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerOB.addKeycode(3, 0, GAMEPAD_KEYTYPE::ThumbLD, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerOB.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
+	imanagerSt.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	imanagerSt.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	imanagerSt.addKeycode(2, 0, GAMEPAD_KEYTYPE::ThumbLU, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	imanagerSt.addKeycode(3, 0, GAMEPAD_KEYTYPE::ThumbLD, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	imanagerSt.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_A);
 
-	imanagerOB.inspect();*/
+	imanagerSt.inspect();
 
 
 
 	//// 左スティックのX軸とY軸方向の入力を取得
-	//float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
-	//float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
-	//float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
-	//float leftStickZ2 = static_cast<float>(imanagerOB.getKey(3));
+	float leftStickX1 = static_cast<float>(imanagerSt.getKey(0));
+	float leftStickX2 = static_cast<float>(imanagerSt.getKey(1));
+	float leftStickZ1 = static_cast<float>(imanagerSt.getKey(2));
+	float leftStickZ2 = static_cast<float>(imanagerSt.getKey(3));
 
 
 
 	// 移動方向ベクトルを計算
-	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
+	DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	//// 移動方向ベクトルを正規化（長さが1になるように）
-	//DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
-	//directionVector = DirectX::XMVector3Normalize(directionVector);
-	//DirectX::XMFLOAT3 normalizedDirection;
-	//DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
+	// 移動方向ベクトルを正規化（長さが1になるように）
+	DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
+	directionVector = DirectX::XMVector3Normalize(directionVector);
+	DirectX::XMFLOAT3 normalizedDirection;
+	DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	//// 移動方向ベクトルから回転角度を計算
-	//float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
-	//m_rotationY = rotationAngle;
+	// 移動方向ベクトルから回転角度を計算
+	float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
+	m_rotationY = rotationAngle;
 
-	//if (moveok == true)//憑依時
-	//{
-	//	m_pos.x -= moveSpeed * moveDirection.x;
-	//	m_pos.z -= moveSpeed * moveDirection.z;
-	//}
+	if (moveok == true)//憑依時
+	{
+		m_pos.x += moveSpeed * moveDirection.x;
+		m_pos.z += moveSpeed * moveDirection.z;
+	}
 
 	auto currentTime = std::chrono::steady_clock::now();
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTimeStair);
@@ -235,110 +235,182 @@ void Stair::Update()
 	//三角形憑依時の移動
 	if (moveok == true)
 	{
-
-
-		if (IsKeyPress('W'))
+		if (moveok == true)//憑依時
 		{
-			m_pos.z -= moveSpeed;
-
-			if (m_pos.y <= 0.1f)
+			if ((imanagerSt.getKey(0) & 0b011) || (imanagerSt.getKey(1) & 0b011) ||
+				(imanagerSt.getKey(2) & 0b011) || (imanagerSt.getKey(3) & 0b011))
 			{
-				if (elapsedTime >= soundIntervalStair)
+				if (m_pos.y <= 0.1f)
 				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+					if (elapsedTime >= soundIntervalStair)
+					{
+						m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTimeStair = currentTime;
+						// 最後のサウンド再生時間を更新
+						lastSoundPlayTimeStair = currentTime;
+					}
 				}
+				xz = true;
 			}
-			xz = true;
-		}
-		else if ( IsKeyPress('S'))
-		{
-			m_pos.z += moveSpeed;
-			if (m_pos.y <= 0.1f)
+			else
 			{
-				if (elapsedTime >= soundIntervalStair)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
-
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTimeStair = currentTime;
-				}
+				xz = false;
 			}
-			xz = true;
-		}
-		else if ( IsKeyPress('D'))
-		{
-			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.1f)
+
+
+			if (ok == false)
 			{
-				if (elapsedTime >= soundIntervalStair)
+				if (imanagerSt.getKey(4) & 0b011)
 				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+					frame -= moveSpeed * 0.01;
+					// スペースキーが押されたら上昇を実行.ゲージを減少
+				   //m_pos.y += 0.07f;
+					m_pos.y += frame * 0.001f;
 
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTimeStair = currentTime;
+					if (m_pos.y > 2.5f)
+					{
+						m_pos.y = m_oldPos.y;
+					}
 				}
+				if (frame <= 0.0f || !(imanagerSt.getKey(4) & 0b011))
+				{
+					m_pos.y -= 0.05f;
+					gravity = true;
+				}
+				if (m_pos.y <= 0.0f&&frame <= 0)
+				{
+					frame = 25;
+				}
+
+
+
 			}
-			xz = true;
-		}
-		else if ( IsKeyPress('A'))
-		{
-			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.1f)
+			else if (ok == true)
 			{
-				if (elapsedTime >= soundIntervalStair)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
-
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTimeStair = currentTime;
-				}
+				m_pos.y -= 0.05f;
+				gravity = true;
+				//m_jmp = m_pos;
 			}
-			xz = true;
+
+			
 		}
-		else
-		{
-			xz = false;
-		}
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+		//if (IsKeyPress('W'))
+		//{
+		//	m_pos.z -= moveSpeed;
+
+		//	if (m_pos.y <= 0.1f)
+		//	{
+		//		if (elapsedTime >= soundIntervalStair)
+		//		{
+		//			m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+		//			// 最後のサウンド再生時間を更新
+		//			lastSoundPlayTimeStair = currentTime;
+		//		}
+		//	}
+		//	xz = true;
+		//}
+		//else if ( IsKeyPress('S'))
+		//{
+		//	m_pos.z += moveSpeed;
+		//	if (m_pos.y <= 0.1f)
+		//	{
+		//		if (elapsedTime >= soundIntervalStair)
+		//		{
+		//			m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+		//			// 最後のサウンド再生時間を更新
+		//			lastSoundPlayTimeStair = currentTime;
+		//		}
+		//	}
+		//	xz = true;
+		//}
+		//else if ( IsKeyPress('D'))
+		//{
+		//	m_pos.x -= moveSpeed;
+		//	if (m_pos.y <= 0.1f)
+		//	{
+		//		if (elapsedTime >= soundIntervalStair)
+		//		{
+		//			m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+		//			// 最後のサウンド再生時間を更新
+		//			lastSoundPlayTimeStair = currentTime;
+		//		}
+		//	}
+		//	xz = true;
+		//}
+		//else if ( IsKeyPress('A'))
+		//{
+		//	m_pos.x += moveSpeed;
+		//	if (m_pos.y <= 0.1f)
+		//	{
+		//		if (elapsedTime >= soundIntervalStair)
+		//		{
+		//			m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+		//			// 最後のサウンド再生時間を更新
+		//			lastSoundPlayTimeStair = currentTime;
+		//		}
+		//	}
+		//	xz = true;
+		//}
+		//else
+		//{
+		//	xz = false;
+		//}
 
 	
 
 
 
-		if (ok == false)
-		{
+		//if (ok == false)
+		//{
 
-			if (IsKeyPress(VK_SPACE))
-			{
-				frame -= moveSpeed * 0.01;
-				// スペースキーが押されたら上昇を実行.ゲージを減少
-			   //m_pos.y += 0.07f;
-				m_pos.y += frame * 0.001f;
+		//	if (IsKeyPress(VK_SPACE))
+		//	{
+		//		frame -= moveSpeed * 0.01;
+		//		// スペースキーが押されたら上昇を実行.ゲージを減少
+		//	   //m_pos.y += 0.07f;
+		//		m_pos.y += frame * 0.001f;
 
-				if (m_pos.y > 2.5f)
-				{
-					m_pos.y = m_oldPos.y;
-				}
-			}
-			if (frame <= 0.0f || !(IsKeyPress(VK_SPACE)))
-			{
-				m_pos.y -= 0.05f;
-				gravity = true;
-			}
-			if (m_pos.y <= 0.0f&&frame <= 0)
-			{
-				frame = 30;
-			}
+		//		if (m_pos.y > 2.5f)
+		//		{
+		//			m_pos.y = m_oldPos.y;
+		//		}
+		//	}
+		//	if (frame <= 0.0f || !(IsKeyPress(VK_SPACE)))
+		//	{
+		//		m_pos.y -= 0.05f;
+		//		gravity = true;
+		//	}
+		//	if (m_pos.y <= 0.0f&&frame <= 0)
+		//	{
+		//		frame = 30;
+		//	}
 
-		}
-		else if (ok == true)
-		{
-			m_pos.y -= 0.05f;
-			gravity = true;
-			//m_jmp = m_pos;
-		}
+		//}
+		//else if (ok == true)
+		//{
+		//	m_pos.y -= 0.05f;
+		//	gravity = true;
+		//	//m_jmp = m_pos;
+		//}
 	}
 
 
@@ -752,7 +824,7 @@ void Stair::MoveStair(float y)
 
 void Stair::framepls()
 {
-	frame = 30;
+	frame = 25;
 }
 
 
