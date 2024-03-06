@@ -774,7 +774,7 @@
 #include"Gamepad.h"
 #include <chrono>
 
-
+InputManager imanagerOB = InputManager();
 
 std::chrono::steady_clock::time_point lastSoundPlayTime;
 const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(1000);//再生時間三秒の時
@@ -914,110 +914,59 @@ void Object::Update()
 		gravity = false;
 	}
 
-	/*imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	imanagerOB.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(2, 0, GAMEPAD_KEYTYPE::ThumbLU, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(3, 0, GAMEPAD_KEYTYPE::ThumbLD, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
 	imanagerOB.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
 
-	imanagerOB.inspect();*/
+	imanagerOB.inspect();
 
 
 
-	//// 左スティックのX軸とY軸方向の入力を取得
-	//float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
-	//float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
-	//float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
-	//float leftStickZ2 = static_cast<float>(imanagerOB.getKey(3));
+	// 左スティックのX軸とY軸方向の入力を取得
+	float leftStickX1 = static_cast<float>(imanagerOB.getKey(0));
+	float leftStickX2 = static_cast<float>(imanagerOB.getKey(1));
+	float leftStickZ1 = static_cast<float>(imanagerOB.getKey(2));
+	float leftStickZ2 = static_cast<float>(imanagerOB.getKey(3));
 
 
 
 	// 移動方向ベクトルを計算
-	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
+	DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	//// 移動方向ベクトルを正規化（長さが1になるように）
-	//DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
-	//directionVector = DirectX::XMVector3Normalize(directionVector);
-	//DirectX::XMFLOAT3 normalizedDirection;
-	//DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
+	// 移動方向ベクトルを正規化（長さが1になるように）
+	DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
+	directionVector = DirectX::XMVector3Normalize(directionVector);
+	DirectX::XMFLOAT3 normalizedDirection;
+	DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	//// 移動方向ベクトルから回転角度を計算
-	//float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
-	//m_rotationY = rotationAngle;
+	// 移動方向ベクトルから回転角度を計算
+	float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
+	m_rotationY = rotationAngle;
 
-	//if (moveok == true)//憑依時
-	//{
-	//	m_pos.x -= moveSpeed * moveDirection.x;
-	//	m_pos.z -= moveSpeed * moveDirection.z;
-	//}
+	if (moveok == true)//憑依時
+	{
+		m_pos.x += moveSpeed * moveDirection.x;
+		m_pos.z -= moveSpeed * moveDirection.z;
+	
+	}
 
 	auto currentTime = std::chrono::steady_clock::now();
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastSoundPlayTime);
 
-	//m_jmp = m_pos;
 
-	//憑依時移動
-	if (moveok == true)
+	if (moveok == true)//憑依時
 	{
-
-		if ( IsKeyPress('W'))
+		if ((imanagerOB.getKey(0) & 0b011) || (imanagerOB.getKey(1) & 0b011) ||
+			(imanagerOB.getKey(2) & 0b011) || (imanagerOB.getKey(3) & 0b011))
 		{
-			m_pos.z -= moveSpeed;
-
-			if (m_pos.y <= 0.1f)
+			if (elapsedTime >= soundInterval)
 			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+				m_pSVSEBlk = PlaySound(m_pSDSEBlk);
 
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
-			}
-			xz = true;
-		}
-		else if ( IsKeyPress('S'))
-		{
-			m_pos.z += moveSpeed;
-			if (m_pos.y <= 0.1f)
-			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
-
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
-			}
-			xz = true;
-		}
-		else if ( IsKeyPress('D'))
-		{
-			m_pos.x -= moveSpeed;
-			if (m_pos.y <= 0.1f)
-			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
-
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
-			}
-			xz = true;
-		}
-		else if ( IsKeyPress('A'))
-		{
-			m_pos.x += moveSpeed;
-			if (m_pos.y <= 0.1f)
-			{
-				if (elapsedTime >= soundInterval)
-				{
-					m_pSVSEBlk = PlaySound(m_pSDSEBlk);
-
-					// 最後のサウンド再生時間を更新
-					lastSoundPlayTime = currentTime;
-				}
+				// 最後のサウンド再生時間を更新
+				lastSoundPlayTime = currentTime;
 			}
 			xz = true;
 		}
@@ -1026,12 +975,10 @@ void Object::Update()
 			xz = false;
 		}
 
-		
-
 
 		if (ok == false)
 		{
-			if (IsKeyPress(VK_SPACE))
+			if (imanagerOB.getKey(4) & 0b011)
 			{
 				frame -= moveSpeed * 0.01;
 				// スペースキーが押されたら上昇を実行.ゲージを減少
@@ -1043,7 +990,7 @@ void Object::Update()
 					m_pos.y = m_oldPos.y;
 				}
 			}
-			if (frame <= 0.0f || !(IsKeyPress(VK_SPACE)))
+			if (frame <= 0.0f || !(imanagerOB.getKey(4) & 0b011))
 			{
 				m_pos.y -= 0.05f;
 				gravity = true;
@@ -1070,6 +1017,131 @@ void Object::Update()
 		//	//m_jmp = m_pos;
 		//}
 	}
+
+	
+	
+
+
+
+
+
+
+	////m_jmp = m_pos;
+
+	////憑依時移動
+	//if (moveok == true)
+	//{
+
+	//	if ( IsKeyPress('W'))
+	//	{
+	//		m_pos.z -= moveSpeed;
+
+	//		if (m_pos.y <= 0.1f)
+	//		{
+	//			if (elapsedTime >= soundInterval)
+	//			{
+	//				m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+	//				// 最後のサウンド再生時間を更新
+	//				lastSoundPlayTime = currentTime;
+	//			}
+	//		}
+	//		xz = true;
+	//	}
+	//	else if ( IsKeyPress('S'))
+	//	{
+	//		m_pos.z += moveSpeed;
+	//		if (m_pos.y <= 0.1f)
+	//		{
+	//			if (elapsedTime >= soundInterval)
+	//			{
+	//				m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+	//				// 最後のサウンド再生時間を更新
+	//				lastSoundPlayTime = currentTime;
+	//			}
+	//		}
+	//		xz = true;
+	//	}
+	//	else if ( IsKeyPress('D'))
+	//	{
+	//		m_pos.x -= moveSpeed;
+	//		if (m_pos.y <= 0.1f)
+	//		{
+	//			if (elapsedTime >= soundInterval)
+	//			{
+	//				m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+	//				// 最後のサウンド再生時間を更新
+	//				lastSoundPlayTime = currentTime;
+	//			}
+	//		}
+	//		xz = true;
+	//	}
+	//	else if ( IsKeyPress('A'))
+	//	{
+	//		m_pos.x += moveSpeed;
+	//		if (m_pos.y <= 0.1f)
+	//		{
+	//			if (elapsedTime >= soundInterval)
+	//			{
+	//				m_pSVSEBlk = PlaySound(m_pSDSEBlk);
+
+	//				// 最後のサウンド再生時間を更新
+	//				lastSoundPlayTime = currentTime;
+	//			}
+	//		}
+	//		xz = true;
+	//	}
+	//	else
+	//	{
+	//		xz = false;
+	//	}
+
+	//	
+
+
+	//	if (ok == false)
+	//	{
+	//		if (IsKeyPress(VK_SPACE))
+	//		{
+	//			frame -= moveSpeed * 0.01;
+	//			// スペースキーが押されたら上昇を実行.ゲージを減少
+	//		   //m_pos.y += 0.07f;
+	//			m_pos.y += frame * 0.001f;
+
+	//			if (m_pos.y > 2.5f)
+	//			{
+	//				m_pos.y = m_oldPos.y;
+	//			}
+	//		}
+	//		if (frame <= 0.0f || !(IsKeyPress(VK_SPACE)))
+	//		{
+	//			m_pos.y -= 0.05f;
+	//			gravity = true;
+	//		}
+	//		if (m_pos.y <= 0.0f&&frame <= 0)
+	//		{
+	//			frame = 30;
+	//		}
+
+
+
+	//	}
+	//	else if (ok == true)
+	//	{
+	//		m_pos.y -= 0.05f;
+	//		gravity = true;
+	//		//m_jmp = m_pos;
+	//	}
+
+	//	//if (ok == true)
+	//	//{
+	//	//	m_pos.y -= 0.5f;
+	//	//	gravity = true;
+	//	//	//m_jmp = m_pos;
+	//	//}
+	//}
 
 
 
