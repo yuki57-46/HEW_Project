@@ -194,7 +194,7 @@ void BackShadow::Draw(ObjectCamera* m_pobjcamera, ObjectMng* Obj, Coin* Coin1, C
 	//=======================stage5========================
 	//{ Goal->Draw(800.0f, 50.0f, 0.0f, 60.0f, 60.0f);	}
 	//=========================stage6=====================
-	{ Goal->Draw(1100.0f, 300.0f, 0.0f, 60.0f, 60.0f);	}
+	{ Goal->Draw(1100.0f, 100.0f, 0.0f, 60.0f, 60.0f);	}
 
 
 
@@ -679,7 +679,7 @@ void BackShadow::ShadowCollision(int nFeetAlpha, int nBodyAlpha, int nHeadAlpha)
 		m_pShadowPlayer->Use();
 		return;
 	}
-	if (nBodyAlpha > 30)
+	if (nBodyAlpha > 27)
 	{// 壁
 		m_pShadowPlayer->Use();
 		return;
@@ -862,15 +862,14 @@ void BackShadow::GoalCollision(Goal* Goal)
 			{
 				x *= -1;
 			}
-			x /= 300.0f;
+			x = (x - 640.0f) / 1280.0f * 10.0f * (-1.0f);
 
 			float y = Goal->GetPosition().y;
 			if (y < 0)
 			{
 				y *= -1;
 			}
-			y /= 1000.0f;
-
+			y = (y - 360.0f) / 720.0f * 6.0f * (-1.0f);
 			LibEffekseer::GetManager()->SetScale(m_EffectHandle, 0.5f, 0.5f, 0.5f);
 
 			//m_EffectHandle = LibEffekseer::GetManager()->Play(m_EffectGoal, -4.0f, 1.094f, 0.0f);

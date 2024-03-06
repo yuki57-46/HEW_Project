@@ -48,7 +48,14 @@ float4 main(PS_IN pin) : SV_TARGET
 	{
 		return float4(0.0f, 0.0f, 0.0f, 1.0f);
 	}// 床
-	
+	if (0.26f <= color.r && color.r <= 0.42f || 0.26f <= color.g && color.g <= 0.42f || 0.26 <= color.b && color.b <= 0.42f)
+	{
+		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	}// リフト
+
+
+
+
 	//if (color.r == 1.0f && color.g == 1.0f && color.b == 1.0f)
 	//{
 	//	return float4(1.0f, 1.0f, 1.0f, 1.0f);

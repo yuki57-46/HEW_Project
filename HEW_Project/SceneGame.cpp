@@ -1,6 +1,7 @@
 ﻿#include "SceneGame.h"
 #include "Geometory.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include <DirectXMath.h>
 #include "Input.h"
 
@@ -14,6 +15,8 @@ float g_fDeadTime_ = 0.0f;
 SceneGame::SceneGame(int selectNum)
 	: m_pSound(nullptr)
 	, m_pSourceVoice(nullptr)
+	, m_pSoundGoal(nullptr)
+	, m_pSourceVoiceGoal(nullptr)
 	, m_pVS(nullptr)
 	, m_pCamera{ nullptr, nullptr,nullptr }
 	, m_pobjcamera(nullptr)
@@ -50,7 +53,7 @@ SceneGame::SceneGame(int selectNum)
 	m_pUI = new ItemUI();
 	m_pCoinCntUI = new CoinCntUI();
 	m_pCoin = new Coin[3];
-	m_pHaikei = new Haikei();
+	m_pHaikei = new Haikei(selectNum);
 
 	//ゴール
 	m_pGoal = new Goal();
@@ -97,7 +100,10 @@ SceneGame::SceneGame(int selectNum)
 	}
 
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
-	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnA_Muto.wav", true); // サウンドファイルの読み込み
+	m_pSound = LoadSound("Assets/Sound/BGM/Ge-musi-nnC_Muto.wav", true); // サウンドファイルの読み込み
+	//m_pSoundGoal = LoadSound("Assets/Sound/BGM/Result_clear_Yamada.wavtrue"); // サウンドファイルの読み込み
+
+
 
 	m_pobjcamera->SetCamera(m_pCamera[CAM_OBJ]);
 	m_pBackShadow->SetShadowCamera(m_pCamera[CAM_SHADOW]);
@@ -242,6 +248,9 @@ void SceneGame::Update(SceneManager* pSceneManager, float tick)
 
 	if (m_pGoal->IsGoal == true)
 	{
+		
+	
+
 		pSceneManager->SetNextScene(SCENE_RESULT);
 	}
 

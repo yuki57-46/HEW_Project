@@ -10,7 +10,6 @@
 #define EFFECT_PLAYER_MAX_POS_Z (3.36f)	// playerが移動できるZの最大値
 #define EFFECT_PLAYER_MIN_POS_Z (1.8f)	// playerが移動できるZの最小値
 
-#define TEST 0
 
 
 ObjectMng::ObjectMng(int stage_num)
@@ -94,7 +93,7 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//レバー
 		Setting2 data2[] = {
-			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ 2.0f, 10.0f, 2.5f, 0.15f, 0.15f, 0.15f},
 		};
 		m_num2 = sizeof(data2) / sizeof(data2[0]);
 		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
@@ -170,7 +169,7 @@ ObjectMng::ObjectMng(int stage_num)
 			{0.25f, 0.25f, 2.5f, 0.24f, 0.25f, 0.24f,true,false},
 			{0.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{-0.25f, 0.0f, 2.5f, 0.24f, 0.5f, 0.25f,true,false},
-			{-0.25f, 0.5f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
+			//{-0.25f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{0.0f, 0.25f, 3.2f, 0.24f, 0.25f, 0.24f,true,false},
 			{-1.0f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
 			{-1.5f, 0.0f, 2.5f, 0.24f, 0.25f, 0.25f,true,false},
@@ -199,7 +198,7 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//レバー
 		Setting2 data2[] = {
-			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ 2.0f, 10.0f, 2.5f, 0.15f, 0.15f, 0.15f},
 		};
 		m_num2 = sizeof(data2) / sizeof(data2[0]);
 		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
@@ -274,7 +273,7 @@ ObjectMng::ObjectMng(int stage_num)
 			{-0.75f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,false,false},
 			{-1.0f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
 			{-1.75f, 0.0f, 2.5f, 0.25f, 0.5f, 0.25f,true,false},
-			{-1.5f, 0.0f, 2.5f, 0.25f, 0.75f, 0.25f,false,false},
+			//{-1.5f, 0.0f, 2.5f, 0.25f, 0.75f, 0.25f,false,false},
 		};
 		m_num = sizeof(data) / sizeof(data[0]);
 		m_pObjects = new Object[m_num];		//必要な数だけブロックを確保
@@ -299,7 +298,7 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//レバー
 		Setting2 data2[] = {
-			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ 2.0f, 10.0f, 2.5f, 0.15f, 0.15f, 0.15f},
 		};
 		m_num2 = sizeof(data2) / sizeof(data2[0]);
 		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
@@ -314,7 +313,7 @@ ObjectMng::ObjectMng(int stage_num)
 			{1.75f, 0.0f, 2.6f, 0.25f, 0.25f, 0.25f, false},
 			{0.0f, 0.0f, 3.2f, 0.25f, 0.25f, 0.25f, false},
 			{-0.5f, 0.0f, 2.0f, 0.25f, 0.25f, 0.25f, false},
-			{-1.8f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
+			//{-1.8f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 			{-0.7f, 0.0f, 3.2f, -0.25f, 0.25f, -0.25f, true},
 		};
 		m_num3 = sizeof(data3) / sizeof(data3[0]);
@@ -341,7 +340,7 @@ ObjectMng::ObjectMng(int stage_num)
 		//留め具		被憑依ブロックの前においてね
 		Setting5 data5[] = {
 			{-0.75f, 0.0f, 2.65f, 0.3f, 0.3f, 0.3f},
-			{-1.5f, 0.0f, 2.65f, 0.3f, 0.3f, 0.3f},
+			//{-1.5f, 0.0f, 2.65f, 0.3f, 0.3f, 0.3f},
 		};
 		m_num5 = sizeof(data5) / sizeof(data5[0]);
 		m_pTomegu = new Tomegu[m_num5];		//必要な数だけブロックを確保
@@ -385,9 +384,9 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//リフト
 		Setting1 data1[] = {
-			{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
-			{ -0.75f, 0.75f, 2.0f, 0.75f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
-			{ -2.25f, 0.75f, 2.25f, 0.5f, 0.1f, 0.25f,4.0f,1.5f,0.0f},
+			{ 0.325f, 0.25f, 2.0f, 0.75f, 0.1f, 0.25f,1.2f,0.6f,0.01f},
+			{ -0.75f, 0.75f, 2.0f, 0.75f, 0.1f, 0.25f,1.2f,0.5f,0.01f},
+			{ -2.25f, 0.75f, 2.25f, 0.5f, 0.1f, 0.25f,1.2f,0.5f,0.01f},
 		};
 		m_num1 = sizeof(data1) / sizeof(data1[0]);
 		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
@@ -400,7 +399,7 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//レバー
 		Setting2 data2[] = {
-			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ 2.0f, 0.5f, 2.0f, 0.15f, 0.15f, 0.15f},
 		};
 		m_num2 = sizeof(data2) / sizeof(data2[0]);
 		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
@@ -490,8 +489,8 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//リフト
 		Setting1 data1[] = {
-			{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
-			{ -1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,2.0f,0.5f,0.01f},
+			{ 1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,1.2f,0.5f,0.01f},
+			{ -1.25f, 1.0f, 2.0f, 1.0f, 0.1f, 0.25f,1.2f,0.5f,0.01f},
 		};
 		m_num1 = sizeof(data1) / sizeof(data1[0]);
 		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
@@ -504,7 +503,7 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//レバー
 		Setting2 data2[] = {
-			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ 2.0f, 0.5f, 2.0f, 0.15f, 0.15f, 0.15f},
 		};
 		m_num2 = sizeof(data2) / sizeof(data2[0]);
 		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
@@ -516,11 +515,11 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//スロープ
 		Setting3 data3[] = {
-			{1.25f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
+			{1.4f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
 			{1.0f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
-			{0.25f, 0.0f, 2.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
+			{0.33f, 0.0f, 2.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
 			{-1.25f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
-			{0.75f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
+			{0.5f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
 		};
 		m_num3 = sizeof(data3) / sizeof(data3[0]);
 		m_pStair = new Stair[m_num3];		//必要な数だけブロックを確保
@@ -545,7 +544,8 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//留め具		被憑依ブロックの前においてね
 		Setting5 data5[] = {
-			{ 0.0f, -1.0f, 2.3f, 0.3f, 0.3f, 0.3f},
+			{ -0.3f, 0.0f, 2.2f, 0.3f, 0.3f, 0.3f},
+			{ -0.9f, 0.0f, 2.2f, 0.3f, 0.3f, 0.3f},
 		};
 		m_num5 = sizeof(data5) / sizeof(data5[0]);
 		m_pTomegu = new Tomegu[m_num5];		//必要な数だけブロックを確保
@@ -592,8 +592,8 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//リフト
 		Setting1 data1[] = {
-			{ 0.345f, 0.6f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},    //動かさない
-			{ -0.875f, 1.25f, 2.0f, 0.5f, 0.1f, 0.25f,2.0f,0.5f,0.01f},    //動かさない
+			{ 0.345f, 0.6f, 2.0f, 0.5f, 0.1f, 0.25f,1.2f,0.5f,0.01f},    //動かさない
+			{ -0.875f, 1.25f, 2.0f, 0.5f, 0.1f, 0.25f,1.2f,0.5f,0.01f},    //動かさない
 		};
 		m_num1 = sizeof(data1) / sizeof(data1[0]);
 		m_pLift_obj = new Lift_Obj[m_num1];		//必要な数だけブロックを確保
@@ -606,8 +606,8 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//レバー
 		Setting2 data2[] = {
-			{ 2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
-			{ -2.0f, 0.5f, 2.5f, 0.15f, 0.15f, 0.15f},
+			{ 2.0f, 0.5f, 2.0f, 0.15f, 0.15f, 0.15f},
+			{ -2.0f, 0.5f, 2.0f, 0.15f, 0.15f, 0.15f},
 		};
 		m_num2 = sizeof(data2) / sizeof(data2[0]);
 		m_pLever = new Lever[m_num2];		//必要な数だけブロックを確保
@@ -619,11 +619,11 @@ ObjectMng::ObjectMng(int stage_num)
 		}
 		//スロープ
 		Setting3 data3[] = {
-			{1.25f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
+			{1.5f, 0.0f, 2.3f, -0.25f, 0.25f, -0.25f, true},//逆向き
 			{1.0f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
-			{0.25f, 0.0f, 2.0f, -0.25f, 0.25f, -0.25f, true},//逆向き
-			{-1.25f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
-			{0.75f, 0.0f, 2.3f, 0.25f, 0.25f, 0.25f, false},
+			//{0.5f, 0.0f, 2.8f, -0.25f, 0.25f, -0.25f, true},//逆向き
+			{-1.5f, 0.0f, 2.75f, -0.25f, 0.25f,-0.25f, true},//逆向き
+			{0.75f, 0.0f, 2.5f, 0.25f, 0.25f, 0.25f, false},
 		};
 		m_num3 = sizeof(data3) / sizeof(data3[0]);
 		m_pStair = new Stair[m_num3];		//必要な数だけブロックを確保

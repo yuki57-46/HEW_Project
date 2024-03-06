@@ -13,14 +13,14 @@ DirectX::XMFLOAT3 HMinBound = DirectX::XMFLOAT3(-0.1f, -0.1f, -0.1f);  //境界�
 DirectX::XMFLOAT3 HMaxBound = DirectX::XMFLOAT3(0.1f, 0.1f, 0.1f);     //最大値
 
 std::chrono::steady_clock::time_point lastSoundPlayTimePly;
-const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(2000);//再生時間三秒の時
+const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(1000);//再生時間三秒の時
 
 
 #define Max_X (2.23f)
 #define Min_X (-2.23f)
 
 #define Max_Z (3.36f)
-#define Min_Z (1.8f)
+#define Min_Z (1.6f)
 
 #define POS_GET 1
 
@@ -119,86 +119,89 @@ void Player::Update(float tick)
 	//}
 
 	//m_pCamera->Update();
+
 	//ゲームパッドの対応
-	imanagerP.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerP.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerP.addKeycode(2, 0, GAMEPAD_KEYTYPE::ThumbLU, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerP.addKeycode(3, 0, GAMEPAD_KEYTYPE::ThumbLD, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
-	imanagerP.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
-	imanagerP.addKeycode(5, 0, GAMEPAD_KEYTYPE::LTrigger, XINPUT_GAMEPAD_LEFT_SHOULDER);
-	imanagerP.addKeycode(6, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
-	imanagerP.inspect();
+	//imanagerP.addKeycode(0, 0, GAMEPAD_KEYTYPE::ThumbLL, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	//imanagerP.addKeycode(1, 0, GAMEPAD_KEYTYPE::ThumbLR, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	//imanagerP.addKeycode(2, 0, GAMEPAD_KEYTYPE::ThumbLU, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	//imanagerP.addKeycode(3, 0, GAMEPAD_KEYTYPE::ThumbLD, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	//imanagerP.addKeycode(4, 0, GAMEPAD_KEYTYPE::Buttons, XINPUT_GAMEPAD_B);
+	//imanagerP.addKeycode(5, 0, GAMEPAD_KEYTYPE::LTrigger, XINPUT_GAMEPAD_LEFT_SHOULDER);
+	//imanagerP.addKeycode(6, 0, GAMEPAD_KEYTYPE::RTrigger, XINPUT_GAMEPAD_RIGHT_SHOULDER);
+	//imanagerP.inspect();
 
-	// 左スティックのX軸とY軸方向の入力を取得
-	float leftStickX1 = static_cast<float>(imanagerP.getKey(0));
-	float leftStickX2 = static_cast<float>(imanagerP.getKey(1));
-	float leftStickZ1 = static_cast<float>(imanagerP.getKey(2));
-	float leftStickZ2 = static_cast<float>(imanagerP.getKey(3));
-
-
-
-	// 移動方向ベクトルを計算
-	DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
-
-	 //移動方向ベクトルを正規化
-	DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
-	directionVector = DirectX::XMVector3Normalize(directionVector);
-	DirectX::XMFLOAT3 normalizedDirection;
-	DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
-
-	// 移動方向ベクトルから回転角度を計算
-	float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
-	m_rotationY = rotationAngle;
-
-	// 位置を更新
-	m_pos.x -= moveSpeed * moveDirection.x;
-	m_pos.z -= moveSpeed * moveDirection.z;
+	//// 左スティックのX軸とY軸方向の入力を取得
+	//float leftStickX1 = static_cast<float>(imanagerP.getKey(0));
+	//float leftStickX2 = static_cast<float>(imanagerP.getKey(1));
+	//float leftStickZ1 = static_cast<float>(imanagerP.getKey(2));
+	//float leftStickZ2 = static_cast<float>(imanagerP.getKey(3));
 
 
-	if((imanagerP.getKey(0) & 0b011)|| (imanagerP.getKey(1) & 0b011)||
-		(imanagerP.getKey(2) & 0b011)|| (imanagerP.getKey(3) & 0b011))
-	{
-		if (elapsedTime >= soundInterval)
-		{
-			m_pSVSEPly = PlaySound(m_pSDSEPly);
 
-			// 最後のサウンド再生時間を更新
-			lastSoundPlayTimePly = currentTime;
-		}
-	}
+	//// 移動方向ベクトルを計算
+	//DirectX::XMFLOAT3 moveDirection = DirectX::XMFLOAT3(leftStickX1 - leftStickX2, 0.0f, leftStickZ1 - leftStickZ2);
 
-	// 回転行列を更新
-	m_rotationMatrix = DirectX::XMMatrixRotationY(m_rotationY);
+	// //移動方向ベクトルを正規化
+	//DirectX::XMVECTOR directionVector = DirectX::XMVectorSet(moveDirection.x, 0.0f, moveDirection.z, 0.0f);
+	//directionVector = DirectX::XMVector3Normalize(directionVector);
+	//DirectX::XMFLOAT3 normalizedDirection;
+	//DirectX::XMStoreFloat3(&normalizedDirection, directionVector);
 
-	if (imanagerP.getKey(5) & 0b011)
-	{
-		m_pos.y -= moveSpeed * 1.0f;
-	}
-	if (imanagerP.getKey(6) & 0b011)
-	{
-		m_pos.y += moveSpeed * 1.0f;
-	}
+	//// 移動方向ベクトルから回転角度を計算
+	//float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
+	//m_rotationY = rotationAngle;
+
+	//// 位置を更新
+	//m_pos.x -= moveSpeed * moveDirection.x;
+	//m_pos.z -= moveSpeed * moveDirection.z;
 
 
-	if (moveDirection.x == 0.0f && moveDirection.z == 0.0f)
-	{
-		// 最後に向いていた方向を使用
-		m_rotationY = m_lastFacingDirection;
-	}
-	else
-	{
-		// 移動方向ベクトルから回転角度を計算
-		float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
-		m_rotationY = rotationAngle;
-		// 最後に向いた方向を更新
-		m_lastFacingDirection = m_rotationY;
-	}
+	//if((imanagerP.getKey(0) & 0b011)|| (imanagerP.getKey(1) & 0b011)||
+	//	(imanagerP.getKey(2) & 0b011)|| (imanagerP.getKey(3) & 0b011))
+	//{
+	//	if (elapsedTime >= soundInterval)
+	//	{
+	//		m_pSVSEPly = PlaySound(m_pSDSEPly);
+
+	//		// 最後のサウンド再生時間を更新
+	//		lastSoundPlayTimePly = currentTime;
+	//	}
+	//}
+
+	//// 回転行列を更新
+	//m_rotationMatrix = DirectX::XMMatrixRotationY(m_rotationY);
+
+	//if (imanagerP.getKey(5) & 0b011)
+	//{
+	//	m_pos.y -= moveSpeed * 1.0f;
+	//}
+	//if (imanagerP.getKey(6) & 0b011)
+	//{
+	//	m_pos.y += moveSpeed * 1.0f;
+	//}
+
+
+	//if (moveDirection.x == 0.0f && moveDirection.z == 0.0f)
+	//{
+	//	// 最後に向いていた方向を使用
+	//	m_rotationY = m_lastFacingDirection;
+	//}
+	//else
+	//{
+	//	// 移動方向ベクトルから回転角度を計算
+	//	float rotationAngle = atan2(normalizedDirection.x, normalizedDirection.z);
+	//	m_rotationY = rotationAngle;
+	//	// 最後に向いた方向を更新
+	//	m_lastFacingDirection = m_rotationY;
+	//}
+
+
 
 	//非憑依時プレイヤー移動
 	if (ok == false)
 	{
 
-		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
+		if (IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
 			if (elapsedTime >= soundInterval)
@@ -209,7 +212,7 @@ void Player::Update(float tick)
 				lastSoundPlayTimePly = currentTime;
 			}
 		}
-		if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
+		if ( IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
 			if (elapsedTime >= soundInterval)
@@ -220,7 +223,7 @@ void Player::Update(float tick)
 				lastSoundPlayTimePly = currentTime;
 			}
 		}
-		if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
+		if ( IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
 			if (elapsedTime >= soundInterval)
@@ -231,7 +234,7 @@ void Player::Update(float tick)
 				lastSoundPlayTimePly = currentTime;
 			}
 		}
-		if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
+		if ( IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
 			if (elapsedTime >= soundInterval)
@@ -242,11 +245,11 @@ void Player::Update(float tick)
 				lastSoundPlayTimePly = currentTime;
 			}
 		}
-		if (IsKeyPress('U'))
+		if (IsKeyPress(VK_SHIFT))
 		{
 			m_pos.y -= moveSpeed;
 		}
-		if (IsKeyPress('I'))
+		if (IsKeyPress(VK_SPACE))
 		{
 			m_pos.y += moveSpeed;
 		}
@@ -255,13 +258,7 @@ void Player::Update(float tick)
 		SetBounds(MinBound, MaxBound);  //最小値と最大値をセット
 		HSetBounds(HMinBound, HMaxBound);
 
-	if (IsKeyTrigger(VK_OEM_PERIOD))
-	{
-		char str[256];
-		sprintf_s(str, "pos.x = %f\n pos.y = %f\n pos.z = %f\n", m_pos.x, m_pos.y, m_pos.z);
-		MessageBox(NULL, str, "PlayerPos", MB_OK);
-	}
-
+	
 		if (m_pos.x >= Max_X || m_pos.x <= Min_X
 			|| m_pos.z >= Max_Z || m_pos.z <= Min_Z
 			|| m_pos.y >= 4.0f)

@@ -12,7 +12,7 @@
 class Haikei				//カーテンクラス
 {
 public:
-	Haikei();			//コンストラクタ
+	Haikei(int stage_num = 0);			//コンストラクタ
 	~Haikei();			//デストラクタ
 
 	void Update();			//更新
@@ -20,7 +20,8 @@ public:
 
 
 private:
-	Texture* m_pTexture;	//テクスチャ
+	Texture* m_pTexture1;	//テクスチャ
+	Texture* m_pTexture2;
 
 	PixelShader* m_pPS;
 	

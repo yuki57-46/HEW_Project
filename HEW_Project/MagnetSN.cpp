@@ -84,12 +84,12 @@ void Magnet::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projection
 
 	if (moveok == true)
 	{
-		if (IsKeyPress(VK_UP))
+		if (IsKeyPress(VK_SPACE))
 		{
 			m_pMgtM->Draw();
 			lastDrawnModel = m_pMgtM;
 		}
-		else if (IsKeyPress(VK_DOWN))
+		else if (IsKeyPress(VK_SHIFT))
 		{
 			m_pMgtS->Draw();
 			lastDrawnModel = m_pMgtS;

@@ -78,8 +78,8 @@ private:
 
 	int m_SelectStage;
 
-	IXAudio2SourceVoice* m_pSourceVoice;	 // サウンドソース
-	XAUDIO2_BUFFER*		 m_pSound;			 // サウンドバッファ
+	IXAudio2SourceVoice* m_pSourceVoiceSelect;	 // サウンドソース
+	XAUDIO2_BUFFER*		 m_pSoundSelect;			 // サウンドバッファ
 	//Sound m_Sound;
 
 	DirectX::XMFLOAT3 m_CursorPos;	//カーソルの現在の位置

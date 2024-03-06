@@ -1,6 +1,7 @@
 ﻿#include "Lift_Obj.hpp"
 #include "Geometory.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include "GameObject.h"
 
 
@@ -100,7 +101,7 @@ void Lift_Obj::Update()
 
 	if (m_move == true)
 	{
-		if (IsKeyPress(VK_UP))
+		if (IsKeyPress(VK_SPACE))
 		{
 			// 最高点に到達していない場合
 			m_LiftUp = true;
@@ -113,7 +114,7 @@ void Lift_Obj::Update()
 			}
 
 		}
-		if (IsKeyPress(VK_DOWN))
+		if (IsKeyPress(VK_SHIFT))
 
 		{
 			m_LiftUp = false;
@@ -128,15 +129,7 @@ void Lift_Obj::Update()
 
 		}
 	}
-	/*if (IsKeyPress('1'))
-	{
-		m_RiseFlag = true;
-
-	}
-	if (IsKeyPress('2'))
-	{
-		m_RiseFlag = false;
-	}*/
+	
 
 	SetBounds(liftobj_MinBound, liftobj_MaxBound);
 	CSetBounds(c_liftobj_MinBound, c_liftobj_MaxBound);

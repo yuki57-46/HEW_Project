@@ -83,6 +83,9 @@ private:
 
 	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
 	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
+
+	IXAudio2SourceVoice* m_pSourceVoiceGoal; // サウンドソース
+	XAUDIO2_BUFFER* m_pSoundGoal; // サウンドバッファ
 	//Sound m_Sound;
 
 	SceneManager* m_pSceneManager;

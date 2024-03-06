@@ -63,8 +63,12 @@ private:
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
 
-	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
-	XAUDIO2_BUFFER*		 m_pSound; // サウンドバッファ
+	IXAudio2SourceVoice* m_pSourceVoiceResult; // サウンドソース
+	XAUDIO2_BUFFER*		 m_pSoundResult; // サウンドバッファ
+
+
+	IXAudio2SourceVoice* m_pSourceVoiceClear; // サウンドソース
+	XAUDIO2_BUFFER*		 m_pSoundResultClear; // サウンドバッファ
 	//Sound m_Sound;
 };
 

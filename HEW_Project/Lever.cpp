@@ -1,6 +1,7 @@
 ﻿#include "Lever.h"
 #include "Geometory.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include <chrono>
 
 //minbound maxboundをメンバ変数に
@@ -78,17 +79,7 @@ void Lever::Update()
 {
 	
 
-	if (m_move == true)
-	{
-		if (IsKeyTrigger(VK_UP))
-		{
-			
-		}
-		if (IsKeyTrigger(VK_DOWN))
-		{
-		
-		}
-	}
+	
 	
 	SetBounds(LeverMinBound, LeverMaxBound);  //最小値と最大値をセット
 	HSetBounds(hLeverMinBound, hLeverMaxBound);//憑依用の当たり判定
@@ -118,11 +109,11 @@ void Lever::Draw(DirectX::XMFLOAT4X4 viewMatrix, DirectX::XMFLOAT4X4 projectionM
 
 	if (m_move == true)
 	{
-		if (IsKeyPress(VK_UP))
+		if (IsKeyPress(VK_SPACE))
 		{
 			m_pLeverModelUP->Draw();
 		}
-		else if (IsKeyPress(VK_DOWN))
+		else if (IsKeyPress(VK_SHIFT))
 		{
 			m_pLeverModelDown->Draw();
 		}

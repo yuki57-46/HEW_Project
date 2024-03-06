@@ -1,5 +1,6 @@
 ﻿#include "SceneLoad.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 #include "SceneManager.hpp"

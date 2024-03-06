@@ -30,7 +30,6 @@ float4 main(PS_IN pin) : SV_TARGET
 	{
 		return color;
 	}
-
 	
 	// テクスチャから色を取得
 	//float4 color = tex.Sample(samp, pin.uv);

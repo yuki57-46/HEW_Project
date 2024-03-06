@@ -30,6 +30,7 @@ ShadowP::ShadowP()
 	, m_death(NULL)
 	, m_pSVSESdPly(nullptr)//スピーカ
 	, m_pSDSESdPly(nullptr)//サウンドデータ
+	
 {
 	m_pModel = new Model;
 	//if (!m_pModel->Load("Assets/Model/Golem//Golem.FBX"))
@@ -60,6 +61,8 @@ ShadowP::ShadowP()
 
 
 	m_pSDSESdPly = LoadSound("Assets/Sound/SE/Kageidouon_Oobayashi.wav");
+
+
 
 	minBound = DirectX::XMFLOAT3(-0.25f, -0.5f, -0.3f);
 	maxBound = DirectX::XMFLOAT3(0.3f, 0.5f, 0.5f);
@@ -159,6 +162,7 @@ void ShadowP::Update(float tick)
 				{
 					LibEffekseer::GetManager()->StopAllEffects();
 				}
+				
 			}
 			g_fDeadTime++;
 		}

@@ -771,25 +771,13 @@
 #include "Object.h"
 #include "Geometory.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include <chrono>
 
-//minbound maxboundをメンバ変数に
-//create部分にスケールと当たり判定をかけ合わせる処理を追加　yは追加で計算必要
 
-
-//InputManager imanagerOB = InputManager();
-
-//DirectX::XMFLOAT3 objectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//プレイヤーとの当たり判定用
-//DirectX::XMFLOAT3 objectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-//
-//DirectX::XMFLOAT3 hobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//憑依用
-//DirectX::XMFLOAT3 hobjectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
-//
-//DirectX::XMFLOAT3 cobjectMinBound = DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f);//ブロック同士用
-//DirectX::XMFLOAT3 cobjectMaxBound = DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f);
 
 std::chrono::steady_clock::time_point lastSoundPlayTime;
-const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(3000);//再生時間三秒の時
+const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(1000);//再生時間三秒の時
 
 
 #define Max_X (2.23f)
@@ -971,34 +959,8 @@ void Object::Update()
 	//憑依時移動
 	if (moveok == true)
 	{
-#if _DEBUG
-		//現在の座標を表示
-		if (IsKeyPress('X'))
-		{
-			char x[256];
-			snprintf(x, sizeof(x), "x座標 %f", m_pos.x);
-			MessageBox(0, x, "憑依中のオブジェクトの座標", MB_OK);
-		}
-		if (IsKeyPress('Y'))
-		{
-			char y[256];
-			snprintf(y, sizeof(y), "y座標 %f", m_pos.y);
-			MessageBox(0, y, "憑依中のオブジェクトの座標", MB_OK);
-		}
-		if (IsKeyPress('Z'))
-		{
-			char z[256];
-			snprintf(z, sizeof(z), "z座標 %f", m_pos.z);
-			MessageBox(0, z, "憑依中のオブジェクトの座標", MB_OK);
-		}
-		if (IsKeyTrigger('C'))
-		{
-			char c[256];
-			sprintf_s(c, "x座標 %f \n y座標 %f\n z座標 %f", m_pos.x, m_pos.y, m_pos.z);
-			MessageBox(0, c, "憑依中のオブジェクトの座標", MB_OK);
-		}
-#endif
-		if (IsKeyPress(VK_UP) || IsKeyPress('W'))
+
+		if ( IsKeyPress('W'))
 		{
 			m_pos.z -= moveSpeed;
 
@@ -1014,7 +976,7 @@ void Object::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_DOWN) || IsKeyPress('S'))
+		else if ( IsKeyPress('S'))
 		{
 			m_pos.z += moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -1029,7 +991,7 @@ void Object::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_RIGHT) || IsKeyPress('D'))
+		else if ( IsKeyPress('D'))
 		{
 			m_pos.x -= moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -1044,7 +1006,7 @@ void Object::Update()
 			}
 			xz = true;
 		}
-		else if (IsKeyPress(VK_LEFT) || IsKeyPress('A'))
+		else if ( IsKeyPress('A'))
 		{
 			m_pos.x += moveSpeed;
 			if (m_pos.y <= 0.1f)
@@ -1064,14 +1026,7 @@ void Object::Update()
 			xz = false;
 		}
 
-		if (IsKeyPress('U'))
-		{
-			m_pos.y -= moveSpeed;
-		}
-		if (IsKeyPress('I'))
-		{
-			m_pos.y += moveSpeed;
-		}
+		
 
 
 		if (ok == false)

@@ -1,10 +1,14 @@
 ﻿#include "SceneResult.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
 
 #define FILENAME "Assets/Texture/backgroundandcoin.png"
+
+std::chrono::steady_clock::time_point lastSound;
+const std::chrono::milliseconds soundInterval = std::chrono::milliseconds(4000);//再生時間三秒の時
 
 SceneResult::SceneResult()
 	: m_pBGTexture(nullptr)
@@ -14,6 +18,10 @@ SceneResult::SceneResult()
 	, m_pCurtainUI(nullptr)
 	, m_pCoinIcon(nullptr)
 	, m_pPS(nullptr)
+	,m_pSoundResult(nullptr)
+	,m_pSourceVoiceResult(nullptr)
+	,m_pSoundResultClear(nullptr)
+	,m_pSourceVoiceClear(nullptr)
 {
 	m_pCurtainUI = new CurtainUI();
 	m_pBGTexture = new Texture();
@@ -42,6 +50,10 @@ SceneResult::SceneResult()
 	{
 		MessageBox(NULL, "Result Pixel Shader", "Error", MB_OK);
 	}
+
+	m_pSoundResult = LoadSound("Assets/Sound/SE/Menu_sukoshihibiku_Oobayashi.wav");
+
+	m_pSoundResultClear= LoadSound("Assets/Sound/BGM/Result_clear_Yamada.wav",false);
 
 	// カーテンフェードの取得
 	m_pFade = new Fade(m_pCurtainUI);
@@ -84,12 +96,20 @@ SceneResult::~SceneResult()
 		delete m_pBGTexture;
 		m_pBGTexture = nullptr;
 	}
+	m_pSourceVoiceClear->Stop();
 }
 
 void SceneResult::Update(SceneManager* pSceneManager)
 {
+
+
+	if (!m_pSourceVoiceClear)
+	{
+		m_pSourceVoiceClear = PlaySound(m_pSoundResultClear);
+	}
 	if (IsKeyTrigger(VK_RETURN))
 	{
+		m_pSourceVoiceResult = PlaySound(m_pSoundResult);
 		pSceneManager->SetNextScene(SCENE_SELECT);
 		m_GetCoinNum1 = 0;
 		m_GetCoinNum2 = 0;

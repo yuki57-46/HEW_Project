@@ -69,5 +69,8 @@ private:
 
 	IXAudio2SourceVoice* m_pSVSESdPly; // サウンドソース
 	XAUDIO2_BUFFER* m_pSDSESdPly; // サウンドバッファ
+
+	IXAudio2SourceVoice* m_pSVSESdSPly; // サウンドソース
+	XAUDIO2_BUFFER* m_pSDSESdSPly; // サウンドバッファ
 };
 

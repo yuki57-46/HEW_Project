@@ -26,6 +26,10 @@ class SceneManager;
 #include"CoinCntUI.h"
 #include"ItemUI.h"
 
+
+
+
+
 enum class CameraKindTitle
 {
 	CAM_OBJ,	//
@@ -68,8 +72,8 @@ private:
 	RenderTarget* m_pRTV;
 	DepthStencil* m_pDSV;
 
-	IXAudio2SourceVoice* m_pSourceVoice; // サウンドソース
-	XAUDIO2_BUFFER* m_pSound; // サウンドバッファ
+	IXAudio2SourceVoice*  m_pSourceTitle; // サウンドソース
+	XAUDIO2_BUFFER*  m_pSoundTitle; // サウンドバッファ
 	//Sound m_Sound;
 };
 

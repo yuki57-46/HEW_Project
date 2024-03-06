@@ -1,5 +1,6 @@
 ﻿#include "SelectScene.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
@@ -21,6 +22,8 @@ SelectScene::SelectScene()
 	, m_pCurtainUI(nullptr)
 	, m_pPS(nullptr)
 	, m_CursorPos(236.0f, 226.5f, 0.0f)
+	,m_pSoundSelect(nullptr)
+	,m_pSourceVoiceSelect(nullptr)
 {
 	m_pCurtainUI = new CurtainUI();
 	m_pTexture = new Texture();
@@ -81,6 +84,7 @@ SelectScene::SelectScene()
 		MessageBox(NULL, "Select Pixel Shader", "Error", MB_OK);
 	}
 
+	m_pSoundSelect = LoadSound("Assets/Sound/SE/Menu_sukoshihibiku_Oobayashi.wav");
 
 	// カーテンフェードの取得
 	m_pFade = new Fade(m_pCurtainUI);
@@ -159,10 +163,12 @@ void SelectScene::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger('Y'))
 	{
+		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		pSceneManager->SetNextScene(SCENE_TUTORIAL);
 	}
 	if (IsKeyTrigger(VK_BACK))
 	{
+		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		pSceneManager->SetNextScene(SCENE_TITLE);
 	}
 	
@@ -207,26 +213,31 @@ void SelectScene::Update(SceneManager* pSceneManager)
 	//各ゲームシーンに移動
 	if (m_CursorPos.x == 236.0f && IsKeyTrigger(VK_RETURN))
 	{
+		m_pSourceVoiceSelect	 = PlaySound(m_pSoundSelect);
 		m_SelectStage = 1;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
 	else if (m_CursorPos.x == 636.0f && IsKeyTrigger(VK_RETURN))
 	{
+		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		m_SelectStage = 2;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
 	else if (m_CursorPos.x == 1036.0f && IsKeyTrigger(VK_RETURN))
 	{
+		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		m_SelectStage = 3;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
 	else if (m_CursorPos.x == 438.0f && IsKeyTrigger(VK_RETURN))
 	{
+		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		m_SelectStage = 4;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}
 	else if (m_CursorPos.x == 838.0f && IsKeyTrigger(VK_RETURN))
 	{
+		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		m_SelectStage = 5;
 		pSceneManager->SetNextScene(SCENE_GAME);
 	}

@@ -6,18 +6,61 @@
 
 
 //===コンストラクタ===
-Haikei::Haikei()
-	: m_pTexture(nullptr)
+Haikei::Haikei(int stage_num )
+	: m_pTexture1(nullptr)
 	, m_pPS(nullptr)
 {
 
-	m_pTexture = new Texture();
+	m_pTexture1 = new Texture();
 
 	//それぞれの.pngが開けなかった時メッセージボックスを表示する
-	if (FAILED(m_pTexture->Create("Assets/backyard_pings/crystal.png")))
+	switch (stage_num)
 	{
-		MessageBox(NULL, "Haikei.png", "Error", MB_OK);
+	case 1:
+	{
+
+		if (FAILED(m_pTexture1->Create("Assets/backyard_pings/sougen.png")))
+		{
+			MessageBox(NULL, "Haikei.png", "Error", MB_OK);
+		}
+		break;
 	}
+	case 2:
+	{
+		if (FAILED(m_pTexture1->Create("Assets/backyard_pings/forest.png")))
+		{
+			MessageBox(NULL, "Haikei.png", "Error", MB_OK);
+		}
+		break;
+	}
+
+	case 3:
+	{
+		if (FAILED(m_pTexture1->Create("Assets/backyard_pings/mon.png")))
+		{
+			MessageBox(NULL, "Haikei.png", "Error", MB_OK);
+		}
+		break;
+	}
+	case 4:
+	{
+		if (FAILED(m_pTexture1->Create("Assets/backyard_pings/kiritatigake.png")))
+		{
+			MessageBox(NULL, "Haikei.png", "Error", MB_OK);
+		}
+		break;
+	}
+	case 5:
+	{
+		if (FAILED(m_pTexture1->Create("Assets/backyard_pings/kazann.png")))
+		{
+			MessageBox(NULL, "Haikei.png", "Error", MB_OK);
+		}
+		break;
+	}
+
+	}
+
 
 	m_pPS = new PixelShader();
 	if (FAILED(m_pPS->Load("Assets/Shader/PS_Sprite.cso")))
@@ -31,11 +74,17 @@ Haikei::Haikei()
 Haikei::~Haikei()
 {
 	
-	if (m_pTexture)
+	if (m_pTexture1)
 	{
-		delete m_pTexture;
-		m_pTexture = nullptr;
+		delete m_pTexture1;
+		m_pTexture1 = nullptr;
 	}
+	/*if (m_pTexture2)
+	{
+		delete m_pTexture2;
+		m_pTexture2 = nullptr;
+	}*/
+
 }
 
 //===更新===
@@ -69,9 +118,9 @@ void Haikei::Draw()
 	Sprite::SetView(mat[1]);
 	Sprite::SetProjection(mat[2]);
 	Sprite::SetOffset(DirectX::XMFLOAT2(0.0f, 0.0f));
-	Sprite::SetSize(DirectX::XMFLOAT2(1050.0f, -600.0f));
+	Sprite::SetSize(DirectX::XMFLOAT2(1090.0f, -600.0f));
 	Sprite::SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
-	Sprite::SetTexture(m_pTexture);
+	Sprite::SetTexture(m_pTexture1);
 	Sprite::Draw();
 }
 

@@ -1,5 +1,6 @@
 ﻿#include "TitleScene.h"
 #include "Input.h"
+#include"Gamepad.h"
 #include "Geometory.h"
 #include <DirectXMath.h>
 #include "SceneManager.hpp"
@@ -11,6 +12,8 @@ SceneTitle::SceneTitle()
 	, m_pFade(nullptr)
 	, m_pCurtainUI(nullptr)
 	, m_pPS(nullptr)
+	,m_pSoundTitle(nullptr)
+	, m_pSourceTitle(nullptr)
 {
 	m_pCurtainUI = new CurtainUI();
 
@@ -25,6 +28,8 @@ SceneTitle::SceneTitle()
 	{
 		MessageBox(NULL, "Title Pixel Shader", "Error", MB_OK);
 	}
+
+	m_pSoundTitle = LoadSound("Assets/Sound/SE/Menu_sukoshihibiku_Oobayashi.wav");
 
 	// カーテンフェードの取得
 	m_pFade = new Fade(m_pCurtainUI);
@@ -60,6 +65,10 @@ void SceneTitle::Update(SceneManager* pSceneManager)
 {
 	if (IsKeyTrigger(VK_RETURN))
 	{
+
+		m_pSourceTitle = PlaySound(m_pSoundTitle);
+
+
 //		m_pFade->Start(false, 1.0f);
 		pSceneManager->SetNextScene(SCENE_SELECT);
 
