@@ -171,11 +171,11 @@ void SelectScene::Update(SceneManager* pSceneManager)
 	imanagerSS.inspect();
 
 
-	/*if (imanagerSS.getKey(2) & 0b001)
+	if (imanagerSS.getKey(2) & 0b001)
 	{
 		m_pSourceVoiceSelect = PlaySound(m_pSoundSelect);
 		pSceneManager->SetNextScene(SCENE_TUTORIAL);
-	}*/
+	}
 	if (imanagerSS.getKey(1) & 0b011)
 	{
 		if (!m_pSourceVoiceSelect)
